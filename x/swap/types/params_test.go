@@ -292,11 +292,11 @@ func TestAllowedPool_TokenMatch_CaseSensitive(t *testing.T) {
 	err := allowedPool.Validate()
 	assert.NoError(t, err)
 
-	allowedPool = types.NewAllowedPool("haRd", "jinx")
+	allowedPool = types.NewAllowedPool("jiNx", "jinx")
 	err = allowedPool.Validate()
 	assert.NoError(t, err)
 
-	allowedPool = types.NewAllowedPool("Musd", "uSdX")
+	allowedPool = types.NewAllowedPool("Musd", "mUsD")
 	err = allowedPool.Validate()
 	assert.NoError(t, err)
 }
