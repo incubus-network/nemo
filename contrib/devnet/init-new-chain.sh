@@ -96,7 +96,7 @@ jq '.app_state.evm.params.chain_config.cancun_block = null' $DATA/config/genesis
 jq '.app_state.earn.params.allowed_vaults =  [
     {
         denom: "musd",
-        strategies: ["STRATEGY_TYPE_JINX"],
+        strategies: ["STRATEGY_TYPE_HARD"],
     },
     {
         denom: "bfury",

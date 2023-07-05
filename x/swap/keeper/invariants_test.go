@@ -50,20 +50,20 @@ func (suite *invariantTestSuite) SetupValidState() {
 
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
-			sdk.NewCoin("jinx", sdkmath.NewInt(1e6)),
+			sdk.NewCoin("hard", sdkmath.NewInt(1e6)),
 			sdk.NewCoin("musd", sdkmath.NewInt(2e6)),
 		),
 		sdkmath.NewInt(1e6),
 	))
 	suite.AddCoinsToModule(
 		sdk.NewCoins(
-			sdk.NewCoin("jinx", sdkmath.NewInt(1e6)),
+			sdk.NewCoin("hard", sdkmath.NewInt(1e6)),
 			sdk.NewCoin("musd", sdkmath.NewInt(2e6)),
 		),
 	)
 	suite.Keeper.SetDepositorShares(suite.Ctx, types.NewShareRecord(
 		sdk.AccAddress("depositor 1---------"),
-		types.PoolID("jinx", "musd"),
+		types.PoolID("hard", "musd"),
 		sdkmath.NewInt(1e6),
 	))
 }

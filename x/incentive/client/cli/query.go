@@ -21,14 +21,14 @@ const (
 	flagDenom    = "denom"
 
 	typeDelegator   = "delegator"
-	typeJinx        = "jinx"
+	typeHard        = "hard"
 	typeMUSDMinting = "musd-minting"
 	typeSwap        = "swap"
 	typeSavings     = "savings"
 	typeEarn        = "earn"
 )
 
-var rewardTypes = []string{typeDelegator, typeJinx, typeMUSDMinting, typeSwap, typeEarn}
+var rewardTypes = []string{typeDelegator, typeHard, typeMUSDMinting, typeSwap, typeEarn}
 
 // GetQueryCmd returns the cli query commands for the incentive module
 func GetQueryCmd() *cobra.Command {
@@ -62,14 +62,14 @@ func queryRewardsCmd() *cobra.Command {
 			Example:
 			$ %[1]s query %[2]s rewards
 			$ %[1]s query %[2]s rewards --owner fury15qdefkmwswysgg4qxgqpqr35k3m49pkxxvsmkx
-			$ %[1]s query %[2]s rewards --type jinx
+			$ %[1]s query %[2]s rewards --type hard
 			$ %[1]s query %[2]s rewards --type musd-minting
 			$ %[1]s query %[2]s rewards --type delegator
 			$ %[1]s query %[2]s rewards --type swap
 			$ %[1]s query %[2]s rewards --type savings
 			$ %[1]s query %[2]s rewards --type earn
-			$ %[1]s query %[2]s rewards --type jinx --owner fury15qdefkmwswysgg4qxgqpqr35k3m49pkxxvsmkx
-			$ %[1]s query %[2]s rewards --type jinx --unsynced
+			$ %[1]s query %[2]s rewards --type hard --owner fury15qdefkmwswysgg4qxgqpqr35k3m49pkxxvsmkx
+			$ %[1]s query %[2]s rewards --type hard --unsynced
 			`,
 				version.AppName, types.ModuleName)),
 		Args: cobra.NoArgs,
@@ -94,9 +94,9 @@ func queryRewardsCmd() *cobra.Command {
 			}
 
 			switch strings.ToLower(strType) {
-			case typeJinx:
+			case typeHard:
 				params := types.NewQueryRewardsParams(page, limit, owner, boolUnsynced)
-				claims, err := executeJinxRewardsQuery(cliCtx, params)
+				claims, err := executeHardRewardsQuery(cliCtx, params)
 				if err != nil {
 					return err
 				}
@@ -139,7 +139,7 @@ func queryRewardsCmd() *cobra.Command {
 			default:
 				params := types.NewQueryRewardsParams(page, limit, owner, boolUnsynced)
 
-				jinxClaims, err := executeJinxRewardsQuery(cliCtx, params)
+				hardClaims, err := executeHardRewardsQuery(cliCtx, params)
 				if err != nil {
 					return err
 				}
@@ -164,8 +164,8 @@ func queryRewardsCmd() *cobra.Command {
 					return err
 				}
 
-				if len(jinxClaims) > 0 {
-					if err := cliCtx.PrintObjectLegacy(jinxClaims); err != nil {
+				if len(hardClaims) > 0 {
+					if err := cliCtx.PrintObjectLegacy(hardClaims); err != nil {
 						return err
 					}
 				}
@@ -268,23 +268,23 @@ func queryRewardFactorsCmd() *cobra.Command {
 	return cmd
 }
 
-func executeJinxRewardsQuery(cliCtx client.Context, params types.QueryRewardsParams) (types.JinxLiquidityProviderClaims, error) {
+func executeHardRewardsQuery(cliCtx client.Context, params types.QueryRewardsParams) (types.HardLiquidityProviderClaims, error) {
 	bz, err := cliCtx.LegacyAmino.MarshalJSON(params)
 	if err != nil {
-		return types.JinxLiquidityProviderClaims{}, err
+		return types.HardLiquidityProviderClaims{}, err
 	}
 
-	route := fmt.Sprintf("custom/%s/%s", types.ModuleName, types.QueryGetJinxRewards)
+	route := fmt.Sprintf("custom/%s/%s", types.ModuleName, types.QueryGetHardRewards)
 	res, height, err := cliCtx.QueryWithData(route, bz)
 	if err != nil {
-		return types.JinxLiquidityProviderClaims{}, err
+		return types.HardLiquidityProviderClaims{}, err
 	}
 
 	cliCtx = cliCtx.WithHeight(height)
 
-	var claims types.JinxLiquidityProviderClaims
+	var claims types.HardLiquidityProviderClaims
 	if err := cliCtx.LegacyAmino.UnmarshalJSON(res, &claims); err != nil {
-		return types.JinxLiquidityProviderClaims{}, fmt.Errorf("failed to unmarshal claims: %w", err)
+		return types.HardLiquidityProviderClaims{}, fmt.Errorf("failed to unmarshal claims: %w", err)
 	}
 
 	return claims, nil

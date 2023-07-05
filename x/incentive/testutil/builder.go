@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/incubus-network/nemo/app"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	"github.com/incubus-network/nemo/x/incentive/types"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
 )
@@ -57,16 +57,16 @@ func (builder IncentiveGenesisBuilder) WithGenesisTime(time time.Time) Incentive
 // WithInitializedBorrowRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
 // This can be helpful in tests. With no prev time set, the first block accrues no rewards as it just sets the prev time to the current.
 func (builder IncentiveGenesisBuilder) WithInitializedBorrowRewardPeriod(period types.MultiRewardPeriod) IncentiveGenesisBuilder {
-	builder.Params.JinxBorrowRewardPeriods = append(builder.Params.JinxBorrowRewardPeriods, period)
+	builder.Params.HardBorrowRewardPeriods = append(builder.Params.HardBorrowRewardPeriods, period)
 
 	accumulationTimeForPeriod := types.NewAccumulationTime(period.CollateralType, builder.genesisTime)
-	builder.JinxBorrowRewardState.AccumulationTimes = append(
-		builder.JinxBorrowRewardState.AccumulationTimes,
+	builder.HardBorrowRewardState.AccumulationTimes = append(
+		builder.HardBorrowRewardState.AccumulationTimes,
 		accumulationTimeForPeriod,
 	)
 
 	// TODO remove to better reflect real states
-	builder.JinxBorrowRewardState.MultiRewardIndexes = builder.JinxBorrowRewardState.MultiRewardIndexes.With(
+	builder.HardBorrowRewardState.MultiRewardIndexes = builder.HardBorrowRewardState.MultiRewardIndexes.With(
 		period.CollateralType,
 		newZeroRewardIndexesFromCoins(period.RewardsPerSecond...),
 	)
@@ -81,16 +81,16 @@ func (builder IncentiveGenesisBuilder) WithSimpleBorrowRewardPeriod(ctype string
 // WithInitializedSupplyRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
 // This can be helpful in tests. With no prev time set, the first block accrues no rewards as it just sets the prev time to the current.
 func (builder IncentiveGenesisBuilder) WithInitializedSupplyRewardPeriod(period types.MultiRewardPeriod) IncentiveGenesisBuilder {
-	builder.Params.JinxSupplyRewardPeriods = append(builder.Params.JinxSupplyRewardPeriods, period)
+	builder.Params.HardSupplyRewardPeriods = append(builder.Params.HardSupplyRewardPeriods, period)
 
 	accumulationTimeForPeriod := types.NewAccumulationTime(period.CollateralType, builder.genesisTime)
-	builder.JinxSupplyRewardState.AccumulationTimes = append(
-		builder.JinxSupplyRewardState.AccumulationTimes,
+	builder.HardSupplyRewardState.AccumulationTimes = append(
+		builder.HardSupplyRewardState.AccumulationTimes,
 		accumulationTimeForPeriod,
 	)
 
 	// TODO remove to better reflect real states
-	builder.JinxSupplyRewardState.MultiRewardIndexes = builder.JinxSupplyRewardState.MultiRewardIndexes.With(
+	builder.HardSupplyRewardState.MultiRewardIndexes = builder.HardSupplyRewardState.MultiRewardIndexes.With(
 		period.CollateralType,
 		newZeroRewardIndexesFromCoins(period.RewardsPerSecond...),
 	)
@@ -216,63 +216,63 @@ func newZeroRewardIndexesFromCoins(coins ...sdk.Coin) types.RewardIndexes {
 	return ri
 }
 
-// JinxGenesisBuilder is a tool for creating a jinx genesis state.
+// HardGenesisBuilder is a tool for creating a hard genesis state.
 // Helper methods add values onto a default genesis state.
 // All methods are immutable and return updated copies of the builder.
-type JinxGenesisBuilder struct {
-	jinxtypes.GenesisState
+type HardGenesisBuilder struct {
+	hardtypes.GenesisState
 	genesisTime time.Time
 }
 
-func NewJinxGenesisBuilder() JinxGenesisBuilder {
-	return JinxGenesisBuilder{
-		GenesisState: jinxtypes.DefaultGenesisState(),
+func NewHardGenesisBuilder() HardGenesisBuilder {
+	return HardGenesisBuilder{
+		GenesisState: hardtypes.DefaultGenesisState(),
 	}
 }
 
-func (builder JinxGenesisBuilder) Build() jinxtypes.GenesisState {
+func (builder HardGenesisBuilder) Build() hardtypes.GenesisState {
 	return builder.GenesisState
 }
 
-func (builder JinxGenesisBuilder) BuildMarshalled(cdc codec.JSONCodec) app.GenesisState {
+func (builder HardGenesisBuilder) BuildMarshalled(cdc codec.JSONCodec) app.GenesisState {
 	built := builder.Build()
 
 	return app.GenesisState{
-		jinxtypes.ModuleName: cdc.MustMarshalJSON(&built),
+		hardtypes.ModuleName: cdc.MustMarshalJSON(&built),
 	}
 }
 
-func (builder JinxGenesisBuilder) WithGenesisTime(genTime time.Time) JinxGenesisBuilder {
+func (builder HardGenesisBuilder) WithGenesisTime(genTime time.Time) HardGenesisBuilder {
 	builder.genesisTime = genTime
 	return builder
 }
 
-func (builder JinxGenesisBuilder) WithInitializedMoneyMarket(market jinxtypes.MoneyMarket) JinxGenesisBuilder {
+func (builder HardGenesisBuilder) WithInitializedMoneyMarket(market hardtypes.MoneyMarket) HardGenesisBuilder {
 	builder.Params.MoneyMarkets = append(builder.Params.MoneyMarkets, market)
 
 	builder.PreviousAccumulationTimes = append(
 		builder.PreviousAccumulationTimes,
-		jinxtypes.NewGenesisAccumulationTime(market.Denom, builder.genesisTime, sdk.OneDec(), sdk.OneDec()),
+		hardtypes.NewGenesisAccumulationTime(market.Denom, builder.genesisTime, sdk.OneDec(), sdk.OneDec()),
 	)
 	return builder
 }
 
-func (builder JinxGenesisBuilder) WithMinBorrow(minUSDValue sdk.Dec) JinxGenesisBuilder {
+func (builder HardGenesisBuilder) WithMinBorrow(minUSDValue sdk.Dec) HardGenesisBuilder {
 	builder.Params.MinimumBorrowUSDValue = minUSDValue
 	return builder
 }
 
-func NewStandardMoneyMarket(denom string) jinxtypes.MoneyMarket {
-	return jinxtypes.NewMoneyMarket(
+func NewStandardMoneyMarket(denom string) hardtypes.MoneyMarket {
+	return hardtypes.NewMoneyMarket(
 		denom,
-		jinxtypes.NewBorrowLimit(
+		hardtypes.NewBorrowLimit(
 			false,
 			sdk.NewDec(1e15),
 			sdk.MustNewDecFromStr("0.6"),
 		),
 		denom+":usd",
 		sdkmath.NewInt(1e6),
-		jinxtypes.NewInterestRateModel(
+		hardtypes.NewInterestRateModel(
 			sdk.MustNewDecFromStr("0.05"),
 			sdk.MustNewDecFromStr("2"),
 			sdk.MustNewDecFromStr("0.8"),

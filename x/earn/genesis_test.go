@@ -21,7 +21,7 @@ func (suite *genesisTestSuite) Test_InitGenesis_ValidationPanic() {
 		types.Params{
 			AllowedVaults: types.AllowedVaults{
 				types.NewAllowedVault(
-					"musd", types.StrategyTypes{types.STRATEGY_TYPE_JINX},
+					"musd", types.StrategyTypes{types.STRATEGY_TYPE_HARD},
 					false,
 					nil,
 				),
@@ -54,7 +54,7 @@ func (suite *genesisTestSuite) Test_InitAndExportGenesis() {
 			AllowedVaults: types.AllowedVaults{
 				types.NewAllowedVault(
 					"musd",
-					types.StrategyTypes{types.STRATEGY_TYPE_JINX},
+					types.StrategyTypes{types.STRATEGY_TYPE_HARD},
 					false,
 					nil,
 				),
@@ -122,7 +122,7 @@ func (suite *genesisTestSuite) Test_Marshall() {
 			AllowedVaults: types.AllowedVaults{
 				types.NewAllowedVault(
 					"musd",
-					types.StrategyTypes{types.STRATEGY_TYPE_JINX},
+					types.StrategyTypes{types.STRATEGY_TYPE_HARD},
 					false,
 					nil,
 				),

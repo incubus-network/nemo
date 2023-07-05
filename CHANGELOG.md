@@ -93,7 +93,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 ### Client Breaking
 
 - [#1477] Remove legacy REST endpoints.
-- [#1519] Remove required denom path parameter from jinx grpc query endpoints.
+- [#1519] Remove required denom path parameter from hard grpc query endpoints.
 
 ### Bug Fixes
 
@@ -113,8 +113,8 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## [v0.13.0]
 
-- Jinx Protocol - Introduces borrowing functionality to JINX protocol. See full
-  [spec](https://github.com/Incubus-Network/nemo/tree/master/x/jinx/spec)
+- Hard Protocol - Introduces borrowing functionality to HARD protocol. See full
+  [spec](https://github.com/Incubus-Network/nemo/tree/master/x/hard/spec)
 
 ### Breaking changes
 
@@ -122,8 +122,8 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 - [#751] Use accumulators for CDP interest accumulation.
 
-- [#780] Moves JINX token distribution from `harvest` module to `incentive`
-  module. All JINX supply, borrow, and delegator reward objects and claims are
+- [#780] Moves HARD token distribution from `harvest` module to `incentive`
+  module. All HARD supply, borrow, and delegator reward objects and claims are
   moved to the `incentive` module.
 
 ## [v0.12.0]
@@ -146,7 +146,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 - [#629] Add CDP collateral type as a field for CDPs and collateral parameters.
 
-- [#658] Add harvest v1 and JINX token distribution schedule
+- [#658] Add harvest v1 and HARD token distribution schedule
 
 ### Breaking changes
 

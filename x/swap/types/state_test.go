@@ -57,7 +57,7 @@ func TestState_NewPoolRecord(t *testing.T) {
 	}, "expected panic with 1 coin in reserves")
 
 	assert.PanicsWithValue(t, "reserves must have two denominations", func() {
-		reserves := sdk.NewCoins(ufury(10e6), jinx(1e6), musd(20e6))
+		reserves := sdk.NewCoins(ufury(10e6), hard(1e6), musd(20e6))
 		_ = types.NewPoolRecord(reserves, totalShares)
 	}, "expected panic with 3 coins in reserves")
 }
@@ -185,7 +185,7 @@ func TestState_PoolRecord_Validations(t *testing.T) {
 		{
 			name:        "poolID does not match reserve A",
 			poolID:      "ufury:musd",
-			reservesA:   jinx(5e6),
+			reservesA:   hard(5e6),
 			reservesB:   validRecord.ReservesB,
 			totalShares: validRecord.TotalShares,
 			expectedErr: "poolID 'ufury:musd' does not match reserves",
@@ -194,7 +194,7 @@ func TestState_PoolRecord_Validations(t *testing.T) {
 			name:        "poolID does not match reserve B",
 			poolID:      "ufury:musd",
 			reservesA:   validRecord.ReservesA,
-			reservesB:   jinx(5e6),
+			reservesB:   hard(5e6),
 			totalShares: validRecord.TotalShares,
 			expectedErr: "poolID 'ufury:musd' does not match reserves",
 		},
@@ -319,7 +319,7 @@ func TestState_PoolRecords_ValidateUniquePools(t *testing.T) {
 	)
 
 	record_3 := types.NewPoolRecord(
-		sdk.NewCoins(musd(5000e6), jinx(1000e6)),
+		sdk.NewCoins(musd(5000e6), hard(1000e6)),
 		i(3000e6),
 	)
 
@@ -490,13 +490,13 @@ func TestState_ShareRecords_Validation(t *testing.T) {
 
 	validRecord := types.NewShareRecord(
 		depositor,
-		types.PoolID("jinx", "musd"),
+		types.PoolID("hard", "musd"),
 		i(300e6),
 	)
 
 	invalidRecord := types.NewShareRecord(
 		depositor,
-		types.PoolID("jinx", "musd"),
+		types.PoolID("hard", "musd"),
 		i(-1),
 	)
 
@@ -508,7 +508,7 @@ func TestState_ShareRecords_Validation(t *testing.T) {
 	records = append(records, invalidRecord)
 	err = records.Validate()
 	assert.Error(t, err)
-	assert.EqualError(t, err, "depositor 'fury1mq9qxlhze029lm0frzw2xr6hem8c3k9tu2gu2x' and pool 'jinx:musd' has invalid total shares: -1")
+	assert.EqualError(t, err, "depositor 'fury1mq9qxlhze029lm0frzw2xr6hem8c3k9tu2gu2x' and pool 'hard:musd' has invalid total shares: -1")
 }
 
 func TestState_ShareRecords_ValidateUniqueShareRecords(t *testing.T) {
@@ -520,7 +520,7 @@ func TestState_ShareRecords_ValidateUniqueShareRecords(t *testing.T) {
 
 	record_1 := types.NewShareRecord(depositor_1, "ufury:musd", i(20e6))
 	record_2 := types.NewShareRecord(depositor_1, "ufury:musd", i(10e6))
-	record_3 := types.NewShareRecord(depositor_1, "jinx:musd", i(20e6))
+	record_3 := types.NewShareRecord(depositor_1, "hard:musd", i(20e6))
 	record_4 := types.NewShareRecord(depositor_2, "ufury:musd", i(20e6))
 
 	validRecords := types.ShareRecords{record_1, record_3, record_4}

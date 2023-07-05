@@ -9,7 +9,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	cdptypes "github.com/incubus-network/nemo/x/cdp/types"
 	earntypes "github.com/incubus-network/nemo/x/earn/types"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
 )
@@ -45,10 +45,10 @@ type CdpKeeper interface {
 	GetCollateral(ctx sdk.Context, collateralType string) (cdptypes.CollateralParam, bool)
 }
 
-// JinxKeeper defines the expected jinx keeper for interacting with Jinx protocol
-type JinxKeeper interface {
-	GetDeposit(ctx sdk.Context, depositor sdk.AccAddress) (jinxtypes.Deposit, bool)
-	GetBorrow(ctx sdk.Context, borrower sdk.AccAddress) (jinxtypes.Borrow, bool)
+// HardKeeper defines the expected hard keeper for interacting with Hard protocol
+type HardKeeper interface {
+	GetDeposit(ctx sdk.Context, depositor sdk.AccAddress) (hardtypes.Deposit, bool)
+	GetBorrow(ctx sdk.Context, borrower sdk.AccAddress) (hardtypes.Borrow, bool)
 
 	GetSupplyInterestFactor(ctx sdk.Context, denom string) (sdk.Dec, bool)
 	GetBorrowInterestFactor(ctx sdk.Context, denom string) (sdk.Dec, bool)
@@ -116,12 +116,12 @@ type CDPHooks interface {
 	BeforeCDPModified(ctx sdk.Context, cdp cdptypes.CDP)
 }
 
-// JINXHooks event hooks for other keepers to run code in response to JINX modifications
-type JINXHooks interface {
-	AfterDepositCreated(ctx sdk.Context, deposit jinxtypes.Deposit)
-	BeforeDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit)
-	AfterDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit)
-	AfterBorrowCreated(ctx sdk.Context, borrow jinxtypes.Borrow)
-	BeforeBorrowModified(ctx sdk.Context, borrow jinxtypes.Borrow)
-	AfterBorrowModified(ctx sdk.Context, deposit jinxtypes.Deposit)
+// HARDHooks event hooks for other keepers to run code in response to HARD modifications
+type HARDHooks interface {
+	AfterDepositCreated(ctx sdk.Context, deposit hardtypes.Deposit)
+	BeforeDepositModified(ctx sdk.Context, deposit hardtypes.Deposit)
+	AfterDepositModified(ctx sdk.Context, deposit hardtypes.Deposit)
+	AfterBorrowCreated(ctx sdk.Context, borrow hardtypes.Borrow)
+	BeforeBorrowModified(ctx sdk.Context, borrow hardtypes.Borrow)
+	AfterBorrowModified(ctx sdk.Context, deposit hardtypes.Deposit)
 }

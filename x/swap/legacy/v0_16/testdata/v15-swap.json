@@ -14,7 +14,7 @@
         "token_b": "musd"
       },
       {
-        "token_a": "jinx",
+        "token_a": "hard",
         "token_b": "musd"
       },
       {
@@ -71,7 +71,7 @@
     },
     {
       "depositor": "fury1ll3ndyv333aet6mzqltu5wdepqhyme8uhjv8uc",
-      "pool_id": "jinx:musd",
+      "pool_id": "hard:musd",
       "shares_owned": "708138421"
     },
     {

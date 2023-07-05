@@ -43,7 +43,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -64,7 +64,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ufury", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -74,7 +74,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUpdatedWhenBlockTimeHasIn
 	suite.storedTimeEquals(types.BondDenom, newAccrualTime)
 	suite.storedIndexesEqual(types.BondDenom, types.RewardIndexes{
 		{
-			CollateralType: "jinx",
+			CollateralType: "hard",
 			RewardFactor:   d("7.22"),
 		},
 		{
@@ -93,7 +93,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUnchangedWhenBlockTimeHas
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -114,7 +114,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateUnchangedWhenBlockTimeHas
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ufury", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -136,7 +136,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenSourceShares
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -158,7 +158,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenSourceShares
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)), // same denoms as in global indexes
+		cs(c("hard", 2000), c("ufury", 1000)), // same denoms as in global indexes
 	)
 
 	suite.keeper.AccumulateDelegatorRewards(suite.ctx, period)
@@ -180,7 +180,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateAddedWhenStateDoesNotExis
 		types.BondDenom,
 		time.Unix(0, 0), // ensure the test is within start and end times
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)),
+		cs(c("hard", 2000), c("ufury", 1000)),
 	)
 
 	firstAccrualTime := time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC)
@@ -202,7 +202,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestStateAddedWhenStateDoesNotExis
 	suite.storedTimeEquals(types.BondDenom, secondAccrualTime)
 	suite.storedIndexesEqual(types.BondDenom, types.RewardIndexes{
 		{
-			CollateralType: "jinx",
+			CollateralType: "hard",
 			RewardFactor:   d("0.02"),
 		},
 		{
@@ -247,7 +247,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenBeforeStartT
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -268,7 +268,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestNoAccumulationWhenBeforeStartT
 		types.BondDenom,
 		firstAccrualTime.Add(time.Nanosecond), // start time after accrual time
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)),
+		cs(c("hard", 2000), c("ufury", 1000)),
 	)
 
 	suite.ctx = suite.ctx.WithBlockTime(firstAccrualTime)
@@ -296,7 +296,7 @@ func (suite *AccumulateDelegatorRewardsTests) TestPanicWhenCurrentTimeLessThanPr
 		types.BondDenom,
 		time.Time{}, // start time after accrual time
 		distantFuture,
-		cs(c("jinx", 2000), c("ufury", 1000)),
+		cs(c("hard", 2000), c("ufury", 1000)),
 	)
 
 	suite.ctx = suite.ctx.WithBlockTime(firstAccrualTime)

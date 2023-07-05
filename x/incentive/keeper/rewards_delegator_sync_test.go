@@ -108,7 +108,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsUnchangedWhenGlobalFac
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx", RewardFactor: d("0.1"),
+					CollateralType: "hard", RewardFactor: d("0.1"),
 				},
 				{
 					CollateralType: "swp", RewardFactor: d("0.2"),
@@ -157,7 +157,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsIncreasedWhenNewReward
 		CollateralType: types.BondDenom,
 		RewardIndexes: types.RewardIndexes{
 			{
-				CollateralType: "jinx", RewardFactor: d("0.1"),
+				CollateralType: "hard", RewardFactor: d("0.1"),
 			},
 			{
 				CollateralType: "swp", RewardFactor: d("0.2"),
@@ -172,7 +172,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsIncreasedWhenNewReward
 
 	suite.Equal(newGlobalIndexes, syncedClaim.RewardIndexes)
 	suite.Equal(
-		cs(c("jinx", 100), c("swp", 200)).Add(claim.Reward...),
+		cs(c("hard", 100), c("swp", 200)).Add(claim.Reward...),
 		syncedClaim.Reward,
 	)
 }
@@ -203,7 +203,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsIncreasedWhenGlobalFac
 			CollateralType: types.BondDenom,
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx", RewardFactor: d("0.1"),
+					CollateralType: "hard", RewardFactor: d("0.1"),
 				},
 				{
 					CollateralType: "swp", RewardFactor: d("0.2"),
@@ -219,7 +219,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsIncreasedWhenGlobalFac
 				types.BondDenom,
 				types.RewardIndexes{
 					{
-						CollateralType: "jinx", RewardFactor: d("0.2"),
+						CollateralType: "hard", RewardFactor: d("0.2"),
 					},
 					{
 						CollateralType: "swp", RewardFactor: d("0.4"),
@@ -234,7 +234,7 @@ func (suite *SynchronizeDelegatorRewardTests) TestRewardIsIncreasedWhenGlobalFac
 	syncedClaim, _ := suite.keeper.GetDelegatorClaim(suite.ctx, claim.Owner)
 
 	suite.Equal(
-		cs(c("jinx", 100), c("swp", 200)).Add(claim.Reward...),
+		cs(c("hard", 100), c("swp", 200)).Add(claim.Reward...),
 		syncedClaim.Reward,
 	)
 }

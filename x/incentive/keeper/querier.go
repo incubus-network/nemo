@@ -27,8 +27,8 @@ func NewQuerier(k Keeper, legacyQuerierCdc *codec.LegacyAmino) sdk.Querier {
 		case types.QueryGetParams:
 			return queryGetParams(ctx, req, k, legacyQuerierCdc)
 
-		case types.QueryGetJinxRewards:
-			return queryGetJinxRewards(ctx, req, k, legacyQuerierCdc)
+		case types.QueryGetHardRewards:
+			return queryGetHardRewards(ctx, req, k, legacyQuerierCdc)
 		case types.QueryGetMUSDMintingRewards:
 			return queryGetMUSDMintingRewards(ctx, req, k, legacyQuerierCdc)
 		case types.QueryGetDelegatorRewards:
@@ -62,7 +62,7 @@ func queryGetParams(ctx sdk.Context, req abci.RequestQuery, k Keeper, legacyQuer
 	return bz, nil
 }
 
-func queryGetJinxRewards(ctx sdk.Context, req abci.RequestQuery, k Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func queryGetHardRewards(ctx sdk.Context, req abci.RequestQuery, k Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
 	var params types.QueryRewardsParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
 	if err != nil {
@@ -70,33 +70,33 @@ func queryGetJinxRewards(ctx sdk.Context, req abci.RequestQuery, k Keeper, legac
 	}
 	owner := len(params.Owner) > 0
 
-	var jinxClaims types.JinxLiquidityProviderClaims
+	var hardClaims types.HardLiquidityProviderClaims
 	switch {
 	case owner:
-		jinxClaim, foundJinxClaim := k.GetJinxLiquidityProviderClaim(ctx, params.Owner)
-		if foundJinxClaim {
-			jinxClaims = append(jinxClaims, jinxClaim)
+		hardClaim, foundHardClaim := k.GetHardLiquidityProviderClaim(ctx, params.Owner)
+		if foundHardClaim {
+			hardClaims = append(hardClaims, hardClaim)
 		}
 	default:
-		jinxClaims = k.GetAllJinxLiquidityProviderClaims(ctx)
+		hardClaims = k.GetAllHardLiquidityProviderClaims(ctx)
 	}
 
-	var paginatedJinxClaims types.JinxLiquidityProviderClaims
-	startH, endH := client.Paginate(len(jinxClaims), params.Page, params.Limit, 100)
+	var paginatedHardClaims types.HardLiquidityProviderClaims
+	startH, endH := client.Paginate(len(hardClaims), params.Page, params.Limit, 100)
 	if startH < 0 || endH < 0 {
-		paginatedJinxClaims = types.JinxLiquidityProviderClaims{}
+		paginatedHardClaims = types.HardLiquidityProviderClaims{}
 	} else {
-		paginatedJinxClaims = jinxClaims[startH:endH]
+		paginatedHardClaims = hardClaims[startH:endH]
 	}
 
 	if !params.Unsynchronized {
-		for i, claim := range paginatedJinxClaims {
-			paginatedJinxClaims[i] = k.SimulateJinxSynchronization(ctx, claim)
+		for i, claim := range paginatedHardClaims {
+			paginatedHardClaims[i] = k.SimulateHardSynchronization(ctx, claim)
 		}
 	}
 
-	// Marshal Jinx claims
-	bz, err := codec.MarshalJSONIndent(legacyQuerierCdc, paginatedJinxClaims)
+	// Marshal Hard claims
+	bz, err := codec.MarshalJSONIndent(legacyQuerierCdc, paginatedHardClaims)
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrJSONMarshal, err.Error())
 	}
@@ -177,7 +177,7 @@ func queryGetDelegatorRewards(ctx sdk.Context, req abci.RequestQuery, k Keeper, 
 		}
 	}
 
-	// Marshal Jinx claims
+	// Marshal Hard claims
 	bz, err := codec.MarshalJSONIndent(legacyQuerierCdc, paginatedDelegatorClaims)
 	if err != nil {
 		return nil, errorsmod.Wrap(sdkerrors.ErrJSONMarshal, err.Error())
@@ -328,13 +328,13 @@ func queryGetRewardFactors(ctx sdk.Context, req abci.RequestQuery, k Keeper, leg
 	})
 
 	var supplyFactors types.MultiRewardIndexes
-	k.IterateJinxSupplyRewardIndexes(ctx, func(denom string, indexes types.RewardIndexes) (stop bool) {
+	k.IterateHardSupplyRewardIndexes(ctx, func(denom string, indexes types.RewardIndexes) (stop bool) {
 		supplyFactors = supplyFactors.With(denom, indexes)
 		return false
 	})
 
 	var borrowFactors types.MultiRewardIndexes
-	k.IterateJinxBorrowRewardIndexes(ctx, func(denom string, indexes types.RewardIndexes) (stop bool) {
+	k.IterateHardBorrowRewardIndexes(ctx, func(denom string, indexes types.RewardIndexes) (stop bool) {
 		borrowFactors = borrowFactors.With(denom, indexes)
 		return false
 	})
@@ -533,7 +533,7 @@ func getMarketID(denom string) string {
 	// e.g. "ufury" -> "nemo", "erc20/multichain/usdc" -> "usdc"
 	// bfury is not included as it is handled separately
 
-	// TODO: Replace jinxcoded conversion with possible params set somewhere
+	// TODO: Replace hardcoded conversion with possible params set somewhere
 	// to be more flexible. E.g. a map of denoms to pricefeed market denoms in
 	// pricefeed params.
 	switch denom {

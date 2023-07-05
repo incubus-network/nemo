@@ -7,7 +7,7 @@ order: 6
 This module implements the `Hooks` interface for the following modules:
 
 - cdp
-- jinx
+- hard
 - swap
 - staking (defined in cosmos-sdk)
 
@@ -29,55 +29,55 @@ func (h Hooks) BeforeCDPModified(ctx sdk.Context, cdp cdptypes.CDP) {
 }
 ```
 
-Jinx module hooks manage the creation and synchronization of jinx supply and borrow rewards.
+Hard module hooks manage the creation and synchronization of hard supply and borrow rewards.
 
 ```go
-// ------------------- Jinx Module Hooks -------------------
+// ------------------- Hard Module Hooks -------------------
 
 // AfterDepositCreated function that runs after a deposit is created
-func (h Hooks) AfterDepositCreated(ctx sdk.Context, deposit jinxtypes.Deposit) {
-  h.k.InitializeJinxSupplyReward(ctx, deposit)
+func (h Hooks) AfterDepositCreated(ctx sdk.Context, deposit hardtypes.Deposit) {
+  h.k.InitializeHardSupplyReward(ctx, deposit)
 }
 
 // BeforeDepositModified function that runs before a deposit is modified
-func (h Hooks) BeforeDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit) {
-  h.k.SynchronizeJinxSupplyReward(ctx, deposit)
+func (h Hooks) BeforeDepositModified(ctx sdk.Context, deposit hardtypes.Deposit) {
+  h.k.SynchronizeHardSupplyReward(ctx, deposit)
 }
 
 // AfterDepositModified function that runs after a deposit is modified
-func (h Hooks) AfterDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit) {
-  h.k.UpdateJinxSupplyIndexDenoms(ctx, deposit)
+func (h Hooks) AfterDepositModified(ctx sdk.Context, deposit hardtypes.Deposit) {
+  h.k.UpdateHardSupplyIndexDenoms(ctx, deposit)
 }
 
 // AfterBorrowCreated function that runs after a borrow is created
-func (h Hooks) AfterBorrowCreated(ctx sdk.Context, borrow jinxtypes.Borrow) {
-  h.k.InitializeJinxBorrowReward(ctx, borrow)
+func (h Hooks) AfterBorrowCreated(ctx sdk.Context, borrow hardtypes.Borrow) {
+  h.k.InitializeHardBorrowReward(ctx, borrow)
 }
 
 // BeforeBorrowModified function that runs before a borrow is modified
-func (h Hooks) BeforeBorrowModified(ctx sdk.Context, borrow jinxtypes.Borrow) {
-  h.k.SynchronizeJinxBorrowReward(ctx, borrow)
+func (h Hooks) BeforeBorrowModified(ctx sdk.Context, borrow hardtypes.Borrow) {
+  h.k.SynchronizeHardBorrowReward(ctx, borrow)
 }
 
 // AfterBorrowModified function that runs after a borrow is modified
-func (h Hooks) AfterBorrowModified(ctx sdk.Context, borrow jinxtypes.Borrow) {
-  h.k.UpdateJinxBorrowIndexDenoms(ctx, borrow)
+func (h Hooks) AfterBorrowModified(ctx sdk.Context, borrow hardtypes.Borrow) {
+  h.k.UpdateHardBorrowIndexDenoms(ctx, borrow)
 }
 ```
 
-Staking module hooks manage the creation and synchronization of jinx delegator rewards.
+Staking module hooks manage the creation and synchronization of hard delegator rewards.
 
 ```go
 // ------------------- Staking Module Hooks -------------------
 
 // BeforeDelegationCreated runs before a delegation is created
 func (h Hooks) BeforeDelegationCreated(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-  h.k.InitializeJinxDelegatorReward(ctx, delAddr)
+  h.k.InitializeHardDelegatorReward(ctx, delAddr)
 }
 
 // BeforeDelegationSharesModified runs before an existing delegation is modified
 func (h Hooks) BeforeDelegationSharesModified(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) {
-  h.k.SynchronizeJinxDelegatorRewards(ctx, delAddr)
+  h.k.SynchronizeHardDelegatorRewards(ctx, delAddr)
 }
 
 // NOTE: following hooks are just implemented to ensure StakingHooks interface compliance

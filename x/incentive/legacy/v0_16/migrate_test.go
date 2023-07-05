@@ -65,7 +65,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					RewardsPerSecond: sdk.NewCoin("musd", sdkmath.NewInt(10)),
 				},
 			},
-			JinxSupplyRewardPeriods: v015incentive.MultiRewardPeriods{
+			HardSupplyRewardPeriods: v015incentive.MultiRewardPeriods{
 				{
 					Active:           true,
 					CollateralType:   "musd",
@@ -74,7 +74,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					RewardsPerSecond: sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(10))),
 				},
 			},
-			JinxBorrowRewardPeriods: v015incentive.MultiRewardPeriods{
+			HardBorrowRewardPeriods: v015incentive.MultiRewardPeriods{
 				{
 					Active:           true,
 					CollateralType:   "bnb",
@@ -157,7 +157,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxSupplyRewardState: v015incentive.GenesisRewardState{
+		HardSupplyRewardState: v015incentive.GenesisRewardState{
 			AccumulationTimes: v015incentive.AccumulationTimes{
 				{
 					CollateralType:           "musd",
@@ -176,16 +176,16 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxBorrowRewardState: v015incentive.GenesisRewardState{
+		HardBorrowRewardState: v015incentive.GenesisRewardState{
 			AccumulationTimes: v015incentive.AccumulationTimes{
 				{
-					CollateralType:           "jinx",
+					CollateralType:           "hard",
 					PreviousAccumulationTime: time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				},
 			},
 			MultiRewardIndexes: v015incentive.MultiRewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardIndexes: []v015incentive.RewardIndex{
 						{
 							CollateralType: "bnb",
@@ -233,7 +233,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxLiquidityProviderClaims: v015incentive.JinxLiquidityProviderClaims{
+		HardLiquidityProviderClaims: v015incentive.HardLiquidityProviderClaims{
 			{
 				BaseMultiClaim: v015incentive.BaseMultiClaim{
 					Owner:  s.addresses[1],
@@ -333,7 +333,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					RewardsPerSecond: sdk.NewCoin("musd", sdkmath.NewInt(10)),
 				},
 			},
-			JinxSupplyRewardPeriods: v016incentive.MultiRewardPeriods{
+			HardSupplyRewardPeriods: v016incentive.MultiRewardPeriods{
 				{
 					Active:           true,
 					CollateralType:   "musd",
@@ -342,7 +342,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					RewardsPerSecond: sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(10))),
 				},
 			},
-			JinxBorrowRewardPeriods: v016incentive.MultiRewardPeriods{
+			HardBorrowRewardPeriods: v016incentive.MultiRewardPeriods{
 				{
 					Active:           true,
 					CollateralType:   "bnb",
@@ -406,7 +406,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxSupplyRewardState: v016incentive.GenesisRewardState{
+		HardSupplyRewardState: v016incentive.GenesisRewardState{
 			AccumulationTimes: v016incentive.AccumulationTimes{
 				{
 					CollateralType:           "musd",
@@ -425,16 +425,16 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxBorrowRewardState: v016incentive.GenesisRewardState{
+		HardBorrowRewardState: v016incentive.GenesisRewardState{
 			AccumulationTimes: v016incentive.AccumulationTimes{
 				{
-					CollateralType:           "jinx",
+					CollateralType:           "hard",
 					PreviousAccumulationTime: time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				},
 			},
 			MultiRewardIndexes: v016incentive.MultiRewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardIndexes: []v016incentive.RewardIndex{
 						{
 							CollateralType: "bnb",
@@ -482,7 +482,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		JinxLiquidityProviderClaims: v016incentive.JinxLiquidityProviderClaims{
+		HardLiquidityProviderClaims: v016incentive.HardLiquidityProviderClaims{
 			{
 				BaseMultiClaim: v016incentive.BaseMultiClaim{
 					Owner:  s.addresses[1],

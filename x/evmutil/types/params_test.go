@@ -115,7 +115,7 @@ func (suite *ParamsTestSuite) TestParams_Validate() {
 		),
 	)
 	validAllowedCosmosDenoms := types.NewAllowedCosmosCoinERC20Tokens(
-		types.NewAllowedCosmosCoinERC20Token("jinx", "EVM Jinx", "JINX", 6),
+		types.NewAllowedCosmosCoinERC20Token("hard", "EVM Hard", "HARD", 6),
 	)
 	invalidAllowedCosmosDenoms := types.NewAllowedCosmosCoinERC20Tokens(
 		types.NewAllowedCosmosCoinERC20Token("", "Invalid Token", "NOPE", 0), // empty sdk denom

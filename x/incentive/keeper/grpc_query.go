@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	RewardTypeJinx        = "jinx"
+	RewardTypeHard        = "hard"
 	RewardTypeMUSDMinting = "musd_minting"
 	RewardTypeDelegator   = "delegator"
 	RewardTypeSwap        = "swap"
@@ -103,13 +103,13 @@ func (s queryServer) RewardFactors(
 	})
 
 	var supplyFactors types.MultiRewardIndexes
-	s.keeper.IterateJinxSupplyRewardIndexes(sdkCtx, func(denom string, indexes types.RewardIndexes) (stop bool) {
+	s.keeper.IterateHardSupplyRewardIndexes(sdkCtx, func(denom string, indexes types.RewardIndexes) (stop bool) {
 		supplyFactors = supplyFactors.With(denom, indexes)
 		return false
 	})
 
 	var borrowFactors types.MultiRewardIndexes
-	s.keeper.IterateJinxBorrowRewardIndexes(sdkCtx, func(denom string, indexes types.RewardIndexes) (stop bool) {
+	s.keeper.IterateHardBorrowRewardIndexes(sdkCtx, func(denom string, indexes types.RewardIndexes) (stop bool) {
 		borrowFactors = borrowFactors.With(denom, indexes)
 		return false
 	})
@@ -140,8 +140,8 @@ func (s queryServer) RewardFactors(
 
 	return &types.QueryRewardFactorsResponse{
 		MusdMintingRewardFactors: musdFactors,
-		JinxSupplyRewardFactors:  supplyFactors,
-		JinxBorrowRewardFactors:  borrowFactors,
+		HardSupplyRewardFactors:  supplyFactors,
+		HardBorrowRewardFactors:  borrowFactors,
 		DelegatorRewardFactors:   delegatorFactors,
 		SwapRewardFactors:        swapFactors,
 		SavingsRewardFactors:     savingsFactors,
@@ -223,15 +223,15 @@ func (s queryServer) queryRewards(
 		}
 	}
 
-	if isAllRewards || rewardType == RewardTypeJinx {
+	if isAllRewards || rewardType == RewardTypeHard {
 		if hasOwner {
-			jinxClaim, foundJinxClaim := s.keeper.GetJinxLiquidityProviderClaim(ctx, owner)
-			if foundJinxClaim {
-				res.JinxLiquidityProviderClaims = append(res.JinxLiquidityProviderClaims, jinxClaim)
+			hardClaim, foundHardClaim := s.keeper.GetHardLiquidityProviderClaim(ctx, owner)
+			if foundHardClaim {
+				res.HardLiquidityProviderClaims = append(res.HardLiquidityProviderClaims, hardClaim)
 			}
 		} else {
-			jinxClaims := s.keeper.GetAllJinxLiquidityProviderClaims(ctx)
-			res.JinxLiquidityProviderClaims = append(res.JinxLiquidityProviderClaims, jinxClaims...)
+			hardClaims := s.keeper.GetAllHardLiquidityProviderClaims(ctx)
+			res.HardLiquidityProviderClaims = append(res.HardLiquidityProviderClaims, hardClaims...)
 		}
 	}
 
@@ -296,8 +296,8 @@ func (s queryServer) synchronizeRewards(
 		res.MUSDMintingClaims[i] = s.keeper.SimulateMUSDMintingSynchronization(ctx, claim)
 	}
 
-	for i, claim := range res.JinxLiquidityProviderClaims {
-		res.JinxLiquidityProviderClaims[i] = s.keeper.SimulateJinxSynchronization(ctx, claim)
+	for i, claim := range res.HardLiquidityProviderClaims {
+		res.HardLiquidityProviderClaims[i] = s.keeper.SimulateHardSynchronization(ctx, claim)
 	}
 
 	for i, claim := range res.DelegatorClaims {
@@ -333,7 +333,7 @@ func (s queryServer) synchronizeRewards(
 
 func rewardTypeIsValid(rewardType string) bool {
 	return rewardType == "" ||
-		rewardType == RewardTypeJinx ||
+		rewardType == RewardTypeHard ||
 		rewardType == RewardTypeMUSDMinting ||
 		rewardType == RewardTypeDelegator ||
 		rewardType == RewardTypeSwap ||

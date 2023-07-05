@@ -9,30 +9,30 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	"github.com/incubus-network/nemo/x/incentive/keeper"
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// SynchronizeJinxBorrowRewardTests runs unit tests for the keeper.SynchronizeJinxBorrowReward method
-type SynchronizeJinxBorrowRewardTests struct {
+// SynchronizeHardBorrowRewardTests runs unit tests for the keeper.SynchronizeHardBorrowReward method
+type SynchronizeHardBorrowRewardTests struct {
 	unitTester
 }
 
-func TestSynchronizeJinxBorrowReward(t *testing.T) {
-	suite.Run(t, new(SynchronizeJinxBorrowRewardTests))
+func TestSynchronizeHardBorrowReward(t *testing.T) {
+	suite.Run(t, new(SynchronizeHardBorrowRewardTests))
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenGlobalIndexesHaveIncreased() {
+func (suite *SynchronizeHardBorrowRewardTests) TestClaimIndexesAreUpdatedWhenGlobalIndexesHaveIncreased() {
 	// This is the normal case
 
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	globalIndexes := increaseAllRewardFactors(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalBorrowIndexes(globalIndexes)
@@ -41,24 +41,24 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenGlo
 		WithArbitrarySourceShares(extractCollateralTypes(claim.BorrowRewardIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUnchangedWhenGlobalIndexesUnchanged() {
-	// It should be safe to call SynchronizeJinxBorrowReward multiple times
+func (suite *SynchronizeHardBorrowRewardTests) TestClaimIndexesAreUnchangedWhenGlobalIndexesUnchanged() {
+	// It should be safe to call SynchronizeHardBorrowReward multiple times
 
 	unchangingIndexes := nonEmptyMultiRewardIndexes
 
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: unchangingIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	suite.storeGlobalBorrowIndexes(unchangingIndexes)
 
@@ -66,23 +66,23 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUnchangedWhenG
 		WithArbitrarySourceShares(extractCollateralTypes(unchangingIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(unchangingIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardAdded() {
-	// When a new reward is added (via gov) for a jinx borrow denom the user has already borrowed, and the claim is synced;
+func (suite *SynchronizeHardBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardAdded() {
+	// When a new reward is added (via gov) for a hard borrow denom the user has already borrowed, and the claim is synced;
 	// Then the new reward's index should be added to the claim.
 
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	globalIndexes := appendUniqueMultiRewardIndex(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalBorrowIndexes(globalIndexes)
@@ -91,23 +91,23 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNew
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardDenomAdded() {
+func (suite *SynchronizeHardBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardDenomAdded() {
 	// When a new reward coin is added (via gov) to an already rewarded borrow denom (that the user has already borrowed), and the claim is synced;
 	// Then the new reward coin's index should be added to the claim.
 
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	globalIndexes := appendUniqueRewardIndexToFirstItem(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalBorrowIndexes(globalIndexes)
@@ -116,13 +116,13 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestClaimIndexesAreUpdatedWhenNew
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenGlobalIndexesHaveIncreased() {
+func (suite *SynchronizeHardBorrowRewardTests) TestRewardIsIncrementedWhenGlobalIndexesHaveIncreased() {
 	// This is the normal case
 	// Given some time has passed (meaning the global indexes have increased)
 	// When the claim is synced
@@ -130,7 +130,7 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenGlobal
 
 	originalReward := arbitraryCoins()
 
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -147,7 +147,7 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenGlobal
 			},
 		},
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	suite.storeGlobalBorrowIndexes(types.MultiRewardIndexes{
 		{
@@ -165,22 +165,22 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenGlobal
 		WithSourceShares("borrowdenom", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
 	// new reward is (new index - old index) * borrow amount
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("rewarddenom", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRewardAdded() {
-	// When a new reward is added (via gov) for a jinx borrow denom the user has already borrowed, and the claim is synced
+func (suite *SynchronizeHardBorrowRewardTests) TestRewardIsIncrementedWhenNewRewardAdded() {
+	// When a new reward is added (via gov) for a hard borrow denom the user has already borrowed, and the claim is synced
 	// Then the user earns rewards for the time since the reward was added
 
 	originalReward := arbitraryCoins()
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -197,7 +197,7 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRew
 			},
 		},
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	globalIndexes := types.MultiRewardIndexes{
 		{
@@ -228,23 +228,23 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRew
 		WithSourceShares("newlyrewarded", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
 	// new reward is (new index - old index) * borrow amount for each borrowed denom
 	// The old index for `newlyrewarded` isn't in the claim, so it's added starting at 0 for calculating the reward.
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("otherreward", 1_000_001_000_000), c("reward", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRewardDenomAdded() {
+func (suite *SynchronizeHardBorrowRewardTests) TestRewardIsIncrementedWhenNewRewardDenomAdded() {
 	// When a new reward coin is added (via gov) to an already rewarded borrow denom (that the user has already borrowed), and the claim is synced;
 	// Then the user earns rewards for the time since the reward was added
 
 	originalReward := arbitraryCoins()
-	claim := types.JinxLiquidityProviderClaim{
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -261,7 +261,7 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRew
 			},
 		},
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 
 	globalIndexes := types.MultiRewardIndexes{
 		{
@@ -286,34 +286,34 @@ func (suite *SynchronizeJinxBorrowRewardTests) TestRewardIsIncrementedWhenNewRew
 		WithSourceShares("borrowed", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeJinxBorrowReward(suite.ctx, borrow)
+	suite.keeper.SynchronizeHardBorrowReward(suite.ctx, borrow)
 
 	// new reward is (new index - old index) * borrow amount for each borrowed denom
 	// The old index for `otherreward` isn't in the claim, so it's added starting at 0 for calculating the reward.
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("reward", 1_000_001_000_000), c("otherreward", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-// BorrowBuilder is a tool for creating a jinx borrows.
-// The builder inherits from jinx.Borrow, so fields can be accessed directly if a helper method doesn't exist.
+// BorrowBuilder is a tool for creating a hard borrows.
+// The builder inherits from hard.Borrow, so fields can be accessed directly if a helper method doesn't exist.
 type BorrowBuilder struct {
-	jinxtypes.Borrow
+	hardtypes.Borrow
 }
 
 // NewBorrowBuilder creates a BorrowBuilder containing an empty borrow.
 func NewBorrowBuilder(borrower sdk.AccAddress) BorrowBuilder {
 	return BorrowBuilder{
-		Borrow: jinxtypes.Borrow{
+		Borrow: hardtypes.Borrow{
 			Borrower: borrower,
 		},
 	}
 }
 
 // Build assembles and returns the final borrow.
-func (builder BorrowBuilder) Build() jinxtypes.Borrow { return builder.Borrow }
+func (builder BorrowBuilder) Build() hardtypes.Borrow { return builder.Borrow }
 
 // WithSourceShares adds a borrow amount and factor such that the source shares for this borrow is equal to specified.
 // With a factor of 1, the borrow amount is the source shares. This picks an arbitrary factor to ensure factors are accounted for in production code.
@@ -364,7 +364,7 @@ func TestCalculateRewards(t *testing.T) {
 			args: args{
 				oldIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.000000001"),
 					},
 					{
@@ -374,7 +374,7 @@ func TestCalculateRewards(t *testing.T) {
 				},
 				newIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("1000.0"),
 					},
 					{
@@ -386,7 +386,7 @@ func TestCalculateRewards(t *testing.T) {
 			},
 			expected: expected{
 				// for each denom: (new - old) * sourceAmount
-				coins: cs(c("jinx", 999999999999), c("ufury", 1)),
+				coins: cs(c("hard", 999999999999), c("ufury", 1)),
 			},
 		},
 		{
@@ -394,13 +394,13 @@ func TestCalculateRewards(t *testing.T) {
 			args: args{
 				oldIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.000000001"),
 					},
 				},
 				newIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("1000.0"),
 					},
 					{
@@ -412,7 +412,7 @@ func TestCalculateRewards(t *testing.T) {
 			},
 			expected: expected{
 				// for each denom: (new - old) * sourceAmount
-				coins: cs(c("jinx", 999999999999), c("ufury", 100000001)),
+				coins: cs(c("hard", 999999999999), c("ufury", 100000001)),
 			},
 		},
 		{
@@ -420,13 +420,13 @@ func TestCalculateRewards(t *testing.T) {
 			args: args{
 				oldIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.2"),
 					},
 				},
 				newIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.1"),
 					},
 				},
@@ -441,7 +441,7 @@ func TestCalculateRewards(t *testing.T) {
 			args: args{
 				oldIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.1"),
 					},
 					{
@@ -451,7 +451,7 @@ func TestCalculateRewards(t *testing.T) {
 				},
 				newIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.2"),
 					},
 				},
@@ -466,13 +466,13 @@ func TestCalculateRewards(t *testing.T) {
 			args: args{
 				oldIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.0"),
 					},
 				},
 				newIndexes: types.RewardIndexes{
 					{
-						CollateralType: "jinx",
+						CollateralType: "hard",
 						RewardFactor:   d("0.0"),
 					},
 				},

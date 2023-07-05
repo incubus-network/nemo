@@ -29,12 +29,12 @@ func (suite *withdrawTestSuite) TestWithdraw_NoVaultRecord() {
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
 	// Withdraw without having any prior deposits
-	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrVaultRecordNotFound)
 
@@ -56,17 +56,17 @@ func (suite *withdrawTestSuite) TestWithdraw_NoVaultShareRecord() {
 	acc1DepositAmount := sdk.NewCoin(vaultDenom, sdkmath.NewInt(100))
 	acc2WithdrawAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	// Create deposit from acc1 so the VaultRecord exists in state
 	acc1 := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
-	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), acc1DepositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), acc1DepositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	acc2 := suite.CreateAccount(sdk.NewCoins(startBalance), 1)
 
 	// Withdraw from acc2 without having any prior deposits
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc2.GetAddress(), acc2WithdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc2.GetAddress(), acc2WithdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrVaultShareRecordNotFound)
 
@@ -88,14 +88,14 @@ func (suite *withdrawTestSuite) TestWithdraw_ExceedBalance() {
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 200)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrInsufficientValue)
 
@@ -116,11 +116,11 @@ func (suite *withdrawTestSuite) TestWithdraw_Zero() {
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 0)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrInsufficientAmount)
 
@@ -145,7 +145,7 @@ func (suite *withdrawTestSuite) TestWithdraw_InvalidVault() {
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err := suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrInvalidVaultDenom)
 
@@ -166,7 +166,7 @@ func (suite *withdrawTestSuite) TestWithdraw_InvalidStrategy() {
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 1001)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
@@ -181,14 +181,14 @@ func (suite *withdrawTestSuite) TestWithdraw_FullBalance() {
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	// No net changes in balances
@@ -208,14 +208,14 @@ func (suite *withdrawTestSuite) TestWithdraw_Partial() {
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 	partialWithdrawAmount := sdk.NewInt64Coin(vaultDenom, 50)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	suite.AccountBalanceEqual(
@@ -224,11 +224,11 @@ func (suite *withdrawTestSuite) TestWithdraw_Partial() {
 	)
 
 	// Second withdraw for remaining 50
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	// No more balance to withdraw
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), partialWithdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrVaultRecordNotFound, "vault record should be deleted after no more supplied")
 

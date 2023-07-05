@@ -28,7 +28,7 @@ func GetTxCmd() *cobra.Command {
 
 	cmds := []*cobra.Command{
 		getCmdClaimCdp(),
-		getCmdClaimJinx(),
+		getCmdClaimHard(),
 		getCmdClaimDelegator(),
 		getCmdClaimSwap(),
 		getCmdClaimSavings(),
@@ -71,16 +71,16 @@ func getCmdClaimCdp() *cobra.Command {
 	return cmd
 }
 
-func getCmdClaimJinx() *cobra.Command {
+func getCmdClaimHard() *cobra.Command {
 	var denomsToClaim map[string]string
 
 	cmd := &cobra.Command{
-		Use:   "claim-jinx",
-		Short: "claim sender's Jinx module rewards using given multipliers",
-		Long:  `Claim sender's outstanding Jinx rewards for deposit/borrow using given multipliers`,
+		Use:   "claim-hard",
+		Short: "claim sender's Hard module rewards using given multipliers",
+		Long:  `Claim sender's outstanding Hard rewards for deposit/borrow using given multipliers`,
 		Example: strings.Join([]string{
-			fmt.Sprintf(`  $ %s tx %s claim-jinx --%s jinx=large --%s ufury=small`, version.AppName, types.ModuleName, multiplierFlag, multiplierFlag),
-			fmt.Sprintf(`  $ %s tx %s claim-jinx --%s jinx=large,ufury=small`, version.AppName, types.ModuleName, multiplierFlag),
+			fmt.Sprintf(`  $ %s tx %s claim-hard --%s hard=large --%s ufury=small`, version.AppName, types.ModuleName, multiplierFlag, multiplierFlag),
+			fmt.Sprintf(`  $ %s tx %s claim-hard --%s hard=large,ufury=small`, version.AppName, types.ModuleName, multiplierFlag),
 		}, "\n"),
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -92,7 +92,7 @@ func getCmdClaimJinx() *cobra.Command {
 			sender := cliCtx.GetFromAddress()
 			selections := types.NewSelectionsFromMap(denomsToClaim)
 
-			msg := types.NewMsgClaimJinxReward(sender.String(), selections)
+			msg := types.NewMsgClaimHardReward(sender.String(), selections)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
@@ -114,8 +114,8 @@ func getCmdClaimDelegator() *cobra.Command {
 		Short: "claim sender's non-sdk delegator rewards using given multipliers",
 		Long:  `Claim sender's outstanding delegator rewards using given multipliers`,
 		Example: strings.Join([]string{
-			fmt.Sprintf(`  $ %s tx %s claim-delegator --%s jinx=large --%s swp=small`, version.AppName, types.ModuleName, multiplierFlag, multiplierFlag),
-			fmt.Sprintf(`  $ %s tx %s claim-delegator --%s jinx=large,swp=small`, version.AppName, types.ModuleName, multiplierFlag),
+			fmt.Sprintf(`  $ %s tx %s claim-delegator --%s hard=large --%s swp=small`, version.AppName, types.ModuleName, multiplierFlag, multiplierFlag),
+			fmt.Sprintf(`  $ %s tx %s claim-delegator --%s hard=large,swp=small`, version.AppName, types.ModuleName, multiplierFlag),
 		}, "\n"),
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {

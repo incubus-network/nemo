@@ -31,10 +31,10 @@ func (k Keeper) GetMUSDMintingRewardPeriod(ctx sdk.Context, collateralType strin
 	return types.RewardPeriod{}, false
 }
 
-// GetJinxSupplyRewardPeriods returns the reward period with the specified collateral type if it's found in the params
-func (k Keeper) GetJinxSupplyRewardPeriods(ctx sdk.Context, denom string) (types.MultiRewardPeriod, bool) {
+// GetHardSupplyRewardPeriods returns the reward period with the specified collateral type if it's found in the params
+func (k Keeper) GetHardSupplyRewardPeriods(ctx sdk.Context, denom string) (types.MultiRewardPeriod, bool) {
 	params := k.GetParams(ctx)
-	for _, rp := range params.JinxSupplyRewardPeriods {
+	for _, rp := range params.HardSupplyRewardPeriods {
 		if rp.CollateralType == denom {
 			return rp, true
 		}
@@ -42,10 +42,10 @@ func (k Keeper) GetJinxSupplyRewardPeriods(ctx sdk.Context, denom string) (types
 	return types.MultiRewardPeriod{}, false
 }
 
-// GetJinxBorrowRewardPeriods returns the reward period with the specified collateral type if it's found in the params
-func (k Keeper) GetJinxBorrowRewardPeriods(ctx sdk.Context, denom string) (types.MultiRewardPeriod, bool) {
+// GetHardBorrowRewardPeriods returns the reward period with the specified collateral type if it's found in the params
+func (k Keeper) GetHardBorrowRewardPeriods(ctx sdk.Context, denom string) (types.MultiRewardPeriod, bool) {
 	params := k.GetParams(ctx)
-	for _, rp := range params.JinxBorrowRewardPeriods {
+	for _, rp := range params.HardBorrowRewardPeriods {
 		if rp.CollateralType == denom {
 			return rp, true
 		}

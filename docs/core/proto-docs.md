@@ -276,66 +276,66 @@
   
     - [Msg](#nemo.evmutil.v1beta1.Msg)
   
-- [nemo/jinx/v1beta1/jinx.proto](#nemo/jinx/v1beta1/jinx.proto)
-    - [Borrow](#nemo.jinx.v1beta1.Borrow)
-    - [BorrowInterestFactor](#nemo.jinx.v1beta1.BorrowInterestFactor)
-    - [BorrowLimit](#nemo.jinx.v1beta1.BorrowLimit)
-    - [CoinsProto](#nemo.jinx.v1beta1.CoinsProto)
-    - [Deposit](#nemo.jinx.v1beta1.Deposit)
-    - [InterestRateModel](#nemo.jinx.v1beta1.InterestRateModel)
-    - [MoneyMarket](#nemo.jinx.v1beta1.MoneyMarket)
-    - [Params](#nemo.jinx.v1beta1.Params)
-    - [SupplyInterestFactor](#nemo.jinx.v1beta1.SupplyInterestFactor)
+- [nemo/hard/v1beta1/hard.proto](#nemo/hard/v1beta1/hard.proto)
+    - [Borrow](#nemo.hard.v1beta1.Borrow)
+    - [BorrowInterestFactor](#nemo.hard.v1beta1.BorrowInterestFactor)
+    - [BorrowLimit](#nemo.hard.v1beta1.BorrowLimit)
+    - [CoinsProto](#nemo.hard.v1beta1.CoinsProto)
+    - [Deposit](#nemo.hard.v1beta1.Deposit)
+    - [InterestRateModel](#nemo.hard.v1beta1.InterestRateModel)
+    - [MoneyMarket](#nemo.hard.v1beta1.MoneyMarket)
+    - [Params](#nemo.hard.v1beta1.Params)
+    - [SupplyInterestFactor](#nemo.hard.v1beta1.SupplyInterestFactor)
   
-- [nemo/jinx/v1beta1/genesis.proto](#nemo/jinx/v1beta1/genesis.proto)
-    - [GenesisAccumulationTime](#nemo.jinx.v1beta1.GenesisAccumulationTime)
-    - [GenesisState](#nemo.jinx.v1beta1.GenesisState)
+- [nemo/hard/v1beta1/genesis.proto](#nemo/hard/v1beta1/genesis.proto)
+    - [GenesisAccumulationTime](#nemo.hard.v1beta1.GenesisAccumulationTime)
+    - [GenesisState](#nemo.hard.v1beta1.GenesisState)
   
-- [nemo/jinx/v1beta1/query.proto](#nemo/jinx/v1beta1/query.proto)
-    - [BorrowInterestFactorResponse](#nemo.jinx.v1beta1.BorrowInterestFactorResponse)
-    - [BorrowResponse](#nemo.jinx.v1beta1.BorrowResponse)
-    - [DepositResponse](#nemo.jinx.v1beta1.DepositResponse)
-    - [InterestFactor](#nemo.jinx.v1beta1.InterestFactor)
-    - [MoneyMarketInterestRate](#nemo.jinx.v1beta1.MoneyMarketInterestRate)
-    - [QueryAccountsRequest](#nemo.jinx.v1beta1.QueryAccountsRequest)
-    - [QueryAccountsResponse](#nemo.jinx.v1beta1.QueryAccountsResponse)
-    - [QueryBorrowsRequest](#nemo.jinx.v1beta1.QueryBorrowsRequest)
-    - [QueryBorrowsResponse](#nemo.jinx.v1beta1.QueryBorrowsResponse)
-    - [QueryDepositsRequest](#nemo.jinx.v1beta1.QueryDepositsRequest)
-    - [QueryDepositsResponse](#nemo.jinx.v1beta1.QueryDepositsResponse)
-    - [QueryInterestFactorsRequest](#nemo.jinx.v1beta1.QueryInterestFactorsRequest)
-    - [QueryInterestFactorsResponse](#nemo.jinx.v1beta1.QueryInterestFactorsResponse)
-    - [QueryInterestRateRequest](#nemo.jinx.v1beta1.QueryInterestRateRequest)
-    - [QueryInterestRateResponse](#nemo.jinx.v1beta1.QueryInterestRateResponse)
-    - [QueryParamsRequest](#nemo.jinx.v1beta1.QueryParamsRequest)
-    - [QueryParamsResponse](#nemo.jinx.v1beta1.QueryParamsResponse)
-    - [QueryReservesRequest](#nemo.jinx.v1beta1.QueryReservesRequest)
-    - [QueryReservesResponse](#nemo.jinx.v1beta1.QueryReservesResponse)
-    - [QueryTotalBorrowedRequest](#nemo.jinx.v1beta1.QueryTotalBorrowedRequest)
-    - [QueryTotalBorrowedResponse](#nemo.jinx.v1beta1.QueryTotalBorrowedResponse)
-    - [QueryTotalDepositedRequest](#nemo.jinx.v1beta1.QueryTotalDepositedRequest)
-    - [QueryTotalDepositedResponse](#nemo.jinx.v1beta1.QueryTotalDepositedResponse)
-    - [QueryUnsyncedBorrowsRequest](#nemo.jinx.v1beta1.QueryUnsyncedBorrowsRequest)
-    - [QueryUnsyncedBorrowsResponse](#nemo.jinx.v1beta1.QueryUnsyncedBorrowsResponse)
-    - [QueryUnsyncedDepositsRequest](#nemo.jinx.v1beta1.QueryUnsyncedDepositsRequest)
-    - [QueryUnsyncedDepositsResponse](#nemo.jinx.v1beta1.QueryUnsyncedDepositsResponse)
-    - [SupplyInterestFactorResponse](#nemo.jinx.v1beta1.SupplyInterestFactorResponse)
+- [nemo/hard/v1beta1/query.proto](#nemo/hard/v1beta1/query.proto)
+    - [BorrowInterestFactorResponse](#nemo.hard.v1beta1.BorrowInterestFactorResponse)
+    - [BorrowResponse](#nemo.hard.v1beta1.BorrowResponse)
+    - [DepositResponse](#nemo.hard.v1beta1.DepositResponse)
+    - [InterestFactor](#nemo.hard.v1beta1.InterestFactor)
+    - [MoneyMarketInterestRate](#nemo.hard.v1beta1.MoneyMarketInterestRate)
+    - [QueryAccountsRequest](#nemo.hard.v1beta1.QueryAccountsRequest)
+    - [QueryAccountsResponse](#nemo.hard.v1beta1.QueryAccountsResponse)
+    - [QueryBorrowsRequest](#nemo.hard.v1beta1.QueryBorrowsRequest)
+    - [QueryBorrowsResponse](#nemo.hard.v1beta1.QueryBorrowsResponse)
+    - [QueryDepositsRequest](#nemo.hard.v1beta1.QueryDepositsRequest)
+    - [QueryDepositsResponse](#nemo.hard.v1beta1.QueryDepositsResponse)
+    - [QueryInterestFactorsRequest](#nemo.hard.v1beta1.QueryInterestFactorsRequest)
+    - [QueryInterestFactorsResponse](#nemo.hard.v1beta1.QueryInterestFactorsResponse)
+    - [QueryInterestRateRequest](#nemo.hard.v1beta1.QueryInterestRateRequest)
+    - [QueryInterestRateResponse](#nemo.hard.v1beta1.QueryInterestRateResponse)
+    - [QueryParamsRequest](#nemo.hard.v1beta1.QueryParamsRequest)
+    - [QueryParamsResponse](#nemo.hard.v1beta1.QueryParamsResponse)
+    - [QueryReservesRequest](#nemo.hard.v1beta1.QueryReservesRequest)
+    - [QueryReservesResponse](#nemo.hard.v1beta1.QueryReservesResponse)
+    - [QueryTotalBorrowedRequest](#nemo.hard.v1beta1.QueryTotalBorrowedRequest)
+    - [QueryTotalBorrowedResponse](#nemo.hard.v1beta1.QueryTotalBorrowedResponse)
+    - [QueryTotalDepositedRequest](#nemo.hard.v1beta1.QueryTotalDepositedRequest)
+    - [QueryTotalDepositedResponse](#nemo.hard.v1beta1.QueryTotalDepositedResponse)
+    - [QueryUnsyncedBorrowsRequest](#nemo.hard.v1beta1.QueryUnsyncedBorrowsRequest)
+    - [QueryUnsyncedBorrowsResponse](#nemo.hard.v1beta1.QueryUnsyncedBorrowsResponse)
+    - [QueryUnsyncedDepositsRequest](#nemo.hard.v1beta1.QueryUnsyncedDepositsRequest)
+    - [QueryUnsyncedDepositsResponse](#nemo.hard.v1beta1.QueryUnsyncedDepositsResponse)
+    - [SupplyInterestFactorResponse](#nemo.hard.v1beta1.SupplyInterestFactorResponse)
   
-    - [Query](#nemo.jinx.v1beta1.Query)
+    - [Query](#nemo.hard.v1beta1.Query)
   
-- [nemo/jinx/v1beta1/tx.proto](#nemo/jinx/v1beta1/tx.proto)
-    - [MsgBorrow](#nemo.jinx.v1beta1.MsgBorrow)
-    - [MsgBorrowResponse](#nemo.jinx.v1beta1.MsgBorrowResponse)
-    - [MsgDeposit](#nemo.jinx.v1beta1.MsgDeposit)
-    - [MsgDepositResponse](#nemo.jinx.v1beta1.MsgDepositResponse)
-    - [MsgLiquidate](#nemo.jinx.v1beta1.MsgLiquidate)
-    - [MsgLiquidateResponse](#nemo.jinx.v1beta1.MsgLiquidateResponse)
-    - [MsgRepay](#nemo.jinx.v1beta1.MsgRepay)
-    - [MsgRepayResponse](#nemo.jinx.v1beta1.MsgRepayResponse)
-    - [MsgWithdraw](#nemo.jinx.v1beta1.MsgWithdraw)
-    - [MsgWithdrawResponse](#nemo.jinx.v1beta1.MsgWithdrawResponse)
+- [nemo/hard/v1beta1/tx.proto](#nemo/hard/v1beta1/tx.proto)
+    - [MsgBorrow](#nemo.hard.v1beta1.MsgBorrow)
+    - [MsgBorrowResponse](#nemo.hard.v1beta1.MsgBorrowResponse)
+    - [MsgDeposit](#nemo.hard.v1beta1.MsgDeposit)
+    - [MsgDepositResponse](#nemo.hard.v1beta1.MsgDepositResponse)
+    - [MsgLiquidate](#nemo.hard.v1beta1.MsgLiquidate)
+    - [MsgLiquidateResponse](#nemo.hard.v1beta1.MsgLiquidateResponse)
+    - [MsgRepay](#nemo.hard.v1beta1.MsgRepay)
+    - [MsgRepayResponse](#nemo.hard.v1beta1.MsgRepayResponse)
+    - [MsgWithdraw](#nemo.hard.v1beta1.MsgWithdraw)
+    - [MsgWithdrawResponse](#nemo.hard.v1beta1.MsgWithdrawResponse)
   
-    - [Msg](#nemo.jinx.v1beta1.Msg)
+    - [Msg](#nemo.hard.v1beta1.Msg)
   
 - [nemo/incentive/v1beta1/apy.proto](#nemo/incentive/v1beta1/apy.proto)
     - [Apy](#nemo.incentive.v1beta1.Apy)
@@ -345,7 +345,7 @@
     - [BaseMultiClaim](#nemo.incentive.v1beta1.BaseMultiClaim)
     - [DelegatorClaim](#nemo.incentive.v1beta1.DelegatorClaim)
     - [EarnClaim](#nemo.incentive.v1beta1.EarnClaim)
-    - [JinxLiquidityProviderClaim](#nemo.incentive.v1beta1.JinxLiquidityProviderClaim)
+    - [HardLiquidityProviderClaim](#nemo.incentive.v1beta1.HardLiquidityProviderClaim)
     - [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex)
     - [MultiRewardIndexesProto](#nemo.incentive.v1beta1.MultiRewardIndexesProto)
     - [RewardIndex](#nemo.incentive.v1beta1.RewardIndex)
@@ -383,8 +383,8 @@
     - [MsgClaimDelegatorRewardResponse](#nemo.incentive.v1beta1.MsgClaimDelegatorRewardResponse)
     - [MsgClaimEarnReward](#nemo.incentive.v1beta1.MsgClaimEarnReward)
     - [MsgClaimEarnRewardResponse](#nemo.incentive.v1beta1.MsgClaimEarnRewardResponse)
-    - [MsgClaimJinxReward](#nemo.incentive.v1beta1.MsgClaimJinxReward)
-    - [MsgClaimJinxRewardResponse](#nemo.incentive.v1beta1.MsgClaimJinxRewardResponse)
+    - [MsgClaimHardReward](#nemo.incentive.v1beta1.MsgClaimHardReward)
+    - [MsgClaimHardRewardResponse](#nemo.incentive.v1beta1.MsgClaimHardRewardResponse)
     - [MsgClaimSavingsReward](#nemo.incentive.v1beta1.MsgClaimSavingsReward)
     - [MsgClaimSavingsRewardResponse](#nemo.incentive.v1beta1.MsgClaimSavingsRewardResponse)
     - [MsgClaimSwapReward](#nemo.incentive.v1beta1.MsgClaimSwapReward)
@@ -3117,7 +3117,7 @@ StrategyType is the type of strategy that a vault uses to optimize yields.
 | Name | Number | Description |
 | ---- | ------ | ----------- |
 | STRATEGY_TYPE_UNSPECIFIED | 0 | STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type. |
-| STRATEGY_TYPE_JINX | 1 | STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx module. |
+| STRATEGY_TYPE_HARD | 1 | STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard module. |
 | STRATEGY_TYPE_SAVINGS | 2 | STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the Savings module. |
 
 
@@ -4016,31 +4016,31 @@ Msg defines the evmutil Msg service.
 
 
 
-<a name="nemo/jinx/v1beta1/jinx.proto"></a>
+<a name="nemo/hard/v1beta1/hard.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## nemo/jinx/v1beta1/jinx.proto
+## nemo/hard/v1beta1/hard.proto
 
 
 
-<a name="nemo.jinx.v1beta1.Borrow"></a>
+<a name="nemo.hard.v1beta1.Borrow"></a>
 
 ### Borrow
-Borrow defines an amount of coins borrowed from a jinx module account.
+Borrow defines an amount of coins borrowed from a hard module account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `borrower` | [string](#string) |  |  |
 | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
-| `index` | [BorrowInterestFactor](#nemo.jinx.v1beta1.BorrowInterestFactor) | repeated |  |
+| `index` | [BorrowInterestFactor](#nemo.hard.v1beta1.BorrowInterestFactor) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.BorrowInterestFactor"></a>
+<a name="nemo.hard.v1beta1.BorrowInterestFactor"></a>
 
 ### BorrowInterestFactor
 BorrowInterestFactor defines an individual borrow interest factor.
@@ -4056,7 +4056,7 @@ BorrowInterestFactor defines an individual borrow interest factor.
 
 
 
-<a name="nemo.jinx.v1beta1.BorrowLimit"></a>
+<a name="nemo.hard.v1beta1.BorrowLimit"></a>
 
 ### BorrowLimit
 BorrowLimit enforces restrictions on a money market.
@@ -4073,7 +4073,7 @@ BorrowLimit enforces restrictions on a money market.
 
 
 
-<a name="nemo.jinx.v1beta1.CoinsProto"></a>
+<a name="nemo.hard.v1beta1.CoinsProto"></a>
 
 ### CoinsProto
 CoinsProto defines a Protobuf wrapper around a Coins slice
@@ -4088,24 +4088,24 @@ CoinsProto defines a Protobuf wrapper around a Coins slice
 
 
 
-<a name="nemo.jinx.v1beta1.Deposit"></a>
+<a name="nemo.hard.v1beta1.Deposit"></a>
 
 ### Deposit
-Deposit defines an amount of coins deposited into a jinx module account.
+Deposit defines an amount of coins deposited into a hard module account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `depositor` | [string](#string) |  |  |
 | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
-| `index` | [SupplyInterestFactor](#nemo.jinx.v1beta1.SupplyInterestFactor) | repeated |  |
+| `index` | [SupplyInterestFactor](#nemo.hard.v1beta1.SupplyInterestFactor) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.InterestRateModel"></a>
+<a name="nemo.hard.v1beta1.InterestRateModel"></a>
 
 ### InterestRateModel
 InterestRateModel contains information about an asset's interest rate.
@@ -4123,7 +4123,7 @@ InterestRateModel contains information about an asset's interest rate.
 
 
 
-<a name="nemo.jinx.v1beta1.MoneyMarket"></a>
+<a name="nemo.hard.v1beta1.MoneyMarket"></a>
 
 ### MoneyMarket
 MoneyMarket is a money market for an individual asset.
@@ -4132,10 +4132,10 @@ MoneyMarket is a money market for an individual asset.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `denom` | [string](#string) |  |  |
-| `borrow_limit` | [BorrowLimit](#nemo.jinx.v1beta1.BorrowLimit) |  |  |
+| `borrow_limit` | [BorrowLimit](#nemo.hard.v1beta1.BorrowLimit) |  |  |
 | `spot_market_id` | [string](#string) |  |  |
 | `conversion_factor` | [string](#string) |  |  |
-| `interest_rate_model` | [InterestRateModel](#nemo.jinx.v1beta1.InterestRateModel) |  |  |
+| `interest_rate_model` | [InterestRateModel](#nemo.hard.v1beta1.InterestRateModel) |  |  |
 | `reserve_factor` | [string](#string) |  |  |
 | `keeper_reward_percentage` | [string](#string) |  |  |
 
@@ -4144,15 +4144,15 @@ MoneyMarket is a money market for an individual asset.
 
 
 
-<a name="nemo.jinx.v1beta1.Params"></a>
+<a name="nemo.hard.v1beta1.Params"></a>
 
 ### Params
-Params defines the parameters for the jinx module.
+Params defines the parameters for the hard module.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `money_markets` | [MoneyMarket](#nemo.jinx.v1beta1.MoneyMarket) | repeated |  |
+| `money_markets` | [MoneyMarket](#nemo.hard.v1beta1.MoneyMarket) | repeated |  |
 | `minimum_borrow_usd_value` | [string](#string) |  |  |
 
 
@@ -4160,7 +4160,7 @@ Params defines the parameters for the jinx module.
 
 
 
-<a name="nemo.jinx.v1beta1.SupplyInterestFactor"></a>
+<a name="nemo.hard.v1beta1.SupplyInterestFactor"></a>
 
 ### SupplyInterestFactor
 SupplyInterestFactor defines an individual borrow interest factor.
@@ -4185,14 +4185,14 @@ SupplyInterestFactor defines an individual borrow interest factor.
 
 
 
-<a name="nemo/jinx/v1beta1/genesis.proto"></a>
+<a name="nemo/hard/v1beta1/genesis.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## nemo/jinx/v1beta1/genesis.proto
+## nemo/hard/v1beta1/genesis.proto
 
 
 
-<a name="nemo.jinx.v1beta1.GenesisAccumulationTime"></a>
+<a name="nemo.hard.v1beta1.GenesisAccumulationTime"></a>
 
 ### GenesisAccumulationTime
 GenesisAccumulationTime stores the previous distribution time and its corresponding denom.
@@ -4210,18 +4210,18 @@ GenesisAccumulationTime stores the previous distribution time and its correspond
 
 
 
-<a name="nemo.jinx.v1beta1.GenesisState"></a>
+<a name="nemo.hard.v1beta1.GenesisState"></a>
 
 ### GenesisState
-GenesisState defines the jinx module's genesis state.
+GenesisState defines the hard module's genesis state.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `params` | [Params](#nemo.jinx.v1beta1.Params) |  |  |
-| `previous_accumulation_times` | [GenesisAccumulationTime](#nemo.jinx.v1beta1.GenesisAccumulationTime) | repeated |  |
-| `deposits` | [Deposit](#nemo.jinx.v1beta1.Deposit) | repeated |  |
-| `borrows` | [Borrow](#nemo.jinx.v1beta1.Borrow) | repeated |  |
+| `params` | [Params](#nemo.hard.v1beta1.Params) |  |  |
+| `previous_accumulation_times` | [GenesisAccumulationTime](#nemo.hard.v1beta1.GenesisAccumulationTime) | repeated |  |
+| `deposits` | [Deposit](#nemo.hard.v1beta1.Deposit) | repeated |  |
+| `borrows` | [Borrow](#nemo.hard.v1beta1.Borrow) | repeated |  |
 | `total_supplied` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
 | `total_borrowed` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
 | `total_reserves` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
@@ -4240,14 +4240,14 @@ GenesisState defines the jinx module's genesis state.
 
 
 
-<a name="nemo/jinx/v1beta1/query.proto"></a>
+<a name="nemo/hard/v1beta1/query.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## nemo/jinx/v1beta1/query.proto
+## nemo/hard/v1beta1/query.proto
 
 
 
-<a name="nemo.jinx.v1beta1.BorrowInterestFactorResponse"></a>
+<a name="nemo.hard.v1beta1.BorrowInterestFactorResponse"></a>
 
 ### BorrowInterestFactorResponse
 BorrowInterestFactorResponse defines an individual borrow interest factor.
@@ -4263,41 +4263,41 @@ BorrowInterestFactorResponse defines an individual borrow interest factor.
 
 
 
-<a name="nemo.jinx.v1beta1.BorrowResponse"></a>
+<a name="nemo.hard.v1beta1.BorrowResponse"></a>
 
 ### BorrowResponse
-BorrowResponse defines an amount of coins borrowed from a jinx module account.
+BorrowResponse defines an amount of coins borrowed from a hard module account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `borrower` | [string](#string) |  |  |
 | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
-| `index` | [BorrowInterestFactorResponse](#nemo.jinx.v1beta1.BorrowInterestFactorResponse) | repeated |  |
+| `index` | [BorrowInterestFactorResponse](#nemo.hard.v1beta1.BorrowInterestFactorResponse) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.DepositResponse"></a>
+<a name="nemo.hard.v1beta1.DepositResponse"></a>
 
 ### DepositResponse
-DepositResponse defines an amount of coins deposited into a jinx module account.
+DepositResponse defines an amount of coins deposited into a hard module account.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `depositor` | [string](#string) |  |  |
 | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
-| `index` | [SupplyInterestFactorResponse](#nemo.jinx.v1beta1.SupplyInterestFactorResponse) | repeated |  |
+| `index` | [SupplyInterestFactorResponse](#nemo.hard.v1beta1.SupplyInterestFactorResponse) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.InterestFactor"></a>
+<a name="nemo.hard.v1beta1.InterestFactor"></a>
 
 ### InterestFactor
 InterestFactor is a unique type returned by interest factor queries
@@ -4314,7 +4314,7 @@ InterestFactor is a unique type returned by interest factor queries
 
 
 
-<a name="nemo.jinx.v1beta1.MoneyMarketInterestRate"></a>
+<a name="nemo.hard.v1beta1.MoneyMarketInterestRate"></a>
 
 ### MoneyMarketInterestRate
 MoneyMarketInterestRate is a unique type returned by interest rate queries
@@ -4331,7 +4331,7 @@ MoneyMarketInterestRate is a unique type returned by interest rate queries
 
 
 
-<a name="nemo.jinx.v1beta1.QueryAccountsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryAccountsRequest"></a>
 
 ### QueryAccountsRequest
 QueryAccountsRequest is the request type for the Query/Accounts RPC method.
@@ -4341,7 +4341,7 @@ QueryAccountsRequest is the request type for the Query/Accounts RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryAccountsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryAccountsResponse"></a>
 
 ### QueryAccountsResponse
 QueryAccountsResponse is the response type for the Query/Accounts RPC method.
@@ -4356,7 +4356,7 @@ QueryAccountsResponse is the response type for the Query/Accounts RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryBorrowsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryBorrowsRequest"></a>
 
 ### QueryBorrowsRequest
 QueryBorrowsRequest is the request type for the Query/Borrows RPC method.
@@ -4373,7 +4373,7 @@ QueryBorrowsRequest is the request type for the Query/Borrows RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryBorrowsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryBorrowsResponse"></a>
 
 ### QueryBorrowsResponse
 QueryBorrowsResponse is the response type for the Query/Borrows RPC method.
@@ -4381,7 +4381,7 @@ QueryBorrowsResponse is the response type for the Query/Borrows RPC method.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `borrows` | [BorrowResponse](#nemo.jinx.v1beta1.BorrowResponse) | repeated |  |
+| `borrows` | [BorrowResponse](#nemo.hard.v1beta1.BorrowResponse) | repeated |  |
 | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
 
 
@@ -4389,7 +4389,7 @@ QueryBorrowsResponse is the response type for the Query/Borrows RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryDepositsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryDepositsRequest"></a>
 
 ### QueryDepositsRequest
 QueryDepositsRequest is the request type for the Query/Deposits RPC method.
@@ -4406,7 +4406,7 @@ QueryDepositsRequest is the request type for the Query/Deposits RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryDepositsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryDepositsResponse"></a>
 
 ### QueryDepositsResponse
 QueryDepositsResponse is the response type for the Query/Deposits RPC method.
@@ -4414,7 +4414,7 @@ QueryDepositsResponse is the response type for the Query/Deposits RPC method.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `deposits` | [DepositResponse](#nemo.jinx.v1beta1.DepositResponse) | repeated |  |
+| `deposits` | [DepositResponse](#nemo.hard.v1beta1.DepositResponse) | repeated |  |
 | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
 
 
@@ -4422,7 +4422,7 @@ QueryDepositsResponse is the response type for the Query/Deposits RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryInterestFactorsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryInterestFactorsRequest"></a>
 
 ### QueryInterestFactorsRequest
 QueryInterestFactorsRequest is the request type for the Query/InterestFactors RPC method.
@@ -4437,7 +4437,7 @@ QueryInterestFactorsRequest is the request type for the Query/InterestFactors RP
 
 
 
-<a name="nemo.jinx.v1beta1.QueryInterestFactorsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryInterestFactorsResponse"></a>
 
 ### QueryInterestFactorsResponse
 QueryInterestFactorsResponse is the response type for the Query/InterestFactors RPC method.
@@ -4445,14 +4445,14 @@ QueryInterestFactorsResponse is the response type for the Query/InterestFactors 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `interest_factors` | [InterestFactor](#nemo.jinx.v1beta1.InterestFactor) | repeated |  |
+| `interest_factors` | [InterestFactor](#nemo.hard.v1beta1.InterestFactor) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryInterestRateRequest"></a>
+<a name="nemo.hard.v1beta1.QueryInterestRateRequest"></a>
 
 ### QueryInterestRateRequest
 QueryInterestRateRequest is the request type for the Query/InterestRate RPC method.
@@ -4467,7 +4467,7 @@ QueryInterestRateRequest is the request type for the Query/InterestRate RPC meth
 
 
 
-<a name="nemo.jinx.v1beta1.QueryInterestRateResponse"></a>
+<a name="nemo.hard.v1beta1.QueryInterestRateResponse"></a>
 
 ### QueryInterestRateResponse
 QueryInterestRateResponse is the response type for the Query/InterestRate RPC method.
@@ -4475,14 +4475,14 @@ QueryInterestRateResponse is the response type for the Query/InterestRate RPC me
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `interest_rates` | [MoneyMarketInterestRate](#nemo.jinx.v1beta1.MoneyMarketInterestRate) | repeated |  |
+| `interest_rates` | [MoneyMarketInterestRate](#nemo.hard.v1beta1.MoneyMarketInterestRate) | repeated |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryParamsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryParamsRequest"></a>
 
 ### QueryParamsRequest
 QueryParamsRequest is the request type for the Query/Params RPC method.
@@ -4492,7 +4492,7 @@ QueryParamsRequest is the request type for the Query/Params RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryParamsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryParamsResponse"></a>
 
 ### QueryParamsResponse
 QueryParamsResponse is the response type for the Query/Params RPC method.
@@ -4500,14 +4500,14 @@ QueryParamsResponse is the response type for the Query/Params RPC method.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `params` | [Params](#nemo.jinx.v1beta1.Params) |  |  |
+| `params` | [Params](#nemo.hard.v1beta1.Params) |  |  |
 
 
 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryReservesRequest"></a>
+<a name="nemo.hard.v1beta1.QueryReservesRequest"></a>
 
 ### QueryReservesRequest
 QueryReservesRequest is the request type for the Query/Reserves RPC method.
@@ -4522,7 +4522,7 @@ QueryReservesRequest is the request type for the Query/Reserves RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryReservesResponse"></a>
+<a name="nemo.hard.v1beta1.QueryReservesResponse"></a>
 
 ### QueryReservesResponse
 QueryReservesResponse is the response type for the Query/Reserves RPC method.
@@ -4537,7 +4537,7 @@ QueryReservesResponse is the response type for the Query/Reserves RPC method.
 
 
 
-<a name="nemo.jinx.v1beta1.QueryTotalBorrowedRequest"></a>
+<a name="nemo.hard.v1beta1.QueryTotalBorrowedRequest"></a>
 
 ### QueryTotalBorrowedRequest
 QueryTotalBorrowedRequest is the request type for the Query/TotalBorrowed RPC method.
@@ -4552,7 +4552,7 @@ QueryTotalBorrowedRequest is the request type for the Query/TotalBorrowed RPC me
 
 
 
-<a name="nemo.jinx.v1beta1.QueryTotalBorrowedResponse"></a>
+<a name="nemo.hard.v1beta1.QueryTotalBorrowedResponse"></a>
 
 ### QueryTotalBorrowedResponse
 QueryTotalBorrowedResponse is the response type for the Query/TotalBorrowed RPC method.
@@ -4567,7 +4567,7 @@ QueryTotalBorrowedResponse is the response type for the Query/TotalBorrowed RPC 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryTotalDepositedRequest"></a>
+<a name="nemo.hard.v1beta1.QueryTotalDepositedRequest"></a>
 
 ### QueryTotalDepositedRequest
 QueryTotalDepositedRequest is the request type for the Query/TotalDeposited RPC method.
@@ -4582,7 +4582,7 @@ QueryTotalDepositedRequest is the request type for the Query/TotalDeposited RPC 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryTotalDepositedResponse"></a>
+<a name="nemo.hard.v1beta1.QueryTotalDepositedResponse"></a>
 
 ### QueryTotalDepositedResponse
 QueryTotalDepositedResponse is the response type for the Query/TotalDeposited RPC method.
@@ -4597,7 +4597,7 @@ QueryTotalDepositedResponse is the response type for the Query/TotalDeposited RP
 
 
 
-<a name="nemo.jinx.v1beta1.QueryUnsyncedBorrowsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryUnsyncedBorrowsRequest"></a>
 
 ### QueryUnsyncedBorrowsRequest
 QueryUnsyncedBorrowsRequest is the request type for the Query/UnsyncedBorrows RPC method.
@@ -4614,7 +4614,7 @@ QueryUnsyncedBorrowsRequest is the request type for the Query/UnsyncedBorrows RP
 
 
 
-<a name="nemo.jinx.v1beta1.QueryUnsyncedBorrowsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryUnsyncedBorrowsResponse"></a>
 
 ### QueryUnsyncedBorrowsResponse
 QueryUnsyncedBorrowsResponse is the response type for the Query/UnsyncedBorrows RPC method.
@@ -4622,7 +4622,7 @@ QueryUnsyncedBorrowsResponse is the response type for the Query/UnsyncedBorrows 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `borrows` | [BorrowResponse](#nemo.jinx.v1beta1.BorrowResponse) | repeated |  |
+| `borrows` | [BorrowResponse](#nemo.hard.v1beta1.BorrowResponse) | repeated |  |
 | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
 
 
@@ -4630,7 +4630,7 @@ QueryUnsyncedBorrowsResponse is the response type for the Query/UnsyncedBorrows 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryUnsyncedDepositsRequest"></a>
+<a name="nemo.hard.v1beta1.QueryUnsyncedDepositsRequest"></a>
 
 ### QueryUnsyncedDepositsRequest
 QueryUnsyncedDepositsRequest is the request type for the Query/UnsyncedDeposits RPC method.
@@ -4647,7 +4647,7 @@ QueryUnsyncedDepositsRequest is the request type for the Query/UnsyncedDeposits 
 
 
 
-<a name="nemo.jinx.v1beta1.QueryUnsyncedDepositsResponse"></a>
+<a name="nemo.hard.v1beta1.QueryUnsyncedDepositsResponse"></a>
 
 ### QueryUnsyncedDepositsResponse
 QueryUnsyncedDepositsResponse is the response type for the Query/UnsyncedDeposits RPC method.
@@ -4655,7 +4655,7 @@ QueryUnsyncedDepositsResponse is the response type for the Query/UnsyncedDeposit
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| `deposits` | [DepositResponse](#nemo.jinx.v1beta1.DepositResponse) | repeated |  |
+| `deposits` | [DepositResponse](#nemo.hard.v1beta1.DepositResponse) | repeated |  |
 | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
 
 
@@ -4663,7 +4663,7 @@ QueryUnsyncedDepositsResponse is the response type for the Query/UnsyncedDeposit
 
 
 
-<a name="nemo.jinx.v1beta1.SupplyInterestFactorResponse"></a>
+<a name="nemo.hard.v1beta1.SupplyInterestFactorResponse"></a>
 
 ### SupplyInterestFactorResponse
 SupplyInterestFactorResponse defines an individual borrow interest factor.
@@ -4685,37 +4685,37 @@ SupplyInterestFactorResponse defines an individual borrow interest factor.
  <!-- end HasExtensions -->
 
 
-<a name="nemo.jinx.v1beta1.Query"></a>
+<a name="nemo.hard.v1beta1.Query"></a>
 
 ### Query
 Query defines the gRPC querier service for bep3 module.
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `Params` | [QueryParamsRequest](#nemo.jinx.v1beta1.QueryParamsRequest) | [QueryParamsResponse](#nemo.jinx.v1beta1.QueryParamsResponse) | Params queries module params. | GET|/nemo/jinx/v1beta1/params|
-| `Accounts` | [QueryAccountsRequest](#nemo.jinx.v1beta1.QueryAccountsRequest) | [QueryAccountsResponse](#nemo.jinx.v1beta1.QueryAccountsResponse) | Accounts queries module accounts. | GET|/nemo/jinx/v1beta1/accounts|
-| `Deposits` | [QueryDepositsRequest](#nemo.jinx.v1beta1.QueryDepositsRequest) | [QueryDepositsResponse](#nemo.jinx.v1beta1.QueryDepositsResponse) | Deposits queries jinx deposits. | GET|/nemo/jinx/v1beta1/deposits|
-| `UnsyncedDeposits` | [QueryUnsyncedDepositsRequest](#nemo.jinx.v1beta1.QueryUnsyncedDepositsRequest) | [QueryUnsyncedDepositsResponse](#nemo.jinx.v1beta1.QueryUnsyncedDepositsResponse) | UnsyncedDeposits queries unsynced deposits. | GET|/nemo/jinx/v1beta1/unsynced-deposits|
-| `TotalDeposited` | [QueryTotalDepositedRequest](#nemo.jinx.v1beta1.QueryTotalDepositedRequest) | [QueryTotalDepositedResponse](#nemo.jinx.v1beta1.QueryTotalDepositedResponse) | TotalDeposited queries total coins deposited to jinx liquidity pools. | GET|/nemo/jinx/v1beta1/total-deposited|
-| `Borrows` | [QueryBorrowsRequest](#nemo.jinx.v1beta1.QueryBorrowsRequest) | [QueryBorrowsResponse](#nemo.jinx.v1beta1.QueryBorrowsResponse) | Borrows queries jinx borrows. | GET|/nemo/jinx/v1beta1/borrows|
-| `UnsyncedBorrows` | [QueryUnsyncedBorrowsRequest](#nemo.jinx.v1beta1.QueryUnsyncedBorrowsRequest) | [QueryUnsyncedBorrowsResponse](#nemo.jinx.v1beta1.QueryUnsyncedBorrowsResponse) | UnsyncedBorrows queries unsynced borrows. | GET|/nemo/jinx/v1beta1/unsynced-borrows|
-| `TotalBorrowed` | [QueryTotalBorrowedRequest](#nemo.jinx.v1beta1.QueryTotalBorrowedRequest) | [QueryTotalBorrowedResponse](#nemo.jinx.v1beta1.QueryTotalBorrowedResponse) | TotalBorrowed queries total coins borrowed from jinx liquidity pools. | GET|/nemo/jinx/v1beta1/total-borrowed|
-| `InterestRate` | [QueryInterestRateRequest](#nemo.jinx.v1beta1.QueryInterestRateRequest) | [QueryInterestRateResponse](#nemo.jinx.v1beta1.QueryInterestRateResponse) | InterestRate queries the jinx module interest rates. | GET|/nemo/jinx/v1beta1/interest-rate|
-| `Reserves` | [QueryReservesRequest](#nemo.jinx.v1beta1.QueryReservesRequest) | [QueryReservesResponse](#nemo.jinx.v1beta1.QueryReservesResponse) | Reserves queries total jinx reserve coins. | GET|/nemo/jinx/v1beta1/reserves|
-| `InterestFactors` | [QueryInterestFactorsRequest](#nemo.jinx.v1beta1.QueryInterestFactorsRequest) | [QueryInterestFactorsResponse](#nemo.jinx.v1beta1.QueryInterestFactorsResponse) | InterestFactors queries jinx module interest factors. | GET|/nemo/jinx/v1beta1/interest-factors|
+| `Params` | [QueryParamsRequest](#nemo.hard.v1beta1.QueryParamsRequest) | [QueryParamsResponse](#nemo.hard.v1beta1.QueryParamsResponse) | Params queries module params. | GET|/nemo/hard/v1beta1/params|
+| `Accounts` | [QueryAccountsRequest](#nemo.hard.v1beta1.QueryAccountsRequest) | [QueryAccountsResponse](#nemo.hard.v1beta1.QueryAccountsResponse) | Accounts queries module accounts. | GET|/nemo/hard/v1beta1/accounts|
+| `Deposits` | [QueryDepositsRequest](#nemo.hard.v1beta1.QueryDepositsRequest) | [QueryDepositsResponse](#nemo.hard.v1beta1.QueryDepositsResponse) | Deposits queries hard deposits. | GET|/nemo/hard/v1beta1/deposits|
+| `UnsyncedDeposits` | [QueryUnsyncedDepositsRequest](#nemo.hard.v1beta1.QueryUnsyncedDepositsRequest) | [QueryUnsyncedDepositsResponse](#nemo.hard.v1beta1.QueryUnsyncedDepositsResponse) | UnsyncedDeposits queries unsynced deposits. | GET|/nemo/hard/v1beta1/unsynced-deposits|
+| `TotalDeposited` | [QueryTotalDepositedRequest](#nemo.hard.v1beta1.QueryTotalDepositedRequest) | [QueryTotalDepositedResponse](#nemo.hard.v1beta1.QueryTotalDepositedResponse) | TotalDeposited queries total coins deposited to hard liquidity pools. | GET|/nemo/hard/v1beta1/total-deposited|
+| `Borrows` | [QueryBorrowsRequest](#nemo.hard.v1beta1.QueryBorrowsRequest) | [QueryBorrowsResponse](#nemo.hard.v1beta1.QueryBorrowsResponse) | Borrows queries hard borrows. | GET|/nemo/hard/v1beta1/borrows|
+| `UnsyncedBorrows` | [QueryUnsyncedBorrowsRequest](#nemo.hard.v1beta1.QueryUnsyncedBorrowsRequest) | [QueryUnsyncedBorrowsResponse](#nemo.hard.v1beta1.QueryUnsyncedBorrowsResponse) | UnsyncedBorrows queries unsynced borrows. | GET|/nemo/hard/v1beta1/unsynced-borrows|
+| `TotalBorrowed` | [QueryTotalBorrowedRequest](#nemo.hard.v1beta1.QueryTotalBorrowedRequest) | [QueryTotalBorrowedResponse](#nemo.hard.v1beta1.QueryTotalBorrowedResponse) | TotalBorrowed queries total coins borrowed from hard liquidity pools. | GET|/nemo/hard/v1beta1/total-borrowed|
+| `InterestRate` | [QueryInterestRateRequest](#nemo.hard.v1beta1.QueryInterestRateRequest) | [QueryInterestRateResponse](#nemo.hard.v1beta1.QueryInterestRateResponse) | InterestRate queries the hard module interest rates. | GET|/nemo/hard/v1beta1/interest-rate|
+| `Reserves` | [QueryReservesRequest](#nemo.hard.v1beta1.QueryReservesRequest) | [QueryReservesResponse](#nemo.hard.v1beta1.QueryReservesResponse) | Reserves queries total hard reserve coins. | GET|/nemo/hard/v1beta1/reserves|
+| `InterestFactors` | [QueryInterestFactorsRequest](#nemo.hard.v1beta1.QueryInterestFactorsRequest) | [QueryInterestFactorsResponse](#nemo.hard.v1beta1.QueryInterestFactorsResponse) | InterestFactors queries hard module interest factors. | GET|/nemo/hard/v1beta1/interest-factors|
 
  <!-- end services -->
 
 
 
-<a name="nemo/jinx/v1beta1/tx.proto"></a>
+<a name="nemo/hard/v1beta1/tx.proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## nemo/jinx/v1beta1/tx.proto
+## nemo/hard/v1beta1/tx.proto
 
 
 
-<a name="nemo.jinx.v1beta1.MsgBorrow"></a>
+<a name="nemo.hard.v1beta1.MsgBorrow"></a>
 
 ### MsgBorrow
 MsgBorrow defines the Msg/Borrow request type.
@@ -4731,7 +4731,7 @@ MsgBorrow defines the Msg/Borrow request type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgBorrowResponse"></a>
+<a name="nemo.hard.v1beta1.MsgBorrowResponse"></a>
 
 ### MsgBorrowResponse
 MsgBorrowResponse defines the Msg/Borrow response type.
@@ -4741,7 +4741,7 @@ MsgBorrowResponse defines the Msg/Borrow response type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgDeposit"></a>
+<a name="nemo.hard.v1beta1.MsgDeposit"></a>
 
 ### MsgDeposit
 MsgDeposit defines the Msg/Deposit request type.
@@ -4757,7 +4757,7 @@ MsgDeposit defines the Msg/Deposit request type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgDepositResponse"></a>
+<a name="nemo.hard.v1beta1.MsgDepositResponse"></a>
 
 ### MsgDepositResponse
 MsgDepositResponse defines the Msg/Deposit response type.
@@ -4767,7 +4767,7 @@ MsgDepositResponse defines the Msg/Deposit response type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgLiquidate"></a>
+<a name="nemo.hard.v1beta1.MsgLiquidate"></a>
 
 ### MsgLiquidate
 MsgLiquidate defines the Msg/Liquidate request type.
@@ -4783,7 +4783,7 @@ MsgLiquidate defines the Msg/Liquidate request type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgLiquidateResponse"></a>
+<a name="nemo.hard.v1beta1.MsgLiquidateResponse"></a>
 
 ### MsgLiquidateResponse
 MsgLiquidateResponse defines the Msg/Liquidate response type.
@@ -4793,7 +4793,7 @@ MsgLiquidateResponse defines the Msg/Liquidate response type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgRepay"></a>
+<a name="nemo.hard.v1beta1.MsgRepay"></a>
 
 ### MsgRepay
 MsgRepay defines the Msg/Repay request type.
@@ -4810,7 +4810,7 @@ MsgRepay defines the Msg/Repay request type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgRepayResponse"></a>
+<a name="nemo.hard.v1beta1.MsgRepayResponse"></a>
 
 ### MsgRepayResponse
 MsgRepayResponse defines the Msg/Repay response type.
@@ -4820,7 +4820,7 @@ MsgRepayResponse defines the Msg/Repay response type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgWithdraw"></a>
+<a name="nemo.hard.v1beta1.MsgWithdraw"></a>
 
 ### MsgWithdraw
 MsgWithdraw defines the Msg/Withdraw request type.
@@ -4836,7 +4836,7 @@ MsgWithdraw defines the Msg/Withdraw request type.
 
 
 
-<a name="nemo.jinx.v1beta1.MsgWithdrawResponse"></a>
+<a name="nemo.hard.v1beta1.MsgWithdrawResponse"></a>
 
 ### MsgWithdrawResponse
 MsgWithdrawResponse defines the Msg/Withdraw response type.
@@ -4852,18 +4852,18 @@ MsgWithdrawResponse defines the Msg/Withdraw response type.
  <!-- end HasExtensions -->
 
 
-<a name="nemo.jinx.v1beta1.Msg"></a>
+<a name="nemo.hard.v1beta1.Msg"></a>
 
 ### Msg
-Msg defines the jinx Msg service.
+Msg defines the hard Msg service.
 
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
-| `Deposit` | [MsgDeposit](#nemo.jinx.v1beta1.MsgDeposit) | [MsgDepositResponse](#nemo.jinx.v1beta1.MsgDepositResponse) | Deposit defines a method for depositing funds to jinx liquidity pool. | |
-| `Withdraw` | [MsgWithdraw](#nemo.jinx.v1beta1.MsgWithdraw) | [MsgWithdrawResponse](#nemo.jinx.v1beta1.MsgWithdrawResponse) | Withdraw defines a method for withdrawing funds from jinx liquidity pool. | |
-| `Borrow` | [MsgBorrow](#nemo.jinx.v1beta1.MsgBorrow) | [MsgBorrowResponse](#nemo.jinx.v1beta1.MsgBorrowResponse) | Borrow defines a method for borrowing funds from jinx liquidity pool. | |
-| `Repay` | [MsgRepay](#nemo.jinx.v1beta1.MsgRepay) | [MsgRepayResponse](#nemo.jinx.v1beta1.MsgRepayResponse) | Repay defines a method for repaying funds borrowed from jinx liquidity pool. | |
-| `Liquidate` | [MsgLiquidate](#nemo.jinx.v1beta1.MsgLiquidate) | [MsgLiquidateResponse](#nemo.jinx.v1beta1.MsgLiquidateResponse) | Liquidate defines a method for attempting to liquidate a borrower that is over their loan-to-value. | |
+| `Deposit` | [MsgDeposit](#nemo.hard.v1beta1.MsgDeposit) | [MsgDepositResponse](#nemo.hard.v1beta1.MsgDepositResponse) | Deposit defines a method for depositing funds to hard liquidity pool. | |
+| `Withdraw` | [MsgWithdraw](#nemo.hard.v1beta1.MsgWithdraw) | [MsgWithdrawResponse](#nemo.hard.v1beta1.MsgWithdrawResponse) | Withdraw defines a method for withdrawing funds from hard liquidity pool. | |
+| `Borrow` | [MsgBorrow](#nemo.hard.v1beta1.MsgBorrow) | [MsgBorrowResponse](#nemo.hard.v1beta1.MsgBorrowResponse) | Borrow defines a method for borrowing funds from hard liquidity pool. | |
+| `Repay` | [MsgRepay](#nemo.hard.v1beta1.MsgRepay) | [MsgRepayResponse](#nemo.hard.v1beta1.MsgRepayResponse) | Repay defines a method for repaying funds borrowed from hard liquidity pool. | |
+| `Liquidate` | [MsgLiquidate](#nemo.hard.v1beta1.MsgLiquidate) | [MsgLiquidateResponse](#nemo.hard.v1beta1.MsgLiquidateResponse) | Liquidate defines a method for attempting to liquidate a borrower that is over their loan-to-value. | |
 
  <!-- end services -->
 
@@ -4973,10 +4973,10 @@ EarnClaim stores the earn rewards that can be claimed by owner
 
 
 
-<a name="nemo.incentive.v1beta1.JinxLiquidityProviderClaim"></a>
+<a name="nemo.incentive.v1beta1.HardLiquidityProviderClaim"></a>
 
-### JinxLiquidityProviderClaim
-JinxLiquidityProviderClaim stores the jinx liquidity provider rewards that can be claimed by owner
+### HardLiquidityProviderClaim
+HardLiquidityProviderClaim stores the hard liquidity provider rewards that can be claimed by owner
 
 
 | Field | Type | Label | Description |
@@ -5177,8 +5177,8 @@ Params
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `musd_minting_reward_periods` | [RewardPeriod](#nemo.incentive.v1beta1.RewardPeriod) | repeated |  |
-| `jinx_supply_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
-| `jinx_borrow_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
+| `hard_supply_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
+| `hard_borrow_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
 | `delegator_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
 | `swap_reward_periods` | [MultiRewardPeriod](#nemo.incentive.v1beta1.MultiRewardPeriod) | repeated |  |
 | `claim_multipliers` | [MultipliersPerDenom](#nemo.incentive.v1beta1.MultipliersPerDenom) | repeated |  |
@@ -5268,12 +5268,12 @@ GenesisState is the state that must be provided at genesis.
 | ----- | ---- | ----- | ----------- |
 | `params` | [Params](#nemo.incentive.v1beta1.Params) |  |  |
 | `musd_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
-| `jinx_supply_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
-| `jinx_borrow_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
+| `hard_supply_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
+| `hard_borrow_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
 | `delegator_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
 | `swap_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
 | `musd_minting_claims` | [MUSDMintingClaim](#nemo.incentive.v1beta1.MUSDMintingClaim) | repeated |  |
-| `jinx_liquidity_provider_claims` | [JinxLiquidityProviderClaim](#nemo.incentive.v1beta1.JinxLiquidityProviderClaim) | repeated |  |
+| `hard_liquidity_provider_claims` | [HardLiquidityProviderClaim](#nemo.incentive.v1beta1.HardLiquidityProviderClaim) | repeated |  |
 | `delegator_claims` | [DelegatorClaim](#nemo.incentive.v1beta1.DelegatorClaim) | repeated |  |
 | `swap_claims` | [SwapClaim](#nemo.incentive.v1beta1.SwapClaim) | repeated |  |
 | `savings_reward_state` | [GenesisRewardState](#nemo.incentive.v1beta1.GenesisRewardState) |  |  |
@@ -5371,8 +5371,8 @@ QueryRewardFactorsResponse is the response type for the Query/RewardFactors RPC 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `musd_minting_reward_factors` | [RewardIndex](#nemo.incentive.v1beta1.RewardIndex) | repeated |  |
-| `jinx_supply_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
-| `jinx_borrow_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
+| `hard_supply_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
+| `hard_borrow_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
 | `delegator_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
 | `swap_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
 | `savings_reward_factors` | [MultiRewardIndex](#nemo.incentive.v1beta1.MultiRewardIndex) | repeated |  |
@@ -5392,7 +5392,7 @@ QueryRewardsRequest is the request type for the Query/Rewards RPC method.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `owner` | [string](#string) |  | owner is the address of the user to query rewards for. |
-| `reward_type` | [string](#string) |  | reward_type is the type of reward to query rewards for, e.g. jinx, earn, swap. |
+| `reward_type` | [string](#string) |  | reward_type is the type of reward to query rewards for, e.g. hard, earn, swap. |
 | `unsynchronized` | [bool](#bool) |  | unsynchronized is a flag to query rewards that are not simulated for reward synchronized for the current block. |
 
 
@@ -5409,7 +5409,7 @@ QueryRewardsResponse is the response type for the Query/Rewards RPC method.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | `musd_minting_claims` | [MUSDMintingClaim](#nemo.incentive.v1beta1.MUSDMintingClaim) | repeated |  |
-| `jinx_liquidity_provider_claims` | [JinxLiquidityProviderClaim](#nemo.incentive.v1beta1.JinxLiquidityProviderClaim) | repeated |  |
+| `hard_liquidity_provider_claims` | [HardLiquidityProviderClaim](#nemo.incentive.v1beta1.HardLiquidityProviderClaim) | repeated |  |
 | `delegator_claims` | [DelegatorClaim](#nemo.incentive.v1beta1.DelegatorClaim) | repeated |  |
 | `swap_claims` | [SwapClaim](#nemo.incentive.v1beta1.SwapClaim) | repeated |  |
 | `savings_claims` | [SavingsClaim](#nemo.incentive.v1beta1.SavingsClaim) | repeated |  |
@@ -5501,10 +5501,10 @@ MsgClaimEarnRewardResponse defines the Msg/ClaimEarnReward response type.
 
 
 
-<a name="nemo.incentive.v1beta1.MsgClaimJinxReward"></a>
+<a name="nemo.incentive.v1beta1.MsgClaimHardReward"></a>
 
-### MsgClaimJinxReward
-MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
+### MsgClaimHardReward
+MsgClaimHardReward message type used to claim Hard liquidity provider rewards
 
 
 | Field | Type | Label | Description |
@@ -5517,10 +5517,10 @@ MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
 
 
 
-<a name="nemo.incentive.v1beta1.MsgClaimJinxRewardResponse"></a>
+<a name="nemo.incentive.v1beta1.MsgClaimHardRewardResponse"></a>
 
-### MsgClaimJinxRewardResponse
-MsgClaimJinxRewardResponse defines the Msg/ClaimJinxReward response type.
+### MsgClaimHardRewardResponse
+MsgClaimHardRewardResponse defines the Msg/ClaimHardReward response type.
 
 
 
@@ -5636,7 +5636,7 @@ Msg defines the incentive Msg service.
 | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
 | ----------- | ------------ | ------------- | ------------| ------- | -------- |
 | `ClaimMUSDMintingReward` | [MsgClaimMUSDMintingReward](#nemo.incentive.v1beta1.MsgClaimMUSDMintingReward) | [MsgClaimMUSDMintingRewardResponse](#nemo.incentive.v1beta1.MsgClaimMUSDMintingRewardResponse) | ClaimMUSDMintingReward is a message type used to claim MUSD minting rewards | |
-| `ClaimJinxReward` | [MsgClaimJinxReward](#nemo.incentive.v1beta1.MsgClaimJinxReward) | [MsgClaimJinxRewardResponse](#nemo.incentive.v1beta1.MsgClaimJinxRewardResponse) | ClaimJinxReward is a message type used to claim Jinx liquidity provider rewards | |
+| `ClaimHardReward` | [MsgClaimHardReward](#nemo.incentive.v1beta1.MsgClaimHardReward) | [MsgClaimHardRewardResponse](#nemo.incentive.v1beta1.MsgClaimHardRewardResponse) | ClaimHardReward is a message type used to claim Hard liquidity provider rewards | |
 | `ClaimDelegatorReward` | [MsgClaimDelegatorReward](#nemo.incentive.v1beta1.MsgClaimDelegatorReward) | [MsgClaimDelegatorRewardResponse](#nemo.incentive.v1beta1.MsgClaimDelegatorRewardResponse) | ClaimDelegatorReward is a message type used to claim delegator rewards | |
 | `ClaimSwapReward` | [MsgClaimSwapReward](#nemo.incentive.v1beta1.MsgClaimSwapReward) | [MsgClaimSwapRewardResponse](#nemo.incentive.v1beta1.MsgClaimSwapRewardResponse) | ClaimSwapReward is a message type used to claim swap rewards | |
 | `ClaimSavingsReward` | [MsgClaimSavingsReward](#nemo.incentive.v1beta1.MsgClaimSavingsReward) | [MsgClaimSavingsRewardResponse](#nemo.incentive.v1beta1.MsgClaimSavingsRewardResponse) | ClaimSavingsReward is a message type used to claim savings rewards | |

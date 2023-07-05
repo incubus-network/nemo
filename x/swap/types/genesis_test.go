@@ -118,7 +118,7 @@ func TestGenesis_JSONEncoding(t *testing.T) {
 					"token_b": "musd"
 				},
 			  {
-			    "token_a": "jinx",
+			    "token_a": "hard",
 					"token_b": "busd"
 				}
 			],
@@ -132,7 +132,7 @@ func TestGenesis_JSONEncoding(t *testing.T) {
 			  "total_shares": "3000000"
 			},
 		  {
-			  "pool_id": "jinx:musd",
+			  "pool_id": "hard:musd",
 			  "reserves_a": { "denom": "ufury", "amount": "1000000" },
 			  "reserves_b": { "denom": "musd", "amount": "2000000" },
 			  "total_shares": "2000000"
@@ -146,7 +146,7 @@ func TestGenesis_JSONEncoding(t *testing.T) {
 			},
 		  {
 		    "depositor": "fury1esagqd83rhqdtpy5sxhklaxgn58k2m3sa9wnu4",
-		    "pool_id": "jinx:musd",
+		    "pool_id": "hard:musd",
 		    "shares_owned": "200000"
 			}
 		]
@@ -167,7 +167,7 @@ func TestGenesis_YAMLEncoding(t *testing.T) {
   allowed_pools:
   - token_a: ufury
     token_b: musd
-  - token_a: jinx
+  - token_a: hard
     token_b: busd
   swap_fee: "0.003000000000000000"
 pool_records:
@@ -179,10 +179,10 @@ pool_records:
     amount: "5000000"
     denom: musd
   total_shares: "3000000"
-- pool_id: jinx:musd
+- pool_id: hard:musd
   reserves_a:
     amount: "1000000"
-    denom: jinx
+    denom: hard
   reserves_b:
     amount: "2000000"
     denom: musd
@@ -192,7 +192,7 @@ share_records:
   pool_id: ufury:musd
   shares_owned: "100000"
 - depositor: fury1esagqd83rhqdtpy5sxhklaxgn58k2m3sa9wnu4
-  pool_id: jinx:musd
+  pool_id: hard:musd
   shares_owned: "200000"
 `
 
@@ -205,17 +205,17 @@ share_records:
 		types.NewParams(
 			types.NewAllowedPools(
 				types.NewAllowedPool("ufury", "musd"),
-				types.NewAllowedPool("jinx", "busd"),
+				types.NewAllowedPool("hard", "busd"),
 			),
 			sdk.MustNewDecFromStr("0.003"),
 		),
 		types.PoolRecords{
 			types.NewPoolRecord(sdk.NewCoins(ufury(1e6), musd(5e6)), i(3e6)),
-			types.NewPoolRecord(sdk.NewCoins(jinx(1e6), musd(2e6)), i(15e5)),
+			types.NewPoolRecord(sdk.NewCoins(hard(1e6), musd(2e6)), i(15e5)),
 		},
 		types.ShareRecords{
 			types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), i(1e5)),
-			types.NewShareRecord(depositor_2, types.PoolID("jinx", "musd"), i(2e5)),
+			types.NewShareRecord(depositor_2, types.PoolID("hard", "musd"), i(2e5)),
 		},
 	)
 
@@ -294,28 +294,28 @@ func TestGenesis_Validate_PoolShareIntegration(t *testing.T) {
 			name: "more than one pool records, more than one share record",
 			poolRecords: types.PoolRecords{
 				types.NewPoolRecord(sdk.NewCoins(ufury(1e6), musd(5e6)), i(3e6)),
-				types.NewPoolRecord(sdk.NewCoins(jinx(1e6), musd(2e6)), i(2e6)),
+				types.NewPoolRecord(sdk.NewCoins(hard(1e6), musd(2e6)), i(2e6)),
 			},
 			shareRecords: types.ShareRecords{
 				types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), i(15e5)),
 				types.NewShareRecord(depositor_2, types.PoolID("ufury", "musd"), i(15e5)),
-				types.NewShareRecord(depositor_1, types.PoolID("jinx", "musd"), i(1e6)),
+				types.NewShareRecord(depositor_1, types.PoolID("hard", "musd"), i(1e6)),
 			},
-			expectedErr: "total depositor shares 1000000 not equal to pool 'jinx:musd' total shares 2000000",
+			expectedErr: "total depositor shares 1000000 not equal to pool 'hard:musd' total shares 2000000",
 		},
 		{
 			name: "valid case with many pool records and share records",
 			poolRecords: types.PoolRecords{
 				types.NewPoolRecord(sdk.NewCoins(ufury(1e6), musd(5e6)), i(3e6)),
-				types.NewPoolRecord(sdk.NewCoins(jinx(1e6), musd(2e6)), i(2e6)),
-				types.NewPoolRecord(sdk.NewCoins(jinx(7e6), ufury(10e6)), i(8e6)),
+				types.NewPoolRecord(sdk.NewCoins(hard(1e6), musd(2e6)), i(2e6)),
+				types.NewPoolRecord(sdk.NewCoins(hard(7e6), ufury(10e6)), i(8e6)),
 			},
 			shareRecords: types.ShareRecords{
 				types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), i(15e5)),
 				types.NewShareRecord(depositor_2, types.PoolID("ufury", "musd"), i(15e5)),
-				types.NewShareRecord(depositor_1, types.PoolID("jinx", "musd"), i(2e6)),
-				types.NewShareRecord(depositor_1, types.PoolID("jinx", "ufury"), i(3e6)),
-				types.NewShareRecord(depositor_2, types.PoolID("jinx", "ufury"), i(5e6)),
+				types.NewShareRecord(depositor_1, types.PoolID("hard", "musd"), i(2e6)),
+				types.NewShareRecord(depositor_1, types.PoolID("hard", "ufury"), i(3e6)),
+				types.NewShareRecord(depositor_2, types.PoolID("hard", "ufury"), i(5e6)),
 			},
 			expectedErr: "",
 		},

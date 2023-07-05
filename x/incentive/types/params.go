@@ -16,8 +16,8 @@ import (
 // Parameter keys and default values
 var (
 	KeyMUSDMintingRewardPeriods = []byte("MUSDMintingRewardPeriods")
-	KeyJinxSupplyRewardPeriods  = []byte("JinxSupplyRewardPeriods")
-	KeyJinxBorrowRewardPeriods  = []byte("JinxBorrowRewardPeriods")
+	KeyHardSupplyRewardPeriods  = []byte("HardSupplyRewardPeriods")
+	KeyHardBorrowRewardPeriods  = []byte("HardBorrowRewardPeriods")
 	KeyDelegatorRewardPeriods   = []byte("DelegatorRewardPeriods")
 	KeySwapRewardPeriods        = []byte("SwapRewardPeriods")
 	KeySavingsRewardPeriods     = []byte("SavingsRewardPeriods")
@@ -41,14 +41,14 @@ var (
 func NewParams(
 	musdMinting RewardPeriods,
 	// MultiRewardPeriods
-	jinxSupply, jinxBorrow, delegator, swap, savings, earn MultiRewardPeriods,
+	hardSupply, hardBorrow, delegator, swap, savings, earn MultiRewardPeriods,
 	multipliers MultipliersPerDenoms,
 	claimEnd time.Time,
 ) Params {
 	return Params{
 		MUSDMintingRewardPeriods: musdMinting,
-		JinxSupplyRewardPeriods:  jinxSupply,
-		JinxBorrowRewardPeriods:  jinxBorrow,
+		HardSupplyRewardPeriods:  hardSupply,
+		HardBorrowRewardPeriods:  hardBorrow,
 		DelegatorRewardPeriods:   delegator,
 		SwapRewardPeriods:        swap,
 		SavingsRewardPeriods:     savings,
@@ -81,8 +81,8 @@ func ParamKeyTable() paramtypes.KeyTable {
 func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
 		paramtypes.NewParamSetPair(KeyMUSDMintingRewardPeriods, &p.MUSDMintingRewardPeriods, validateRewardPeriodsParam),
-		paramtypes.NewParamSetPair(KeyJinxSupplyRewardPeriods, &p.JinxSupplyRewardPeriods, validateMultiRewardPeriodsParam),
-		paramtypes.NewParamSetPair(KeyJinxBorrowRewardPeriods, &p.JinxBorrowRewardPeriods, validateMultiRewardPeriodsParam),
+		paramtypes.NewParamSetPair(KeyHardSupplyRewardPeriods, &p.HardSupplyRewardPeriods, validateMultiRewardPeriodsParam),
+		paramtypes.NewParamSetPair(KeyHardBorrowRewardPeriods, &p.HardBorrowRewardPeriods, validateMultiRewardPeriodsParam),
 		paramtypes.NewParamSetPair(KeyDelegatorRewardPeriods, &p.DelegatorRewardPeriods, validateMultiRewardPeriodsParam),
 		paramtypes.NewParamSetPair(KeySwapRewardPeriods, &p.SwapRewardPeriods, validateMultiRewardPeriodsParam),
 		paramtypes.NewParamSetPair(KeySavingsRewardPeriods, &p.SavingsRewardPeriods, validateMultiRewardPeriodsParam),
@@ -102,11 +102,11 @@ func (p Params) Validate() error {
 		return err
 	}
 
-	if err := validateMultiRewardPeriodsParam(p.JinxSupplyRewardPeriods); err != nil {
+	if err := validateMultiRewardPeriodsParam(p.HardSupplyRewardPeriods); err != nil {
 		return err
 	}
 
-	if err := validateMultiRewardPeriodsParam(p.JinxBorrowRewardPeriods); err != nil {
+	if err := validateMultiRewardPeriodsParam(p.HardBorrowRewardPeriods); err != nil {
 		return err
 	}
 

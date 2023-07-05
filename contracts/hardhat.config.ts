@@ -1,11 +1,11 @@
-import { JinxhatUserConfig } from "hardhat/config";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
-const config: JinxhatUserConfig = {
+const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.18",
     settings: {
-      // istanbul upgrade occurred before the london jinxfork, so is compatible with nemo's evm
+      // istanbul upgrade occurred before the london hardfork, so is compatible with nemo's evm
       evmVersion: "istanbul",
       // optimize build for deployment to mainnet!
       optimizer: {

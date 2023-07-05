@@ -16,13 +16,13 @@ type GenesisState struct {
 	Params Params `json:"params" yaml:"params"`
 
 	MUSDRewardState       GenesisRewardState `json:"musd_reward_state" yaml:"musd_reward_state"`
-	JinxSupplyRewardState GenesisRewardState `json:"jinx_supply_reward_state" yaml:"jinx_supply_reward_state"`
-	JinxBorrowRewardState GenesisRewardState `json:"jinx_borrow_reward_state" yaml:"jinx_borrow_reward_state"`
+	HardSupplyRewardState GenesisRewardState `json:"hard_supply_reward_state" yaml:"hard_supply_reward_state"`
+	HardBorrowRewardState GenesisRewardState `json:"hard_borrow_reward_state" yaml:"hard_borrow_reward_state"`
 	DelegatorRewardState  GenesisRewardState `json:"delegator_reward_state" yaml:"delegator_reward_state"`
 	SwapRewardState       GenesisRewardState `json:"swap_reward_state" yaml:"swap_reward_state"`
 
 	MUSDMintingClaims           MUSDMintingClaims           `json:"musd_minting_claims" yaml:"musd_minting_claims"`
-	JinxLiquidityProviderClaims JinxLiquidityProviderClaims `json:"jinx_liquidity_provider_claims" yaml:"jinx_liquidity_provider_claims"`
+	HardLiquidityProviderClaims HardLiquidityProviderClaims `json:"hard_liquidity_provider_claims" yaml:"hard_liquidity_provider_claims"`
 	DelegatorClaims             DelegatorClaims             `json:"delegator_claims" yaml:"delegator_claims"`
 	SwapClaims                  SwapClaims                  `json:"swap_claims" yaml:"swap_claims"`
 }
@@ -30,8 +30,8 @@ type GenesisState struct {
 // Params governance parameters for the incentive module
 type Params struct {
 	MUSDMintingRewardPeriods RewardPeriods       `json:"musd_minting_reward_periods" yaml:"musd_minting_reward_periods"`
-	JinxSupplyRewardPeriods  MultiRewardPeriods  `json:"jinx_supply_reward_periods" yaml:"jinx_supply_reward_periods"`
-	JinxBorrowRewardPeriods  MultiRewardPeriods  `json:"jinx_borrow_reward_periods" yaml:"jinx_borrow_reward_periods"`
+	HardSupplyRewardPeriods  MultiRewardPeriods  `json:"hard_supply_reward_periods" yaml:"hard_supply_reward_periods"`
+	HardBorrowRewardPeriods  MultiRewardPeriods  `json:"hard_borrow_reward_periods" yaml:"hard_borrow_reward_periods"`
 	DelegatorRewardPeriods   MultiRewardPeriods  `json:"delegator_reward_periods" yaml:"delegator_reward_periods"`
 	SwapRewardPeriods        MultiRewardPeriods  `json:"swap_reward_periods" yaml:"swap_reward_periods"`
 	ClaimMultipliers         MultipliersPerDenom `json:"claim_multipliers" yaml:"claim_multipliers"`
@@ -98,11 +98,11 @@ type BaseClaim struct {
 	Reward sdk.Coin       `json:"reward" yaml:"reward"`
 }
 
-// JinxLiquidityProviderClaims slice of JinxLiquidityProviderClaim
-type JinxLiquidityProviderClaims []JinxLiquidityProviderClaim
+// HardLiquidityProviderClaims slice of HardLiquidityProviderClaim
+type HardLiquidityProviderClaims []HardLiquidityProviderClaim
 
-// JinxLiquidityProviderClaim stores the jinx liquidity provider rewards that can be claimed by owner
-type JinxLiquidityProviderClaim struct {
+// HardLiquidityProviderClaim stores the hard liquidity provider rewards that can be claimed by owner
+type HardLiquidityProviderClaim struct {
 	BaseMultiClaim      `json:"base_claim" yaml:"base_claim"`
 	SupplyRewardIndexes MultiRewardIndexes `json:"supply_reward_indexes" yaml:"supply_reward_indexes"`
 	BorrowRewardIndexes MultiRewardIndexes `json:"borrow_reward_indexes" yaml:"borrow_reward_indexes"`

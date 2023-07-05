@@ -270,7 +270,7 @@ func (suite *keeperTestSuite) TestAddVote() {
 		time.Hour*24*7,
 		types.TALLY_OPTION_FIRST_PAST_THE_POST,
 		sdk.Dec{},
-		"jinx",
+		"hard",
 	)
 	nonMemberAddr := suite.Addresses[4]
 	firstBlockTime := time.Date(1998, time.January, 1, 1, 0, 0, 0, time.UTC)
@@ -441,7 +441,7 @@ func (suite *keeperTestSuite) TestTallyTokenCommitteeVotes() {
 		time.Hour*24*7,
 		types.TALLY_OPTION_DEADLINE,
 		testutil.D("0.4"),
-		"jinx",
+		"hard",
 	)
 	var defaultProposalID uint64 = 1
 	firstBlockTime := time.Date(1998, time.January, 1, 1, 0, 0, 0, time.UTC)
@@ -538,7 +538,7 @@ func (suite *keeperTestSuite) TestTallyTokenCommitteeVotes() {
 	var genCoins []sdk.Coins
 	var totalSupply sdk.Coins
 	for _, amount := range genCoinCounts {
-		userCoin := testutil.C("jinx", amount)
+		userCoin := testutil.C("hard", amount)
 		genCoins = append(genCoins, testutil.Cs(userCoin))
 		totalSupply = totalSupply.Add(userCoin)
 	}
@@ -656,7 +656,7 @@ func (suite *keeperTestSuite) TestGetTokenCommitteeProposalResult() {
 		time.Hour*24*7,
 		types.TALLY_OPTION_DEADLINE,
 		testutil.D("0.4"),
-		"jinx",
+		"hard",
 	)
 	var defaultID uint64 = 1
 	firstBlockTime := time.Date(1998, time.January, 1, 1, 0, 0, 0, time.UTC)
@@ -665,7 +665,7 @@ func (suite *keeperTestSuite) TestGetTokenCommitteeProposalResult() {
 	genCoinCounts := []int64{0, 0, 0, 10, 20, 30, 40, 50} // Genesis token balances
 
 	// ---------------------- Polling information ----------------------
-	//	150jinx total token supply: 150 possible votes
+	//	150hard total token supply: 150 possible votes
 	//  40% quroum: 60 votes required to meet quroum
 	//  66.67% voting threshold: 2/3rds of votes must be Yes votes
 	// -----------------------------------------------------------------
@@ -741,7 +741,7 @@ func (suite *keeperTestSuite) TestGetTokenCommitteeProposalResult() {
 	var genCoins []sdk.Coins
 	var totalSupply sdk.Coins
 	for _, amount := range genCoinCounts {
-		userCoin := testutil.C("jinx", amount)
+		userCoin := testutil.C("hard", amount)
 		genCoins = append(genCoins, testutil.Cs(userCoin))
 		totalSupply = totalSupply.Add(userCoin)
 	}
@@ -965,7 +965,7 @@ var _ types.PubProposal = &UnregisteredPubProposal{}
 // 	var genCoins []sdk.Coins
 // 	var totalSupply sdk.Coins
 // 	for _, amount := range genCoinCounts {
-// 		userCoin := testutil.C("jinx", amount)
+// 		userCoin := testutil.C("hard", amount)
 // 		genCoins = append(genCoins, testutil.Cs(userCoin))
 // 		totalSupply = totalSupply.Add(userCoin)
 // 	}
@@ -994,7 +994,7 @@ var _ types.PubProposal = &UnregisteredPubProposal{}
 // 			time.Hour*24*7,
 // 			types.TALLY_OPTION_FIRST_PAST_THE_POST,
 // 			testutil.D("0.30"),
-// 			"jinx",
+// 			"hard",
 // 		),
 // 		// 	3. Deadline MemberCommmittee
 // 		types.MustNewMemberCommittee(
@@ -1017,7 +1017,7 @@ var _ types.PubProposal = &UnregisteredPubProposal{}
 // 			time.Hour*24*7,
 // 			types.TALLY_OPTION_DEADLINE,
 // 			testutil.D("0.30"),
-// 			"jinx",
+// 			"hard",
 // 		),
 // 		// 	5. PTP MemberCommmittee without permissions
 // 		types.MustNewMemberCommittee(

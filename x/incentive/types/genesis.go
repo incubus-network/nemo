@@ -7,7 +7,7 @@ import (
 
 var (
 	DefaultMUSDClaims         = MUSDMintingClaims{}
-	DefaultJinxClaims         = JinxLiquidityProviderClaims{}
+	DefaultHardClaims         = HardLiquidityProviderClaims{}
 	DefaultDelegatorClaims    = DelegatorClaims{}
 	DefaultSwapClaims         = SwapClaims{}
 	DefaultSavingsClaims      = SavingsClaims{}
@@ -21,23 +21,23 @@ var (
 // NewGenesisState returns a new genesis state
 func NewGenesisState(
 	params Params,
-	musdState, jinxSupplyState, jinxBorrowState, delegatorState, swapState, savingsState, earnState GenesisRewardState,
-	c MUSDMintingClaims, hc JinxLiquidityProviderClaims, dc DelegatorClaims, sc SwapClaims, savingsc SavingsClaims,
+	musdState, hardSupplyState, hardBorrowState, delegatorState, swapState, savingsState, earnState GenesisRewardState,
+	c MUSDMintingClaims, hc HardLiquidityProviderClaims, dc DelegatorClaims, sc SwapClaims, savingsc SavingsClaims,
 	earnc EarnClaims,
 ) GenesisState {
 	return GenesisState{
 		Params: params,
 
 		MUSDRewardState:       musdState,
-		JinxSupplyRewardState: jinxSupplyState,
-		JinxBorrowRewardState: jinxBorrowState,
+		HardSupplyRewardState: hardSupplyState,
+		HardBorrowRewardState: hardBorrowState,
 		DelegatorRewardState:  delegatorState,
 		SwapRewardState:       swapState,
 		SavingsRewardState:    savingsState,
 		EarnRewardState:       earnState,
 
 		MUSDMintingClaims:           c,
-		JinxLiquidityProviderClaims: hc,
+		HardLiquidityProviderClaims: hc,
 		DelegatorClaims:             dc,
 		SwapClaims:                  sc,
 		SavingsClaims:               savingsc,
@@ -50,14 +50,14 @@ func DefaultGenesisState() GenesisState {
 	return GenesisState{
 		Params:                      DefaultParams(),
 		MUSDRewardState:             DefaultGenesisRewardState,
-		JinxSupplyRewardState:       DefaultGenesisRewardState,
-		JinxBorrowRewardState:       DefaultGenesisRewardState,
+		HardSupplyRewardState:       DefaultGenesisRewardState,
+		HardBorrowRewardState:       DefaultGenesisRewardState,
 		DelegatorRewardState:        DefaultGenesisRewardState,
 		SwapRewardState:             DefaultGenesisRewardState,
 		SavingsRewardState:          DefaultGenesisRewardState,
 		EarnRewardState:             DefaultGenesisRewardState,
 		MUSDMintingClaims:           DefaultMUSDClaims,
-		JinxLiquidityProviderClaims: DefaultJinxClaims,
+		HardLiquidityProviderClaims: DefaultHardClaims,
 		DelegatorClaims:             DefaultDelegatorClaims,
 		SwapClaims:                  DefaultSwapClaims,
 		SavingsClaims:               DefaultSavingsClaims,
@@ -75,10 +75,10 @@ func (gs GenesisState) Validate() error {
 	if err := gs.MUSDRewardState.Validate(); err != nil {
 		return err
 	}
-	if err := gs.JinxSupplyRewardState.Validate(); err != nil {
+	if err := gs.HardSupplyRewardState.Validate(); err != nil {
 		return err
 	}
-	if err := gs.JinxBorrowRewardState.Validate(); err != nil {
+	if err := gs.HardBorrowRewardState.Validate(); err != nil {
 		return err
 	}
 	if err := gs.DelegatorRewardState.Validate(); err != nil {
@@ -97,7 +97,7 @@ func (gs GenesisState) Validate() error {
 	if err := gs.MUSDMintingClaims.Validate(); err != nil {
 		return err
 	}
-	if err := gs.JinxLiquidityProviderClaims.Validate(); err != nil {
+	if err := gs.HardLiquidityProviderClaims.Validate(); err != nil {
 		return err
 	}
 	if err := gs.DelegatorClaims.Validate(); err != nil {

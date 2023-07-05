@@ -210,13 +210,13 @@ func TestAllowedVaultsValidate(t *testing.T) {
 			vaultRecords: types.AllowedVaults{
 				{
 					Denom:             "musd",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    false,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
 				{
 					Denom:             "busd",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    false,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
@@ -230,13 +230,13 @@ func TestAllowedVaultsValidate(t *testing.T) {
 			vaultRecords: types.AllowedVaults{
 				{
 					Denom:             "musd",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    false,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
 				{
 					Denom:             "musd",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    false,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
@@ -251,7 +251,7 @@ func TestAllowedVaultsValidate(t *testing.T) {
 			vaultRecords: types.AllowedVaults{
 				{
 					Denom:             "",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    false,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
@@ -281,7 +281,7 @@ func TestAllowedVaultsValidate(t *testing.T) {
 			vaultRecords: types.AllowedVaults{
 				{
 					Denom:             "musd",
-					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault:    true,
 					AllowedDepositors: []sdk.AccAddress{},
 				},
@@ -296,7 +296,7 @@ func TestAllowedVaultsValidate(t *testing.T) {
 			vaultRecords: types.AllowedVaults{
 				{
 					Denom:          "musd",
-					Strategies:     []types.StrategyType{types.STRATEGY_TYPE_JINX},
+					Strategies:     []types.StrategyType{types.STRATEGY_TYPE_HARD},
 					IsPrivateVault: false,
 					AllowedDepositors: []sdk.AccAddress{
 						sdk.AccAddress("asdfasdf"),
@@ -327,12 +327,12 @@ func TestAllowedVaultsValidate(t *testing.T) {
 func TestIsStrategyAllowed(t *testing.T) {
 	vault := types.NewAllowedVault(
 		"musd",
-		[]types.StrategyType{types.STRATEGY_TYPE_JINX},
+		[]types.StrategyType{types.STRATEGY_TYPE_HARD},
 		true,
 		[]sdk.AccAddress{},
 	)
 
-	require.True(t, vault.IsStrategyAllowed(types.STRATEGY_TYPE_JINX))
+	require.True(t, vault.IsStrategyAllowed(types.STRATEGY_TYPE_HARD))
 	require.False(t, vault.IsStrategyAllowed(types.STRATEGY_TYPE_SAVINGS))
 	require.False(t, vault.IsStrategyAllowed(types.STRATEGY_TYPE_UNSPECIFIED))
 	require.False(t, vault.IsStrategyAllowed(12345))
@@ -345,7 +345,7 @@ func TestIsAccountAllowed_Private(t *testing.T) {
 
 	vault := types.NewAllowedVault(
 		"musd",
-		[]types.StrategyType{types.STRATEGY_TYPE_JINX},
+		[]types.StrategyType{types.STRATEGY_TYPE_HARD},
 		true,
 		[]sdk.AccAddress{acc1, acc2},
 	)
@@ -362,7 +362,7 @@ func TestIsAccountAllowed_Public(t *testing.T) {
 
 	vault := types.NewAllowedVault(
 		"musd",
-		[]types.StrategyType{types.STRATEGY_TYPE_JINX},
+		[]types.StrategyType{types.STRATEGY_TYPE_HARD},
 		false,
 		[]sdk.AccAddress{},
 	)

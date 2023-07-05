@@ -38,7 +38,7 @@ func (k msgServer) ClaimMUSDMintingReward(goCtx context.Context, msg *types.MsgC
 	return &types.MsgClaimMUSDMintingRewardResponse{}, nil
 }
 
-func (k msgServer) ClaimJinxReward(goCtx context.Context, msg *types.MsgClaimJinxReward) (*types.MsgClaimJinxRewardResponse, error) {
+func (k msgServer) ClaimHardReward(goCtx context.Context, msg *types.MsgClaimHardReward) (*types.MsgClaimHardRewardResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -47,14 +47,14 @@ func (k msgServer) ClaimJinxReward(goCtx context.Context, msg *types.MsgClaimJin
 	}
 
 	for _, selection := range msg.DenomsToClaim {
-		err := k.keeper.ClaimJinxReward(ctx, sender, sender, selection.Denom, selection.MultiplierName)
+		err := k.keeper.ClaimHardReward(ctx, sender, sender, selection.Denom, selection.MultiplierName)
 		if err != nil {
 			return nil, err
 		}
 
 	}
 
-	return &types.MsgClaimJinxRewardResponse{}, nil
+	return &types.MsgClaimHardRewardResponse{}, nil
 }
 
 func (k msgServer) ClaimDelegatorReward(goCtx context.Context, msg *types.MsgClaimDelegatorReward) (*types.MsgClaimDelegatorRewardResponse, error) {

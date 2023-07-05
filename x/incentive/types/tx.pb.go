@@ -144,24 +144,24 @@ func (m *MsgClaimMUSDMintingRewardResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgClaimMUSDMintingRewardResponse proto.InternalMessageInfo
 
-// MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
-type MsgClaimJinxReward struct {
+// MsgClaimHardReward message type used to claim Hard liquidity provider rewards
+type MsgClaimHardReward struct {
 	Sender        string     `protobuf:"bytes,1,opt,name=sender,proto3" json:"sender,omitempty"`
 	DenomsToClaim Selections `protobuf:"bytes,2,rep,name=denoms_to_claim,json=denomsToClaim,proto3,castrepeated=Selections" json:"denoms_to_claim"`
 }
 
-func (m *MsgClaimJinxReward) Reset()         { *m = MsgClaimJinxReward{} }
-func (m *MsgClaimJinxReward) String() string { return proto.CompactTextString(m) }
-func (*MsgClaimJinxReward) ProtoMessage()    {}
-func (*MsgClaimJinxReward) Descriptor() ([]byte, []int) {
+func (m *MsgClaimHardReward) Reset()         { *m = MsgClaimHardReward{} }
+func (m *MsgClaimHardReward) String() string { return proto.CompactTextString(m) }
+func (*MsgClaimHardReward) ProtoMessage()    {}
+func (*MsgClaimHardReward) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4dd7797084b71d16, []int{3}
 }
-func (m *MsgClaimJinxReward) XXX_Unmarshal(b []byte) error {
+func (m *MsgClaimHardReward) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgClaimJinxReward) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgClaimHardReward) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgClaimJinxReward.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgClaimHardReward.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -171,34 +171,34 @@ func (m *MsgClaimJinxReward) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *MsgClaimJinxReward) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgClaimJinxReward.Merge(m, src)
+func (m *MsgClaimHardReward) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgClaimHardReward.Merge(m, src)
 }
-func (m *MsgClaimJinxReward) XXX_Size() int {
+func (m *MsgClaimHardReward) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgClaimJinxReward) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgClaimJinxReward.DiscardUnknown(m)
+func (m *MsgClaimHardReward) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgClaimHardReward.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgClaimJinxReward proto.InternalMessageInfo
+var xxx_messageInfo_MsgClaimHardReward proto.InternalMessageInfo
 
-// MsgClaimJinxRewardResponse defines the Msg/ClaimJinxReward response type.
-type MsgClaimJinxRewardResponse struct {
+// MsgClaimHardRewardResponse defines the Msg/ClaimHardReward response type.
+type MsgClaimHardRewardResponse struct {
 }
 
-func (m *MsgClaimJinxRewardResponse) Reset()         { *m = MsgClaimJinxRewardResponse{} }
-func (m *MsgClaimJinxRewardResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgClaimJinxRewardResponse) ProtoMessage()    {}
-func (*MsgClaimJinxRewardResponse) Descriptor() ([]byte, []int) {
+func (m *MsgClaimHardRewardResponse) Reset()         { *m = MsgClaimHardRewardResponse{} }
+func (m *MsgClaimHardRewardResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgClaimHardRewardResponse) ProtoMessage()    {}
+func (*MsgClaimHardRewardResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4dd7797084b71d16, []int{4}
 }
-func (m *MsgClaimJinxRewardResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgClaimHardRewardResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgClaimJinxRewardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgClaimHardRewardResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgClaimJinxRewardResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgClaimHardRewardResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -208,17 +208,17 @@ func (m *MsgClaimJinxRewardResponse) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-func (m *MsgClaimJinxRewardResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgClaimJinxRewardResponse.Merge(m, src)
+func (m *MsgClaimHardRewardResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgClaimHardRewardResponse.Merge(m, src)
 }
-func (m *MsgClaimJinxRewardResponse) XXX_Size() int {
+func (m *MsgClaimHardRewardResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgClaimJinxRewardResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgClaimJinxRewardResponse.DiscardUnknown(m)
+func (m *MsgClaimHardRewardResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgClaimHardRewardResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgClaimJinxRewardResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgClaimHardRewardResponse proto.InternalMessageInfo
 
 // MsgClaimDelegatorReward message type used to claim delegator rewards
 type MsgClaimDelegatorReward struct {
@@ -528,8 +528,8 @@ func init() {
 	proto.RegisterType((*Selection)(nil), "nemo.incentive.v1beta1.Selection")
 	proto.RegisterType((*MsgClaimMUSDMintingReward)(nil), "nemo.incentive.v1beta1.MsgClaimMUSDMintingReward")
 	proto.RegisterType((*MsgClaimMUSDMintingRewardResponse)(nil), "nemo.incentive.v1beta1.MsgClaimMUSDMintingRewardResponse")
-	proto.RegisterType((*MsgClaimJinxReward)(nil), "nemo.incentive.v1beta1.MsgClaimJinxReward")
-	proto.RegisterType((*MsgClaimJinxRewardResponse)(nil), "nemo.incentive.v1beta1.MsgClaimJinxRewardResponse")
+	proto.RegisterType((*MsgClaimHardReward)(nil), "nemo.incentive.v1beta1.MsgClaimHardReward")
+	proto.RegisterType((*MsgClaimHardRewardResponse)(nil), "nemo.incentive.v1beta1.MsgClaimHardRewardResponse")
 	proto.RegisterType((*MsgClaimDelegatorReward)(nil), "nemo.incentive.v1beta1.MsgClaimDelegatorReward")
 	proto.RegisterType((*MsgClaimDelegatorRewardResponse)(nil), "nemo.incentive.v1beta1.MsgClaimDelegatorRewardResponse")
 	proto.RegisterType((*MsgClaimSwapReward)(nil), "nemo.incentive.v1beta1.MsgClaimSwapReward")
@@ -594,8 +594,8 @@ const _ = grpc.SupportPackageIsVersion4
 type MsgClient interface {
 	// ClaimMUSDMintingReward is a message type used to claim MUSD minting rewards
 	ClaimMUSDMintingReward(ctx context.Context, in *MsgClaimMUSDMintingReward, opts ...grpc.CallOption) (*MsgClaimMUSDMintingRewardResponse, error)
-	// ClaimJinxReward is a message type used to claim Jinx liquidity provider rewards
-	ClaimJinxReward(ctx context.Context, in *MsgClaimJinxReward, opts ...grpc.CallOption) (*MsgClaimJinxRewardResponse, error)
+	// ClaimHardReward is a message type used to claim Hard liquidity provider rewards
+	ClaimHardReward(ctx context.Context, in *MsgClaimHardReward, opts ...grpc.CallOption) (*MsgClaimHardRewardResponse, error)
 	// ClaimDelegatorReward is a message type used to claim delegator rewards
 	ClaimDelegatorReward(ctx context.Context, in *MsgClaimDelegatorReward, opts ...grpc.CallOption) (*MsgClaimDelegatorRewardResponse, error)
 	// ClaimSwapReward is a message type used to claim swap rewards
@@ -623,9 +623,9 @@ func (c *msgClient) ClaimMUSDMintingReward(ctx context.Context, in *MsgClaimMUSD
 	return out, nil
 }
 
-func (c *msgClient) ClaimJinxReward(ctx context.Context, in *MsgClaimJinxReward, opts ...grpc.CallOption) (*MsgClaimJinxRewardResponse, error) {
-	out := new(MsgClaimJinxRewardResponse)
-	err := c.cc.Invoke(ctx, "/nemo.incentive.v1beta1.Msg/ClaimJinxReward", in, out, opts...)
+func (c *msgClient) ClaimHardReward(ctx context.Context, in *MsgClaimHardReward, opts ...grpc.CallOption) (*MsgClaimHardRewardResponse, error) {
+	out := new(MsgClaimHardRewardResponse)
+	err := c.cc.Invoke(ctx, "/nemo.incentive.v1beta1.Msg/ClaimHardReward", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -672,8 +672,8 @@ func (c *msgClient) ClaimEarnReward(ctx context.Context, in *MsgClaimEarnReward,
 type MsgServer interface {
 	// ClaimMUSDMintingReward is a message type used to claim MUSD minting rewards
 	ClaimMUSDMintingReward(context.Context, *MsgClaimMUSDMintingReward) (*MsgClaimMUSDMintingRewardResponse, error)
-	// ClaimJinxReward is a message type used to claim Jinx liquidity provider rewards
-	ClaimJinxReward(context.Context, *MsgClaimJinxReward) (*MsgClaimJinxRewardResponse, error)
+	// ClaimHardReward is a message type used to claim Hard liquidity provider rewards
+	ClaimHardReward(context.Context, *MsgClaimHardReward) (*MsgClaimHardRewardResponse, error)
 	// ClaimDelegatorReward is a message type used to claim delegator rewards
 	ClaimDelegatorReward(context.Context, *MsgClaimDelegatorReward) (*MsgClaimDelegatorRewardResponse, error)
 	// ClaimSwapReward is a message type used to claim swap rewards
@@ -691,8 +691,8 @@ type UnimplementedMsgServer struct {
 func (*UnimplementedMsgServer) ClaimMUSDMintingReward(ctx context.Context, req *MsgClaimMUSDMintingReward) (*MsgClaimMUSDMintingRewardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClaimMUSDMintingReward not implemented")
 }
-func (*UnimplementedMsgServer) ClaimJinxReward(ctx context.Context, req *MsgClaimJinxReward) (*MsgClaimJinxRewardResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ClaimJinxReward not implemented")
+func (*UnimplementedMsgServer) ClaimHardReward(ctx context.Context, req *MsgClaimHardReward) (*MsgClaimHardRewardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClaimHardReward not implemented")
 }
 func (*UnimplementedMsgServer) ClaimDelegatorReward(ctx context.Context, req *MsgClaimDelegatorReward) (*MsgClaimDelegatorRewardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ClaimDelegatorReward not implemented")
@@ -729,20 +729,20 @@ func _Msg_ClaimMUSDMintingReward_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_ClaimJinxReward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgClaimJinxReward)
+func _Msg_ClaimHardReward_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgClaimHardReward)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).ClaimJinxReward(ctx, in)
+		return srv.(MsgServer).ClaimHardReward(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/nemo.incentive.v1beta1.Msg/ClaimJinxReward",
+		FullMethod: "/nemo.incentive.v1beta1.Msg/ClaimHardReward",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).ClaimJinxReward(ctx, req.(*MsgClaimJinxReward))
+		return srv.(MsgServer).ClaimHardReward(ctx, req.(*MsgClaimHardReward))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -828,8 +828,8 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_ClaimMUSDMintingReward_Handler,
 		},
 		{
-			MethodName: "ClaimJinxReward",
-			Handler:    _Msg_ClaimJinxReward_Handler,
+			MethodName: "ClaimHardReward",
+			Handler:    _Msg_ClaimHardReward_Handler,
 		},
 		{
 			MethodName: "ClaimDelegatorReward",
@@ -949,7 +949,7 @@ func (m *MsgClaimMUSDMintingRewardResponse) MarshalToSizedBuffer(dAtA []byte) (i
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgClaimJinxReward) Marshal() (dAtA []byte, err error) {
+func (m *MsgClaimHardReward) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -959,12 +959,12 @@ func (m *MsgClaimJinxReward) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgClaimJinxReward) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgClaimHardReward) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgClaimJinxReward) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgClaimHardReward) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -993,7 +993,7 @@ func (m *MsgClaimJinxReward) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgClaimJinxRewardResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgClaimHardRewardResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1003,12 +1003,12 @@ func (m *MsgClaimJinxRewardResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgClaimJinxRewardResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgClaimHardRewardResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgClaimJinxRewardResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgClaimHardRewardResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1338,7 +1338,7 @@ func (m *MsgClaimMUSDMintingRewardResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgClaimJinxReward) Size() (n int) {
+func (m *MsgClaimHardReward) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1357,7 +1357,7 @@ func (m *MsgClaimJinxReward) Size() (n int) {
 	return n
 }
 
-func (m *MsgClaimJinxRewardResponse) Size() (n int) {
+func (m *MsgClaimHardRewardResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1762,7 +1762,7 @@ func (m *MsgClaimMUSDMintingRewardResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgClaimJinxReward) Unmarshal(dAtA []byte) error {
+func (m *MsgClaimHardReward) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1785,10 +1785,10 @@ func (m *MsgClaimJinxReward) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgClaimJinxReward: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgClaimHardReward: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgClaimJinxReward: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgClaimHardReward: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1878,7 +1878,7 @@ func (m *MsgClaimJinxReward) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgClaimJinxRewardResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgClaimHardRewardResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1901,10 +1901,10 @@ func (m *MsgClaimJinxRewardResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgClaimJinxRewardResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgClaimHardRewardResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgClaimJinxRewardResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgClaimHardRewardResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

@@ -25,8 +25,8 @@ type CdpKeeper interface {
 	WithdrawCollateral(ctx sdk.Context, owner, depositor sdk.AccAddress, collateral sdk.Coin, collateralType string) error
 }
 
-// JinxKeeper defines the contract needed to be fulfilled for Nemo Lend dependencies.
-type JinxKeeper interface {
+// HardKeeper defines the contract needed to be fulfilled for Nemo Lend dependencies.
+type HardKeeper interface {
 	Deposit(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Coins) error
 	Withdraw(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Coins) error
 }

@@ -76,7 +76,7 @@ func (suite *grpcQueryTestSuite) TestQueryDeployedCosmosCoinContracts() {
 	ibcDenom := "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2"
 	contracts := []types.DeployedCosmosCoinContract{
 		types.NewDeployedCosmosCoinContract("magic", testutil.RandomInternalEVMAddress()),
-		types.NewDeployedCosmosCoinContract("jinx", testutil.RandomInternalEVMAddress()),
+		types.NewDeployedCosmosCoinContract("hard", testutil.RandomInternalEVMAddress()),
 		types.NewDeployedCosmosCoinContract(ibcDenom, testutil.RandomInternalEVMAddress()),
 		types.NewDeployedCosmosCoinContract("swap", testutil.RandomInternalEVMAddress()),
 		types.NewDeployedCosmosCoinContract("another-denom", testutil.RandomInternalEVMAddress()),

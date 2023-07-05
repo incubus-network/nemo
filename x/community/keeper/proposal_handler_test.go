@@ -16,8 +16,8 @@ import (
 	"github.com/incubus-network/nemo/x/community/keeper"
 	"github.com/incubus-network/nemo/x/community/testutil"
 	"github.com/incubus-network/nemo/x/community/types"
-	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -43,7 +43,7 @@ type proposalTestSuite struct {
 	MaccAddress sdk.AccAddress
 
 	cdpKeeper  cdpkeeper.Keeper
-	jinxKeeper jinxkeeper.Keeper
+	hardKeeper hardkeeper.Keeper
 }
 
 func TestProposalTestSuite(t *testing.T) {
@@ -55,7 +55,7 @@ func (suite *proposalTestSuite) SetupTest() {
 
 	genTime := tmtime.Now()
 
-	jinxGS, pricefeedGS := testutil.NewLendGenesisBuilder().
+	hardGS, pricefeedGS := testutil.NewLendGenesisBuilder().
 		WithMarket("ufury", "nemo:usd", sdk.OneDec()).
 		WithMarket("musd", "musd:usd", sdk.OneDec()).
 		Build()
@@ -69,7 +69,7 @@ func (suite *proposalTestSuite) SetupTest() {
 
 	tApp.InitializeFromGenesisStatesWithTimeAndChainID(
 		genTime, chainID,
-		app.GenesisState{jinxtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)},
+		app.GenesisState{hardtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)},
 		app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
 		testutil.NewCDPGenState(tApp.AppCodec(), "ufury", "nemo", sdk.NewDec(2)),
 	)
@@ -79,7 +79,7 @@ func (suite *proposalTestSuite) SetupTest() {
 	suite.Keeper = tApp.GetCommunityKeeper()
 	suite.MaccAddress = tApp.GetAccountKeeper().GetModuleAddress(types.ModuleAccountName)
 	suite.cdpKeeper = suite.App.GetCDPKeeper()
-	suite.jinxKeeper = suite.App.GetJinxKeeper()
+	suite.hardKeeper = suite.App.GetHardKeeper()
 
 	// give the community pool some funds
 	// ufury
@@ -195,7 +195,7 @@ func (suite *proposalTestSuite) TestCommunityLendDepositProposal() {
 				}
 			}
 
-			deposits := suite.jinxKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
+			deposits := suite.hardKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
 			suite.Len(deposits, len(tc.expectedDeposits), "expected a deposit to lend")
 			for _, amt := range tc.expectedDeposits {
 				suite.Equal(amt, deposits[0].Amount, "expected amount to match")
@@ -322,9 +322,9 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 				suite.NextBlock()
 			}
 
-			// expect funds to be removed from jinx deposit
+			// expect funds to be removed from hard deposit
 			expectedRemaining := tc.initialDeposit.Sub(tc.expectedWithdrawal...)
-			deposits := suite.jinxKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
+			deposits := suite.hardKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
 			if expectedRemaining.IsZero() {
 				suite.Len(deposits, 0, "expected all deposits to be withdrawn")
 			} else {

@@ -114,24 +114,24 @@ func TestAccumulator(t *testing.T) {
 			{
 				name: "rewards calculated normally",
 				args: args{
-					rewardsPerSecond:  cs(c("jinx", 1000), c("swap", 100)),
+					rewardsPerSecond:  cs(c("hard", 1000), c("swap", 100)),
 					duration:          10 * time.Second,
 					totalSourceShares: d("1000"),
 				},
 				expected: RewardIndexes{
-					{CollateralType: "jinx", RewardFactor: d("10")},
+					{CollateralType: "hard", RewardFactor: d("10")},
 					{CollateralType: "swap", RewardFactor: d("1")},
 				},
 			},
 			{
 				name: "duration is rounded to nearest even second",
 				args: args{
-					rewardsPerSecond:  cs(c("jinx", 1000)),
+					rewardsPerSecond:  cs(c("hard", 1000)),
 					duration:          10*time.Second + 500*time.Millisecond,
 					totalSourceShares: d("1000"),
 				},
 				expected: RewardIndexes{
-					{CollateralType: "jinx", RewardFactor: d("10")},
+					{CollateralType: "hard", RewardFactor: d("10")},
 				},
 			},
 			{
@@ -149,7 +149,7 @@ func TestAccumulator(t *testing.T) {
 			{
 				name: "when duration is zero there is no rewards",
 				args: args{
-					rewardsPerSecond:  cs(c("jinx", 1000)),
+					rewardsPerSecond:  cs(c("hard", 1000)),
 					duration:          0,
 					totalSourceShares: d("1000"),
 				},
@@ -167,7 +167,7 @@ func TestAccumulator(t *testing.T) {
 			{
 				name: "when the source total is zero there is no rewards",
 				args: args{
-					rewardsPerSecond:  cs(c("jinx", 1000)),
+					rewardsPerSecond:  cs(c("hard", 1000)),
 					duration:          10 * time.Second,
 					totalSourceShares: d("0"),
 				},
@@ -215,14 +215,14 @@ func TestAccumulator(t *testing.T) {
 					accumulator: Accumulator{
 						PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC),
 						Indexes: RewardIndexes{
-							{CollateralType: "jinx", RewardFactor: d("0.1")},
+							{CollateralType: "hard", RewardFactor: d("0.1")},
 							{CollateralType: "swap", RewardFactor: d("0.2")},
 						},
 					},
 					period: MultiRewardPeriod{
 						Start:            time.Date(1990, 1, 1, 0, 0, 0, 0, time.UTC),
 						End:              time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
-						RewardsPerSecond: cs(c("jinx", 1000)),
+						RewardsPerSecond: cs(c("hard", 1000)),
 					},
 					totalSourceShares: d("1000"),
 					currentTime:       time.Date(1998, 1, 1, 0, 0, 5, 0, time.UTC),
@@ -230,7 +230,7 @@ func TestAccumulator(t *testing.T) {
 				expected: Accumulator{
 					PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 5, 0, time.UTC),
 					Indexes: RewardIndexes{
-						{CollateralType: "jinx", RewardFactor: d("5.1")},
+						{CollateralType: "hard", RewardFactor: d("5.1")},
 						{CollateralType: "swap", RewardFactor: d("0.2")},
 					},
 				},
@@ -245,14 +245,14 @@ func TestAccumulator(t *testing.T) {
 					period: MultiRewardPeriod{
 						Start:            time.Date(1990, 1, 1, 0, 0, 0, 0, time.UTC),
 						End:              time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
-						RewardsPerSecond: cs(c("jinx", 1000)),
+						RewardsPerSecond: cs(c("hard", 1000)),
 					},
 					totalSourceShares: d("1000"),
 					currentTime:       time.Date(1998, 1, 1, 0, 0, 5, 0, time.UTC),
 				},
 				expected: Accumulator{
 					PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 5, 0, time.UTC),
-					Indexes:                  RewardIndexes{{CollateralType: "jinx", RewardFactor: d("5.0")}},
+					Indexes:                  RewardIndexes{{CollateralType: "hard", RewardFactor: d("5.0")}},
 				},
 			},
 			{
@@ -280,19 +280,19 @@ func TestAccumulator(t *testing.T) {
 				args: args{
 					accumulator: Accumulator{
 						PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC),
-						Indexes:                  RewardIndexes{{CollateralType: "jinx", RewardFactor: d("0.1")}},
+						Indexes:                  RewardIndexes{{CollateralType: "hard", RewardFactor: d("0.1")}},
 					},
 					period: MultiRewardPeriod{
 						Start:            time.Date(1998, 1, 1, 0, 0, 5, 0, time.UTC),
 						End:              time.Date(1998, 1, 1, 0, 0, 7, 0, time.UTC),
-						RewardsPerSecond: cs(c("jinx", 1000)),
+						RewardsPerSecond: cs(c("hard", 1000)),
 					},
 					totalSourceShares: d("1000"),
 					currentTime:       time.Date(1998, 1, 1, 0, 0, 10, 0, time.UTC),
 				},
 				expected: Accumulator{
 					PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 7, 0, time.UTC),
-					Indexes:                  RewardIndexes{{CollateralType: "jinx", RewardFactor: d("2.1")}},
+					Indexes:                  RewardIndexes{{CollateralType: "hard", RewardFactor: d("2.1")}},
 				},
 			},
 			{
@@ -302,19 +302,19 @@ func TestAccumulator(t *testing.T) {
 				args: args{
 					accumulator: Accumulator{
 						PreviousAccumulationTime: time.Time{},
-						Indexes:                  RewardIndexes{{CollateralType: "jinx", RewardFactor: d("0.1")}},
+						Indexes:                  RewardIndexes{{CollateralType: "hard", RewardFactor: d("0.1")}},
 					},
 					period: MultiRewardPeriod{
 						Start:            time.Date(1998, 1, 1, 0, 0, 0, 0, time.UTC),
 						End:              time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC),
-						RewardsPerSecond: cs(c("jinx", 1000)),
+						RewardsPerSecond: cs(c("hard", 1000)),
 					},
 					totalSourceShares: d("1000"),
 					currentTime:       time.Date(1998, 1, 1, 0, 0, 10, 0, time.UTC),
 				},
 				expected: Accumulator{
 					PreviousAccumulationTime: time.Date(1998, 1, 1, 0, 0, 10, 0, time.UTC),
-					Indexes:                  RewardIndexes{{CollateralType: "jinx", RewardFactor: d("10.1")}},
+					Indexes:                  RewardIndexes{{CollateralType: "hard", RewardFactor: d("10.1")}},
 				},
 			},
 		}

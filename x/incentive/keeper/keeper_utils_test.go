@@ -13,18 +13,18 @@ type TestKeeper struct {
 
 func (keeper TestKeeper) storeGlobalBorrowIndexes(ctx sdk.Context, indexes types.MultiRewardIndexes) {
 	for _, i := range indexes {
-		keeper.SetJinxBorrowRewardIndexes(ctx, i.CollateralType, i.RewardIndexes)
+		keeper.SetHardBorrowRewardIndexes(ctx, i.CollateralType, i.RewardIndexes)
 	}
 }
 
 func (keeper TestKeeper) storeGlobalSupplyIndexes(ctx sdk.Context, indexes types.MultiRewardIndexes) {
 	for _, i := range indexes {
-		keeper.SetJinxSupplyRewardIndexes(ctx, i.CollateralType, i.RewardIndexes)
+		keeper.SetHardSupplyRewardIndexes(ctx, i.CollateralType, i.RewardIndexes)
 	}
 }
 
 func (keeper TestKeeper) storeGlobalDelegatorIndexes(ctx sdk.Context, multiRewardIndexes types.MultiRewardIndexes) {
-	// Jinxcoded to use bond denom
+	// Hardcoded to use bond denom
 	multiRewardIndex, _ := multiRewardIndexes.GetRewardIndex(types.BondDenom)
 	keeper.SetDelegatorRewardIndexes(ctx, types.BondDenom, multiRewardIndex.RewardIndexes)
 }

@@ -123,9 +123,9 @@ import (
 	evmutil "github.com/incubus-network/nemo/x/evmutil"
 	evmutilkeeper "github.com/incubus-network/nemo/x/evmutil/keeper"
 	evmutiltypes "github.com/incubus-network/nemo/x/evmutil/types"
-	"github.com/incubus-network/nemo/x/jinx"
-	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	"github.com/incubus-network/nemo/x/hard"
+	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	"github.com/incubus-network/nemo/x/incentive"
 	incentivekeeper "github.com/incubus-network/nemo/x/incentive/keeper"
 	incentivetypes "github.com/incubus-network/nemo/x/incentive/types"
@@ -205,7 +205,7 @@ var (
 		pricefeed.AppModuleBasic{},
 		swap.AppModuleBasic{},
 		cdp.AppModuleBasic{},
-		jinx.AppModuleBasic{},
+		hard.AppModuleBasic{},
 		committee.AppModuleBasic{},
 		incentive.AppModuleBasic{},
 		savings.AppModuleBasic{},
@@ -237,7 +237,7 @@ var (
 		swaptypes.ModuleName:            nil,
 		cdptypes.ModuleName:             {authtypes.Minter, authtypes.Burner},
 		cdptypes.LiquidatorMacc:         {authtypes.Minter, authtypes.Burner},
-		jinxtypes.ModuleAccountName:     {authtypes.Minter},
+		hardtypes.ModuleAccountName:     {authtypes.Minter},
 		savingstypes.ModuleAccountName:  nil,
 		liquidtypes.ModuleAccountName:   {authtypes.Minter, authtypes.Burner},
 		earntypes.ModuleAccountName:     nil,
@@ -308,7 +308,7 @@ type App struct {
 	pricefeedKeeper  pricefeedkeeper.Keeper
 	swapKeeper       swapkeeper.Keeper
 	cdpKeeper        cdpkeeper.Keeper
-	jinxKeeper       jinxkeeper.Keeper
+	hardKeeper       hardkeeper.Keeper
 	committeeKeeper  committeekeeper.Keeper
 	incentiveKeeper  incentivekeeper.Keeper
 	savingsKeeper    savingskeeper.Keeper
@@ -368,7 +368,7 @@ func NewApp(
 		evmtypes.StoreKey, feemarkettypes.StoreKey, authzkeeper.StoreKey,
 		capabilitytypes.StoreKey, nemodisttypes.StoreKey, auctiontypes.StoreKey,
 		issuancetypes.StoreKey, bep3types.StoreKey, pricefeedtypes.StoreKey,
-		swaptypes.StoreKey, cdptypes.StoreKey, jinxtypes.StoreKey,
+		swaptypes.StoreKey, cdptypes.StoreKey, hardtypes.StoreKey,
 		committeetypes.StoreKey, incentivetypes.StoreKey, evmutiltypes.StoreKey,
 		savingstypes.StoreKey, earntypes.StoreKey, minttypes.StoreKey,
 	)
@@ -406,7 +406,7 @@ func NewApp(
 	pricefeedSubspace := app.paramsKeeper.Subspace(pricefeedtypes.ModuleName)
 	swapSubspace := app.paramsKeeper.Subspace(swaptypes.ModuleName)
 	cdpSubspace := app.paramsKeeper.Subspace(cdptypes.ModuleName)
-	jinxSubspace := app.paramsKeeper.Subspace(jinxtypes.ModuleName)
+	hardSubspace := app.paramsKeeper.Subspace(hardtypes.ModuleName)
 	incentiveSubspace := app.paramsKeeper.Subspace(incentivetypes.ModuleName)
 	savingsSubspace := app.paramsKeeper.Subspace(savingstypes.ModuleName)
 	ibcSubspace := app.paramsKeeper.Subspace(ibchost.ModuleName)
@@ -595,10 +595,10 @@ func NewApp(
 		app.accountKeeper,
 		mAccPerms,
 	)
-	jinxKeeper := jinxkeeper.NewKeeper(
+	hardKeeper := hardkeeper.NewKeeper(
 		appCodec,
-		keys[jinxtypes.StoreKey],
-		jinxSubspace,
+		keys[hardtypes.StoreKey],
+		hardSubspace,
 		app.accountKeeper,
 		app.bankKeeper,
 		app.pricefeedKeeper,
@@ -626,18 +626,18 @@ func NewApp(
 		app.accountKeeper,
 		app.bankKeeper,
 		&app.liquidKeeper,
-		&jinxKeeper,
+		&hardKeeper,
 		&savingsKeeper,
 		&app.distrKeeper,
 	)
 
-	// x/community's deposit/withdraw to lend proposals depend on jinx keeper.
+	// x/community's deposit/withdraw to lend proposals depend on hard keeper.
 	app.communityKeeper = communitykeeper.NewKeeper(
 		app.accountKeeper,
 		app.bankKeeper,
 		&cdpKeeper,
 		app.distrKeeper,
-		&jinxKeeper,
+		&hardKeeper,
 	)
 	app.nemodistKeeper = nemodistkeeper.NewKeeper(
 		appCodec,
@@ -665,7 +665,7 @@ func NewApp(
 		incentiveSubspace,
 		app.bankKeeper,
 		&cdpKeeper,
-		&jinxKeeper,
+		&hardKeeper,
 		app.accountKeeper,
 		app.stakingKeeper,
 		&swapKeeper,
@@ -712,7 +712,7 @@ func NewApp(
 
 	app.swapKeeper = *swapKeeper.SetHooks(app.incentiveKeeper.Hooks())
 	app.cdpKeeper = *cdpKeeper.SetHooks(cdptypes.NewMultiCDPHooks(app.incentiveKeeper.Hooks()))
-	app.jinxKeeper = *jinxKeeper.SetHooks(jinxtypes.NewMultiJINXHooks(app.incentiveKeeper.Hooks()))
+	app.hardKeeper = *hardKeeper.SetHooks(hardtypes.NewMultiHARDHooks(app.incentiveKeeper.Hooks()))
 	app.savingsKeeper = savingsKeeper // savings incentive hooks disabled
 	app.earnKeeper = *earnKeeper.SetHooks(app.incentiveKeeper.Hooks())
 
@@ -779,7 +779,7 @@ func NewApp(
 		validatorvesting.NewAppModule(app.bankKeeper),
 		swap.NewAppModule(app.swapKeeper, app.accountKeeper),
 		cdp.NewAppModule(app.cdpKeeper, app.accountKeeper, app.pricefeedKeeper, app.bankKeeper),
-		jinx.NewAppModule(app.jinxKeeper, app.accountKeeper, app.bankKeeper, app.pricefeedKeeper),
+		hard.NewAppModule(app.hardKeeper, app.accountKeeper, app.bankKeeper, app.pricefeedKeeper),
 		committee.NewAppModule(app.committeeKeeper, app.accountKeeper),
 		incentive.NewAppModule(app.incentiveKeeper, app.accountKeeper, app.bankKeeper, app.cdpKeeper),
 		evmutil.NewAppModule(app.evmutilKeeper, app.bankKeeper),
@@ -818,7 +818,7 @@ func NewApp(
 		auctiontypes.ModuleName,
 		cdptypes.ModuleName,
 		bep3types.ModuleName,
-		jinxtypes.ModuleName,
+		hardtypes.ModuleName,
 		issuancetypes.ModuleName,
 		incentivetypes.ModuleName,
 		ibchost.ModuleName,
@@ -860,7 +860,7 @@ func NewApp(
 		auctiontypes.ModuleName,
 		bep3types.ModuleName,
 		cdptypes.ModuleName,
-		jinxtypes.ModuleName,
+		hardtypes.ModuleName,
 		committeetypes.ModuleName,
 		upgradetypes.ModuleName,
 		evidencetypes.ModuleName,
@@ -908,7 +908,7 @@ func NewApp(
 		pricefeedtypes.ModuleName,
 		swaptypes.ModuleName,
 		cdptypes.ModuleName, // reads market prices, so must run after pricefeed genesis
-		jinxtypes.ModuleName,
+		hardtypes.ModuleName,
 		incentivetypes.ModuleName, // reads cdp params, so must run after cdp genesis
 		committeetypes.ModuleName,
 		evmutiltypes.ModuleName,

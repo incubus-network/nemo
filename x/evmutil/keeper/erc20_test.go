@@ -118,7 +118,7 @@ func (suite *ERC20TestSuite) TestDeployNemoWrappedCosmosCoinERC20Contract() {
 	suite.Run("deploys contract with expected metadata & permissions", func() {
 		caller, privKey := testutil.RandomEvmAccount()
 
-		token := types.NewAllowedCosmosCoinERC20Token("jinx", "EVM JINX", "JINX", 6)
+		token := types.NewAllowedCosmosCoinERC20Token("hard", "EVM HARD", "HARD", 6)
 		addr, err := suite.Keeper.DeployNemoWrappedCosmosCoinERC20Contract(suite.Ctx, token)
 		suite.NoError(err)
 		suite.NotNil(addr)

@@ -13,8 +13,8 @@ type MsgClaimMUSDMintingReward struct {
 	MultiplierName string         `json:"multiplier_name" yaml:"multiplier_name"`
 }
 
-// MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
-type MsgClaimJinxReward struct {
+// MsgClaimHardReward message type used to claim Hard liquidity provider rewards
+type MsgClaimHardReward struct {
 	Sender         sdk.AccAddress `json:"sender" yaml:"sender"`
 	MultiplierName string         `json:"multiplier_name" yaml:"multiplier_name"`
 	DenomsToClaim  []string       `json:"denoms_to_claim" yaml:"denoms_to_claim"`

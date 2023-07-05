@@ -10,8 +10,8 @@ service Msg {
   // ClaimMUSDMintingReward is a message type used to claim MUSD minting rewards
   rpc ClaimMUSDMintingReward(MsgClaimMUSDMintingReward) returns (MsgClaimMUSDMintingRewardResponse);
 
-  // ClaimJinxReward is a message type used to claim Jinx liquidity provider rewards
-  rpc ClaimJinxReward(MsgClaimJinxReward) returns (MsgClaimJinxRewardResponse);
+  // ClaimHardReward is a message type used to claim Hard liquidity provider rewards
+  rpc ClaimHardReward(MsgClaimHardReward) returns (MsgClaimHardRewardResponse);
 
   // ClaimDelegatorReward is a message type used to claim delegator rewards
   rpc ClaimDelegatorReward(MsgClaimDelegatorReward) returns (MsgClaimDelegatorRewardResponse);
@@ -48,8 +48,8 @@ message MsgClaimMUSDMintingReward {
 // MsgClaimMUSDMintingRewardResponse defines the Msg/ClaimMUSDMintingReward response type.
 message MsgClaimMUSDMintingRewardResponse {}
 
-// MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
-message MsgClaimJinxReward {
+// MsgClaimHardReward message type used to claim Hard liquidity provider rewards
+message MsgClaimHardReward {
   option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
 
@@ -60,8 +60,8 @@ message MsgClaimJinxReward {
   ];
 }
 
-// MsgClaimJinxRewardResponse defines the Msg/ClaimJinxReward response type.
-message MsgClaimJinxRewardResponse {}
+// MsgClaimHardRewardResponse defines the Msg/ClaimHardReward response type.
+message MsgClaimHardRewardResponse {}
 
 // MsgClaimDelegatorReward message type used to claim delegator rewards
 message MsgClaimDelegatorReward {

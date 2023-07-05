@@ -195,8 +195,8 @@ var xxx_messageInfo_MultipliersPerDenom proto.InternalMessageInfo
 // Params
 type Params struct {
 	MUSDMintingRewardPeriods RewardPeriods        `protobuf:"bytes,1,rep,name=musd_minting_reward_periods,json=musdMintingRewardPeriods,proto3,castrepeated=RewardPeriods" json:"musd_minting_reward_periods"`
-	JinxSupplyRewardPeriods  MultiRewardPeriods   `protobuf:"bytes,2,rep,name=jinx_supply_reward_periods,json=jinxSupplyRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"jinx_supply_reward_periods"`
-	JinxBorrowRewardPeriods  MultiRewardPeriods   `protobuf:"bytes,3,rep,name=jinx_borrow_reward_periods,json=jinxBorrowRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"jinx_borrow_reward_periods"`
+	HardSupplyRewardPeriods  MultiRewardPeriods   `protobuf:"bytes,2,rep,name=hard_supply_reward_periods,json=hardSupplyRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"hard_supply_reward_periods"`
+	HardBorrowRewardPeriods  MultiRewardPeriods   `protobuf:"bytes,3,rep,name=hard_borrow_reward_periods,json=hardBorrowRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"hard_borrow_reward_periods"`
 	DelegatorRewardPeriods   MultiRewardPeriods   `protobuf:"bytes,4,rep,name=delegator_reward_periods,json=delegatorRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"delegator_reward_periods"`
 	SwapRewardPeriods        MultiRewardPeriods   `protobuf:"bytes,5,rep,name=swap_reward_periods,json=swapRewardPeriods,proto3,castrepeated=MultiRewardPeriods" json:"swap_reward_periods"`
 	ClaimMultipliers         MultipliersPerDenoms `protobuf:"bytes,6,rep,name=claim_multipliers,json=claimMultipliers,proto3,castrepeated=MultipliersPerDenoms" json:"claim_multipliers"`
@@ -626,10 +626,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x22
 		}
 	}
-	if len(m.JinxBorrowRewardPeriods) > 0 {
-		for iNdEx := len(m.JinxBorrowRewardPeriods) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.HardBorrowRewardPeriods) > 0 {
+		for iNdEx := len(m.HardBorrowRewardPeriods) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.JinxBorrowRewardPeriods[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.HardBorrowRewardPeriods[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -640,10 +640,10 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.JinxSupplyRewardPeriods) > 0 {
-		for iNdEx := len(m.JinxSupplyRewardPeriods) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.HardSupplyRewardPeriods) > 0 {
+		for iNdEx := len(m.HardSupplyRewardPeriods) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.JinxSupplyRewardPeriods[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.HardSupplyRewardPeriods[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -779,14 +779,14 @@ func (m *Params) Size() (n int) {
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if len(m.JinxSupplyRewardPeriods) > 0 {
-		for _, e := range m.JinxSupplyRewardPeriods {
+	if len(m.HardSupplyRewardPeriods) > 0 {
+		for _, e := range m.HardSupplyRewardPeriods {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
 	}
-	if len(m.JinxBorrowRewardPeriods) > 0 {
-		for _, e := range m.JinxBorrowRewardPeriods {
+	if len(m.HardBorrowRewardPeriods) > 0 {
+		for _, e := range m.HardBorrowRewardPeriods {
 			l = e.Size()
 			n += 1 + l + sovParams(uint64(l))
 		}
@@ -1550,7 +1550,7 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field JinxSupplyRewardPeriods", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HardSupplyRewardPeriods", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1577,14 +1577,14 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.JinxSupplyRewardPeriods = append(m.JinxSupplyRewardPeriods, MultiRewardPeriod{})
-			if err := m.JinxSupplyRewardPeriods[len(m.JinxSupplyRewardPeriods)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.HardSupplyRewardPeriods = append(m.HardSupplyRewardPeriods, MultiRewardPeriod{})
+			if err := m.HardSupplyRewardPeriods[len(m.HardSupplyRewardPeriods)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field JinxBorrowRewardPeriods", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HardBorrowRewardPeriods", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1611,8 +1611,8 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.JinxBorrowRewardPeriods = append(m.JinxBorrowRewardPeriods, MultiRewardPeriod{})
-			if err := m.JinxBorrowRewardPeriods[len(m.JinxBorrowRewardPeriods)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.HardBorrowRewardPeriods = append(m.HardBorrowRewardPeriods, MultiRewardPeriod{})
+			if err := m.HardBorrowRewardPeriods[len(m.HardBorrowRewardPeriods)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

@@ -79,10 +79,10 @@ func (suite *SavingsRewardsTestSuite) TestAccumulateSavingsRewards() {
 			"7 seconds",
 			args{
 				deposit:          c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("jinx", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354)),
 				timeElapsed:      7,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("jinx", d("0.856478000000000000")),
+					types.NewRewardIndex("hard", d("0.856478000000000000")),
 				},
 			},
 		},
@@ -90,10 +90,10 @@ func (suite *SavingsRewardsTestSuite) TestAccumulateSavingsRewards() {
 			"1 day",
 			args{
 				deposit:          c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("jinx", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354)),
 				timeElapsed:      86400,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("jinx", d("10571.385600000000000000")),
+					types.NewRewardIndex("hard", d("10571.385600000000000000")),
 				},
 			},
 		},
@@ -101,10 +101,10 @@ func (suite *SavingsRewardsTestSuite) TestAccumulateSavingsRewards() {
 			"0 seconds",
 			args{
 				deposit:          c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("jinx", 122354)),
+				rewardsPerSecond: cs(c("hard", 122354)),
 				timeElapsed:      0,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("jinx", d("0.0")),
+					types.NewRewardIndex("hard", d("0.0")),
 				},
 			},
 		},
@@ -112,11 +112,11 @@ func (suite *SavingsRewardsTestSuite) TestAccumulateSavingsRewards() {
 			"multiple reward coins",
 			args{
 				deposit:          c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("jinx", 122354), c("bnb", 567889)),
+				rewardsPerSecond: cs(c("hard", 122354), c("bnb", 567889)),
 				timeElapsed:      7,
 				expectedRewardIndexes: types.RewardIndexes{
 					types.NewRewardIndex("bnb", d("3.97522300000000000")),
-					types.NewRewardIndex("jinx", d("0.856478000000000000")),
+					types.NewRewardIndex("hard", d("0.856478000000000000")),
 				},
 			},
 		},

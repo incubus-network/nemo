@@ -14,9 +14,9 @@ func TestNewStrategyTypeFromString(t *testing.T) {
 		expected types.StrategyType
 	}{
 		{
-			name:     "jinx",
-			strategy: "jinx",
-			expected: types.STRATEGY_TYPE_JINX,
+			name:     "hard",
+			strategy: "hard",
+			expected: types.STRATEGY_TYPE_HARD,
 		},
 		{
 			name:     "savings",
@@ -52,8 +52,8 @@ func TestValidateStrategyTypes(t *testing.T) {
 		errArgs    errArgs
 	}{
 		{
-			name:       "valid - jinx",
-			strategies: types.StrategyTypes{types.STRATEGY_TYPE_JINX},
+			name:       "valid - hard",
+			strategies: types.StrategyTypes{types.STRATEGY_TYPE_HARD},
 			errArgs: errArgs{
 				expectPass: true,
 			},
@@ -96,7 +96,7 @@ func TestValidateStrategyTypes(t *testing.T) {
 		{
 			name: "invalid - more than 1",
 			strategies: types.StrategyTypes{
-				types.STRATEGY_TYPE_JINX,
+				types.STRATEGY_TYPE_HARD,
 				types.STRATEGY_TYPE_SAVINGS,
 			},
 			errArgs: errArgs{

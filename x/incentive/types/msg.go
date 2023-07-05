@@ -12,14 +12,14 @@ const MaxDenomsToClaim = 1000
 // ensure Msg interface compliance at compile time
 var (
 	_ sdk.Msg = &MsgClaimMUSDMintingReward{}
-	_ sdk.Msg = &MsgClaimJinxReward{}
+	_ sdk.Msg = &MsgClaimHardReward{}
 	_ sdk.Msg = &MsgClaimDelegatorReward{}
 	_ sdk.Msg = &MsgClaimSwapReward{}
 	_ sdk.Msg = &MsgClaimSavingsReward{}
 	_ sdk.Msg = &MsgClaimEarnReward{}
 
 	_ legacytx.LegacyMsg = &MsgClaimMUSDMintingReward{}
-	_ legacytx.LegacyMsg = &MsgClaimJinxReward{}
+	_ legacytx.LegacyMsg = &MsgClaimHardReward{}
 	_ legacytx.LegacyMsg = &MsgClaimDelegatorReward{}
 	_ legacytx.LegacyMsg = &MsgClaimSwapReward{}
 	_ legacytx.LegacyMsg = &MsgClaimSavingsReward{}
@@ -28,7 +28,7 @@ var (
 
 const (
 	TypeMsgClaimMUSDMintingReward = "claim_musd_minting_reward"
-	TypeMsgClaimJinxReward        = "claim_jinx_reward"
+	TypeMsgClaimHardReward        = "claim_hard_reward"
 	TypeMsgClaimDelegatorReward   = "claim_delegator_reward"
 	TypeMsgClaimSwapReward        = "claim_swap_reward"
 	TypeMsgClaimSavingsReward     = "claim_savings_reward"
@@ -76,24 +76,24 @@ func (msg MsgClaimMUSDMintingReward) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{sender}
 }
 
-// NewMsgClaimJinxReward returns a new MsgClaimJinxReward.
-func NewMsgClaimJinxReward(sender string, denomsToClaim Selections) MsgClaimJinxReward {
-	return MsgClaimJinxReward{
+// NewMsgClaimHardReward returns a new MsgClaimHardReward.
+func NewMsgClaimHardReward(sender string, denomsToClaim Selections) MsgClaimHardReward {
+	return MsgClaimHardReward{
 		Sender:        sender,
 		DenomsToClaim: denomsToClaim,
 	}
 }
 
 // Route return the message type used for routing the message.
-func (msg MsgClaimJinxReward) Route() string { return RouterKey }
+func (msg MsgClaimHardReward) Route() string { return RouterKey }
 
 // Type returns a human-readable string for the message, intended for utilization within tags.
-func (msg MsgClaimJinxReward) Type() string {
-	return TypeMsgClaimJinxReward
+func (msg MsgClaimHardReward) Type() string {
+	return TypeMsgClaimHardReward
 }
 
 // ValidateBasic does a simple validation check that doesn't require access to state.
-func (msg MsgClaimJinxReward) ValidateBasic() error {
+func (msg MsgClaimHardReward) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidAddress, "sender address cannot be empty or invalid")
@@ -105,13 +105,13 @@ func (msg MsgClaimJinxReward) ValidateBasic() error {
 }
 
 // GetSignBytes gets the canonical byte representation of the Msg.
-func (msg MsgClaimJinxReward) GetSignBytes() []byte {
+func (msg MsgClaimHardReward) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(&msg)
 	return sdk.MustSortJSON(bz)
 }
 
 // GetSigners returns the addresses of signers that must sign.
-func (msg MsgClaimJinxReward) GetSigners() []sdk.AccAddress {
+func (msg MsgClaimHardReward) GetSigners() []sdk.AccAddress {
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
 	if err != nil {
 		panic(err)

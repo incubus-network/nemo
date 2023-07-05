@@ -90,8 +90,8 @@ message MUSDMintingClaim {
   ];
 }
 
-// JinxLiquidityProviderClaim stores the jinx liquidity provider rewards that can be claimed by owner
-message JinxLiquidityProviderClaim {
+// HardLiquidityProviderClaim stores the hard liquidity provider rewards that can be claimed by owner
+message HardLiquidityProviderClaim {
   option (cosmos_proto.implements_interface) = "Claim";
 
   BaseMultiClaim base_claim = 1 [

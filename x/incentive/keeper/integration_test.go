@@ -167,13 +167,13 @@ func NewPricefeedGenStateMultiFromTime(cdc codec.JSONCodec, t time.Time) app.Gen
 	return app.GenesisState{pricefeedtypes.ModuleName: cdc.MustMarshalJSON(&pfGenesis)}
 }
 
-func NewJinxGenStateMulti(genTime time.Time) testutil.JinxGenesisBuilder {
+func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
 	nemoMM := testutil.NewStandardMoneyMarket("ufury")
 	nemoMM.SpotMarketID = "nemo:usd"
 	btcMM := testutil.NewStandardMoneyMarket("btcb")
 	btcMM.SpotMarketID = "btc:usd"
 
-	builder := testutil.NewJinxGenesisBuilder().WithGenesisTime(genTime).
+	builder := testutil.NewHardGenesisBuilder().WithGenesisTime(genTime).
 		WithInitializedMoneyMarket(testutil.NewStandardMoneyMarket("musd")).
 		WithInitializedMoneyMarket(nemoMM).
 		WithInitializedMoneyMarket(testutil.NewStandardMoneyMarket("bnb")).

@@ -5,7 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
 )
 
@@ -40,12 +40,12 @@ type LiquidKeeper interface {
 	IsDerivativeDenom(ctx sdk.Context, denom string) bool
 }
 
-// JinxKeeper defines the expected interface needed for the jinx strategy.
-type JinxKeeper interface {
+// HardKeeper defines the expected interface needed for the hard strategy.
+type HardKeeper interface {
 	Deposit(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Coins) error
 	Withdraw(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Coins) error
 
-	GetSyncedDeposit(ctx sdk.Context, depositor sdk.AccAddress) (jinxtypes.Deposit, bool)
+	GetSyncedDeposit(ctx sdk.Context, depositor sdk.AccAddress) (hardtypes.Deposit, bool)
 }
 
 // SavingsKeeper defines the expected interface needed for the savings strategy.

@@ -35,7 +35,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "jinx",
+						Denom:          "hard",
 						MultiplierName: "large",
 					},
 				},
@@ -50,7 +50,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "jinx",
+						Denom:          "hard",
 						MultiplierName: "",
 					},
 				},
@@ -85,7 +85,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: "",
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "jinx",
+						Denom:          "hard",
 						MultiplierName: "medium",
 					},
 				},
@@ -125,11 +125,11 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "jinx",
+						Denom:          "hard",
 						MultiplierName: "medium",
 					},
 					{
-						Denom:          "jinx",
+						Denom:          "hard",
 						MultiplierName: "large",
 					},
 				},
@@ -141,11 +141,11 @@ func TestMsgClaim_Validate(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		msgClaimJinxReward := types.NewMsgClaimJinxReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
+		msgClaimHardReward := types.NewMsgClaimHardReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimDelegatorReward := types.NewMsgClaimDelegatorReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimSwapReward := types.NewMsgClaimSwapReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimSavingsReward := types.NewMsgClaimSavingsReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
-		msgs := []sdk.Msg{&msgClaimJinxReward, &msgClaimDelegatorReward, &msgClaimSwapReward, &msgClaimSavingsReward}
+		msgs := []sdk.Msg{&msgClaimHardReward, &msgClaimDelegatorReward, &msgClaimSwapReward, &msgClaimSavingsReward}
 		for _, msg := range msgs {
 			t.Run(tc.name, func(t *testing.T) {
 				err := msg.ValidateBasic()

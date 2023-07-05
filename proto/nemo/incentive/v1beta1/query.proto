@@ -44,7 +44,7 @@ message QueryParamsResponse {
 message QueryRewardsRequest {
   // owner is the address of the user to query rewards for.
   string owner = 1;
-  // reward_type is the type of reward to query rewards for, e.g. jinx, earn,
+  // reward_type is the type of reward to query rewards for, e.g. hard, earn,
   // swap.
   string reward_type = 2;
   // unsynchronized is a flag to query rewards that are not simulated for reward
@@ -60,8 +60,8 @@ message QueryRewardsResponse {
     (gogoproto.nullable) = false
   ];
 
-  repeated JinxLiquidityProviderClaim jinx_liquidity_provider_claims = 2 [
-    (gogoproto.castrepeated) = "JinxLiquidityProviderClaims",
+  repeated HardLiquidityProviderClaim hard_liquidity_provider_claims = 2 [
+    (gogoproto.castrepeated) = "HardLiquidityProviderClaims",
     (gogoproto.nullable) = false
   ];
 
@@ -95,11 +95,11 @@ message QueryRewardFactorsResponse {
     (gogoproto.castrepeated) = "RewardIndexes",
     (gogoproto.nullable) = false
   ];
-  repeated MultiRewardIndex jinx_supply_reward_factors = 2 [
+  repeated MultiRewardIndex hard_supply_reward_factors = 2 [
     (gogoproto.castrepeated) = "MultiRewardIndexes",
     (gogoproto.nullable) = false
   ];
-  repeated MultiRewardIndex jinx_borrow_reward_factors = 3 [
+  repeated MultiRewardIndex hard_borrow_reward_factors = 3 [
     (gogoproto.castrepeated) = "MultiRewardIndexes",
     (gogoproto.nullable) = false
   ];

@@ -66,7 +66,7 @@ func (c *Chains) Register(name string, chain *ChainDetails) error {
 	return nil
 }
 
-// the Chain details are all jinxcoded because they are currently fixed by nmtool.
+// the Chain details are all hardcoded because they are currently fixed by nmtool.
 // someday they may be accepted as configurable parameters.
 var (
 	nmtoolNemoChain = ChainDetails{

@@ -38,7 +38,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 	acc2deposit1Amount := sdk.NewInt64Coin(vault1Denom, 200)
 	acc2deposit2Amount := sdk.NewInt64Coin(vault2Denom, 300)
 
-	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(
@@ -64,7 +64,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc.GetAddress(),
 		acc1deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -81,7 +81,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc.GetAddress(),
 		acc1deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -105,7 +105,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc.GetAddress(),
 		acc1deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -180,7 +180,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc2.GetAddress(),
 		acc2deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -198,7 +198,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc2.GetAddress(),
 		acc2deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -222,7 +222,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		suite.Ctx,
 		acc2.GetAddress(),
 		acc2deposit1Amount,
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -302,7 +302,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		acc.GetAddress(),
 		// 3 deposits, multiply original deposit amount by 3
 		sdk.NewCoin(acc1deposit1Amount.Denom, acc1deposit1Amount.Amount.MulRaw(3)),
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -396,7 +396,7 @@ func (suite *hookTestSuite) TestHooks_DepositAndWithdraw() {
 		acc2.GetAddress(),
 		// 3 deposits, multiply original deposit amount by 3
 		sdk.NewCoin(acc2deposit1Amount.Denom, acc2deposit1Amount.Amount.MulRaw(3)),
-		types.STRATEGY_TYPE_JINX,
+		types.STRATEGY_TYPE_HARD,
 	)
 	suite.Require().NoError(err)
 
@@ -478,20 +478,20 @@ func (suite *hookTestSuite) TestHooks_NoPanicsOnNilHooks() {
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 	withdrawAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
 	// AfterVaultDepositModified should not panic if no hooks are registered
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	// BeforeVaultDepositModified should not panic if no hooks are registered
-	err = suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err = suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	// BeforeVaultDepositModified should not panic if no hooks are registered
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), withdrawAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 }
 
@@ -504,7 +504,7 @@ func (suite *hookTestSuite) TestHooks_HookOrdering() {
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
@@ -514,7 +514,7 @@ func (suite *hookTestSuite) TestHooks_HookOrdering() {
 			suite.Require().True(found, "expected after hook to be called after shares are updated")
 			suite.Require().Equal(sdk.NewDecFromInt(depositAmount.Amount), shares.AmountOf(depositAmount.Denom))
 		})
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	earnHooks.On("BeforeVaultDepositModified", suite.Ctx, depositAmount.Denom, acc.GetAddress(), sdk.NewDecFromInt(depositAmount.Amount)).
@@ -523,7 +523,7 @@ func (suite *hookTestSuite) TestHooks_HookOrdering() {
 			suite.Require().True(found, "expected after hook to be called after shares are updated")
 			suite.Require().Equal(sdk.NewDecFromInt(depositAmount.Amount), shares.AmountOf(depositAmount.Denom))
 		})
-	err = suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err = suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	existingShares, found := suite.Keeper.GetVaultAccountShares(suite.Ctx, acc.GetAddress())
@@ -534,6 +534,6 @@ func (suite *hookTestSuite) TestHooks_HookOrdering() {
 			suite.Require().True(found, "expected after hook to be called after shares are updated")
 			suite.Require().Equal(sdk.NewDecFromInt(depositAmount.Amount.MulRaw(2)), shares.AmountOf(depositAmount.Denom))
 		})
-	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	_, err = suite.Keeper.Withdraw(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 }

@@ -7162,7 +7162,7 @@ paths:
                             type: string
                             enum:
                               - STRATEGY_TYPE_UNSPECIFIED
-                              - STRATEGY_TYPE_JINX
+                              - STRATEGY_TYPE_HARD
                               - STRATEGY_TYPE_SAVINGS
                             default: STRATEGY_TYPE_UNSPECIFIED
                             description: >-
@@ -7170,7 +7170,7 @@ paths:
                               uses to optimize yields.
 
                                - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                               - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                               - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                               module.
                                - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                               Savings module.
@@ -7316,7 +7316,7 @@ paths:
                         type: string
                         enum:
                           - STRATEGY_TYPE_UNSPECIFIED
-                          - STRATEGY_TYPE_JINX
+                          - STRATEGY_TYPE_HARD
                           - STRATEGY_TYPE_SAVINGS
                         default: STRATEGY_TYPE_UNSPECIFIED
                         description: >-
@@ -7324,7 +7324,7 @@ paths:
                           to optimize yields.
 
                            - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                           - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                           - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                           module.
                            - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                           Savings module.
@@ -7414,7 +7414,7 @@ paths:
                       type: string
                       enum:
                         - STRATEGY_TYPE_UNSPECIFIED
-                        - STRATEGY_TYPE_JINX
+                        - STRATEGY_TYPE_HARD
                         - STRATEGY_TYPE_SAVINGS
                       default: STRATEGY_TYPE_UNSPECIFIED
                       description: >-
@@ -7422,7 +7422,7 @@ paths:
                         to optimize yields.
 
                          - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                         - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                         - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                         module.
                          - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                         Savings module.
@@ -7496,10 +7496,10 @@ paths:
           type: string
       tags:
         - Earn
-  /nemo/jinx/v1beta1/accounts:
+  /nemo/hard/v1beta1/accounts:
     get:
       summary: Accounts queries module accounts.
-      operationId: JinxAccounts
+      operationId: HardAccounts
       responses:
         '200':
           description: A successful response.
@@ -7914,11 +7914,11 @@ paths:
                           "value": "1.212s"
                         }
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/borrows:
+        - Hard
+  /nemo/hard/v1beta1/borrows:
     get:
-      summary: Borrows queries jinx borrows.
-      operationId: JinxBorrows
+      summary: Borrows queries hard borrows.
+      operationId: HardBorrows
       responses:
         '200':
           description: A successful response.
@@ -7965,7 +7965,7 @@ paths:
                           borrow interest factor.
                   description: >-
                     BorrowResponse defines an amount of coins borrowed from a
-                    jinx module account.
+                    hard module account.
               pagination:
                 type: object
                 properties:
@@ -8254,11 +8254,11 @@ paths:
           required: false
           type: boolean
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/deposits:
+        - Hard
+  /nemo/hard/v1beta1/deposits:
     get:
-      summary: Deposits queries jinx deposits.
-      operationId: JinxDeposits
+      summary: Deposits queries hard deposits.
+      operationId: HardDeposits
       responses:
         '200':
           description: A successful response.
@@ -8305,7 +8305,7 @@ paths:
                           borrow interest factor.
                   description: >-
                     DepositResponse defines an amount of coins deposited into a
-                    jinx module account.
+                    hard module account.
               pagination:
                 type: object
                 properties:
@@ -8594,11 +8594,11 @@ paths:
           required: false
           type: boolean
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/interest-factors:
+        - Hard
+  /nemo/hard/v1beta1/interest-factors:
     get:
-      summary: InterestFactors queries jinx module interest factors.
-      operationId: JinxInterestFactors
+      summary: InterestFactors queries hard module interest factors.
+      operationId: HardInterestFactors
       responses:
         '200':
           description: A successful response.
@@ -8821,11 +8821,11 @@ paths:
           required: false
           type: string
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/interest-rate:
+        - Hard
+  /nemo/hard/v1beta1/interest-rate:
     get:
-      summary: InterestRate queries the jinx module interest rates.
-      operationId: JinxInterestRate
+      summary: InterestRate queries the hard module interest rates.
+      operationId: HardInterestRate
       responses:
         '200':
           description: A successful response.
@@ -9048,11 +9048,11 @@ paths:
           required: false
           type: string
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/params:
+        - Hard
+  /nemo/hard/v1beta1/params:
     get:
       summary: Params queries module params.
-      operationId: JinxParams
+      operationId: HardParams
       responses:
         '200':
           description: A successful response.
@@ -9104,7 +9104,7 @@ paths:
                       description: MoneyMarket is a money market for an individual asset.
                   minimum_borrow_usd_value:
                     type: string
-                description: Params defines the parameters for the jinx module.
+                description: Params defines the parameters for the hard module.
             description: >-
               QueryParamsResponse is the response type for the Query/Params RPC
               method.
@@ -9300,11 +9300,11 @@ paths:
                           "value": "1.212s"
                         }
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/reserves:
+        - Hard
+  /nemo/hard/v1beta1/reserves:
     get:
-      summary: Reserves queries total jinx reserve coins.
-      operationId: JinxReserves
+      summary: Reserves queries total hard reserve coins.
+      operationId: HardReserves
       responses:
         '200':
           description: A successful response.
@@ -9528,11 +9528,11 @@ paths:
           required: false
           type: string
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/total-borrowed:
+        - Hard
+  /nemo/hard/v1beta1/total-borrowed:
     get:
-      summary: TotalBorrowed queries total coins borrowed from jinx liquidity pools.
-      operationId: JinxTotalBorrowed
+      summary: TotalBorrowed queries total coins borrowed from hard liquidity pools.
+      operationId: HardTotalBorrowed
       responses:
         '200':
           description: A successful response.
@@ -9756,11 +9756,11 @@ paths:
           required: false
           type: string
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/total-deposited:
+        - Hard
+  /nemo/hard/v1beta1/total-deposited:
     get:
-      summary: TotalDeposited queries total coins deposited to jinx liquidity pools.
-      operationId: JinxTotalDeposited
+      summary: TotalDeposited queries total coins deposited to hard liquidity pools.
+      operationId: HardTotalDeposited
       responses:
         '200':
           description: A successful response.
@@ -9984,11 +9984,11 @@ paths:
           required: false
           type: string
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/unsynced-borrows:
+        - Hard
+  /nemo/hard/v1beta1/unsynced-borrows:
     get:
       summary: UnsyncedBorrows queries unsynced borrows.
-      operationId: JinxUnsyncedBorrows
+      operationId: HardUnsyncedBorrows
       responses:
         '200':
           description: A successful response.
@@ -10035,7 +10035,7 @@ paths:
                           borrow interest factor.
                   description: >-
                     BorrowResponse defines an amount of coins borrowed from a
-                    jinx module account.
+                    hard module account.
               pagination:
                 type: object
                 properties:
@@ -10324,11 +10324,11 @@ paths:
           required: false
           type: boolean
       tags:
-        - Jinx
-  /nemo/jinx/v1beta1/unsynced-deposits:
+        - Hard
+  /nemo/hard/v1beta1/unsynced-deposits:
     get:
       summary: UnsyncedDeposits queries unsynced deposits.
-      operationId: JinxUnsyncedDeposits
+      operationId: HardUnsyncedDeposits
       responses:
         '200':
           description: A successful response.
@@ -10375,7 +10375,7 @@ paths:
                           borrow interest factor.
                   description: >-
                     DepositResponse defines an amount of coins deposited into a
-                    jinx module account.
+                    hard module account.
               pagination:
                 type: object
                 properties:
@@ -10664,7 +10664,7 @@ paths:
           required: false
           type: boolean
       tags:
-        - Jinx
+        - Hard
   /nemo/incentive/v1beta1/apy:
     get:
       summary: Apy queries incentive reward apy for a reward.
@@ -10761,7 +10761,7 @@ paths:
 
                             signatures required by gogoproto.
                       title: RewardPeriod stores the state of an ongoing reward
-                  jinx_supply_reward_periods:
+                  hard_supply_reward_periods:
                     type: array
                     items:
                       type: object
@@ -10795,7 +10795,7 @@ paths:
 
                               signatures required by gogoproto.
                       title: MultiRewardPeriod supports multiple reward types
-                  jinx_borrow_reward_periods:
+                  hard_borrow_reward_periods:
                     type: array
                     items:
                       type: object
@@ -11044,7 +11044,7 @@ paths:
                       type: string
                       format: byte
                   title: RewardIndex stores reward accumulation information
-              jinx_supply_reward_factors:
+              hard_supply_reward_factors:
                 type: array
                 items:
                   type: object
@@ -11065,7 +11065,7 @@ paths:
                   title: >-
                     MultiRewardIndex stores reward accumulation information on
                     multiple reward types
-              jinx_borrow_reward_factors:
+              hard_borrow_reward_factors:
                 type: array
                 items:
                   type: object
@@ -11247,7 +11247,7 @@ paths:
                             format: byte
                         title: RewardIndex stores reward accumulation information
                   title: MUSDMintingClaim is for MUSD minting rewards
-              jinx_liquidity_provider_claims:
+              hard_liquidity_provider_claims:
                 type: array
                 items:
                   type: object
@@ -11326,7 +11326,7 @@ paths:
                           MultiRewardIndex stores reward accumulation
                           information on multiple reward types
                   title: >-
-                    JinxLiquidityProviderClaim stores the jinx liquidity
+                    HardLiquidityProviderClaim stores the hard liquidity
                     provider rewards that can be claimed by owner
               delegator_claims:
                 type: array
@@ -11593,7 +11593,7 @@ paths:
           type: string
         - name: reward_type
           description: >-
-            reward_type is the type of reward to query rewards for, e.g. jinx,
+            reward_type is the type of reward to query rewards for, e.g. hard,
             earn,
 
             swap.
@@ -48756,7 +48756,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -49221,7 +49221,7 @@ paths:
                         RevisionNumber the same. However some consensus
                         algorithms may choose to
 
-                        reset the height in certain conditions e.g. jinx forks,
+                        reset the height in certain conditions e.g. hard forks,
                         state-machine
 
                         breaking changes In these cases, the RevisionNumber is
@@ -49734,7 +49734,7 @@ paths:
                     RevisionNumber the same. However some consensus algorithms
                     may choose to
 
-                    reset the height in certain conditions e.g. jinx forks,
+                    reset the height in certain conditions e.g. hard forks,
                     state-machine
 
                     breaking changes In these cases, the RevisionNumber is
@@ -50249,7 +50249,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -51499,7 +51499,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -51854,7 +51854,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -52245,7 +52245,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -52683,7 +52683,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -53103,7 +53103,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -53684,7 +53684,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -54054,7 +54054,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -54499,7 +54499,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -54924,7 +54924,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -55190,7 +55190,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -55496,7 +55496,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -55815,7 +55815,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -56129,7 +56129,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -56441,7 +56441,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -56705,7 +56705,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -56967,7 +56967,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -57234,7 +57234,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -57600,7 +57600,7 @@ paths:
                   RevisionNumber the same. However some consensus algorithms may
                   choose to
 
-                  reset the height in certain conditions e.g. jinx forks,
+                  reset the height in certain conditions e.g. hard forks,
                   state-machine
 
                   breaking changes In these cases, the RevisionNumber is
@@ -57910,17 +57910,17 @@ paths:
                 example: '120000000'
         '500':
           description: Server internal error
-  /vesting/circulatingsupplyjinx:
+  /vesting/circulatingsupplyhard:
     get:
       deprecated: true
-      summary: Get the current circulating supply of JINX
+      summary: Get the current circulating supply of HARD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         '200':
-          description: JINX circulating supply
+          description: HARD circulating supply
           schema:
             properties:
               height:
@@ -57931,17 +57931,17 @@ paths:
                 example: '63750000'
         '500':
           description: Server internal error
-  /vesting/totalsupplyjinx:
+  /vesting/totalsupplyhard:
     get:
       deprecated: true
-      summary: Get the total supply of JINX
+      summary: Get the total supply of HARD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         '200':
-          description: JINX total supply
+          description: HARD total supply
           schema:
             properties:
               height:
@@ -61718,7 +61718,7 @@ definitions:
           type: string
           enum:
             - STRATEGY_TYPE_UNSPECIFIED
-            - STRATEGY_TYPE_JINX
+            - STRATEGY_TYPE_HARD
             - STRATEGY_TYPE_SAVINGS
           default: STRATEGY_TYPE_UNSPECIFIED
           description: >-
@@ -61726,7 +61726,7 @@ definitions:
             yields.
 
              - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-             - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+             - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
             module.
              - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
             Savings module.
@@ -61816,7 +61816,7 @@ definitions:
                 type: string
                 enum:
                   - STRATEGY_TYPE_UNSPECIFIED
-                  - STRATEGY_TYPE_JINX
+                  - STRATEGY_TYPE_HARD
                   - STRATEGY_TYPE_SAVINGS
                 default: STRATEGY_TYPE_UNSPECIFIED
                 description: >-
@@ -61824,7 +61824,7 @@ definitions:
                   optimize yields.
 
                    - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                   - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                   - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                   module.
                    - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                   Savings module.
@@ -61952,7 +61952,7 @@ definitions:
                     type: string
                     enum:
                       - STRATEGY_TYPE_UNSPECIFIED
-                      - STRATEGY_TYPE_JINX
+                      - STRATEGY_TYPE_HARD
                       - STRATEGY_TYPE_SAVINGS
                     default: STRATEGY_TYPE_UNSPECIFIED
                     description: >-
@@ -61960,7 +61960,7 @@ definitions:
                       optimize yields.
 
                        - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                       - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                       - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                       module.
                        - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                       Savings module.
@@ -62037,7 +62037,7 @@ definitions:
               type: string
               enum:
                 - STRATEGY_TYPE_UNSPECIFIED
-                - STRATEGY_TYPE_JINX
+                - STRATEGY_TYPE_HARD
                 - STRATEGY_TYPE_SAVINGS
               default: STRATEGY_TYPE_UNSPECIFIED
               description: >-
@@ -62045,7 +62045,7 @@ definitions:
                 optimize yields.
 
                  - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                 - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                 - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                 module.
                  - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                 Savings module.
@@ -62102,7 +62102,7 @@ definitions:
                 type: string
                 enum:
                   - STRATEGY_TYPE_UNSPECIFIED
-                  - STRATEGY_TYPE_JINX
+                  - STRATEGY_TYPE_HARD
                   - STRATEGY_TYPE_SAVINGS
                 default: STRATEGY_TYPE_UNSPECIFIED
                 description: >-
@@ -62110,7 +62110,7 @@ definitions:
                   optimize yields.
 
                    - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-                   - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+                   - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
                   module.
                    - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
                   Savings module.
@@ -62154,14 +62154,14 @@ definitions:
     type: string
     enum:
       - STRATEGY_TYPE_UNSPECIFIED
-      - STRATEGY_TYPE_JINX
+      - STRATEGY_TYPE_HARD
       - STRATEGY_TYPE_SAVINGS
     default: STRATEGY_TYPE_UNSPECIFIED
     description: |-
       StrategyType is the type of strategy that a vault uses to optimize yields.
 
        - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-       - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+       - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
       module.
        - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
       Savings module.
@@ -62177,7 +62177,7 @@ definitions:
           type: string
           enum:
             - STRATEGY_TYPE_UNSPECIFIED
-            - STRATEGY_TYPE_JINX
+            - STRATEGY_TYPE_HARD
             - STRATEGY_TYPE_SAVINGS
           default: STRATEGY_TYPE_UNSPECIFIED
           description: >-
@@ -62185,7 +62185,7 @@ definitions:
             yields.
 
              - STRATEGY_TYPE_UNSPECIFIED: STRATEGY_TYPE_UNSPECIFIED represents an unspecified or invalid strategy type.
-             - STRATEGY_TYPE_JINX: STRATEGY_TYPE_JINX represents the strategy that deposits assets in the Jinx
+             - STRATEGY_TYPE_HARD: STRATEGY_TYPE_HARD represents the strategy that deposits assets in the Hard
             module.
              - STRATEGY_TYPE_SAVINGS: STRATEGY_TYPE_SAVINGS represents the strategy that deposits assets in the
             Savings module.
@@ -62231,7 +62231,7 @@ definitions:
       amount:
         type: string
     description: VaultShare defines shares of a vault owned by a depositor.
-  nemo.jinx.v1beta1.BorrowInterestFactorResponse:
+  nemo.hard.v1beta1.BorrowInterestFactorResponse:
     type: object
     properties:
       denom:
@@ -62240,7 +62240,7 @@ definitions:
         type: string
         title: sdk.Dec as string
     description: BorrowInterestFactorResponse defines an individual borrow interest factor.
-  nemo.jinx.v1beta1.BorrowLimit:
+  nemo.hard.v1beta1.BorrowLimit:
     type: object
     properties:
       has_max_limit:
@@ -62250,7 +62250,7 @@ definitions:
       loan_to_value:
         type: string
     description: BorrowLimit enforces restrictions on a money market.
-  nemo.jinx.v1beta1.BorrowResponse:
+  nemo.hard.v1beta1.BorrowResponse:
     type: object
     properties:
       borrower:
@@ -62283,9 +62283,9 @@ definitions:
             BorrowInterestFactorResponse defines an individual borrow interest
             factor.
     description: >-
-      BorrowResponse defines an amount of coins borrowed from a jinx module
+      BorrowResponse defines an amount of coins borrowed from a hard module
       account.
-  nemo.jinx.v1beta1.DepositResponse:
+  nemo.hard.v1beta1.DepositResponse:
     type: object
     properties:
       depositor:
@@ -62318,9 +62318,9 @@ definitions:
             SupplyInterestFactorResponse defines an individual borrow interest
             factor.
     description: >-
-      DepositResponse defines an amount of coins deposited into a jinx module
+      DepositResponse defines an amount of coins deposited into a hard module
       account.
-  nemo.jinx.v1beta1.InterestFactor:
+  nemo.hard.v1beta1.InterestFactor:
     type: object
     properties:
       denom:
@@ -62332,7 +62332,7 @@ definitions:
         type: string
         title: sdk.Dec as String
     title: InterestFactor is a unique type returned by interest factor queries
-  nemo.jinx.v1beta1.InterestRateModel:
+  nemo.hard.v1beta1.InterestRateModel:
     type: object
     properties:
       base_rate_apy:
@@ -62344,7 +62344,7 @@ definitions:
       jump_multiplier:
         type: string
     description: InterestRateModel contains information about an asset's interest rate.
-  nemo.jinx.v1beta1.MoneyMarket:
+  nemo.hard.v1beta1.MoneyMarket:
     type: object
     properties:
       denom:
@@ -62380,7 +62380,7 @@ definitions:
       keeper_reward_percentage:
         type: string
     description: MoneyMarket is a money market for an individual asset.
-  nemo.jinx.v1beta1.MoneyMarketInterestRate:
+  nemo.hard.v1beta1.MoneyMarketInterestRate:
     type: object
     properties:
       denom:
@@ -62392,7 +62392,7 @@ definitions:
         type: string
         title: sdk.Dec as String
     title: MoneyMarketInterestRate is a unique type returned by interest rate queries
-  nemo.jinx.v1beta1.Params:
+  nemo.hard.v1beta1.Params:
     type: object
     properties:
       money_markets:
@@ -62437,8 +62437,8 @@ definitions:
           description: MoneyMarket is a money market for an individual asset.
       minimum_borrow_usd_value:
         type: string
-    description: Params defines the parameters for the jinx module.
-  nemo.jinx.v1beta1.QueryAccountsResponse:
+    description: Params defines the parameters for the hard module.
+  nemo.hard.v1beta1.QueryAccountsResponse:
     type: object
     properties:
       accounts:
@@ -62654,7 +62654,7 @@ definitions:
     description: >-
       QueryAccountsResponse is the response type for the Query/Accounts RPC
       method.
-  nemo.jinx.v1beta1.QueryBorrowsResponse:
+  nemo.hard.v1beta1.QueryBorrowsResponse:
     type: object
     properties:
       borrows:
@@ -62695,7 +62695,7 @@ definitions:
                   BorrowInterestFactorResponse defines an individual borrow
                   interest factor.
           description: >-
-            BorrowResponse defines an amount of coins borrowed from a jinx
+            BorrowResponse defines an amount of coins borrowed from a hard
             module account.
       pagination:
         type: object
@@ -62726,7 +62726,7 @@ definitions:
     description: >-
       QueryBorrowsResponse is the response type for the Query/Borrows RPC
       method.
-  nemo.jinx.v1beta1.QueryDepositsResponse:
+  nemo.hard.v1beta1.QueryDepositsResponse:
     type: object
     properties:
       deposits:
@@ -62767,7 +62767,7 @@ definitions:
                   SupplyInterestFactorResponse defines an individual borrow
                   interest factor.
           description: >-
-            DepositResponse defines an amount of coins deposited into a jinx
+            DepositResponse defines an amount of coins deposited into a hard
             module account.
       pagination:
         type: object
@@ -62798,7 +62798,7 @@ definitions:
     description: >-
       QueryDepositsResponse is the response type for the Query/Deposits RPC
       method.
-  nemo.jinx.v1beta1.QueryInterestFactorsResponse:
+  nemo.hard.v1beta1.QueryInterestFactorsResponse:
     type: object
     properties:
       interest_factors:
@@ -62818,7 +62818,7 @@ definitions:
     description: >-
       QueryInterestFactorsResponse is the response type for the
       Query/InterestFactors RPC method.
-  nemo.jinx.v1beta1.QueryInterestRateResponse:
+  nemo.hard.v1beta1.QueryInterestRateResponse:
     type: object
     properties:
       interest_rates:
@@ -62840,7 +62840,7 @@ definitions:
     description: >-
       QueryInterestRateResponse is the response type for the Query/InterestRate
       RPC method.
-  nemo.jinx.v1beta1.QueryParamsResponse:
+  nemo.hard.v1beta1.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -62888,9 +62888,9 @@ definitions:
               description: MoneyMarket is a money market for an individual asset.
           minimum_borrow_usd_value:
             type: string
-        description: Params defines the parameters for the jinx module.
+        description: Params defines the parameters for the hard module.
     description: QueryParamsResponse is the response type for the Query/Params RPC method.
-  nemo.jinx.v1beta1.QueryReservesResponse:
+  nemo.hard.v1beta1.QueryReservesResponse:
     type: object
     properties:
       amount:
@@ -62910,7 +62910,7 @@ definitions:
     description: >-
       QueryReservesResponse is the response type for the Query/Reserves RPC
       method.
-  nemo.jinx.v1beta1.QueryTotalBorrowedResponse:
+  nemo.hard.v1beta1.QueryTotalBorrowedResponse:
     type: object
     properties:
       borrowed_coins:
@@ -62930,7 +62930,7 @@ definitions:
     description: >-
       QueryTotalBorrowedResponse is the response type for the
       Query/TotalBorrowed RPC method.
-  nemo.jinx.v1beta1.QueryTotalDepositedResponse:
+  nemo.hard.v1beta1.QueryTotalDepositedResponse:
     type: object
     properties:
       supplied_coins:
@@ -62950,7 +62950,7 @@ definitions:
     description: >-
       QueryTotalDepositedResponse is the response type for the
       Query/TotalDeposited RPC method.
-  nemo.jinx.v1beta1.QueryUnsyncedBorrowsResponse:
+  nemo.hard.v1beta1.QueryUnsyncedBorrowsResponse:
     type: object
     properties:
       borrows:
@@ -62991,7 +62991,7 @@ definitions:
                   BorrowInterestFactorResponse defines an individual borrow
                   interest factor.
           description: >-
-            BorrowResponse defines an amount of coins borrowed from a jinx
+            BorrowResponse defines an amount of coins borrowed from a hard
             module account.
       pagination:
         type: object
@@ -63022,7 +63022,7 @@ definitions:
     description: >-
       QueryUnsyncedBorrowsResponse is the response type for the
       Query/UnsyncedBorrows RPC method.
-  nemo.jinx.v1beta1.QueryUnsyncedDepositsResponse:
+  nemo.hard.v1beta1.QueryUnsyncedDepositsResponse:
     type: object
     properties:
       deposits:
@@ -63063,7 +63063,7 @@ definitions:
                   SupplyInterestFactorResponse defines an individual borrow
                   interest factor.
           description: >-
-            DepositResponse defines an amount of coins deposited into a jinx
+            DepositResponse defines an amount of coins deposited into a hard
             module account.
       pagination:
         type: object
@@ -63094,7 +63094,7 @@ definitions:
     description: >-
       QueryUnsyncedDepositsResponse is the response type for the
       Query/UnsyncedDeposits RPC method.
-  nemo.jinx.v1beta1.SupplyInterestFactorResponse:
+  nemo.hard.v1beta1.SupplyInterestFactorResponse:
     type: object
     properties:
       denom:
@@ -63251,7 +63251,7 @@ definitions:
             MultiRewardIndex stores reward accumulation information on multiple
             reward types
     title: EarnClaim stores the earn rewards that can be claimed by owner
-  nemo.incentive.v1beta1.JinxLiquidityProviderClaim:
+  nemo.incentive.v1beta1.HardLiquidityProviderClaim:
     type: object
     properties:
       base_claim:
@@ -63321,7 +63321,7 @@ definitions:
             MultiRewardIndex stores reward accumulation information on multiple
             reward types
     title: >-
-      JinxLiquidityProviderClaim stores the jinx liquidity provider rewards that
+      HardLiquidityProviderClaim stores the hard liquidity provider rewards that
       can be claimed by owner
   nemo.incentive.v1beta1.MultiRewardIndex:
     type: object
@@ -63440,7 +63440,7 @@ definitions:
 
                 signatures required by gogoproto.
           title: RewardPeriod stores the state of an ongoing reward
-      jinx_supply_reward_periods:
+      hard_supply_reward_periods:
         type: array
         items:
           type: object
@@ -63473,7 +63473,7 @@ definitions:
 
                   signatures required by gogoproto.
           title: MultiRewardPeriod supports multiple reward types
-      jinx_borrow_reward_periods:
+      hard_borrow_reward_periods:
         type: array
         items:
           type: object
@@ -63721,7 +63721,7 @@ definitions:
 
                     signatures required by gogoproto.
               title: RewardPeriod stores the state of an ongoing reward
-          jinx_supply_reward_periods:
+          hard_supply_reward_periods:
             type: array
             items:
               type: object
@@ -63754,7 +63754,7 @@ definitions:
 
                       signatures required by gogoproto.
               title: MultiRewardPeriod supports multiple reward types
-          jinx_borrow_reward_periods:
+          hard_borrow_reward_periods:
             type: array
             items:
               type: object
@@ -63962,7 +63962,7 @@ definitions:
               type: string
               format: byte
           title: RewardIndex stores reward accumulation information
-      jinx_supply_reward_factors:
+      hard_supply_reward_factors:
         type: array
         items:
           type: object
@@ -63983,7 +63983,7 @@ definitions:
           title: >-
             MultiRewardIndex stores reward accumulation information on multiple
             reward types
-      jinx_borrow_reward_factors:
+      hard_borrow_reward_factors:
         type: array
         items:
           type: object
@@ -64133,7 +64133,7 @@ definitions:
                     format: byte
                 title: RewardIndex stores reward accumulation information
           title: MUSDMintingClaim is for MUSD minting rewards
-      jinx_liquidity_provider_claims:
+      hard_liquidity_provider_claims:
         type: array
         items:
           type: object
@@ -64205,7 +64205,7 @@ definitions:
                   MultiRewardIndex stores reward accumulation information on
                   multiple reward types
           title: >-
-            JinxLiquidityProviderClaim stores the jinx liquidity provider
+            HardLiquidityProviderClaim stores the hard liquidity provider
             rewards that can be claimed by owner
       delegator_claims:
         type: array
@@ -90658,7 +90658,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -90846,7 +90846,7 @@ definitions:
     description: |-
       Normally the RevisionHeight is incremented at each height while keeping
       RevisionNumber the same. However some consensus algorithms may choose to
-      reset the height in certain conditions e.g. jinx forks, state-machine
+      reset the height in certain conditions e.g. hard forks, state-machine
       breaking changes In these cases, the RevisionNumber is incremented so that
       height continues to be monitonically increasing even as the RevisionHeight
       gets reset
@@ -91238,7 +91238,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -91506,7 +91506,7 @@ definitions:
             RevisionNumber the same. However some consensus algorithms may
             choose to
 
-            reset the height in certain conditions e.g. jinx forks,
+            reset the height in certain conditions e.g. hard forks,
             state-machine
 
             breaking changes In these cases, the RevisionNumber is incremented
@@ -91741,7 +91741,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -91789,7 +91789,7 @@ definitions:
                 RevisionNumber the same. However some consensus algorithms may
                 choose to
 
-                reset the height in certain conditions e.g. jinx forks,
+                reset the height in certain conditions e.g. hard forks,
                 state-machine
 
                 breaking changes In these cases, the RevisionNumber is
@@ -92592,7 +92592,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -92806,7 +92806,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -93007,7 +93007,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -93157,7 +93157,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -93305,7 +93305,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -93730,7 +93730,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -93931,7 +93931,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94038,7 +94038,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94178,7 +94178,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94314,7 +94314,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94356,7 +94356,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94398,7 +94398,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94488,7 +94488,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94530,7 +94530,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94623,7 +94623,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94665,7 +94665,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94709,7 +94709,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that
@@ -94749,7 +94749,7 @@ definitions:
           RevisionNumber the same. However some consensus algorithms may choose
           to
 
-          reset the height in certain conditions e.g. jinx forks, state-machine
+          reset the height in certain conditions e.g. hard forks, state-machine
 
           breaking changes In these cases, the RevisionNumber is incremented so
           that

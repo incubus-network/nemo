@@ -135,7 +135,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 			poolName: "btc/musd",
 			indexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -145,7 +145,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 			},
 			wantIndex: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -159,7 +159,7 @@ func (suite *KeeperTestSuite) TestGetSetSwapRewardIndexes() {
 			poolName: "",
 			indexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -231,7 +231,7 @@ func (suite *KeeperTestSuite) TestIterateSwapRewardIndexes() {
 			CollateralType: "btcb/musd",
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 			},
@@ -344,7 +344,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 			vaultDenom: "musd",
 			indexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -354,7 +354,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 			},
 			wantIndex: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -368,7 +368,7 @@ func (suite *KeeperTestSuite) TestGetSetEarnRewardIndexes() {
 			vaultDenom: "",
 			indexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 				{
@@ -440,7 +440,7 @@ func (suite *KeeperTestSuite) TestIterateEarnRewardIndexes() {
 			CollateralType: "musd",
 			RewardIndexes: types.RewardIndexes{
 				{
-					CollateralType: "jinx",
+					CollateralType: "hard",
 					RewardFactor:   d("0.02"),
 				},
 			},
@@ -534,17 +534,17 @@ func (suite *KeeperTestSuite) TestIterateMUSDMintingAccrualTimes() {
 	suite.Equal(expectedAccrualTimes, actualAccrualTimes)
 }
 
-func (suite *KeeperTestSuite) TestIterateJinxSupplyRewardAccrualTimes() {
+func (suite *KeeperTestSuite) TestIterateHardSupplyRewardAccrualTimes() {
 	suite.SetupApp()
 
 	expectedAccrualTimes := nonEmptyAccrualTimes
 
 	for _, at := range expectedAccrualTimes {
-		suite.keeper.SetPreviousJinxSupplyRewardAccrualTime(suite.ctx, at.denom, at.time)
+		suite.keeper.SetPreviousHardSupplyRewardAccrualTime(suite.ctx, at.denom, at.time)
 	}
 
 	var actualAccrualTimes []accrualtime
-	suite.keeper.IterateJinxSupplyRewardAccrualTimes(suite.ctx, func(denom string, accrualTime time.Time) bool {
+	suite.keeper.IterateHardSupplyRewardAccrualTimes(suite.ctx, func(denom string, accrualTime time.Time) bool {
 		actualAccrualTimes = append(actualAccrualTimes, accrualtime{denom: denom, time: accrualTime})
 		return false
 	})
@@ -552,17 +552,17 @@ func (suite *KeeperTestSuite) TestIterateJinxSupplyRewardAccrualTimes() {
 	suite.Equal(expectedAccrualTimes, actualAccrualTimes)
 }
 
-func (suite *KeeperTestSuite) TestIterateJinxBorrowrRewardAccrualTimes() {
+func (suite *KeeperTestSuite) TestIterateHardBorrowrRewardAccrualTimes() {
 	suite.SetupApp()
 
 	expectedAccrualTimes := nonEmptyAccrualTimes
 
 	for _, at := range expectedAccrualTimes {
-		suite.keeper.SetPreviousJinxBorrowRewardAccrualTime(suite.ctx, at.denom, at.time)
+		suite.keeper.SetPreviousHardBorrowRewardAccrualTime(suite.ctx, at.denom, at.time)
 	}
 
 	var actualAccrualTimes []accrualtime
-	suite.keeper.IterateJinxBorrowRewardAccrualTimes(suite.ctx, func(denom string, accrualTime time.Time) bool {
+	suite.keeper.IterateHardBorrowRewardAccrualTimes(suite.ctx, func(denom string, accrualTime time.Time) bool {
 		actualAccrualTimes = append(actualAccrualTimes, accrualtime{denom: denom, time: accrualTime})
 		return false
 	})

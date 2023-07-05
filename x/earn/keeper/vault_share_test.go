@@ -44,7 +44,7 @@ func (suite *vaultShareTestSuite) TestConvertToShares() {
 			name: "value doubled",
 
 			beforeConvert: func() {
-				// set total shares set total value for jinx
+				// set total shares set total value for hard
 				// value is double than shares
 				// shares is 2x price now
 				suite.addTotalShareAndValue(vaultDenom, sdk.NewDec(100), sdkmath.NewInt(200))
@@ -68,7 +68,7 @@ func (suite *vaultShareTestSuite) TestConvertToShares() {
 		suite.Run(tt.name, func() {
 			// Reset state
 			suite.Suite.SetupTest()
-			suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+			suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 			err := suite.App.FundModuleAccount(
 				suite.Ctx,
 				types.ModuleName,
@@ -90,7 +90,7 @@ func (suite *vaultShareTestSuite) TestConvertToShares() {
 func (suite *vaultShareTestSuite) addTotalShareAndValue(
 	vaultDenom string,
 	vaultShares sdk.Dec,
-	jinxDeposit sdkmath.Int,
+	hardDeposit sdkmath.Int,
 ) {
 	macc := suite.AccountKeeper.GetModuleAccount(suite.Ctx, types.ModuleName)
 
@@ -107,11 +107,11 @@ func (suite *vaultShareTestSuite) addTotalShareAndValue(
 		suite.Ctx,
 		vaultRecord,
 	)
-	// add value for jinx -- this does not set
-	err := suite.JinxKeeper.Deposit(
+	// add value for hard -- this does not set
+	err := suite.HardKeeper.Deposit(
 		suite.Ctx,
 		macc.GetAddress(),
-		sdk.NewCoins(sdk.NewCoin(vaultDenom, jinxDeposit)),
+		sdk.NewCoins(sdk.NewCoin(vaultDenom, hardDeposit)),
 	)
 	suite.Require().NoError(err)
 }

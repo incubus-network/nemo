@@ -6,7 +6,7 @@ import (
 
 // Querier routes for the incentive module
 const (
-	QueryGetJinxRewards        = "jinx-rewards"
+	QueryGetHardRewards        = "hard-rewards"
 	QueryGetMUSDMintingRewards = "musd-minting-rewards"
 	QueryGetDelegatorRewards   = "delegator-rewards"
 	QueryGetSwapRewards        = "swap-rewards"
@@ -43,8 +43,8 @@ func NewQueryRewardsParams(page, limit int, owner sdk.AccAddress, unsynchronized
 // QueryGetRewardFactorsResponse holds the response to a reward factor query
 type QueryGetRewardFactorsResponse struct {
 	MUSDMintingRewardFactors RewardIndexes      `json:"musd_minting_reward_factors" yaml:"musd_minting_reward_factors"`
-	JinxSupplyRewardFactors  MultiRewardIndexes `json:"jinx_supply_reward_factors" yaml:"jinx_supply_reward_factors"`
-	JinxBorrowRewardFactors  MultiRewardIndexes `json:"jinx_borrow_reward_factors" yaml:"jinx_borrow_reward_factors"`
+	HardSupplyRewardFactors  MultiRewardIndexes `json:"hard_supply_reward_factors" yaml:"hard_supply_reward_factors"`
+	HardBorrowRewardFactors  MultiRewardIndexes `json:"hard_borrow_reward_factors" yaml:"hard_borrow_reward_factors"`
 	DelegatorRewardFactors   MultiRewardIndexes `json:"delegator_reward_factors" yaml:"delegator_reward_factors"`
 	SwapRewardFactors        MultiRewardIndexes `json:"swap_reward_factors" yaml:"swap_reward_factors"`
 	SavingsRewardFactors     MultiRewardIndexes `json:"savings_reward_factors" yaml:"savings_reward_factors"`
@@ -53,12 +53,12 @@ type QueryGetRewardFactorsResponse struct {
 
 // NewQueryGetRewardFactorsResponse returns a new instance of QueryAllRewardFactorsResponse
 func NewQueryGetRewardFactorsResponse(musdMintingFactors RewardIndexes, supplyFactors,
-	jinxBorrowFactors, delegatorFactors, swapFactors, savingsFactors, earnFactors MultiRewardIndexes,
+	hardBorrowFactors, delegatorFactors, swapFactors, savingsFactors, earnFactors MultiRewardIndexes,
 ) QueryGetRewardFactorsResponse {
 	return QueryGetRewardFactorsResponse{
 		MUSDMintingRewardFactors: musdMintingFactors,
-		JinxSupplyRewardFactors:  supplyFactors,
-		JinxBorrowRewardFactors:  jinxBorrowFactors,
+		HardSupplyRewardFactors:  supplyFactors,
+		HardBorrowRewardFactors:  hardBorrowFactors,
 		DelegatorRewardFactors:   delegatorFactors,
 		SwapRewardFactors:        swapFactors,
 		SavingsRewardFactors:     savingsFactors,

@@ -38,7 +38,7 @@ import (
 	evmutilkeeper "github.com/incubus-network/nemo/x/evmutil/keeper"
 	evmutiltestutil "github.com/incubus-network/nemo/x/evmutil/testutil"
 	evmutiltypes "github.com/incubus-network/nemo/x/evmutil/types"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -191,18 +191,18 @@ func (suite *EIP712TestSuite) SetupTest() {
 		},
 	}
 
-	jinxGenState := jinxtypes.DefaultGenesisState()
-	jinxGenState.Params.MoneyMarkets = []jinxtypes.MoneyMarket{
+	hardGenState := hardtypes.DefaultGenesisState()
+	hardGenState.Params.MoneyMarkets = []hardtypes.MoneyMarket{
 		{
 			Denom: "musd",
-			BorrowLimit: jinxtypes.BorrowLimit{
+			BorrowLimit: hardtypes.BorrowLimit{
 				HasMaxLimit:  true,
 				MaximumLimit: sdk.MustNewDecFromStr("100000000000"),
 				LoanToValue:  sdk.MustNewDecFromStr("1"),
 			},
 			SpotMarketID:     "musd:usd",
 			ConversionFactor: sdkmath.NewInt(1_000_000),
-			InterestRateModel: jinxtypes.InterestRateModel{
+			InterestRateModel: hardtypes.InterestRateModel{
 				BaseRateAPY:    sdk.MustNewDecFromStr("0.05"),
 				BaseMultiplier: sdk.MustNewDecFromStr("2"),
 				Kink:           sdk.MustNewDecFromStr("0.8"),
@@ -262,7 +262,7 @@ func (suite *EIP712TestSuite) SetupTest() {
 		evmtypes.ModuleName:       cdc.MustMarshalJSON(evmGs),
 		feemarkettypes.ModuleName: cdc.MustMarshalJSON(feemarketGenesis),
 		cdptypes.ModuleName:       cdc.MustMarshalJSON(&cdpGenState),
-		jinxtypes.ModuleName:      cdc.MustMarshalJSON(&jinxGenState),
+		hardtypes.ModuleName:      cdc.MustMarshalJSON(&hardGenState),
 		pricefeedtypes.ModuleName: cdc.MustMarshalJSON(&pricefeedGenState),
 	}
 
@@ -381,8 +381,8 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/nemo.jinx.v1beta1.MsgDeposit",
-			MsgValueTypeName: "MsgValueJinxDeposit",
+			MsgTypeUrl:       "/nemo.hard.v1beta1.MsgDeposit",
+			MsgValueTypeName: "MsgValueHardDeposit",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "depositor", Type: "string"},
 				{Name: "amount", Type: "Coin[]"},
@@ -407,8 +407,8 @@ func (suite *EIP712TestSuite) SetupTest() {
 			},
 		},
 		{
-			MsgTypeUrl:       "/nemo.jinx.v1beta1.MsgWithdraw",
-			MsgValueTypeName: "MsgValueJinxWithdraw",
+			MsgTypeUrl:       "/nemo.hard.v1beta1.MsgWithdraw",
+			MsgValueTypeName: "MsgValueHardWithdraw",
 			ValueTypes: []evmtypes.EIP712MsgAttrType{
 				{Name: "depositor", Type: "string"},
 				{Name: "amount", Type: "Coin[]"},
@@ -608,7 +608,7 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 				sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt),
 				USDCCDPType,
 			)
-			lendMsg := jinxtypes.NewMsgDeposit(
+			lendMsg := hardtypes.NewMsgDeposit(
 				suite.testAddr,
 				sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt)),
 			)
@@ -665,11 +665,11 @@ func (suite *EIP712TestSuite) TestEIP712Tx() {
 				suite.Require().Equal(sdk.NewCoin(USDCCoinDenom, suite.getEVMAmount(100)), cdp.Collateral)
 				suite.Require().Equal(sdk.NewCoin("musd", sdkmath.NewInt(99_000_000)), cdp.Principal)
 
-				// validate jinx
-				jinxDeposit, found := suite.tApp.GetJinxKeeper().GetDeposit(suite.ctx, suite.testAddr)
+				// validate hard
+				hardDeposit, found := suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 				suite.Require().True(found)
-				suite.Require().Equal(suite.testAddr, jinxDeposit.Depositor)
-				suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(99_000_000))), jinxDeposit.Amount)
+				suite.Require().Equal(suite.testAddr, hardDeposit.Depositor)
+				suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(99_000_000))), hardDeposit.Amount)
 			} else {
 				suite.Require().NotEqual(resDeliverTx.Code, uint32(0), resCheckTx.Log)
 				suite.Require().Contains(resDeliverTx.Log, tc.errMsg)
@@ -696,7 +696,7 @@ func (suite *EIP712TestSuite) TestEIP712Tx_DepositAndWithdraw() {
 		sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt),
 		USDCCDPType,
 	)
-	lendMsg := jinxtypes.NewMsgDeposit(
+	lendMsg := hardtypes.NewMsgDeposit(
 		suite.testAddr,
 		sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt)),
 	)
@@ -720,11 +720,11 @@ func (suite *EIP712TestSuite) TestEIP712Tx_DepositAndWithdraw() {
 	)
 	suite.Require().Equal(resDeliverTx.Code, uint32(0), resDeliverTx.Log)
 
-	// validate jinx
-	jinxDeposit, found := suite.tApp.GetJinxKeeper().GetDeposit(suite.ctx, suite.testAddr)
+	// validate hard
+	hardDeposit, found := suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 	suite.Require().True(found)
-	suite.Require().Equal(suite.testAddr, jinxDeposit.Depositor)
-	suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(99_000_000))), jinxDeposit.Amount)
+	suite.Require().Equal(suite.testAddr, hardDeposit.Depositor)
+	suite.Require().Equal(sdk.NewCoins(sdk.NewCoin("musd", sdkmath.NewInt(99_000_000))), hardDeposit.Amount)
 
 	// validate erc20 balance
 	coinBal, err := suite.evmutilKeeper.QueryERC20BalanceOf(suite.ctx, suite.usdcEVMAddr, suite.testEVMAddr)
@@ -742,12 +742,12 @@ func (suite *EIP712TestSuite) TestEIP712Tx_DepositAndWithdraw() {
 		USDCCDPType,
 		sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt),
 	)
-	jinxWithdrawMsg := jinxtypes.NewMsgWithdraw(
+	hardWithdrawMsg := hardtypes.NewMsgWithdraw(
 		suite.testAddr,
 		sdk.NewCoins(sdk.NewCoin(cdptypes.DefaultStableDenom, musdAmt)),
 	)
 	withdrawMsgs := []sdk.Msg{
-		&jinxWithdrawMsg,
+		&hardWithdrawMsg,
 		&cdpWithdrawMsg,
 		&withdrawConvertMsg,
 	}
@@ -765,8 +765,8 @@ func (suite *EIP712TestSuite) TestEIP712Tx_DepositAndWithdraw() {
 	)
 	suite.Require().Equal(resDeliverTx.Code, uint32(0), resDeliverTx.Log)
 
-	// validate jinx & cdp should be repayed
-	_, found = suite.tApp.GetJinxKeeper().GetDeposit(suite.ctx, suite.testAddr)
+	// validate hard & cdp should be repayed
+	_, found = suite.tApp.GetHardKeeper().GetDeposit(suite.ctx, suite.testAddr)
 	suite.Require().False(found)
 	_, found = suite.tApp.GetCDPKeeper().GetCdpByOwnerAndCollateralType(suite.ctx, suite.testAddr, USDCCDPType)
 	suite.Require().False(found)

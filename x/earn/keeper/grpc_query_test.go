@@ -52,14 +52,14 @@ func (suite *grpcQueryTestSuite) TestQueryParams() {
 	suite.Require().ElementsMatch(types.DefaultParams().AllowedVaults, res.Params.AllowedVaults)
 
 	// Add vault to params
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	// Query again for added vault
 	res, err = suite.queryClient.Params(context.Background(), types.NewQueryParamsRequest())
 	suite.Require().NoError(err)
 	suite.Require().Equal(
 		types.AllowedVaults{
-			types.NewAllowedVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil),
+			types.NewAllowedVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil),
 		},
 		res.Params.AllowedVaults,
 	)
@@ -67,8 +67,8 @@ func (suite *grpcQueryTestSuite) TestQueryParams() {
 
 func (suite *grpcQueryTestSuite) TestVaults_ZeroSupply() {
 	// Add vaults
-	suite.CreateVault("musd", types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
-	suite.CreateVault("busd", types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault("musd", types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault("busd", types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 
 	suite.Run("single", func() {
 		res, err := suite.queryClient.Vault(context.Background(), types.NewQueryVaultRequest("musd"))
@@ -76,7 +76,7 @@ func (suite *grpcQueryTestSuite) TestVaults_ZeroSupply() {
 		suite.Require().Equal(
 			types.VaultResponse{
 				Denom:             "musd",
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.NewDec(0).String(),
@@ -92,7 +92,7 @@ func (suite *grpcQueryTestSuite) TestVaults_ZeroSupply() {
 		suite.Require().ElementsMatch([]types.VaultResponse{
 			{
 				Denom:             "musd",
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.ZeroDec().String(),
@@ -100,7 +100,7 @@ func (suite *grpcQueryTestSuite) TestVaults_ZeroSupply() {
 			},
 			{
 				Denom:             "busd",
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.ZeroDec().String(),
@@ -119,7 +119,7 @@ func (suite *grpcQueryTestSuite) TestVaults_WithSupply() {
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 	deposit2Amount := sdk.NewInt64Coin(vault2Denom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 	suite.CreateVault("bfury", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(
@@ -127,7 +127,7 @@ func (suite *grpcQueryTestSuite) TestVaults_WithSupply() {
 		sdk.NewInt64Coin(vault2Denom, 1000),
 	), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
 	err = suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), deposit2Amount, types.STRATEGY_TYPE_SAVINGS)
@@ -140,7 +140,7 @@ func (suite *grpcQueryTestSuite) TestVaults_WithSupply() {
 		[]types.VaultResponse{
 			{
 				Denom:             vaultDenom,
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.NewDecFromInt(depositAmount.Amount).String(),
@@ -166,8 +166,8 @@ func (suite *grpcQueryTestSuite) TestVaults_MixedSupply() {
 
 	depositAmount := sdk.NewInt64Coin(vault3Denom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
-	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 	suite.CreateVault("bfury", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(
@@ -186,7 +186,7 @@ func (suite *grpcQueryTestSuite) TestVaults_MixedSupply() {
 		[]types.VaultResponse{
 			{
 				Denom:             vaultDenom,
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.ZeroDec().String(),
@@ -194,7 +194,7 @@ func (suite *grpcQueryTestSuite) TestVaults_MixedSupply() {
 			},
 			{
 				Denom:             vault2Denom,
-				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_JINX},
+				Strategies:        []types.StrategyType{types.STRATEGY_TYPE_HARD},
 				IsPrivateVault:    false,
 				AllowedDepositors: nil,
 				TotalShares:       sdk.ZeroDec().String(),
@@ -259,8 +259,8 @@ func (suite *grpcQueryTestSuite) TestDeposits() {
 	suite.SavingsKeeper.SetParams(suite.Ctx, savingsParams)
 
 	// Add vaults
-	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
-	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 	suite.CreateVault("bfury", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 
 	deposit1Amount := sdk.NewInt64Coin(vault1Denom, 100)
@@ -275,12 +275,12 @@ func (suite *grpcQueryTestSuite) TestDeposits() {
 	// Deposit into each vault from each account - 4 total deposits
 	// Acc 1: musd + busd
 	// Acc 2: musd + bfury-1 + bfury-2
-	err := suite.Keeper.Deposit(suite.Ctx, acc1, deposit1Amount, types.STRATEGY_TYPE_JINX)
+	err := suite.Keeper.Deposit(suite.Ctx, acc1, deposit1Amount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
-	err = suite.Keeper.Deposit(suite.Ctx, acc1, deposit2Amount, types.STRATEGY_TYPE_JINX)
+	err = suite.Keeper.Deposit(suite.Ctx, acc1, deposit2Amount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 
-	err = suite.Keeper.Deposit(suite.Ctx, acc2, deposit1Amount, types.STRATEGY_TYPE_JINX)
+	err = suite.Keeper.Deposit(suite.Ctx, acc2, deposit1Amount, types.STRATEGY_TYPE_HARD)
 	suite.Require().NoError(err)
 	err = suite.Keeper.Deposit(suite.Ctx, acc2, deposit3Amount, types.STRATEGY_TYPE_SAVINGS)
 	suite.Require().NoError(err)
@@ -432,8 +432,8 @@ func (suite *grpcQueryTestSuite) TestDeposits_NoDeposits() {
 	vault2Denom := "busd"
 
 	// Add vaults
-	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
-	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+	suite.CreateVault(vault1Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vault2Denom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 	suite.CreateVault("bfury", types.StrategyTypes{types.STRATEGY_TYPE_SAVINGS}, false, nil)
 
 	// Accounts
@@ -713,8 +713,8 @@ func (suite *grpcQueryTestSuite) TestTotalSupply() {
 		{
 			name: "no savings vaults mean no supply",
 			setup: func() {
-				suite.CreateVault("musd", types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
-				suite.CreateVault("busd", types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
+				suite.CreateVault("musd", types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+				suite.CreateVault("busd", types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
 			},
 			expectedSupply: nil,
 		},

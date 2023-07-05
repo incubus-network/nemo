@@ -8,23 +8,23 @@ import (
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// UpdateJinxBorrowIndexDenomsTests runs unit tests for the keeper.UpdateJinxBorrowIndexDenoms method
-type UpdateJinxBorrowIndexDenomsTests struct {
+// UpdateHardBorrowIndexDenomsTests runs unit tests for the keeper.UpdateHardBorrowIndexDenoms method
+type UpdateHardBorrowIndexDenomsTests struct {
 	unitTester
 }
 
-func TestUpdateJinxBorrowIndexDenoms(t *testing.T) {
-	suite.Run(t, new(UpdateJinxBorrowIndexDenomsTests))
+func TestUpdateHardBorrowIndexDenoms(t *testing.T) {
+	suite.Run(t, new(UpdateHardBorrowIndexDenomsTests))
 }
 
-func (suite *UpdateJinxBorrowIndexDenomsTests) TestClaimIndexesAreRemovedForDenomsNoLongerBorrowed() {
-	claim := types.JinxLiquidityProviderClaim{
+func (suite *UpdateHardBorrowIndexDenomsTests) TestClaimIndexesAreRemovedForDenomsNoLongerBorrowed() {
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 	suite.storeGlobalBorrowIndexes(claim.BorrowRewardIndexes)
 
 	// remove one denom from the indexes already in the borrow
@@ -33,20 +33,20 @@ func (suite *UpdateJinxBorrowIndexDenomsTests) TestClaimIndexesAreRemovedForDeno
 		WithArbitrarySourceShares(extractCollateralTypes(expectedIndexes)...).
 		Build()
 
-	suite.keeper.UpdateJinxBorrowIndexDenoms(suite.ctx, borrow)
+	suite.keeper.UpdateHardBorrowIndexDenoms(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(expectedIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *UpdateJinxBorrowIndexDenomsTests) TestClaimIndexesAreAddedForNewlyBorrowedDenoms() {
-	claim := types.JinxLiquidityProviderClaim{
+func (suite *UpdateHardBorrowIndexDenomsTests) TestClaimIndexesAreAddedForNewlyBorrowedDenoms() {
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 	globalIndexes := appendUniqueMultiRewardIndex(claim.BorrowRewardIndexes)
 	suite.storeGlobalBorrowIndexes(globalIndexes)
 
@@ -54,42 +54,42 @@ func (suite *UpdateJinxBorrowIndexDenomsTests) TestClaimIndexesAreAddedForNewlyB
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.UpdateJinxBorrowIndexDenoms(suite.ctx, borrow)
+	suite.keeper.UpdateHardBorrowIndexDenoms(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *UpdateJinxBorrowIndexDenomsTests) TestClaimIndexesAreUnchangedWhenBorrowedDenomsUnchanged() {
-	claim := types.JinxLiquidityProviderClaim{
+func (suite *UpdateHardBorrowIndexDenomsTests) TestClaimIndexesAreUnchangedWhenBorrowedDenomsUnchanged() {
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 	// Set global indexes with same denoms but different values.
-	// UpdateJinxBorrowIndexDenoms should ignore the new values.
+	// UpdateHardBorrowIndexDenoms should ignore the new values.
 	suite.storeGlobalBorrowIndexes(increaseAllRewardFactors(claim.BorrowRewardIndexes))
 
 	borrow := NewBorrowBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(claim.BorrowRewardIndexes)...).
 		Build()
 
-	suite.keeper.UpdateJinxBorrowIndexDenoms(suite.ctx, borrow)
+	suite.keeper.UpdateHardBorrowIndexDenoms(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(claim.BorrowRewardIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *UpdateJinxBorrowIndexDenomsTests) TestEmptyClaimIndexesAreAddedForNewlyBorrowedButNotRewardedDenoms() {
-	claim := types.JinxLiquidityProviderClaim{
+func (suite *UpdateHardBorrowIndexDenomsTests) TestEmptyClaimIndexesAreAddedForNewlyBorrowedButNotRewardedDenoms() {
+	claim := types.HardLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		BorrowRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeJinxClaim(claim)
+	suite.storeHardClaim(claim)
 	suite.storeGlobalBorrowIndexes(claim.BorrowRewardIndexes)
 
 	// add a denom to the borrowed amount that is not in the global or claim's indexes
@@ -99,8 +99,8 @@ func (suite *UpdateJinxBorrowIndexDenomsTests) TestEmptyClaimIndexesAreAddedForN
 		WithArbitrarySourceShares(borrowedDenoms...).
 		Build()
 
-	suite.keeper.UpdateJinxBorrowIndexDenoms(suite.ctx, borrow)
+	suite.keeper.UpdateHardBorrowIndexDenoms(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(expectedIndexes, syncedClaim.BorrowRewardIndexes)
 }

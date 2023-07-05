@@ -10,42 +10,42 @@
       },
       {
         "active": true,
-        "collateral_type": "jinx-a",
+        "collateral_type": "hard-a",
         "start": "2021-07-20T14:00:00Z",
         "end": "2024-10-16T14:00:00Z",
         "rewards_per_second": { "denom": "ufury", "amount": "23809" }
       }
     ],
-    "jinx_supply_reward_periods": [
+    "hard_supply_reward_periods": [
       {
         "active": true,
         "collateral_type": "bnb",
         "start": "2021-07-20T00:00:00Z",
         "end": "2024-01-01T00:00:00Z",
-        "rewards_per_second": [{ "denom": "jinx", "amount": "123455" }]
+        "rewards_per_second": [{ "denom": "hard", "amount": "123455" }]
       },
       {
         "active": true,
-        "collateral_type": "jinx",
+        "collateral_type": "hard",
         "start": "2021-07-20T00:00:00Z",
         "end": "2024-01-01T00:00:00Z",
-        "rewards_per_second": [{ "denom": "jinx", "amount": "123455" }]
+        "rewards_per_second": [{ "denom": "hard", "amount": "123455" }]
       }
     ],
-    "jinx_borrow_reward_periods": [
+    "hard_borrow_reward_periods": [
       {
         "active": true,
         "collateral_type": "bnb",
         "start": "2020-01-01T00:00:00Z",
         "end": "2024-01-01T00:00:00Z",
-        "rewards_per_second": [{ "denom": "jinx", "amount": "12345" }]
+        "rewards_per_second": [{ "denom": "hard", "amount": "12345" }]
       },
       {
         "active": true,
         "collateral_type": "btcb",
         "start": "2020-01-01T00:00:00Z",
         "end": "2024-01-01T00:00:00Z",
-        "rewards_per_second": [{ "denom": "jinx", "amount": "12345" }]
+        "rewards_per_second": [{ "denom": "hard", "amount": "12345" }]
       }
     ],
     "delegator_reward_periods": [
@@ -55,7 +55,7 @@
         "start": "2020-01-01T00:00:00Z",
         "end": "2024-01-01T00:00:00Z",
         "rewards_per_second": [
-          { "denom": "jinx", "amount": "316880" },
+          { "denom": "hard", "amount": "316880" },
           { "denom": "swp", "amount": "316880" }
         ]
       }
@@ -85,7 +85,7 @@
     "savings_reward_periods": [],
     "claim_multipliers": [
       {
-        "denom": "jinx",
+        "denom": "hard",
         "multipliers": [
           {
             "name": "small",
@@ -136,14 +136,14 @@
       }
     ]
   },
-  "jinx_supply_reward_state": {
+  "hard_supply_reward_state": {
     "accumulation_times": [
       {
         "collateral_type": "bnb",
         "previous_accumulation_time": "2021-11-05T21:13:12.856088470Z"
       },
       {
-        "collateral_type": "jinx",
+        "collateral_type": "hard",
         "previous_accumulation_time": "2021-11-05T21:13:12.856088470Z"
       }
     ],
@@ -152,23 +152,23 @@
         "collateral_type": "bnb",
         "reward_indexes": [
           {
-            "collateral_type": "jinx",
+            "collateral_type": "hard",
             "reward_factor": "32.458112657412585027"
           }
         ]
       },
       {
-        "collateral_type": "jinx",
+        "collateral_type": "hard",
         "reward_indexes": [
           {
-            "collateral_type": "jinx",
+            "collateral_type": "hard",
             "reward_factor": "35.000000000000000000"
           }
         ]
       }
     ]
   },
-  "jinx_borrow_reward_state": {
+  "hard_borrow_reward_state": {
     "accumulation_times": [
       {
         "collateral_type": "btcb",
@@ -180,7 +180,7 @@
         "collateral_type": "btcb",
         "reward_indexes": [
           {
-            "collateral_type": "jinx",
+            "collateral_type": "hard",
             "reward_factor": "88.582200355378048199"
           }
         ]
@@ -199,7 +199,7 @@
         "collateral_type": "ufury",
         "reward_indexes": [
           {
-            "collateral_type": "jinx",
+            "collateral_type": "hard",
             "reward_factor": "0.078380843036861815"
           },
           { "collateral_type": "swp", "reward_factor": "0.013629025935176301" }
@@ -239,27 +239,27 @@
       ]
     }
   ],
-  "jinx_liquidity_provider_claims": [
+  "hard_liquidity_provider_claims": [
     {
       "base_claim": {
         "owner": "fury1qqqvdyv8w0xdu7gjdtt598q78gtgqyuk54gk8z",
-        "reward": [{ "denom": "jinx", "amount": "1747514" }]
+        "reward": [{ "denom": "hard", "amount": "1747514" }]
       },
       "supply_reward_indexes": [
         {
           "collateral_type": "bnb",
           "reward_indexes": [
             {
-              "collateral_type": "jinx",
+              "collateral_type": "hard",
               "reward_factor": "22.000000000000000000"
             }
           ]
         },
         {
-          "collateral_type": "jinx",
+          "collateral_type": "hard",
           "reward_indexes": [
             {
-              "collateral_type": "jinx",
+              "collateral_type": "hard",
               "reward_factor": "30.000000000000000000"
             }
           ]
@@ -270,7 +270,7 @@
           "collateral_type": "btc",
           "reward_indexes": [
             {
-              "collateral_type": "jinx",
+              "collateral_type": "hard",
               "reward_factor": "88.582200355378048199"
             }
           ]
@@ -283,7 +283,7 @@
         "reward": [
           {
             "amount": "1747514",
-            "denom": "jinx"
+            "denom": "hard"
           }
         ]
       },
@@ -302,7 +302,7 @@
           "collateral_type": "ufury",
           "reward_indexes": [
             {
-              "collateral_type": "jinx",
+              "collateral_type": "hard",
               "reward_factor": "0.000000000000000000"
             },
             {

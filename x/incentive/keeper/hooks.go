@@ -7,7 +7,7 @@ import (
 
 	cdptypes "github.com/incubus-network/nemo/x/cdp/types"
 	earntypes "github.com/incubus-network/nemo/x/earn/types"
-	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
+	hardtypes "github.com/incubus-network/nemo/x/hard/types"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
 	swaptypes "github.com/incubus-network/nemo/x/swap/types"
 )
@@ -19,7 +19,7 @@ type Hooks struct {
 
 var (
 	_ cdptypes.CDPHooks         = Hooks{}
-	_ jinxtypes.JINXHooks       = Hooks{}
+	_ hardtypes.HARDHooks       = Hooks{}
 	_ stakingtypes.StakingHooks = Hooks{}
 	_ swaptypes.SwapHooks       = Hooks{}
 	_ savingstypes.SavingsHooks = Hooks{}
@@ -43,36 +43,36 @@ func (h Hooks) BeforeCDPModified(ctx sdk.Context, cdp cdptypes.CDP) {
 	h.k.SynchronizeMUSDMintingReward(ctx, cdp)
 }
 
-// ------------------- Jinx Module Hooks -------------------
+// ------------------- Hard Module Hooks -------------------
 
 // AfterDepositCreated function that runs after a deposit is created
-func (h Hooks) AfterDepositCreated(ctx sdk.Context, deposit jinxtypes.Deposit) {
-	h.k.InitializeJinxSupplyReward(ctx, deposit)
+func (h Hooks) AfterDepositCreated(ctx sdk.Context, deposit hardtypes.Deposit) {
+	h.k.InitializeHardSupplyReward(ctx, deposit)
 }
 
 // BeforeDepositModified function that runs before a deposit is modified
-func (h Hooks) BeforeDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit) {
-	h.k.SynchronizeJinxSupplyReward(ctx, deposit)
+func (h Hooks) BeforeDepositModified(ctx sdk.Context, deposit hardtypes.Deposit) {
+	h.k.SynchronizeHardSupplyReward(ctx, deposit)
 }
 
 // AfterDepositModified function that runs after a deposit is modified
-func (h Hooks) AfterDepositModified(ctx sdk.Context, deposit jinxtypes.Deposit) {
-	h.k.UpdateJinxSupplyIndexDenoms(ctx, deposit)
+func (h Hooks) AfterDepositModified(ctx sdk.Context, deposit hardtypes.Deposit) {
+	h.k.UpdateHardSupplyIndexDenoms(ctx, deposit)
 }
 
 // AfterBorrowCreated function that runs after a borrow is created
-func (h Hooks) AfterBorrowCreated(ctx sdk.Context, borrow jinxtypes.Borrow) {
-	h.k.InitializeJinxBorrowReward(ctx, borrow)
+func (h Hooks) AfterBorrowCreated(ctx sdk.Context, borrow hardtypes.Borrow) {
+	h.k.InitializeHardBorrowReward(ctx, borrow)
 }
 
 // BeforeBorrowModified function that runs before a borrow is modified
-func (h Hooks) BeforeBorrowModified(ctx sdk.Context, borrow jinxtypes.Borrow) {
-	h.k.SynchronizeJinxBorrowReward(ctx, borrow)
+func (h Hooks) BeforeBorrowModified(ctx sdk.Context, borrow hardtypes.Borrow) {
+	h.k.SynchronizeHardBorrowReward(ctx, borrow)
 }
 
 // AfterBorrowModified function that runs after a borrow is modified
-func (h Hooks) AfterBorrowModified(ctx sdk.Context, borrow jinxtypes.Borrow) {
-	h.k.UpdateJinxBorrowIndexDenoms(ctx, borrow)
+func (h Hooks) AfterBorrowModified(ctx sdk.Context, borrow hardtypes.Borrow) {
+	h.k.UpdateHardBorrowIndexDenoms(ctx, borrow)
 }
 
 /* ------------------- Staking Module Hooks -------------------

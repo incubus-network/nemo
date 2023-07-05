@@ -44,11 +44,11 @@ func (suite *genesisTestSuite) Test_InitAndExportGenesis() {
 			SwapFee:      sdk.MustNewDecFromStr("0.00255"),
 		},
 		types.PoolRecords{
-			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("jinx", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
+			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("hard", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
 			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6))), sdkmath.NewInt(3e6)),
 		},
 		types.ShareRecords{
-			types.NewShareRecord(depositor_2, types.PoolID("jinx", "musd"), sdkmath.NewInt(1e6)),
+			types.NewShareRecord(depositor_2, types.PoolID("hard", "musd"), sdkmath.NewInt(1e6)),
 			types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), sdkmath.NewInt(3e6)),
 		},
 	)
@@ -56,12 +56,12 @@ func (suite *genesisTestSuite) Test_InitAndExportGenesis() {
 	swap.InitGenesis(suite.Ctx, suite.Keeper, state)
 	suite.Equal(state.Params, suite.Keeper.GetParams(suite.Ctx))
 
-	poolRecord1, _ := suite.Keeper.GetPool(suite.Ctx, types.PoolID("jinx", "musd"))
+	poolRecord1, _ := suite.Keeper.GetPool(suite.Ctx, types.PoolID("hard", "musd"))
 	suite.Equal(state.PoolRecords[0], poolRecord1)
 	poolRecord2, _ := suite.Keeper.GetPool(suite.Ctx, types.PoolID("ufury", "musd"))
 	suite.Equal(state.PoolRecords[1], poolRecord2)
 
-	shareRecord1, _ := suite.Keeper.GetDepositorShares(suite.Ctx, depositor_2, types.PoolID("jinx", "musd"))
+	shareRecord1, _ := suite.Keeper.GetDepositorShares(suite.Ctx, depositor_2, types.PoolID("hard", "musd"))
 	suite.Equal(state.ShareRecords[0], shareRecord1)
 	shareRecord2, _ := suite.Keeper.GetDepositorShares(suite.Ctx, depositor_1, types.PoolID("ufury", "musd"))
 	suite.Equal(state.ShareRecords[1], shareRecord2)
@@ -83,11 +83,11 @@ func (suite *genesisTestSuite) Test_Marshall() {
 			SwapFee:      sdk.MustNewDecFromStr("0.00255"),
 		},
 		types.PoolRecords{
-			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("jinx", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
+			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("hard", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
 			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6))), sdkmath.NewInt(3e6)),
 		},
 		types.ShareRecords{
-			types.NewShareRecord(depositor_2, types.PoolID("jinx", "musd"), sdkmath.NewInt(1e6)),
+			types.NewShareRecord(depositor_2, types.PoolID("hard", "musd"), sdkmath.NewInt(1e6)),
 			types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), sdkmath.NewInt(3e6)),
 		},
 	)
@@ -118,11 +118,11 @@ func (suite *genesisTestSuite) Test_LegacyJSONConversion() {
 			SwapFee:      sdk.MustNewDecFromStr("0.00255"),
 		},
 		types.PoolRecords{
-			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("jinx", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
+			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("hard", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(2e6))), sdkmath.NewInt(1e6)),
 			types.NewPoolRecord(sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6))), sdkmath.NewInt(3e6)),
 		},
 		types.ShareRecords{
-			types.NewShareRecord(depositor_2, types.PoolID("jinx", "musd"), sdkmath.NewInt(1e6)),
+			types.NewShareRecord(depositor_2, types.PoolID("hard", "musd"), sdkmath.NewInt(1e6)),
 			types.NewShareRecord(depositor_1, types.PoolID("ufury", "musd"), sdkmath.NewInt(3e6)),
 		},
 	)

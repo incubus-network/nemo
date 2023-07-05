@@ -22,9 +22,9 @@ func musd(amount int64) sdk.Coin {
 	return sdk.NewCoin("musd", sdkmath.NewInt(amount))
 }
 
-// create a new jinx coin from int64
-func jinx(amount int64) sdk.Coin {
-	return sdk.NewCoin("jinx", sdkmath.NewInt(amount))
+// create a new hard coin from int64
+func hard(amount int64) sdk.Coin {
+	return sdk.NewCoin("hard", sdkmath.NewInt(amount))
 }
 
 func TestDenominatedPool_NewDenominatedPool_Validation(t *testing.T) {
@@ -155,7 +155,7 @@ func TestDenominatedPool_SwapWithExactInput(t *testing.T) {
 	assert.Equal(t, musd(15000), fee)
 	assert.Equal(t, sdk.NewCoins(ufury(9093390), musd(55e6)), pool.Reserves())
 
-	assert.Panics(t, func() { pool.SwapWithExactInput(jinx(1e6), d("0.003")) }, "SwapWithExactInput did not panic on invalid denomination")
+	assert.Panics(t, func() { pool.SwapWithExactInput(hard(1e6), d("0.003")) }, "SwapWithExactInput did not panic on invalid denomination")
 }
 
 func TestDenominatedPool_SwapWithExactOuput(t *testing.T) {
@@ -179,5 +179,5 @@ func TestDenominatedPool_SwapWithExactOuput(t *testing.T) {
 	assert.Equal(t, ufury(3344), fee)
 	assert.Equal(t, sdk.NewCoins(ufury(11114456), musd(45e6)), pool.Reserves())
 
-	assert.Panics(t, func() { pool.SwapWithExactOutput(jinx(1e6), d("0.003")) }, "SwapWithExactOutput did not panic on invalid denomination")
+	assert.Panics(t, func() { pool.SwapWithExactOutput(hard(1e6), d("0.003")) }, "SwapWithExactOutput did not panic on invalid denomination")
 }

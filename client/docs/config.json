@@ -98,10 +98,10 @@
       }
     },
     {
-      "url": "./out/swagger/nemo/jinx/v1beta1/query.swagger.json",
+      "url": "./out/swagger/nemo/hard/v1beta1/query.swagger.json",
       "tags": {
         "rename": {
-          "Query": "Jinx"
+          "Query": "Hard"
         }
       },
       "operationIds": {
@@ -109,7 +109,7 @@
           {
             "type": "regex",
             "from": "(.*)",
-            "to": "Jinx$1"
+            "to": "Hard$1"
           }
         ]
       }

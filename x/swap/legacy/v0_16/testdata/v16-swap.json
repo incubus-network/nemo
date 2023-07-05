@@ -4,7 +4,7 @@
       { "token_a": "bnb", "token_b": "musd" },
       { "token_a": "btcb", "token_b": "musd" },
       { "token_a": "busd", "token_b": "musd" },
-      { "token_a": "jinx", "token_b": "musd" },
+      { "token_a": "hard", "token_b": "musd" },
       { "token_a": "swp", "token_b": "musd" },
       { "token_a": "ufury", "token_b": "musd" },
       { "token_a": "musd", "token_b": "xrpb" }
@@ -38,7 +38,7 @@
     },
     {
       "depositor": "fury1ll3ndyv333aet6mzqltu5wdepqhyme8uhjv8uc",
-      "pool_id": "jinx:musd",
+      "pool_id": "hard:musd",
       "shares_owned": "708138421"
     },
     {

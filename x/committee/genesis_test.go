@@ -52,7 +52,7 @@ func (suite *GenesisTestSuite) TestInitGenesis() {
 		time.Hour*24*7,
 		types.TALLY_OPTION_FIRST_PAST_THE_POST,
 		testutil.D("0.4"),
-		"jinx",
+		"hard",
 	)
 
 	// Most genesis validation tests are located in the types directory. The 'invalid' test cases are

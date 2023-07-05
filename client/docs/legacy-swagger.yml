@@ -56,17 +56,17 @@ paths:
                 example: "120000000"
         500:
           description: Server internal error
-  /vesting/circulatingsupplyjinx:
+  /vesting/circulatingsupplyhard:
     get:
       deprecated: true
-      summary: Get the current circulating supply of JINX
+      summary: Get the current circulating supply of HARD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: JINX circulating supply
+          description: HARD circulating supply
           schema:
             properties:
               height:
@@ -77,17 +77,17 @@ paths:
                 example: "63750000"
         500:
           description: Server internal error
-  /vesting/totalsupplyjinx:
+  /vesting/totalsupplyhard:
     get:
       deprecated: true
-      summary: Get the total supply of JINX
+      summary: Get the total supply of HARD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: JINX total supply
+          description: HARD total supply
           schema:
             properties:
               height:

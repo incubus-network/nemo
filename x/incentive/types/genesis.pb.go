@@ -109,12 +109,12 @@ var xxx_messageInfo_GenesisRewardState proto.InternalMessageInfo
 type GenesisState struct {
 	Params                      Params                      `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
 	MUSDRewardState             GenesisRewardState          `protobuf:"bytes,2,opt,name=musd_reward_state,json=musdRewardState,proto3" json:"musd_reward_state"`
-	JinxSupplyRewardState       GenesisRewardState          `protobuf:"bytes,3,opt,name=jinx_supply_reward_state,json=jinxSupplyRewardState,proto3" json:"jinx_supply_reward_state"`
-	JinxBorrowRewardState       GenesisRewardState          `protobuf:"bytes,4,opt,name=jinx_borrow_reward_state,json=jinxBorrowRewardState,proto3" json:"jinx_borrow_reward_state"`
+	HardSupplyRewardState       GenesisRewardState          `protobuf:"bytes,3,opt,name=hard_supply_reward_state,json=hardSupplyRewardState,proto3" json:"hard_supply_reward_state"`
+	HardBorrowRewardState       GenesisRewardState          `protobuf:"bytes,4,opt,name=hard_borrow_reward_state,json=hardBorrowRewardState,proto3" json:"hard_borrow_reward_state"`
 	DelegatorRewardState        GenesisRewardState          `protobuf:"bytes,5,opt,name=delegator_reward_state,json=delegatorRewardState,proto3" json:"delegator_reward_state"`
 	SwapRewardState             GenesisRewardState          `protobuf:"bytes,6,opt,name=swap_reward_state,json=swapRewardState,proto3" json:"swap_reward_state"`
 	MUSDMintingClaims           MUSDMintingClaims           `protobuf:"bytes,7,rep,name=musd_minting_claims,json=musdMintingClaims,proto3,castrepeated=MUSDMintingClaims" json:"musd_minting_claims"`
-	JinxLiquidityProviderClaims JinxLiquidityProviderClaims `protobuf:"bytes,8,rep,name=jinx_liquidity_provider_claims,json=jinxLiquidityProviderClaims,proto3,castrepeated=JinxLiquidityProviderClaims" json:"jinx_liquidity_provider_claims"`
+	HardLiquidityProviderClaims HardLiquidityProviderClaims `protobuf:"bytes,8,rep,name=hard_liquidity_provider_claims,json=hardLiquidityProviderClaims,proto3,castrepeated=HardLiquidityProviderClaims" json:"hard_liquidity_provider_claims"`
 	DelegatorClaims             DelegatorClaims             `protobuf:"bytes,9,rep,name=delegator_claims,json=delegatorClaims,proto3,castrepeated=DelegatorClaims" json:"delegator_claims"`
 	SwapClaims                  SwapClaims                  `protobuf:"bytes,10,rep,name=swap_claims,json=swapClaims,proto3,castrepeated=SwapClaims" json:"swap_claims"`
 	SavingsRewardState          GenesisRewardState          `protobuf:"bytes,11,opt,name=savings_reward_state,json=savingsRewardState,proto3" json:"savings_reward_state"`
@@ -405,10 +405,10 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x4a
 		}
 	}
-	if len(m.JinxLiquidityProviderClaims) > 0 {
-		for iNdEx := len(m.JinxLiquidityProviderClaims) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.HardLiquidityProviderClaims) > 0 {
+		for iNdEx := len(m.HardLiquidityProviderClaims) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.JinxLiquidityProviderClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.HardLiquidityProviderClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -454,7 +454,7 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i--
 	dAtA[i] = 0x2a
 	{
-		size, err := m.JinxBorrowRewardState.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.HardBorrowRewardState.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -464,7 +464,7 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i--
 	dAtA[i] = 0x22
 	{
-		size, err := m.JinxSupplyRewardState.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.HardSupplyRewardState.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -553,9 +553,9 @@ func (m *GenesisState) Size() (n int) {
 	n += 1 + l + sovGenesis(uint64(l))
 	l = m.MUSDRewardState.Size()
 	n += 1 + l + sovGenesis(uint64(l))
-	l = m.JinxSupplyRewardState.Size()
+	l = m.HardSupplyRewardState.Size()
 	n += 1 + l + sovGenesis(uint64(l))
-	l = m.JinxBorrowRewardState.Size()
+	l = m.HardBorrowRewardState.Size()
 	n += 1 + l + sovGenesis(uint64(l))
 	l = m.DelegatorRewardState.Size()
 	n += 1 + l + sovGenesis(uint64(l))
@@ -567,8 +567,8 @@ func (m *GenesisState) Size() (n int) {
 			n += 1 + l + sovGenesis(uint64(l))
 		}
 	}
-	if len(m.JinxLiquidityProviderClaims) > 0 {
-		for _, e := range m.JinxLiquidityProviderClaims {
+	if len(m.HardLiquidityProviderClaims) > 0 {
+		for _, e := range m.HardLiquidityProviderClaims {
 			l = e.Size()
 			n += 1 + l + sovGenesis(uint64(l))
 		}
@@ -940,7 +940,7 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field JinxSupplyRewardState", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HardSupplyRewardState", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -967,13 +967,13 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.JinxSupplyRewardState.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.HardSupplyRewardState.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field JinxBorrowRewardState", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HardBorrowRewardState", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1000,7 +1000,7 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.JinxBorrowRewardState.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.HardBorrowRewardState.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1106,7 +1106,7 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 8:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field JinxLiquidityProviderClaims", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field HardLiquidityProviderClaims", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1133,8 +1133,8 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.JinxLiquidityProviderClaims = append(m.JinxLiquidityProviderClaims, JinxLiquidityProviderClaim{})
-			if err := m.JinxLiquidityProviderClaims[len(m.JinxLiquidityProviderClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.HardLiquidityProviderClaims = append(m.HardLiquidityProviderClaims, HardLiquidityProviderClaim{})
+			if err := m.HardLiquidityProviderClaims[len(m.HardLiquidityProviderClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

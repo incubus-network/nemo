@@ -15,7 +15,7 @@ import (
 	"github.com/incubus-network/nemo/app"
 	cdpkeeper "github.com/incubus-network/nemo/x/cdp/keeper"
 	cdptypes "github.com/incubus-network/nemo/x/cdp/types"
-	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
+	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
 	"github.com/incubus-network/nemo/x/incentive/keeper"
 	"github.com/incubus-network/nemo/x/incentive/testutil"
 	"github.com/incubus-network/nemo/x/incentive/types"
@@ -27,7 +27,7 @@ type PayoutTestSuite struct {
 	suite.Suite
 
 	keeper     keeper.Keeper
-	jinxKeeper jinxkeeper.Keeper
+	hardKeeper hardkeeper.Keeper
 	cdpKeeper  cdpkeeper.Keeper
 
 	app app.TestApp
@@ -51,13 +51,13 @@ func (suite *PayoutTestSuite) SetupApp() {
 	suite.app = app.NewTestApp()
 
 	suite.keeper = suite.app.GetIncentiveKeeper()
-	suite.jinxKeeper = suite.app.GetJinxKeeper()
+	suite.hardKeeper = suite.app.GetHardKeeper()
 	suite.cdpKeeper = suite.app.GetCDPKeeper()
 
 	suite.ctx = suite.app.NewContext(true, tmprototypes.Header{Time: suite.genesisTime})
 }
 
-func (suite *PayoutTestSuite) SetupWithGenState(authBuilder app.AuthBankGenesisBuilder, incentBuilder testutil.IncentiveGenesisBuilder, jinxBuilder testutil.JinxGenesisBuilder) {
+func (suite *PayoutTestSuite) SetupWithGenState(authBuilder app.AuthBankGenesisBuilder, incentBuilder testutil.IncentiveGenesisBuilder, hardBuilder testutil.HardGenesisBuilder) {
 	suite.SetupApp()
 
 	suite.app.InitializeFromGenesisStatesWithTime(
@@ -65,7 +65,7 @@ func (suite *PayoutTestSuite) SetupWithGenState(authBuilder app.AuthBankGenesisB
 		authBuilder.BuildMarshalled(suite.app.AppCodec()),
 		NewPricefeedGenStateMultiFromTime(suite.app.AppCodec(), suite.genesisTime),
 		NewCDPGenStateMulti(suite.app.AppCodec()),
-		jinxBuilder.BuildMarshalled(suite.app.AppCodec()),
+		hardBuilder.BuildMarshalled(suite.app.AppCodec()),
 		incentBuilder.BuildMarshalled(suite.app.AppCodec()),
 	)
 }

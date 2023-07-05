@@ -21,10 +21,10 @@ func GetQueryCmd() *cobra.Command {
 	cmds := []*cobra.Command{
 		queryCirculatingSupply(),
 		queryTotalSupply(),
-		queryCirculatingSupplyJINX(),
+		queryCirculatingSupplyHARD(),
 		queryCirculatingSupplyMUSD(),
 		queryCirculatingSupplySWP(),
-		queryTotalSupplyJINX(),
+		queryTotalSupplyHARD(),
 		queryTotalSupplyMUSD(),
 	}
 
@@ -94,11 +94,11 @@ func queryTotalSupply() *cobra.Command {
 	}
 }
 
-func queryCirculatingSupplyJINX() *cobra.Command {
+func queryCirculatingSupplyHARD() *cobra.Command {
 	return &cobra.Command{
-		Use:   "circulating-supply-jinx",
-		Short: "Get JINX circulating supply",
-		Long:  "Get the current circulating supply of JINX tokens",
+		Use:   "circulating-supply-hard",
+		Short: "Get HARD circulating supply",
+		Long:  "Get the current circulating supply of HARD tokens",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx, err := client.GetClientQueryContext(cmd)
@@ -107,7 +107,7 @@ func queryCirculatingSupplyJINX() *cobra.Command {
 			}
 
 			// Query
-			res, height, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyJINX), nil)
+			res, height, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyHARD), nil)
 			if err != nil {
 				return err
 			}
@@ -181,11 +181,11 @@ func queryCirculatingSupplySWP() *cobra.Command {
 	}
 }
 
-func queryTotalSupplyJINX() *cobra.Command {
+func queryTotalSupplyHARD() *cobra.Command {
 	return &cobra.Command{
-		Use:   "total-supply-jinx",
-		Short: "Get JINX total supply",
-		Long:  "Get the current total supply of JINX tokens",
+		Use:   "total-supply-hard",
+		Short: "Get HARD total supply",
+		Long:  "Get the current total supply of HARD tokens",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx, err := client.GetClientQueryContext(cmd)
@@ -194,7 +194,7 @@ func queryTotalSupplyJINX() *cobra.Command {
 			}
 
 			// Query
-			res, height, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyJINX), nil)
+			res, height, err := cliCtx.QueryWithData(fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyHARD), nil)
 			if err != nil {
 				return err
 			}

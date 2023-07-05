@@ -29,7 +29,7 @@ func NewAccumulator(previousAccrual time.Time, indexes RewardIndexes) *Accumulat
 // Rewards are not accrued for times outside of the start and end times of a reward period.
 // If a period ends before currentTime, the PreviousAccrualTime is shortened to the end time. This allows accumulate to be called sequentially on consecutive reward periods.
 //
-// totalSourceShares is the sum of all users' source shares. For example:total btcb supplied to jinx, total musd borrowed from all bnb CDPs, or total shares in a swap pool.
+// totalSourceShares is the sum of all users' source shares. For example:total btcb supplied to hard, total musd borrowed from all bnb CDPs, or total shares in a swap pool.
 func (acc *Accumulator) Accumulate(period MultiRewardPeriod, totalSourceShares sdk.Dec, currentTime time.Time) {
 	acc.AccumulateDecCoins(
 		period.Start,

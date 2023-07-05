@@ -233,7 +233,7 @@ func queryGetTotalPrincipal(ctx sdk.Context, req abci.RequestQuery, keeper Keepe
 	var collateralPrincipals types.TotalPrincipals
 
 	for _, queryType := range queryCollateralTypes {
-		// Jinxcoded to default MUSD
+		// Hardcoded to default MUSD
 		principalAmount := keeper.GetTotalPrincipal(ctx, queryType, types.DefaultStableDenom)
 		// Wrap it in an sdk.Coin
 		totalAmountCoin := sdk.NewCoin(types.DefaultStableDenom, principalAmount)
