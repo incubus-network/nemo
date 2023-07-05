@@ -22,7 +22,7 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 
 var _ types.MsgServer = msgServer{}
 
-func (k msgServer) ClaimUSDXMintingReward(goCtx context.Context, msg *types.MsgClaimUSDXMintingReward) (*types.MsgClaimUSDXMintingRewardResponse, error) {
+func (k msgServer) ClaimMUSDMintingReward(goCtx context.Context, msg *types.MsgClaimMUSDMintingReward) (*types.MsgClaimMUSDMintingRewardResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -30,15 +30,15 @@ func (k msgServer) ClaimUSDXMintingReward(goCtx context.Context, msg *types.MsgC
 		return nil, err
 	}
 
-	err = k.keeper.ClaimUSDXMintingReward(ctx, sender, sender, msg.MultiplierName)
+	err = k.keeper.ClaimMUSDMintingReward(ctx, sender, sender, msg.MultiplierName)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.MsgClaimUSDXMintingRewardResponse{}, nil
+	return &types.MsgClaimMUSDMintingRewardResponse{}, nil
 }
 
-func (k msgServer) ClaimHardReward(goCtx context.Context, msg *types.MsgClaimHardReward) (*types.MsgClaimHardRewardResponse, error) {
+func (k msgServer) ClaimJinxReward(goCtx context.Context, msg *types.MsgClaimJinxReward) (*types.MsgClaimJinxRewardResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	sender, err := sdk.AccAddressFromBech32(msg.Sender)
@@ -47,14 +47,14 @@ func (k msgServer) ClaimHardReward(goCtx context.Context, msg *types.MsgClaimHar
 	}
 
 	for _, selection := range msg.DenomsToClaim {
-		err := k.keeper.ClaimHardReward(ctx, sender, sender, selection.Denom, selection.MultiplierName)
+		err := k.keeper.ClaimJinxReward(ctx, sender, sender, selection.Denom, selection.MultiplierName)
 		if err != nil {
 			return nil, err
 		}
 
 	}
 
-	return &types.MsgClaimHardRewardResponse{}, nil
+	return &types.MsgClaimJinxRewardResponse{}, nil
 }
 
 func (k msgServer) ClaimDelegatorReward(goCtx context.Context, msg *types.MsgClaimDelegatorReward) (*types.MsgClaimDelegatorRewardResponse, error) {

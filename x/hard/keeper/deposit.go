@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Deposit deposit
@@ -95,7 +95,7 @@ func (k Keeper) Deposit(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Coi
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
-			types.EventTypeHardDeposit,
+			types.EventTypeJinxDeposit,
 			sdk.NewAttribute(sdk.AttributeKeyAmount, coins.String()),
 			sdk.NewAttribute(types.AttributeKeyDepositor, deposit.Depositor.String()),
 		),

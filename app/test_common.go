@@ -46,7 +46,7 @@ import (
 	communitykeeper "github.com/incubus-network/nemo/x/community/keeper"
 	earnkeeper "github.com/incubus-network/nemo/x/earn/keeper"
 	evmutilkeeper "github.com/incubus-network/nemo/x/evmutil/keeper"
-	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
+	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
 	incentivekeeper "github.com/incubus-network/nemo/x/incentive/keeper"
 	issuancekeeper "github.com/incubus-network/nemo/x/issuance/keeper"
 	liquidkeeper "github.com/incubus-network/nemo/x/liquid/keeper"
@@ -119,7 +119,7 @@ func (tApp TestApp) GetBep3Keeper() bep3keeper.Keeper           { return tApp.be
 func (tApp TestApp) GetPriceFeedKeeper() pricefeedkeeper.Keeper { return tApp.pricefeedKeeper }
 func (tApp TestApp) GetSwapKeeper() swapkeeper.Keeper           { return tApp.swapKeeper }
 func (tApp TestApp) GetCDPKeeper() cdpkeeper.Keeper             { return tApp.cdpKeeper }
-func (tApp TestApp) GetHardKeeper() hardkeeper.Keeper           { return tApp.hardKeeper }
+func (tApp TestApp) GetJinxKeeper() jinxkeeper.Keeper           { return tApp.jinxKeeper }
 func (tApp TestApp) GetCommitteeKeeper() committeekeeper.Keeper { return tApp.committeeKeeper }
 func (tApp TestApp) GetIncentiveKeeper() incentivekeeper.Keeper { return tApp.incentiveKeeper }
 func (tApp TestApp) GetEvmutilKeeper() evmutilkeeper.Keeper     { return tApp.evmutilKeeper }

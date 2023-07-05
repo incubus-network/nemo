@@ -104,7 +104,7 @@ func queryVaultCmd() *cobra.Command {
 		Short:   "get a earn vault",
 		Long:    "Get a specific earn module vault by denom.",
 		Args:    cobra.ExactArgs(1),
-		Example: fmt.Sprintf(`%[1]s q %[2]s vault usdx`, version.AppName, types.ModuleName),
+		Example: fmt.Sprintf(`%[1]s q %[2]s vault musd`, version.AppName, types.ModuleName),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -131,8 +131,8 @@ func queryDepositsCmd() *cobra.Command {
 		Long:  "Get earn vault deposits for all or specific accounts and vaults.",
 		Args:  cobra.NoArgs,
 		Example: fmt.Sprintf(`%[1]s q %[2]s deposits
-%[1]s q %[2]s deposits --owner fury1pdfav2cjhry9k79nu6r8kgknnjtq6a7r5ajj6t --denom usdx
-%[1]s q %[2]s deposits --denom usdx`, version.AppName, types.ModuleName),
+%[1]s q %[2]s deposits --owner fury1pdfav2cjhry9k79nu6r8kgknnjtq6a7r5ajj6t --denom musd
+%[1]s q %[2]s deposits --denom musd`, version.AppName, types.ModuleName),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {

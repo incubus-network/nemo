@@ -10,7 +10,7 @@
         "simulate": false
     },
     "amount": {
-        "denom": "usdx",
+        "denom": "musd",
         "amount": "100000000"
     }
 }

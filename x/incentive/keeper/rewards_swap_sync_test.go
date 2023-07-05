@@ -318,7 +318,7 @@ func (suite *SynchronizeSwapRewardTests) TestClaimUpdatedWhenGlobalIndexesIncrea
 }
 
 func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUnchangedWhenNoGlobalIndexes() {
-	poolID_1 := "btcb:usdx"
+	poolID_1 := "btcb:musd"
 	owner := arbitraryAddress()
 
 	swapKeeper := newFakeSwapKeeper().
@@ -351,8 +351,8 @@ func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUnchangedWhenNo
 }
 
 func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexAndHasNoSourceShares() {
-	poolID_1 := "btcb:usdx"
-	poolID_2 := "ufury:usdx"
+	poolID_1 := "btcb:musd"
+	poolID_2 := "ufury:musd"
 	owner := arbitraryAddress()
 
 	// owner has no shares in any pool
@@ -409,8 +409,8 @@ func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMiss
 }
 
 func (suite *SynchronizeSwapRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexButHasSourceShares() {
-	poolID_1 := "btcb:usdx"
-	poolID_2 := "ufury:usdx"
+	poolID_1 := "btcb:musd"
+	poolID_2 := "ufury:musd"
 	owner := arbitraryAddress()
 
 	swapKeeper := newFakeSwapKeeper().

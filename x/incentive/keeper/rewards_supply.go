@@ -5,48 +5,48 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// AccumulateHardSupplyRewards calculates new rewards to distribute this block and updates the global indexes to reflect this.
+// AccumulateJinxSupplyRewards calculates new rewards to distribute this block and updates the global indexes to reflect this.
 // The provided rewardPeriod must be valid to avoid panics in calculating time durations.
-func (k Keeper) AccumulateHardSupplyRewards(ctx sdk.Context, rewardPeriod types.MultiRewardPeriod) {
-	previousAccrualTime, found := k.GetPreviousHardSupplyRewardAccrualTime(ctx, rewardPeriod.CollateralType)
+func (k Keeper) AccumulateJinxSupplyRewards(ctx sdk.Context, rewardPeriod types.MultiRewardPeriod) {
+	previousAccrualTime, found := k.GetPreviousJinxSupplyRewardAccrualTime(ctx, rewardPeriod.CollateralType)
 	if !found {
 		previousAccrualTime = ctx.BlockTime()
 	}
 
-	indexes, found := k.GetHardSupplyRewardIndexes(ctx, rewardPeriod.CollateralType)
+	indexes, found := k.GetJinxSupplyRewardIndexes(ctx, rewardPeriod.CollateralType)
 	if !found {
 		indexes = types.RewardIndexes{}
 	}
 
 	acc := types.NewAccumulator(previousAccrualTime, indexes)
 
-	totalSource := k.getHardSupplyTotalSourceShares(ctx, rewardPeriod.CollateralType)
+	totalSource := k.getJinxSupplyTotalSourceShares(ctx, rewardPeriod.CollateralType)
 
 	acc.Accumulate(rewardPeriod, totalSource, ctx.BlockTime())
 
-	k.SetPreviousHardSupplyRewardAccrualTime(ctx, rewardPeriod.CollateralType, acc.PreviousAccumulationTime)
+	k.SetPreviousJinxSupplyRewardAccrualTime(ctx, rewardPeriod.CollateralType, acc.PreviousAccumulationTime)
 	if len(acc.Indexes) > 0 {
 		// the store panics when setting empty or nil indexes
-		k.SetHardSupplyRewardIndexes(ctx, rewardPeriod.CollateralType, acc.Indexes)
+		k.SetJinxSupplyRewardIndexes(ctx, rewardPeriod.CollateralType, acc.Indexes)
 	}
 }
 
-// getHardSupplyTotalSourceShares fetches the sum of all source shares for a supply reward.
-// In the case of hard supply, this is the total supplied divided by the supply interest factor.
+// getJinxSupplyTotalSourceShares fetches the sum of all source shares for a supply reward.
+// In the case of jinx supply, this is the total supplied divided by the supply interest factor.
 // This gives the "pre interest" value of the total supplied.
-func (k Keeper) getHardSupplyTotalSourceShares(ctx sdk.Context, denom string) sdk.Dec {
-	totalSuppliedCoins, found := k.hardKeeper.GetSuppliedCoins(ctx)
+func (k Keeper) getJinxSupplyTotalSourceShares(ctx sdk.Context, denom string) sdk.Dec {
+	totalSuppliedCoins, found := k.jinxKeeper.GetSuppliedCoins(ctx)
 	if !found {
 		// assume no coins have been supplied
 		totalSuppliedCoins = sdk.NewCoins()
 	}
 	totalSupplied := totalSuppliedCoins.AmountOf(denom)
 
-	interestFactor, found := k.hardKeeper.GetSupplyInterestFactor(ctx, denom)
+	interestFactor, found := k.jinxKeeper.GetSupplyInterestFactor(ctx, denom)
 	if !found {
 		// assume nothing has been borrowed so the factor starts at it's default value
 		interestFactor = sdk.OneDec()
@@ -56,17 +56,17 @@ func (k Keeper) getHardSupplyTotalSourceShares(ctx sdk.Context, denom string) sd
 	return sdk.NewDecFromInt(totalSupplied).Quo(interestFactor)
 }
 
-// InitializeHardSupplyReward initializes the supply-side of a hard liquidity provider claim
+// InitializeJinxSupplyReward initializes the supply-side of a jinx liquidity provider claim
 // by creating the claim and setting the supply reward factor index
-func (k Keeper) InitializeHardSupplyReward(ctx sdk.Context, deposit hardtypes.Deposit) {
-	claim, found := k.GetHardLiquidityProviderClaim(ctx, deposit.Depositor)
+func (k Keeper) InitializeJinxSupplyReward(ctx sdk.Context, deposit jinxtypes.Deposit) {
+	claim, found := k.GetJinxLiquidityProviderClaim(ctx, deposit.Depositor)
 	if !found {
-		claim = types.NewHardLiquidityProviderClaim(deposit.Depositor, sdk.Coins{}, nil, nil)
+		claim = types.NewJinxLiquidityProviderClaim(deposit.Depositor, sdk.Coins{}, nil, nil)
 	}
 
 	var supplyRewardIndexes types.MultiRewardIndexes
 	for _, coin := range deposit.Amount {
-		globalRewardIndexes, found := k.GetHardSupplyRewardIndexes(ctx, coin.Denom)
+		globalRewardIndexes, found := k.GetJinxSupplyRewardIndexes(ctx, coin.Denom)
 		if !found {
 			globalRewardIndexes = types.RewardIndexes{}
 		}
@@ -74,34 +74,34 @@ func (k Keeper) InitializeHardSupplyReward(ctx sdk.Context, deposit hardtypes.De
 	}
 
 	claim.SupplyRewardIndexes = supplyRewardIndexes
-	k.SetHardLiquidityProviderClaim(ctx, claim)
+	k.SetJinxLiquidityProviderClaim(ctx, claim)
 }
 
-// SynchronizeHardSupplyReward updates the claim object by adding any accumulated rewards
+// SynchronizeJinxSupplyReward updates the claim object by adding any accumulated rewards
 // and updating the reward index value
-func (k Keeper) SynchronizeHardSupplyReward(ctx sdk.Context, deposit hardtypes.Deposit) {
-	claim, found := k.GetHardLiquidityProviderClaim(ctx, deposit.Depositor)
+func (k Keeper) SynchronizeJinxSupplyReward(ctx sdk.Context, deposit jinxtypes.Deposit) {
+	claim, found := k.GetJinxLiquidityProviderClaim(ctx, deposit.Depositor)
 	if !found {
 		return
 	}
 
-	// Source shares for hard deposits is their normalized deposit amount
+	// Source shares for jinx deposits is their normalized deposit amount
 	normalizedDeposit, err := deposit.NormalizedDeposit()
 	if err != nil {
 		panic(fmt.Sprintf("during deposit reward sync, could not get normalized deposit for %s: %s", deposit.Depositor, err.Error()))
 	}
 
 	for _, normedDeposit := range normalizedDeposit {
-		claim = k.synchronizeSingleHardSupplyReward(ctx, claim, normedDeposit.Denom, normedDeposit.Amount)
+		claim = k.synchronizeSingleJinxSupplyReward(ctx, claim, normedDeposit.Denom, normedDeposit.Amount)
 	}
-	k.SetHardLiquidityProviderClaim(ctx, claim)
+	k.SetJinxLiquidityProviderClaim(ctx, claim)
 }
 
-// synchronizeSingleHardSupplyReward synchronizes a single rewarded supply denom in a hard claim.
+// synchronizeSingleJinxSupplyReward synchronizes a single rewarded supply denom in a jinx claim.
 // It returns the claim without setting in the store.
 // The public methods for accessing and modifying claims are preferred over this one. Direct modification of claims is easy to get wrong.
-func (k Keeper) synchronizeSingleHardSupplyReward(ctx sdk.Context, claim types.HardLiquidityProviderClaim, denom string, sourceShares sdk.Dec) types.HardLiquidityProviderClaim {
-	globalRewardIndexes, found := k.GetHardSupplyRewardIndexes(ctx, denom)
+func (k Keeper) synchronizeSingleJinxSupplyReward(ctx sdk.Context, claim types.JinxLiquidityProviderClaim, denom string, sourceShares sdk.Dec) types.JinxLiquidityProviderClaim {
+	globalRewardIndexes, found := k.GetJinxSupplyRewardIndexes(ctx, denom)
 	if !found {
 		// The global factor is only not found if
 		// - the supply denom has not started accumulating rewards yet (either there is no reward specified in params, or the reward start time hasn't been hit)
@@ -133,11 +133,11 @@ func (k Keeper) synchronizeSingleHardSupplyReward(ctx sdk.Context, claim types.H
 	return claim
 }
 
-// UpdateHardSupplyIndexDenoms adds any new deposit denoms to the claim's supply reward index
-func (k Keeper) UpdateHardSupplyIndexDenoms(ctx sdk.Context, deposit hardtypes.Deposit) {
-	claim, found := k.GetHardLiquidityProviderClaim(ctx, deposit.Depositor)
+// UpdateJinxSupplyIndexDenoms adds any new deposit denoms to the claim's supply reward index
+func (k Keeper) UpdateJinxSupplyIndexDenoms(ctx sdk.Context, deposit jinxtypes.Deposit) {
+	claim, found := k.GetJinxLiquidityProviderClaim(ctx, deposit.Depositor)
 	if !found {
-		claim = types.NewHardLiquidityProviderClaim(deposit.Depositor, sdk.Coins{}, nil, nil)
+		claim = types.NewJinxLiquidityProviderClaim(deposit.Depositor, sdk.Coins{}, nil, nil)
 	}
 
 	depositDenoms := getDenoms(deposit.Amount)
@@ -149,7 +149,7 @@ func (k Keeper) UpdateHardSupplyIndexDenoms(ctx sdk.Context, deposit hardtypes.D
 	uniqueDepositDenoms := setDifference(depositDenoms, supplyRewardIndexDenoms)
 
 	for _, denom := range uniqueDepositDenoms {
-		globalSupplyRewardIndexes, found := k.GetHardSupplyRewardIndexes(ctx, denom)
+		globalSupplyRewardIndexes, found := k.GetJinxSupplyRewardIndexes(ctx, denom)
 		if !found {
 			globalSupplyRewardIndexes = types.RewardIndexes{}
 		}
@@ -164,29 +164,29 @@ func (k Keeper) UpdateHardSupplyIndexDenoms(ctx sdk.Context, deposit hardtypes.D
 	}
 
 	claim.SupplyRewardIndexes = supplyRewardIndexes
-	k.SetHardLiquidityProviderClaim(ctx, claim)
+	k.SetJinxLiquidityProviderClaim(ctx, claim)
 }
 
-// SynchronizeHardLiquidityProviderClaim adds any accumulated rewards
-func (k Keeper) SynchronizeHardLiquidityProviderClaim(ctx sdk.Context, owner sdk.AccAddress) {
-	// Synchronize any hard liquidity supply-side rewards
-	deposit, foundDeposit := k.hardKeeper.GetDeposit(ctx, owner)
+// SynchronizeJinxLiquidityProviderClaim adds any accumulated rewards
+func (k Keeper) SynchronizeJinxLiquidityProviderClaim(ctx sdk.Context, owner sdk.AccAddress) {
+	// Synchronize any jinx liquidity supply-side rewards
+	deposit, foundDeposit := k.jinxKeeper.GetDeposit(ctx, owner)
 	if foundDeposit {
-		k.SynchronizeHardSupplyReward(ctx, deposit)
+		k.SynchronizeJinxSupplyReward(ctx, deposit)
 	}
 
-	// Synchronize any hard liquidity borrow-side rewards
-	borrow, foundBorrow := k.hardKeeper.GetBorrow(ctx, owner)
+	// Synchronize any jinx liquidity borrow-side rewards
+	borrow, foundBorrow := k.jinxKeeper.GetBorrow(ctx, owner)
 	if foundBorrow {
-		k.SynchronizeHardBorrowReward(ctx, borrow)
+		k.SynchronizeJinxBorrowReward(ctx, borrow)
 	}
 }
 
-// SimulateHardSynchronization calculates a user's outstanding hard rewards by simulating reward synchronization
-func (k Keeper) SimulateHardSynchronization(ctx sdk.Context, claim types.HardLiquidityProviderClaim) types.HardLiquidityProviderClaim {
-	// 1. Simulate Hard supply-side rewards
+// SimulateJinxSynchronization calculates a user's outstanding jinx rewards by simulating reward synchronization
+func (k Keeper) SimulateJinxSynchronization(ctx sdk.Context, claim types.JinxLiquidityProviderClaim) types.JinxLiquidityProviderClaim {
+	// 1. Simulate Jinx supply-side rewards
 	for _, ri := range claim.SupplyRewardIndexes {
-		globalRewardIndexes, foundGlobalRewardIndexes := k.GetHardSupplyRewardIndexes(ctx, ri.CollateralType)
+		globalRewardIndexes, foundGlobalRewardIndexes := k.GetJinxSupplyRewardIndexes(ctx, ri.CollateralType)
 		if !foundGlobalRewardIndexes {
 			continue
 		}
@@ -215,7 +215,7 @@ func (k Keeper) SimulateHardSynchronization(ctx sdk.Context, claim types.HardLiq
 			if rewardsAccumulatedFactor.IsZero() {
 				continue
 			}
-			deposit, found := k.hardKeeper.GetDeposit(ctx, claim.GetOwner())
+			deposit, found := k.jinxKeeper.GetDeposit(ctx, claim.GetOwner())
 			if !found {
 				continue
 			}
@@ -234,9 +234,9 @@ func (k Keeper) SimulateHardSynchronization(ctx sdk.Context, claim types.HardLiq
 		}
 	}
 
-	// 2. Simulate Hard borrow-side rewards
+	// 2. Simulate Jinx borrow-side rewards
 	for _, ri := range claim.BorrowRewardIndexes {
-		globalRewardIndexes, foundGlobalRewardIndexes := k.GetHardBorrowRewardIndexes(ctx, ri.CollateralType)
+		globalRewardIndexes, foundGlobalRewardIndexes := k.GetJinxBorrowRewardIndexes(ctx, ri.CollateralType)
 		if !foundGlobalRewardIndexes {
 			continue
 		}
@@ -265,7 +265,7 @@ func (k Keeper) SimulateHardSynchronization(ctx sdk.Context, claim types.HardLiq
 			if rewardsAccumulatedFactor.IsZero() {
 				continue
 			}
-			borrow, found := k.hardKeeper.GetBorrow(ctx, claim.GetOwner())
+			borrow, found := k.jinxKeeper.GetBorrow(ctx, claim.GetOwner())
 			if !found {
 				continue
 			}

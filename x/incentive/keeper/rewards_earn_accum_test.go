@@ -40,7 +40,7 @@ func TestAccumulateEarnRewards(t *testing.T) {
 }
 
 func (suite *AccumulateEarnRewardsTests) TestStateUpdatedWhenBlockTimeHasIncreased() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper().addVault(vaultDenom, earntypes.NewVaultShare(vaultDenom, d("1000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
@@ -303,7 +303,7 @@ func (suite *AccumulateEarnRewardsTests) TestStateUpdatedWhenBlockTimeHasIncreas
 }
 
 func (suite *AccumulateEarnRewardsTests) TestStateUnchangedWhenBlockTimeHasNotIncreased() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper().addVault(vaultDenom, earntypes.NewVaultShare(vaultDenom, d("1000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
@@ -422,7 +422,7 @@ func (suite *AccumulateEarnRewardsTests) TestStateUnchangedWhenBlockTimeHasNotIn
 }
 
 func (suite *AccumulateEarnRewardsTests) TestNoAccumulationWhenSourceSharesAreZero() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper() // no vault, so no source shares
 	liquidKeeper := newFakeLiquidKeeper()
@@ -541,7 +541,7 @@ func (suite *AccumulateEarnRewardsTests) TestNoAccumulationWhenSourceSharesAreZe
 }
 
 func (suite *AccumulateEarnRewardsTests) TestStateAddedWhenStateDoesNotExist() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper().addVault(vaultDenom, earntypes.NewVaultShare(vaultDenom, d("1000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
@@ -645,7 +645,7 @@ func (suite *AccumulateEarnRewardsTests) TestStateAddedWhenStateDoesNotExist_bfu
 }
 
 func (suite *AccumulateEarnRewardsTests) TestNoPanicWhenStateDoesNotExist() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper()
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
@@ -709,7 +709,7 @@ func (suite *AccumulateEarnRewardsTests) TestNoPanicWhenStateDoesNotExist_bfury(
 }
 
 func (suite *AccumulateEarnRewardsTests) TestNoAccumulationWhenBeforeStartTime() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper().addVault(vaultDenom, earntypes.NewVaultShare(vaultDenom, d("1000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
@@ -755,7 +755,7 @@ func (suite *AccumulateEarnRewardsTests) TestNoAccumulationWhenBeforeStartTime()
 }
 
 func (suite *AccumulateEarnRewardsTests) TestPanicWhenCurrentTimeLessThanPrevious() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	earnKeeper := newFakeEarnKeeper().addVault(vaultDenom, earntypes.NewVaultShare(vaultDenom, d("1000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)

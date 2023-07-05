@@ -34,7 +34,7 @@ func (suite *invariantTestSuite) SetupTest() {
 
 func (suite *invariantTestSuite) SetupValidState() {
 	suite.Keeper.SetVaultRecord(suite.Ctx, types.NewVaultRecord(
-		"usdx",
+		"musd",
 		sdk.MustNewDecFromStr("100"),
 	))
 	suite.Keeper.SetVaultRecord(suite.Ctx, types.NewVaultRecord(
@@ -45,14 +45,14 @@ func (suite *invariantTestSuite) SetupValidState() {
 	vaultShare1 := types.NewVaultShareRecord(
 		suite.addrs[0],
 		types.NewVaultShares(
-			types.NewVaultShare("usdx", sdk.MustNewDecFromStr("50")),
+			types.NewVaultShare("musd", sdk.MustNewDecFromStr("50")),
 			types.NewVaultShare("ufury", sdk.MustNewDecFromStr("105.123")),
 		),
 	)
 	vaultShare2 := types.NewVaultShareRecord(
 		suite.addrs[1],
 		types.NewVaultShares(
-			types.NewVaultShare("usdx", sdk.MustNewDecFromStr("50")),
+			types.NewVaultShare("musd", sdk.MustNewDecFromStr("50")),
 			types.NewVaultShare("ufury", sdk.MustNewDecFromStr("145.000456")),
 		),
 	)
@@ -158,7 +158,7 @@ func (suite *invariantTestSuite) TestVaultSharesInvariant() {
 
 	// broken when total shares are greater than depositor shares
 	suite.Keeper.SetVaultRecord(suite.Ctx, types.NewVaultRecord(
-		"usdx",
+		"musd",
 		sdk.MustNewDecFromStr("101"),
 	))
 	message, broken = suite.runInvariant("vault-shares", keeper.VaultSharesInvariant)
@@ -167,7 +167,7 @@ func (suite *invariantTestSuite) TestVaultSharesInvariant() {
 
 	// broken when total shares are less than the depositor shares
 	suite.Keeper.SetVaultRecord(suite.Ctx, types.NewVaultRecord(
-		"usdx",
+		"musd",
 		sdk.MustNewDecFromStr("99.999"),
 	))
 	message, broken = suite.runInvariant("vault-shares", keeper.VaultSharesInvariant)
@@ -175,7 +175,7 @@ func (suite *invariantTestSuite) TestVaultSharesInvariant() {
 	suite.Equal(true, broken)
 
 	// broken when vault record is missing
-	suite.Keeper.DeleteVaultRecord(suite.Ctx, "usdx")
+	suite.Keeper.DeleteVaultRecord(suite.Ctx, "musd")
 	message, broken = suite.runInvariant("vault-shares", keeper.VaultSharesInvariant)
 	suite.Equal("earn: vault shares broken invariant\nvault shares do not match depositor shares\n", message)
 	suite.Equal(true, broken)

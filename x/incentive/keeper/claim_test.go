@@ -28,7 +28,7 @@ func (suite *ClaimTests) TestCannotClaimWhenMultiplierNotRecognised() {
 		params: types.Params{
 			ClaimMultipliers: types.MultipliersPerDenoms{
 				{
-					Denom: "hard",
+					Denom: "jinx",
 					Multipliers: types.Multipliers{
 						types.NewMultiplier("small", 1, d("0.2")),
 					},
@@ -46,11 +46,11 @@ func (suite *ClaimTests) TestCannotClaimWhenMultiplierNotRecognised() {
 	suite.storeDelegatorClaim(claim)
 
 	// multiplier not in params
-	err := suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "hard", "large")
+	err := suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "jinx", "large")
 	suite.ErrorIs(err, types.ErrInvalidMultiplier)
 
 	// invalid multiplier name
-	err = suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "hard", "")
+	err = suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "jinx", "")
 	suite.ErrorIs(err, types.ErrInvalidMultiplier)
 }
 
@@ -61,7 +61,7 @@ func (suite *ClaimTests) TestCannotClaimAfterEndTime() {
 		params: types.Params{
 			ClaimMultipliers: types.MultipliersPerDenoms{
 				{
-					Denom: "hard",
+					Denom: "jinx",
 					Multipliers: types.Multipliers{
 						types.NewMultiplier("small", 1, d("0.2")),
 					},
@@ -81,6 +81,6 @@ func (suite *ClaimTests) TestCannotClaimAfterEndTime() {
 	}
 	suite.storeDelegatorClaim(claim)
 
-	err := suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "hard", "small")
+	err := suite.keeper.ClaimDelegatorReward(suite.ctx, claim.Owner, claim.Owner, "jinx", "small")
 	suite.ErrorIs(err, types.ErrClaimExpired)
 }

@@ -48,7 +48,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryBalance() {
 			setup: func() {
 				expCoins = sdk.NewCoins(
 					sdk.NewCoin("ufury", sdkmath.NewInt(100)),
-					sdk.NewCoin("usdx", sdkmath.NewInt(1000)),
+					sdk.NewCoin("musd", sdkmath.NewInt(1000)),
 				)
 				suite.App.FundModuleAccount(suite.Ctx, types.ModuleName, expCoins)
 			},
@@ -82,7 +82,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 			setup: func() {
 				expCoins = sdk.NewDecCoins(
 					sdk.NewDecCoin("ufury", sdkmath.NewInt(100)),
-					sdk.NewDecCoin("usdx", sdkmath.NewInt(1000)),
+					sdk.NewDecCoin("musd", sdkmath.NewInt(1000)),
 				)
 
 				coins, _ := expCoins.TruncateDecimal()
@@ -95,7 +95,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBalance() {
 			setup: func() {
 				decCoins1 := sdk.NewDecCoins(
 					sdk.NewDecCoin("ufury", sdkmath.NewInt(100)),
-					sdk.NewDecCoin("usdx", sdkmath.NewInt(1000)),
+					sdk.NewDecCoin("musd", sdkmath.NewInt(1000)),
 				)
 
 				coins, _ := decCoins1.TruncateDecimal()

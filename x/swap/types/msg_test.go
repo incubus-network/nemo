@@ -19,13 +19,13 @@ func TestMsgDeposit_Attributes(t *testing.T) {
 }
 
 func TestMsgDeposit_Signing(t *testing.T) {
-	signData := `{"type":"swap/MsgDeposit","value":{"deadline":"1623606299","depositor":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_a":{"amount":"1000000","denom":"ufury"},"token_b":{"amount":"5000000","denom":"usdx"}}}`
+	signData := `{"type":"swap/MsgDeposit","value":{"deadline":"1623606299","depositor":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_a":{"amount":"1000000","denom":"ufury"},"token_b":{"amount":"5000000","denom":"musd"}}}`
 	signBytes := []byte(signData)
 
 	addr, err := sdk.AccAddressFromBech32("fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9")
 	require.NoError(t, err)
 
-	msg := types.NewMsgDeposit(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("usdx", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
+	msg := types.NewMsgDeposit(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
 	assert.Equal(t, []sdk.AccAddress{addr}, msg.GetSigners())
 	assert.Equal(t, signBytes, msg.GetSignBytes())
 }
@@ -37,7 +37,7 @@ func TestMsgDeposit_Validation(t *testing.T) {
 	validMsg := types.NewMsgDeposit(
 		addr.String(),
 		sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		sdk.MustNewDecFromStr("0.01"),
 		1623606299,
 	)
@@ -191,7 +191,7 @@ func TestMsgDeposit_Deadline(t *testing.T) {
 		msg := types.NewMsgDeposit(
 			sdk.AccAddress("test1").String(),
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 			sdk.MustNewDecFromStr("0.01"),
 			tc.deadline,
 		)
@@ -208,7 +208,7 @@ func TestMsgWithdraw_Attributes(t *testing.T) {
 }
 
 func TestMsgWithdraw_Signing(t *testing.T) {
-	signData := `{"type":"swap/MsgWithdraw","value":{"deadline":"1623606299","from":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","min_token_a":{"amount":"1000000","denom":"ufury"},"min_token_b":{"amount":"2000000","denom":"usdx"},"shares":"1500000"}}`
+	signData := `{"type":"swap/MsgWithdraw","value":{"deadline":"1623606299","from":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","min_token_a":{"amount":"1000000","denom":"ufury"},"min_token_b":{"amount":"2000000","denom":"musd"},"shares":"1500000"}}`
 	signBytes := []byte(signData)
 
 	addr, err := sdk.AccAddressFromBech32("fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9")
@@ -218,7 +218,7 @@ func TestMsgWithdraw_Signing(t *testing.T) {
 		addr.String(),
 		sdkmath.NewInt(1500000),
 		sdk.NewCoin("ufury", sdkmath.NewInt(1000000)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(2000000)),
+		sdk.NewCoin("musd", sdkmath.NewInt(2000000)),
 		1623606299,
 	)
 	assert.Equal(t, []sdk.AccAddress{addr}, msg.GetSigners())
@@ -230,7 +230,7 @@ func TestMsgWithdraw_Validation(t *testing.T) {
 		sdk.AccAddress("test1").String(),
 		sdkmath.NewInt(1500000),
 		sdk.NewCoin("ufury", sdkmath.NewInt(1000000)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(2000000)),
+		sdk.NewCoin("musd", sdkmath.NewInt(2000000)),
 		1623606299,
 	)
 	require.NoError(t, validMsg.ValidateBasic())
@@ -384,7 +384,7 @@ func TestMsgWithdraw_Deadline(t *testing.T) {
 			sdk.AccAddress("test1").String(),
 			sdkmath.NewInt(1500000),
 			sdk.NewCoin("ufury", sdkmath.NewInt(1000000)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(2000000)),
+			sdk.NewCoin("musd", sdkmath.NewInt(2000000)),
 			tc.deadline,
 		)
 		require.NoError(t, msg.ValidateBasic())
@@ -400,13 +400,13 @@ func TestMsgSwapExactForTokens_Attributes(t *testing.T) {
 }
 
 func TestMsgSwapExactForTokens_Signing(t *testing.T) {
-	signData := `{"type":"swap/MsgSwapExactForTokens","value":{"deadline":"1623606299","exact_token_a":{"amount":"1000000","denom":"ufury"},"requester":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_b":{"amount":"5000000","denom":"usdx"}}}`
+	signData := `{"type":"swap/MsgSwapExactForTokens","value":{"deadline":"1623606299","exact_token_a":{"amount":"1000000","denom":"ufury"},"requester":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_b":{"amount":"5000000","denom":"musd"}}}`
 	signBytes := []byte(signData)
 
 	addr, err := sdk.AccAddressFromBech32("fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9")
 	require.NoError(t, err)
 
-	msg := types.NewMsgSwapExactForTokens(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("usdx", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
+	msg := types.NewMsgSwapExactForTokens(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
 	assert.Equal(t, []sdk.AccAddress{addr}, msg.GetSigners())
 	assert.Equal(t, signBytes, msg.GetSignBytes())
 }
@@ -415,7 +415,7 @@ func TestMsgSwapExactForTokens_Validation(t *testing.T) {
 	validMsg := types.NewMsgSwapExactForTokens(
 		sdk.AccAddress("test1").String(),
 		sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		sdk.MustNewDecFromStr("0.01"),
 		1623606299,
 	)
@@ -569,7 +569,7 @@ func TestMsgSwapExactForTokens_Deadline(t *testing.T) {
 		msg := types.NewMsgSwapExactForTokens(
 			sdk.AccAddress("test1").String(),
 			sdk.NewCoin("ufury", sdkmath.NewInt(1000000)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(2000000)),
+			sdk.NewCoin("musd", sdkmath.NewInt(2000000)),
 			sdk.MustNewDecFromStr("0.01"),
 			tc.deadline,
 		)
@@ -586,13 +586,13 @@ func TestMsgSwapForExactTokens_Attributes(t *testing.T) {
 }
 
 func TestMsgSwapForExactTokens_Signing(t *testing.T) {
-	signData := `{"type":"swap/MsgSwapForExactTokens","value":{"deadline":"1623606299","exact_token_b":{"amount":"5000000","denom":"usdx"},"requester":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_a":{"amount":"1000000","denom":"ufury"}}}`
+	signData := `{"type":"swap/MsgSwapForExactTokens","value":{"deadline":"1623606299","exact_token_b":{"amount":"5000000","denom":"musd"},"requester":"fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9","slippage":"0.010000000000000000","token_a":{"amount":"1000000","denom":"ufury"}}}`
 	signBytes := []byte(signData)
 
 	addr, err := sdk.AccAddressFromBech32("fury1gepm4nwzz40gtpur93alv9f9wm5ht4l0muluq9")
 	require.NoError(t, err)
 
-	msg := types.NewMsgSwapForExactTokens(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("usdx", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
+	msg := types.NewMsgSwapForExactTokens(addr.String(), sdk.NewCoin("ufury", sdkmath.NewInt(1e6)), sdk.NewCoin("musd", sdkmath.NewInt(5e6)), sdk.MustNewDecFromStr("0.01"), 1623606299)
 	assert.Equal(t, []sdk.AccAddress{addr}, msg.GetSigners())
 	assert.Equal(t, signBytes, msg.GetSignBytes())
 }
@@ -601,7 +601,7 @@ func TestMsgSwapForExactTokens_Validation(t *testing.T) {
 	validMsg := types.NewMsgSwapForExactTokens(
 		sdk.AccAddress("test1").String(),
 		sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+		sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		sdk.MustNewDecFromStr("0.01"),
 		1623606299,
 	)
@@ -755,7 +755,7 @@ func TestMsgSwapForExactTokens_Deadline(t *testing.T) {
 		msg := types.NewMsgSwapForExactTokens(
 			sdk.AccAddress("test1").String(),
 			sdk.NewCoin("ufury", sdkmath.NewInt(1000000)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(2000000)),
+			sdk.NewCoin("musd", sdkmath.NewInt(2000000)),
 			sdk.MustNewDecFromStr("0.01"),
 			tc.deadline,
 		)

@@ -52,7 +52,7 @@ func (suite *HandlerTestSuite) SetupWithGenState(builders ...testutil.GenesisBui
 		NewStakingGenesisState(suite.App.AppCodec()),
 		NewPricefeedGenStateMultiFromTime(suite.App.AppCodec(), suite.genesisTime),
 		NewCDPGenStateMulti(suite.App.AppCodec()),
-		NewHardGenStateMulti(suite.genesisTime).BuildMarshalled(suite.App.AppCodec()),
+		NewJinxGenStateMulti(suite.genesisTime).BuildMarshalled(suite.App.AppCodec()),
 		NewSwapGenesisState(suite.App.AppCodec()),
 	}
 	for _, builder := range builders {
@@ -68,7 +68,7 @@ func (suite *HandlerTestSuite) SetupWithGenState(builders ...testutil.GenesisBui
 // authBuilder returns a new auth genesis builder with a full nemodist module account.
 func (suite *HandlerTestSuite) authBuilder() *app.AuthBankGenesisBuilder {
 	return app.NewAuthBankGenesisBuilder().
-		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.USDXMintingRewardDenom, 1e18), c("hard", 1e18), c("swap", 1e18)))
+		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.MUSDMintingRewardDenom, 1e18), c("jinx", 1e18), c("swap", 1e18)))
 }
 
 // incentiveBuilder returns a new incentive genesis builder with a genesis time and multipliers set
@@ -77,7 +77,7 @@ func (suite *HandlerTestSuite) incentiveBuilder() testutil.IncentiveGenesisBuild
 		WithGenesisTime(suite.genesisTime).
 		WithMultipliers(types.MultipliersPerDenoms{
 			{
-				Denom: "hard",
+				Denom: "jinx",
 				Multipliers: types.Multipliers{
 					types.NewMultiplier("small", 1, d("0.2")),
 					types.NewMultiplier("large", 12, d("1.0")),
@@ -107,7 +107,7 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimMultiDenom() {
 		WithSimpleAccount(userAddr, cs(c("ufury", 1e12), c("busd", 1e12)))
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleSwapRewardPeriod("busd:ufury", cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleSwapRewardPeriod("busd:ufury", cs(c("jinx", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
@@ -123,7 +123,7 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimMultiDenom() {
 	msg := types.NewMsgClaimSwapReward(
 		userAddr.String(),
 		types.Selections{
-			types.NewSelection("hard", "small"),
+			types.NewSelection("jinx", "small"),
 			types.NewSelection("swap", "medium"),
 		},
 	)
@@ -133,12 +133,12 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimMultiDenom() {
 	suite.NoError(err)
 
 	// Check rewards were paid out
-	expectedRewardsHard := c("hard", int64(0.2*float64(7*1e6)))
+	expectedRewardsJinx := c("jinx", int64(0.2*float64(7*1e6)))
 	expectedRewardsSwap := c("swap", int64(0.5*float64(7*1e6)))
-	suite.BalanceEquals(userAddr, preClaimBal.Add(expectedRewardsHard, expectedRewardsSwap))
+	suite.BalanceEquals(userAddr, preClaimBal.Add(expectedRewardsJinx, expectedRewardsSwap))
 
 	suite.VestingPeriodsEqual(userAddr, []vestingtypes.Period{
-		{Length: (17+31)*secondsPerDay - 7, Amount: cs(expectedRewardsHard)},
+		{Length: (17+31)*secondsPerDay - 7, Amount: cs(expectedRewardsJinx)},
 		{Length: (28 + 31 + 30 + 31 + 30) * secondsPerDay, Amount: cs(expectedRewardsSwap)}, // second length is stacked on top of the first
 	})
 
@@ -153,7 +153,7 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimSingleDenom() {
 		WithSimpleAccount(userAddr, cs(c("ufury", 1e12), c("busd", 1e12)))
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleSwapRewardPeriod("busd:ufury", cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleSwapRewardPeriod("busd:ufury", cs(c("jinx", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
@@ -187,5 +187,5 @@ func (suite *HandlerTestSuite) TestPayoutSwapClaimSingleDenom() {
 	})
 
 	// Check that claimed coins have been removed from a claim's reward
-	suite.SwapRewardEquals(userAddr, cs(c("hard", 7*1e6)))
+	suite.SwapRewardEquals(userAddr, cs(c("jinx", 7*1e6)))
 }

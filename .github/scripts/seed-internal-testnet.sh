@@ -167,8 +167,8 @@ updatedEvmUtilParams=$(curl https://api.app.internal.testnet.us-east.production.
 printf "updated evm util module params\n %s" , "$updatedEvmUtilParams"
 
 # if adding more cosmos coins -> er20s, ensure that the deployment order below remains the same.
-# convert 1 HARD to an erc20. doing this ensures the contract is deployed.
+# convert 1 JINX to an erc20. doing this ensures the contract is deployed.
 nemo tx evmutil convert-cosmos-coin-to-erc20 \
   "$DEV_TEST_WALLET_ADDRESS" \
-  1000000hard \
+  1000000jinx \
   --from dev-wallet --gas 2000000 --gas-prices 0.001ufury -y

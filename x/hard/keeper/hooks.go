@@ -3,11 +3,11 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Implements StakingHooks interface
-var _ types.HARDHooks = Keeper{}
+var _ types.JINXHooks = Keeper{}
 
 // AfterDepositCreated - call hook if registered
 func (k Keeper) AfterDepositCreated(ctx sdk.Context, deposit types.Deposit) {

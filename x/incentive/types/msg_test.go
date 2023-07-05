@@ -35,7 +35,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "hard",
+						Denom:          "jinx",
 						MultiplierName: "large",
 					},
 				},
@@ -50,7 +50,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "hard",
+						Denom:          "jinx",
 						MultiplierName: "",
 					},
 				},
@@ -85,7 +85,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: "",
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "hard",
+						Denom:          "jinx",
 						MultiplierName: "medium",
 					},
 				},
@@ -125,11 +125,11 @@ func TestMsgClaim_Validate(t *testing.T) {
 				sender: validAddress,
 				denomsToClaim: types.Selections{
 					{
-						Denom:          "hard",
+						Denom:          "jinx",
 						MultiplierName: "medium",
 					},
 					{
-						Denom:          "hard",
+						Denom:          "jinx",
 						MultiplierName: "large",
 					},
 				},
@@ -141,11 +141,11 @@ func TestMsgClaim_Validate(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		msgClaimHardReward := types.NewMsgClaimHardReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
+		msgClaimJinxReward := types.NewMsgClaimJinxReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimDelegatorReward := types.NewMsgClaimDelegatorReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimSwapReward := types.NewMsgClaimSwapReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
 		msgClaimSavingsReward := types.NewMsgClaimSavingsReward(tc.msgArgs.sender, tc.msgArgs.denomsToClaim)
-		msgs := []sdk.Msg{&msgClaimHardReward, &msgClaimDelegatorReward, &msgClaimSwapReward, &msgClaimSavingsReward}
+		msgs := []sdk.Msg{&msgClaimJinxReward, &msgClaimDelegatorReward, &msgClaimSwapReward, &msgClaimSavingsReward}
 		for _, msg := range msgs {
 			t.Run(tc.name, func(t *testing.T) {
 				err := msg.ValidateBasic()
@@ -159,7 +159,7 @@ func TestMsgClaim_Validate(t *testing.T) {
 	}
 }
 
-func TestMsgClaimUSDXMintingReward_Validate(t *testing.T) {
+func TestMsgClaimMUSDMintingReward_Validate(t *testing.T) {
 	validAddress := sdk.AccAddress(crypto.AddressHash([]byte("NemoTest1"))).String()
 
 	type expectedErr struct {
@@ -209,7 +209,7 @@ func TestMsgClaimUSDXMintingReward_Validate(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			msg := types.NewMsgClaimUSDXMintingReward(tc.msgArgs.sender, tc.msgArgs.multiplierName)
+			msg := types.NewMsgClaimMUSDMintingReward(tc.msgArgs.sender, tc.msgArgs.multiplierName)
 
 			err := msg.ValidateBasic()
 			if tc.expect.pass {

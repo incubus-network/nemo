@@ -7,14 +7,14 @@ order: 3
 Users claim rewards using messages that correspond to each claim type.
 
 ```go
-// MsgClaimUSDXMintingReward message type used to claim USDX minting rewards
-type MsgClaimUSDXMintingReward struct {
+// MsgClaimMUSDMintingReward message type used to claim MUSD minting rewards
+type MsgClaimMUSDMintingReward struct {
 	Sender         sdk.AccAddress `json:"sender" yaml:"sender"`
 	MultiplierName string         `json:"multiplier_name" yaml:"multiplier_name"`
 }
 
-// MsgClaimHardReward message type used to claim Hard liquidity provider rewards
-type MsgClaimHardReward struct {
+// MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
+type MsgClaimJinxReward struct {
 	Sender         sdk.AccAddress `json:"sender" yaml:"sender"`
 	MultiplierName string         `json:"multiplier_name" yaml:"multiplier_name"`
 	DenomsToClaim  []string       `json:"denoms_to_claim" yaml:"denoms_to_claim"`

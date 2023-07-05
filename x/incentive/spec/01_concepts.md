@@ -8,11 +8,11 @@ This module implements governance controlled user incentives. When users take a 
 
 ## General Reward Distribution
 
-Rewards target various user activity. For example, usdx borrowed from bnb CDPs, btcb supplied to the hard money market, or shares owned in a swap nemo/usdx pool.
+Rewards target various user activity. For example, musd borrowed from bnb CDPs, btcb supplied to the jinx money market, or shares owned in a swap nemo/musd pool.
 
-Each second, the rewards accumulate at a rate set in the params, eg 100 ufury per second. These are then distributed to all users ratably based on their percentage involvement in the rewarded activity. For example if a user holds 1% of all funds deposited to the nemo/usdx swap pool. They will receive 1% of the total rewards each second.
+Each second, the rewards accumulate at a rate set in the params, eg 100 ufury per second. These are then distributed to all users ratably based on their percentage involvement in the rewarded activity. For example if a user holds 1% of all funds deposited to the nemo/musd swap pool. They will receive 1% of the total rewards each second.
 
-The quantity tracking a user's involvement is referred to as "source shares". And the total across all users the "total source shares". The quotient then gives their percentage involvement, eg if a user borrowed 10,000 usdx, and there is 100,000 usdx borrowed by all users, then they will get 10% of rewards.
+The quantity tracking a user's involvement is referred to as "source shares". And the total across all users the "total source shares". The quotient then gives their percentage involvement, eg if a user borrowed 10,000 musd, and there is 100,000 musd borrowed by all users, then they will get 10% of rewards.
 
 ## Efficiency
 
@@ -46,14 +46,14 @@ $$
 
 Old values of $\texttt{rewardBalance}$ and $\texttt{globalIndexes}$ ares stored in a `Claim` object for each user as `rewardBalance` and `rewardIndexes` respectively.
 
-Listeners on external modules fire to update these values when source shares change. For example, when a user deposits to hard, a method in incentive is called. This fundamental operation is called "sync". It calculates the rewards accrued since last time the `sourceShares` changed, adds it to the claim, and stores the current `globalIndexes` in the `rewardIndexes`. Sync must be called whenever source shares change, otherwise incorrect rewards will be distributed.
+Listeners on external modules fire to update these values when source shares change. For example, when a user deposits to jinx, a method in incentive is called. This fundamental operation is called "sync". It calculates the rewards accrued since last time the `sourceShares` changed, adds it to the claim, and stores the current `globalIndexes` in the `rewardIndexes`. Sync must be called whenever source shares change, otherwise incorrect rewards will be distributed.
 
 Enumeration of 'sync' input states:
 - `sourceShares`, `globalIndexes`, or `rewardIndexes` should never be negative
 - `globalIndexes` >= `rewardIndexes` (global indexes must never decrease)
 - `globalIndexes` and `rewardIndexes` can be positive or 0, where not existing in the store is counted as 0
 
-- `sourceShares` are the value before the update (eg before a hard deposit)
+- `sourceShares` are the value before the update (eg before a jinx deposit)
 
  | `globalIndexes` | `rewardIndexes` | `sourceShares` | description                                                                                                                                                                                                                                                |
  |------------------|-----------------|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -76,31 +76,31 @@ It is important that:
 
 The code is further complicated by:
 - Claim objects contain indexes for several source shares.
-- Rewards for hard borrows and hard deposits use the same claim object.
-- Savings and hard hooks trigger any time one in a group of source shares change, but don't identify which changed.
-- The hard `BeforeXModified` hooks don't show source shares that have increased from zero (eg when a new denom is deposited to an existing deposit). So there is an additional `AfterXModified` hook, and the claim indexes double up as a copy of the borrow/deposit denoms.
+- Rewards for jinx borrows and jinx deposits use the same claim object.
+- Savings and jinx hooks trigger any time one in a group of source shares change, but don't identify which changed.
+- The jinx `BeforeXModified` hooks don't show source shares that have increased from zero (eg when a new denom is deposited to an existing deposit). So there is an additional `AfterXModified` hook, and the claim indexes double up as a copy of the borrow/deposit denoms.
 - The sync operation is split between two methods to try to protect against indexes being deleted.
-    - `InitXRewards` performs a sync assuming source shares are 0, it mostly fires in cases where `sourceShares` = 0 above (except for hard and supply)
+    - `InitXRewards` performs a sync assuming source shares are 0, it mostly fires in cases where `sourceShares` = 0 above (except for jinx and supply)
     - `SyncXRewards` performs a sync, but skips it if `globalIndexes` are not found or `rewardIndexes` are not found (only when claim object not found)
-- Usdx rewards do not support multiple reward denoms.
+- Musd rewards do not support multiple reward denoms.
 
-## HARD Token distribution
+## JINX Token distribution
 
-The incentive module also distributes the HARD token on the Nemo blockchain. HARD tokens are distributed to two types of ecosystem participants:
+The incentive module also distributes the JINX token on the Nemo blockchain. JINX tokens are distributed to two types of ecosystem participants:
 
-1. Nemo stakers - any address that stakes (delegates) NEMO tokens will be eligible to claim HARD tokens. For each delegator, HARD tokens are accumulated ratably based on the total number of nemo tokens staked. For example, if a user stakes 1 million NEMO tokens and there are 100 million staked NEMO, that user will accumulate 1% of HARD tokens earmarked for stakers during the distribution period. Distribution periods are defined by a start date, an end date, and a number of HARD tokens that are distributed per second.
-2. Depositors/Borrows - any address that deposits and/or borrows eligible tokens to the hard module will be eligible to claim HARD tokens. For each depositor, HARD tokens are accumulated ratably based on the total number of tokens staked of that denomination. For example, if a user deposits 1 million "xyz" tokens and there are 100 million xyz deposited, that user will accumulate 1% of HARD tokens earmarked for depositors of that denomination during the distribution period. Distribution periods are defined by a start date, an end date, and a number of HARD tokens that are distributed per second.
+1. Nemo stakers - any address that stakes (delegates) NEMO tokens will be eligible to claim JINX tokens. For each delegator, JINX tokens are accumulated ratably based on the total number of nemo tokens staked. For example, if a user stakes 1 million NEMO tokens and there are 100 million staked NEMO, that user will accumulate 1% of JINX tokens earmarked for stakers during the distribution period. Distribution periods are defined by a start date, an end date, and a number of JINX tokens that are distributed per second.
+2. Depositors/Borrows - any address that deposits and/or borrows eligible tokens to the jinx module will be eligible to claim JINX tokens. For each depositor, JINX tokens are accumulated ratably based on the total number of tokens staked of that denomination. For example, if a user deposits 1 million "xyz" tokens and there are 100 million xyz deposited, that user will accumulate 1% of JINX tokens earmarked for depositors of that denomination during the distribution period. Distribution periods are defined by a start date, an end date, and a number of JINX tokens that are distributed per second.
 
-Users are not air-dropped tokens, rather they accumulate `Claim` objects that they may submit a transaction in order to claim. In order to better align long term incentives, when users claim HARD tokens, they have options, called 'multipliers', for how tokens are distributed.
+Users are not air-dropped tokens, rather they accumulate `Claim` objects that they may submit a transaction in order to claim. In order to better align long term incentives, when users claim JINX tokens, they have options, called 'multipliers', for how tokens are distributed.
 
 The exact multipliers will be voted by governance and can be changed via a governance vote. An example multiplier schedule would be:
 
 - Short-term locked - 20% multiplier and 1 month transfer restriction. Users receive 20% as many tokens as users who choose long-term locked tokens.
 - Long-term locked - 100% multiplier and 1 year transfer restriction. Users receive 5x as many tokens as users who choose short-term locked tokens.
 
-## USDX Minting Rewards
+## MUSD Minting Rewards
 
-The incentive module is responsible for distribution of NEMO tokens to users who mint USDX. When governance adds a collateral type to be eligible for rewards, they set the rate (coins/second) at which rewards are given to users, the length of each reward period, the length of each claim period, and the amount of time reward coins must vest before users who claim them can transfer them. For the duration of a reward period, any user that has minted USDX using an eligible collateral type will ratably accumulate rewards in a `USDXMintingClaim` object. For example, if a user has minted 10% of all USDX for the duration of the reward period, they will earn 10% of all rewards for that period. When the reward period ends, the claim period begins immediately, at which point users can submit a message to claim their rewards. Rewards are time-locked, meaning that when a user claims rewards they will receive them as a vesting balance on their account. Vesting balances can be used to stake coins, but cannot be transferred until the vesting period ends. In addition to vesting, rewards can have multipliers that vary the number of tokens received. For example, a reward with a vesting period of 1 month may have a multiplier of 0.25, meaning that the user will receive 25% of the reward balance if they choose that vesting schedule.
+The incentive module is responsible for distribution of NEMO tokens to users who mint MUSD. When governance adds a collateral type to be eligible for rewards, they set the rate (coins/second) at which rewards are given to users, the length of each reward period, the length of each claim period, and the amount of time reward coins must vest before users who claim them can transfer them. For the duration of a reward period, any user that has minted MUSD using an eligible collateral type will ratably accumulate rewards in a `MUSDMintingClaim` object. For example, if a user has minted 10% of all MUSD for the duration of the reward period, they will earn 10% of all rewards for that period. When the reward period ends, the claim period begins immediately, at which point users can submit a message to claim their rewards. Rewards are time-locked, meaning that when a user claims rewards they will receive them as a vesting balance on their account. Vesting balances can be used to stake coins, but cannot be transferred until the vesting period ends. In addition to vesting, rewards can have multipliers that vary the number of tokens received. For example, a reward with a vesting period of 1 month may have a multiplier of 0.25, meaning that the user will receive 25% of the reward balance if they choose that vesting schedule.
 
 ## SWP Token Distribution
 

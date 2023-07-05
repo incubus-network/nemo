@@ -40,13 +40,13 @@ func (suite *querierTestSuite) SetupTest() {
 		lotAmount := int64(rand.Intn(100-10) + 10)
 
 		// Add coins required for auction creation to module account
-		suite.AddCoinsToNamedModule(suite.ModAcc.Name, cs(c("token1", lotAmount), c("usdx", 20), c("debt", 10)))
+		suite.AddCoinsToNamedModule(suite.ModAcc.Name, cs(c("token1", lotAmount), c("musd", 20), c("debt", 10)))
 
 		ownerAddrIndex := rand.Intn(9-1) + 1
 		if ownerAddrIndex%2 == 0 {
 			id, err = suite.Keeper.StartSurplusAuction(suite.Ctx, suite.ModAcc.Name, c("token1", lotAmount), "token2")
 		} else {
-			id, err = suite.Keeper.StartCollateralAuction(suite.Ctx, suite.ModAcc.Name, c("token1", lotAmount), c("usdx", int64(20)),
+			id, err = suite.Keeper.StartCollateralAuction(suite.Ctx, suite.ModAcc.Name, c("token1", lotAmount), c("musd", int64(20)),
 				[]sdk.AccAddress{suite.Addrs[ownerAddrIndex]}, []sdkmath.Int{sdkmath.NewInt(lotAmount)}, c("debt", int64(10)))
 		}
 		suite.NoError(err)

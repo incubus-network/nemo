@@ -19,7 +19,7 @@ type Keeper struct {
 	accountKeeper types.AccountKeeper
 	bankKeeper    types.BankKeeper
 	cdpKeeper     types.CdpKeeper
-	hardKeeper    types.HardKeeper
+	jinxKeeper    types.JinxKeeper
 	stakingKeeper types.StakingKeeper
 	swapKeeper    types.SwapKeeper
 	savingsKeeper types.SavingsKeeper
@@ -35,7 +35,7 @@ type Keeper struct {
 // NewKeeper creates a new keeper
 func NewKeeper(
 	cdc codec.Codec, key storetypes.StoreKey, paramstore types.ParamSubspace, bk types.BankKeeper,
-	cdpk types.CdpKeeper, hk types.HardKeeper, ak types.AccountKeeper, stk types.StakingKeeper,
+	cdpk types.CdpKeeper, hk types.JinxKeeper, ak types.AccountKeeper, stk types.StakingKeeper,
 	swpk types.SwapKeeper, svk types.SavingsKeeper, lqk types.LiquidKeeper, ek types.EarnKeeper,
 	mk types.MintKeeper, dk types.DistrKeeper, pfk types.PricefeedKeeper,
 ) Keeper {
@@ -50,7 +50,7 @@ func NewKeeper(
 		paramSubspace: paramstore,
 		bankKeeper:    bk,
 		cdpKeeper:     cdpk,
-		hardKeeper:    hk,
+		jinxKeeper:    hk,
 		stakingKeeper: stk,
 		swapKeeper:    swpk,
 		savingsKeeper: svk,
@@ -63,38 +63,38 @@ func NewKeeper(
 	}
 }
 
-// GetUSDXMintingClaim returns the claim in the store corresponding the the input address collateral type and id and a boolean for if the claim was found
-func (k Keeper) GetUSDXMintingClaim(ctx sdk.Context, addr sdk.AccAddress) (types.USDXMintingClaim, bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingClaimKeyPrefix)
+// GetMUSDMintingClaim returns the claim in the store corresponding the the input address collateral type and id and a boolean for if the claim was found
+func (k Keeper) GetMUSDMintingClaim(ctx sdk.Context, addr sdk.AccAddress) (types.MUSDMintingClaim, bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingClaimKeyPrefix)
 	bz := store.Get(addr)
 	if bz == nil {
-		return types.USDXMintingClaim{}, false
+		return types.MUSDMintingClaim{}, false
 	}
-	var c types.USDXMintingClaim
+	var c types.MUSDMintingClaim
 	k.cdc.MustUnmarshal(bz, &c)
 	return c, true
 }
 
-// SetUSDXMintingClaim sets the claim in the store corresponding to the input address, collateral type, and id
-func (k Keeper) SetUSDXMintingClaim(ctx sdk.Context, c types.USDXMintingClaim) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingClaimKeyPrefix)
+// SetMUSDMintingClaim sets the claim in the store corresponding to the input address, collateral type, and id
+func (k Keeper) SetMUSDMintingClaim(ctx sdk.Context, c types.MUSDMintingClaim) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingClaimKeyPrefix)
 	bz := k.cdc.MustMarshal(&c)
 	store.Set(c.Owner, bz)
 }
 
-// DeleteUSDXMintingClaim deletes the claim in the store corresponding to the input address, collateral type, and id
-func (k Keeper) DeleteUSDXMintingClaim(ctx sdk.Context, owner sdk.AccAddress) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingClaimKeyPrefix)
+// DeleteMUSDMintingClaim deletes the claim in the store corresponding to the input address, collateral type, and id
+func (k Keeper) DeleteMUSDMintingClaim(ctx sdk.Context, owner sdk.AccAddress) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingClaimKeyPrefix)
 	store.Delete(owner)
 }
 
-// IterateUSDXMintingClaims iterates over all claim  objects in the store and preforms a callback function
-func (k Keeper) IterateUSDXMintingClaims(ctx sdk.Context, cb func(c types.USDXMintingClaim) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingClaimKeyPrefix)
+// IterateMUSDMintingClaims iterates over all claim  objects in the store and preforms a callback function
+func (k Keeper) IterateMUSDMintingClaims(ctx sdk.Context, cb func(c types.MUSDMintingClaim) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingClaimKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
-		var c types.USDXMintingClaim
+		var c types.MUSDMintingClaim
 		k.cdc.MustUnmarshal(iterator.Value(), &c)
 		if cb(c) {
 			break
@@ -102,19 +102,19 @@ func (k Keeper) IterateUSDXMintingClaims(ctx sdk.Context, cb func(c types.USDXMi
 	}
 }
 
-// GetAllUSDXMintingClaims returns all Claim objects in the store
-func (k Keeper) GetAllUSDXMintingClaims(ctx sdk.Context) types.USDXMintingClaims {
-	cs := types.USDXMintingClaims{}
-	k.IterateUSDXMintingClaims(ctx, func(c types.USDXMintingClaim) (stop bool) {
+// GetAllMUSDMintingClaims returns all Claim objects in the store
+func (k Keeper) GetAllMUSDMintingClaims(ctx sdk.Context) types.MUSDMintingClaims {
+	cs := types.MUSDMintingClaims{}
+	k.IterateMUSDMintingClaims(ctx, func(c types.MUSDMintingClaim) (stop bool) {
 		cs = append(cs, c)
 		return false
 	})
 	return cs
 }
 
-// GetPreviousUSDXMintingAccrualTime returns the last time a collateral type accrued USDX minting rewards
-func (k Keeper) GetPreviousUSDXMintingAccrualTime(ctx sdk.Context, ctype string) (blockTime time.Time, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousUSDXMintingRewardAccrualTimeKeyPrefix)
+// GetPreviousMUSDMintingAccrualTime returns the last time a collateral type accrued MUSD minting rewards
+func (k Keeper) GetPreviousMUSDMintingAccrualTime(ctx sdk.Context, ctype string) (blockTime time.Time, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousMUSDMintingRewardAccrualTimeKeyPrefix)
 	b := store.Get([]byte(ctype))
 	if b == nil {
 		return time.Time{}, false
@@ -125,9 +125,9 @@ func (k Keeper) GetPreviousUSDXMintingAccrualTime(ctx sdk.Context, ctype string)
 	return blockTime, true
 }
 
-// SetPreviousUSDXMintingAccrualTime sets the last time a collateral type accrued USDX minting rewards
-func (k Keeper) SetPreviousUSDXMintingAccrualTime(ctx sdk.Context, ctype string, blockTime time.Time) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousUSDXMintingRewardAccrualTimeKeyPrefix)
+// SetPreviousMUSDMintingAccrualTime sets the last time a collateral type accrued MUSD minting rewards
+func (k Keeper) SetPreviousMUSDMintingAccrualTime(ctx sdk.Context, ctype string, blockTime time.Time) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousMUSDMintingRewardAccrualTimeKeyPrefix)
 	bz, err := blockTime.MarshalBinary()
 	if err != nil {
 		panic(err)
@@ -135,9 +135,9 @@ func (k Keeper) SetPreviousUSDXMintingAccrualTime(ctx sdk.Context, ctype string,
 	store.Set([]byte(ctype), bz)
 }
 
-// IterateUSDXMintingAccrualTimes iterates over all previous USDX minting accrual times and preforms a callback function
-func (k Keeper) IterateUSDXMintingAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousUSDXMintingRewardAccrualTimeKeyPrefix)
+// IterateMUSDMintingAccrualTimes iterates over all previous MUSD minting accrual times and preforms a callback function
+func (k Keeper) IterateMUSDMintingAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousMUSDMintingRewardAccrualTimeKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -152,9 +152,9 @@ func (k Keeper) IterateUSDXMintingAccrualTimes(ctx sdk.Context, cb func(string, 
 	}
 }
 
-// GetUSDXMintingRewardFactor returns the current reward factor for an individual collateral type
-func (k Keeper) GetUSDXMintingRewardFactor(ctx sdk.Context, ctype string) (factor sdk.Dec, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingRewardFactorKeyPrefix)
+// GetMUSDMintingRewardFactor returns the current reward factor for an individual collateral type
+func (k Keeper) GetMUSDMintingRewardFactor(ctx sdk.Context, ctype string) (factor sdk.Dec, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingRewardFactorKeyPrefix)
 	bz := store.Get([]byte(ctype))
 	if bz == nil {
 		return sdk.ZeroDec(), false
@@ -165,9 +165,9 @@ func (k Keeper) GetUSDXMintingRewardFactor(ctx sdk.Context, ctype string) (facto
 	return factor, true
 }
 
-// SetUSDXMintingRewardFactor sets the current reward factor for an individual collateral type
-func (k Keeper) SetUSDXMintingRewardFactor(ctx sdk.Context, ctype string, factor sdk.Dec) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingRewardFactorKeyPrefix)
+// SetMUSDMintingRewardFactor sets the current reward factor for an individual collateral type
+func (k Keeper) SetMUSDMintingRewardFactor(ctx sdk.Context, ctype string, factor sdk.Dec) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingRewardFactorKeyPrefix)
 	bz, err := factor.Marshal()
 	if err != nil {
 		panic(err)
@@ -175,9 +175,9 @@ func (k Keeper) SetUSDXMintingRewardFactor(ctx sdk.Context, ctype string, factor
 	store.Set([]byte(ctype), bz)
 }
 
-// IterateUSDXMintingRewardFactors iterates over all USDX Minting reward factor objects in the store and preforms a callback function
-func (k Keeper) IterateUSDXMintingRewardFactors(ctx sdk.Context, cb func(denom string, factor sdk.Dec) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.USDXMintingRewardFactorKeyPrefix)
+// IterateMUSDMintingRewardFactors iterates over all MUSD Minting reward factor objects in the store and preforms a callback function
+func (k Keeper) IterateMUSDMintingRewardFactors(ctx sdk.Context, cb func(denom string, factor sdk.Dec) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.MUSDMintingRewardFactorKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -191,38 +191,38 @@ func (k Keeper) IterateUSDXMintingRewardFactors(ctx sdk.Context, cb func(denom s
 	}
 }
 
-// GetHardLiquidityProviderClaim returns the claim in the store corresponding the the input address collateral type and id and a boolean for if the claim was found
-func (k Keeper) GetHardLiquidityProviderClaim(ctx sdk.Context, addr sdk.AccAddress) (types.HardLiquidityProviderClaim, bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardLiquidityClaimKeyPrefix)
+// GetJinxLiquidityProviderClaim returns the claim in the store corresponding the the input address collateral type and id and a boolean for if the claim was found
+func (k Keeper) GetJinxLiquidityProviderClaim(ctx sdk.Context, addr sdk.AccAddress) (types.JinxLiquidityProviderClaim, bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxLiquidityClaimKeyPrefix)
 	bz := store.Get(addr)
 	if bz == nil {
-		return types.HardLiquidityProviderClaim{}, false
+		return types.JinxLiquidityProviderClaim{}, false
 	}
-	var c types.HardLiquidityProviderClaim
+	var c types.JinxLiquidityProviderClaim
 	k.cdc.MustUnmarshal(bz, &c)
 	return c, true
 }
 
-// SetHardLiquidityProviderClaim sets the claim in the store corresponding to the input address, collateral type, and id
-func (k Keeper) SetHardLiquidityProviderClaim(ctx sdk.Context, c types.HardLiquidityProviderClaim) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardLiquidityClaimKeyPrefix)
+// SetJinxLiquidityProviderClaim sets the claim in the store corresponding to the input address, collateral type, and id
+func (k Keeper) SetJinxLiquidityProviderClaim(ctx sdk.Context, c types.JinxLiquidityProviderClaim) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxLiquidityClaimKeyPrefix)
 	bz := k.cdc.MustMarshal(&c)
 	store.Set(c.Owner, bz)
 }
 
-// DeleteHardLiquidityProviderClaim deletes the claim in the store corresponding to the input address, collateral type, and id
-func (k Keeper) DeleteHardLiquidityProviderClaim(ctx sdk.Context, owner sdk.AccAddress) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardLiquidityClaimKeyPrefix)
+// DeleteJinxLiquidityProviderClaim deletes the claim in the store corresponding to the input address, collateral type, and id
+func (k Keeper) DeleteJinxLiquidityProviderClaim(ctx sdk.Context, owner sdk.AccAddress) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxLiquidityClaimKeyPrefix)
 	store.Delete(owner)
 }
 
-// IterateHardLiquidityProviderClaims iterates over all claim  objects in the store and preforms a callback function
-func (k Keeper) IterateHardLiquidityProviderClaims(ctx sdk.Context, cb func(c types.HardLiquidityProviderClaim) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardLiquidityClaimKeyPrefix)
+// IterateJinxLiquidityProviderClaims iterates over all claim  objects in the store and preforms a callback function
+func (k Keeper) IterateJinxLiquidityProviderClaims(ctx sdk.Context, cb func(c types.JinxLiquidityProviderClaim) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxLiquidityClaimKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
-		var c types.HardLiquidityProviderClaim
+		var c types.JinxLiquidityProviderClaim
 		k.cdc.MustUnmarshal(iterator.Value(), &c)
 		if cb(c) {
 			break
@@ -230,10 +230,10 @@ func (k Keeper) IterateHardLiquidityProviderClaims(ctx sdk.Context, cb func(c ty
 	}
 }
 
-// GetAllHardLiquidityProviderClaims returns all Claim objects in the store
-func (k Keeper) GetAllHardLiquidityProviderClaims(ctx sdk.Context) types.HardLiquidityProviderClaims {
-	cs := types.HardLiquidityProviderClaims{}
-	k.IterateHardLiquidityProviderClaims(ctx, func(c types.HardLiquidityProviderClaim) (stop bool) {
+// GetAllJinxLiquidityProviderClaims returns all Claim objects in the store
+func (k Keeper) GetAllJinxLiquidityProviderClaims(ctx sdk.Context) types.JinxLiquidityProviderClaims {
+	cs := types.JinxLiquidityProviderClaims{}
+	k.IterateJinxLiquidityProviderClaims(ctx, func(c types.JinxLiquidityProviderClaim) (stop bool) {
 		cs = append(cs, c)
 		return false
 	})
@@ -436,18 +436,18 @@ func (k Keeper) GetAllEarnClaims(ctx sdk.Context) types.EarnClaims {
 	return cs
 }
 
-// SetHardSupplyRewardIndexes sets the current reward indexes for an individual denom
-func (k Keeper) SetHardSupplyRewardIndexes(ctx sdk.Context, denom string, indexes types.RewardIndexes) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardSupplyRewardIndexesKeyPrefix)
+// SetJinxSupplyRewardIndexes sets the current reward indexes for an individual denom
+func (k Keeper) SetJinxSupplyRewardIndexes(ctx sdk.Context, denom string, indexes types.RewardIndexes) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxSupplyRewardIndexesKeyPrefix)
 	bz := k.cdc.MustMarshal(&types.RewardIndexesProto{
 		RewardIndexes: indexes,
 	})
 	store.Set([]byte(denom), bz)
 }
 
-// GetHardSupplyRewardIndexes gets the current reward indexes for an individual denom
-func (k Keeper) GetHardSupplyRewardIndexes(ctx sdk.Context, denom string) (types.RewardIndexes, bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardSupplyRewardIndexesKeyPrefix)
+// GetJinxSupplyRewardIndexes gets the current reward indexes for an individual denom
+func (k Keeper) GetJinxSupplyRewardIndexes(ctx sdk.Context, denom string) (types.RewardIndexes, bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxSupplyRewardIndexesKeyPrefix)
 	bz := store.Get([]byte(denom))
 	if bz == nil {
 		return types.RewardIndexes{}, false
@@ -458,9 +458,9 @@ func (k Keeper) GetHardSupplyRewardIndexes(ctx sdk.Context, denom string) (types
 	return proto.RewardIndexes, true
 }
 
-// IterateHardSupplyRewardIndexes iterates over all Hard supply reward index objects in the store and preforms a callback function
-func (k Keeper) IterateHardSupplyRewardIndexes(ctx sdk.Context, cb func(denom string, indexes types.RewardIndexes) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardSupplyRewardIndexesKeyPrefix)
+// IterateJinxSupplyRewardIndexes iterates over all Jinx supply reward index objects in the store and preforms a callback function
+func (k Keeper) IterateJinxSupplyRewardIndexes(ctx sdk.Context, cb func(denom string, indexes types.RewardIndexes) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxSupplyRewardIndexesKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -472,8 +472,8 @@ func (k Keeper) IterateHardSupplyRewardIndexes(ctx sdk.Context, cb func(denom st
 	}
 }
 
-func (k Keeper) IterateHardSupplyRewardAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardSupplyRewardAccrualTimeKeyPrefix)
+func (k Keeper) IterateJinxSupplyRewardAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxSupplyRewardAccrualTimeKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -488,18 +488,18 @@ func (k Keeper) IterateHardSupplyRewardAccrualTimes(ctx sdk.Context, cb func(str
 	}
 }
 
-// SetHardBorrowRewardIndexes sets the current reward indexes for an individual denom
-func (k Keeper) SetHardBorrowRewardIndexes(ctx sdk.Context, denom string, indexes types.RewardIndexes) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardBorrowRewardIndexesKeyPrefix)
+// SetJinxBorrowRewardIndexes sets the current reward indexes for an individual denom
+func (k Keeper) SetJinxBorrowRewardIndexes(ctx sdk.Context, denom string, indexes types.RewardIndexes) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxBorrowRewardIndexesKeyPrefix)
 	bz := k.cdc.MustMarshal(&types.RewardIndexesProto{
 		RewardIndexes: indexes,
 	})
 	store.Set([]byte(denom), bz)
 }
 
-// GetHardBorrowRewardIndexes gets the current reward indexes for an individual denom
-func (k Keeper) GetHardBorrowRewardIndexes(ctx sdk.Context, denom string) (types.RewardIndexes, bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardBorrowRewardIndexesKeyPrefix)
+// GetJinxBorrowRewardIndexes gets the current reward indexes for an individual denom
+func (k Keeper) GetJinxBorrowRewardIndexes(ctx sdk.Context, denom string) (types.RewardIndexes, bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxBorrowRewardIndexesKeyPrefix)
 	bz := store.Get([]byte(denom))
 	if bz == nil {
 		return types.RewardIndexes{}, false
@@ -510,9 +510,9 @@ func (k Keeper) GetHardBorrowRewardIndexes(ctx sdk.Context, denom string) (types
 	return proto.RewardIndexes, true
 }
 
-// IterateHardBorrowRewardIndexes iterates over all Hard borrow reward index objects in the store and preforms a callback function
-func (k Keeper) IterateHardBorrowRewardIndexes(ctx sdk.Context, cb func(denom string, indexes types.RewardIndexes) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.HardBorrowRewardIndexesKeyPrefix)
+// IterateJinxBorrowRewardIndexes iterates over all Jinx borrow reward index objects in the store and preforms a callback function
+func (k Keeper) IterateJinxBorrowRewardIndexes(ctx sdk.Context, cb func(denom string, indexes types.RewardIndexes) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.JinxBorrowRewardIndexesKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -524,8 +524,8 @@ func (k Keeper) IterateHardBorrowRewardIndexes(ctx sdk.Context, cb func(denom st
 	}
 }
 
-func (k Keeper) IterateHardBorrowRewardAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardBorrowRewardAccrualTimeKeyPrefix)
+func (k Keeper) IterateJinxBorrowRewardAccrualTimes(ctx sdk.Context, cb func(string, time.Time) (stop bool)) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxBorrowRewardAccrualTimeKeyPrefix)
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 	defer iterator.Close()
 	for ; iterator.Valid(); iterator.Next() {
@@ -592,9 +592,9 @@ func (k Keeper) IterateDelegatorRewardAccrualTimes(ctx sdk.Context, cb func(stri
 	}
 }
 
-// GetPreviousHardSupplyRewardAccrualTime returns the last time a denom accrued Hard protocol supply-side rewards
-func (k Keeper) GetPreviousHardSupplyRewardAccrualTime(ctx sdk.Context, denom string) (blockTime time.Time, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardSupplyRewardAccrualTimeKeyPrefix)
+// GetPreviousJinxSupplyRewardAccrualTime returns the last time a denom accrued Jinx protocol supply-side rewards
+func (k Keeper) GetPreviousJinxSupplyRewardAccrualTime(ctx sdk.Context, denom string) (blockTime time.Time, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxSupplyRewardAccrualTimeKeyPrefix)
 	bz := store.Get([]byte(denom))
 	if bz == nil {
 		return time.Time{}, false
@@ -605,9 +605,9 @@ func (k Keeper) GetPreviousHardSupplyRewardAccrualTime(ctx sdk.Context, denom st
 	return blockTime, true
 }
 
-// SetPreviousHardSupplyRewardAccrualTime sets the last time a denom accrued Hard protocol supply-side rewards
-func (k Keeper) SetPreviousHardSupplyRewardAccrualTime(ctx sdk.Context, denom string, blockTime time.Time) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardSupplyRewardAccrualTimeKeyPrefix)
+// SetPreviousJinxSupplyRewardAccrualTime sets the last time a denom accrued Jinx protocol supply-side rewards
+func (k Keeper) SetPreviousJinxSupplyRewardAccrualTime(ctx sdk.Context, denom string, blockTime time.Time) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxSupplyRewardAccrualTimeKeyPrefix)
 	bz, err := blockTime.MarshalBinary()
 	if err != nil {
 		panic(err)
@@ -615,9 +615,9 @@ func (k Keeper) SetPreviousHardSupplyRewardAccrualTime(ctx sdk.Context, denom st
 	store.Set([]byte(denom), bz)
 }
 
-// GetPreviousHardBorrowRewardAccrualTime returns the last time a denom accrued Hard protocol borrow-side rewards
-func (k Keeper) GetPreviousHardBorrowRewardAccrualTime(ctx sdk.Context, denom string) (blockTime time.Time, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardBorrowRewardAccrualTimeKeyPrefix)
+// GetPreviousJinxBorrowRewardAccrualTime returns the last time a denom accrued Jinx protocol borrow-side rewards
+func (k Keeper) GetPreviousJinxBorrowRewardAccrualTime(ctx sdk.Context, denom string) (blockTime time.Time, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxBorrowRewardAccrualTimeKeyPrefix)
 	b := store.Get([]byte(denom))
 	if b == nil {
 		return time.Time{}, false
@@ -628,9 +628,9 @@ func (k Keeper) GetPreviousHardBorrowRewardAccrualTime(ctx sdk.Context, denom st
 	return blockTime, true
 }
 
-// SetPreviousHardBorrowRewardAccrualTime sets the last time a denom accrued Hard protocol borrow-side rewards
-func (k Keeper) SetPreviousHardBorrowRewardAccrualTime(ctx sdk.Context, denom string, blockTime time.Time) {
-	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousHardBorrowRewardAccrualTimeKeyPrefix)
+// SetPreviousJinxBorrowRewardAccrualTime sets the last time a denom accrued Jinx protocol borrow-side rewards
+func (k Keeper) SetPreviousJinxBorrowRewardAccrualTime(ctx sdk.Context, denom string, blockTime time.Time) {
+	store := prefix.NewStore(ctx.KVStore(k.key), types.PreviousJinxBorrowRewardAccrualTimeKeyPrefix)
 	bz, err := blockTime.MarshalBinary()
 	if err != nil {
 		panic(err)

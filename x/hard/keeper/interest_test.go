@@ -13,9 +13,9 @@ import (
 	tmtime "github.com/tendermint/tendermint/types/time"
 
 	"github.com/incubus-network/nemo/app"
-	"github.com/incubus-network/nemo/x/hard"
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -839,8 +839,8 @@ func (suite *KeeperTestSuite) TestBorrowInterest() {
 				[]sdk.AccAddress{tc.args.user},
 			)
 
-			// Hard module genesis state
-			hardGS := types.NewGenesisState(types.NewParams(
+			// Jinx module genesis state
+			jinxGS := types.NewGenesisState(types.NewParams(
 				types.MoneyMarkets{
 					types.NewMoneyMarket("ufury",
 						types.NewBorrowLimit(false, sdk.NewDec(100000000*NEMO_CF), sdk.MustNewDecFromStr("0.8")), // Borrow Limit
@@ -875,19 +875,19 @@ func (suite *KeeperTestSuite) TestBorrowInterest() {
 			// Initialize test application
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
-				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)})
+				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)})
 
-			// Mint coins to Hard module account
+			// Mint coins to Jinx module account
 			bankKeeper := tApp.GetBankKeeper()
 			err := bankKeeper.MintCoins(ctx, types.ModuleAccountName, tc.args.initialModuleCoins)
 			suite.Require().NoError(err)
 
 			suite.app = tApp
 			suite.ctx = ctx
-			suite.keeper = tApp.GetHardKeeper()
+			suite.keeper = tApp.GetJinxKeeper()
 
 			// Run begin blocker and store initial block time
-			hard.BeginBlocker(suite.ctx, suite.keeper)
+			jinx.BeginBlocker(suite.ctx, suite.keeper)
 
 			// Deposit 2x as many coins for each coin we intend to borrow
 			depositCoins := sdk.NewCoins()
@@ -941,7 +941,7 @@ func (suite *KeeperTestSuite) TestBorrowInterest() {
 				// Set up snapshot chain context and run begin blocker
 				runAtTime := prevCtx.BlockTime().Add(time.Duration(int64(time.Second) * snapshot.elapsedTime))
 				snapshotCtx := prevCtx.WithBlockTime(runAtTime)
-				hard.BeginBlocker(snapshotCtx, suite.keeper)
+				jinx.BeginBlocker(snapshotCtx, suite.keeper)
 
 				// Check that the total amount of borrowed coins has increased by expected interest amount
 				expectedBorrowedCoins := borrowCoinsPrior.AmountOf(tc.args.borrowCoinDenom).Add(expectedInterest)
@@ -1244,8 +1244,8 @@ func (suite *KeeperTestSuite) TestSupplyInterest() {
 				[]sdk.AccAddress{tc.args.user},
 			)
 
-			// Hard module genesis state
-			hardGS := types.NewGenesisState(types.NewParams(
+			// Jinx module genesis state
+			jinxGS := types.NewGenesisState(types.NewParams(
 				types.MoneyMarkets{
 					types.NewMoneyMarket("ufury",
 						types.NewBorrowLimit(false, sdk.NewDec(100000000*NEMO_CF), sdk.MustNewDecFromStr("0.8")), // Borrow Limit
@@ -1294,20 +1294,20 @@ func (suite *KeeperTestSuite) TestSupplyInterest() {
 			// Initialize test application
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
-				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)})
+				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)})
 
-			// Mint coins to Hard module account
+			// Mint coins to Jinx module account
 			bankKeeper := tApp.GetBankKeeper()
 			err := bankKeeper.MintCoins(ctx, types.ModuleAccountName, tc.args.initialModuleCoins)
 			suite.Require().NoError(err)
 
 			suite.app = tApp
 			suite.ctx = ctx
-			suite.keeper = tApp.GetHardKeeper()
+			suite.keeper = tApp.GetJinxKeeper()
 			suite.keeper.SetSuppliedCoins(ctx, tc.args.initialModuleCoins)
 
 			// Run begin blocker
-			hard.BeginBlocker(suite.ctx, suite.keeper)
+			jinx.BeginBlocker(suite.ctx, suite.keeper)
 
 			// // Deposit coins
 			err = suite.keeper.Deposit(suite.ctx, tc.args.user, tc.args.depositCoins)
@@ -1369,7 +1369,7 @@ func (suite *KeeperTestSuite) TestSupplyInterest() {
 					// Set up snapshot chain context and run begin blocker
 					runAtTime := prevCtx.BlockTime().Add(time.Duration(int64(time.Second) * snapshot.elapsedTime))
 					snapshotCtx := prevCtx.WithBlockTime(runAtTime)
-					hard.BeginBlocker(snapshotCtx, suite.keeper)
+					jinx.BeginBlocker(snapshotCtx, suite.keeper)
 
 					borrowInterestFactor, _ := suite.keeper.GetBorrowInterestFactor(ctx, coinDenom)
 					suite.Require().Equal(expectedBorrowInterestFactor, borrowInterestFactor)

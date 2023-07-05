@@ -6,7 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // SecondsPerYear is the number of seconds in a year
@@ -16,20 +16,20 @@ const (
 	BaseAprPadding = "0.000000003022265980"
 )
 
-// RandomizedGenState generates a random GenesisState for hard module
+// RandomizedGenState generates a random GenesisState for jinx module
 func RandomizedGenState(simState *module.SimulationState) {
 	// params := genRandomParams(simState)
 	// if err := params.Validate(); err != nil {
 	// 	panic(err)
 	// }
 
-	hardGenesis := types.DefaultGenesisState()
-	if err := hardGenesis.Validate(); err != nil {
+	jinxGenesis := types.DefaultGenesisState()
+	if err := jinxGenesis.Validate(); err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("Selected randomly generated %s parameters:\n%s\n", types.ModuleName, codec.MustMarshalJSONIndent(simState.Cdc, hardGenesis))
-	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(hardGenesis)
+	fmt.Printf("Selected randomly generated %s parameters:\n%s\n", types.ModuleName, codec.MustMarshalJSONIndent(simState.Cdc, jinxGenesis))
+	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(jinxGenesis)
 }
 
 // func genRandomParams(simState *module.SimulationState) types.Params {

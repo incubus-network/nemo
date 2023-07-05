@@ -16,8 +16,8 @@ import (
 	"github.com/incubus-network/nemo/x/community/keeper"
 	"github.com/incubus-network/nemo/x/community/testutil"
 	"github.com/incubus-network/nemo/x/community/types"
-	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -27,8 +27,8 @@ func c(denom string, amount int64) sdk.Coin { return sdk.NewInt64Coin(denom, amo
 func ufury(amt int64) sdk.Coins {
 	return sdk.NewCoins(c("ufury", amt))
 }
-func usdx(amt int64) sdk.Coins {
-	return sdk.NewCoins(c("usdx", amt))
+func musd(amt int64) sdk.Coins {
+	return sdk.NewCoins(c("musd", amt))
 }
 func otherdenom(amt int64) sdk.Coins {
 	return sdk.NewCoins(c("other-denom", amt))
@@ -43,7 +43,7 @@ type proposalTestSuite struct {
 	MaccAddress sdk.AccAddress
 
 	cdpKeeper  cdpkeeper.Keeper
-	hardKeeper hardkeeper.Keeper
+	jinxKeeper jinxkeeper.Keeper
 }
 
 func TestProposalTestSuite(t *testing.T) {
@@ -55,9 +55,9 @@ func (suite *proposalTestSuite) SetupTest() {
 
 	genTime := tmtime.Now()
 
-	hardGS, pricefeedGS := testutil.NewLendGenesisBuilder().
+	jinxGS, pricefeedGS := testutil.NewLendGenesisBuilder().
 		WithMarket("ufury", "nemo:usd", sdk.OneDec()).
-		WithMarket("usdx", "usdx:usd", sdk.OneDec()).
+		WithMarket("musd", "musd:usd", sdk.OneDec()).
 		Build()
 
 	tApp := app.NewTestApp()
@@ -69,7 +69,7 @@ func (suite *proposalTestSuite) SetupTest() {
 
 	tApp.InitializeFromGenesisStatesWithTimeAndChainID(
 		genTime, chainID,
-		app.GenesisState{hardtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)},
+		app.GenesisState{jinxtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)},
 		app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
 		testutil.NewCDPGenState(tApp.AppCodec(), "ufury", "nemo", sdk.NewDec(2)),
 	)
@@ -79,13 +79,13 @@ func (suite *proposalTestSuite) SetupTest() {
 	suite.Keeper = tApp.GetCommunityKeeper()
 	suite.MaccAddress = tApp.GetAccountKeeper().GetModuleAddress(types.ModuleAccountName)
 	suite.cdpKeeper = suite.App.GetCDPKeeper()
-	suite.hardKeeper = suite.App.GetHardKeeper()
+	suite.jinxKeeper = suite.App.GetJinxKeeper()
 
 	// give the community pool some funds
 	// ufury
 	suite.FundCommunityPool(ufury(2e10))
-	// usdx
-	suite.FundCommunityPool(usdx(2e10))
+	// musd
+	suite.FundCommunityPool(musd(2e10))
 	// other-denom
 	suite.FundCommunityPool(otherdenom(1e10))
 }
@@ -138,10 +138,10 @@ func (suite *proposalTestSuite) TestCommunityLendDepositProposal() {
 		{
 			name: "valid - one proposal, multiple denoms",
 			proposals: []*types.CommunityPoolLendDepositProposal{
-				{Amount: ufury(1e8).Add(usdx(1e8)...)},
+				{Amount: ufury(1e8).Add(musd(1e8)...)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{ufury(1e8).Add(usdx(1e8)...)},
+			expectedDeposits: []sdk.Coins{ufury(1e8).Add(musd(1e8)...)},
 		},
 		{
 			name: "valid - multiple proposals, same denom",
@@ -156,10 +156,10 @@ func (suite *proposalTestSuite) TestCommunityLendDepositProposal() {
 			name: "valid - multiple proposals, different denoms",
 			proposals: []*types.CommunityPoolLendDepositProposal{
 				{Amount: ufury(1e8)},
-				{Amount: usdx(1e8)},
+				{Amount: musd(1e8)},
 			},
 			expectedErr:      "",
-			expectedDeposits: []sdk.Coins{ufury(1e8).Add(usdx(1e8)...)},
+			expectedDeposits: []sdk.Coins{ufury(1e8).Add(musd(1e8)...)},
 		},
 		{
 			name: "invalid - insufficient balance",
@@ -195,7 +195,7 @@ func (suite *proposalTestSuite) TestCommunityLendDepositProposal() {
 				}
 			}
 
-			deposits := suite.hardKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
+			deposits := suite.jinxKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
 			suite.Len(deposits, len(tc.expectedDeposits), "expected a deposit to lend")
 			for _, amt := range tc.expectedDeposits {
 				suite.Equal(amt, deposits[0].Amount, "expected amount to match")
@@ -234,41 +234,41 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 		},
 		{
 			name:           "valid - single proposal, multiple denoms, full withdrawal",
-			initialDeposit: ufury(1e9).Add(usdx(1e9)...),
+			initialDeposit: ufury(1e9).Add(musd(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: ufury(1e9).Add(usdx(1e9)...)},
+				{Amount: ufury(1e9).Add(musd(1e9)...)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: ufury(1e9).Add(usdx(1e9)...),
+			expectedWithdrawal: ufury(1e9).Add(musd(1e9)...),
 		},
 		{
 			name:           "valid - single proposal, partial withdrawal",
-			initialDeposit: ufury(1e9).Add(usdx(1e9)...),
+			initialDeposit: ufury(1e9).Add(musd(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: ufury(1e8).Add(usdx(1e9)...)},
+				{Amount: ufury(1e8).Add(musd(1e9)...)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: ufury(1e8).Add(usdx(1e9)...),
+			expectedWithdrawal: ufury(1e8).Add(musd(1e9)...),
 		},
 		{
 			name:           "valid - multiple proposals, full withdrawal",
-			initialDeposit: ufury(1e9).Add(usdx(1e9)...),
+			initialDeposit: ufury(1e9).Add(musd(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
 				{Amount: ufury(1e9)},
-				{Amount: usdx(1e9)},
+				{Amount: musd(1e9)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: ufury(1e9).Add(usdx(1e9)...),
+			expectedWithdrawal: ufury(1e9).Add(musd(1e9)...),
 		},
 		{
 			name:           "valid - multiple proposals, partial withdrawal",
-			initialDeposit: ufury(1e9).Add(usdx(1e9)...),
+			initialDeposit: ufury(1e9).Add(musd(1e9)...),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
 				{Amount: ufury(1e8)},
-				{Amount: usdx(1e8)},
+				{Amount: musd(1e8)},
 			},
 			expectedErr:        "",
-			expectedWithdrawal: ufury(1e8).Add(usdx(1e8)...),
+			expectedWithdrawal: ufury(1e8).Add(musd(1e8)...),
 		},
 		{
 			name:           "invalid - nonexistent position, has no deposits",
@@ -283,7 +283,7 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 			name:           "invalid - nonexistent position, has deposits of different denom",
 			initialDeposit: ufury(1e8),
 			proposals: []*types.CommunityPoolLendWithdrawProposal{
-				{Amount: usdx(1e8)},
+				{Amount: musd(1e8)},
 			},
 			expectedErr:        "no coins of this type deposited",
 			expectedWithdrawal: sdk.NewCoins(),
@@ -322,9 +322,9 @@ func (suite *proposalTestSuite) TestCommunityLendWithdrawProposal() {
 				suite.NextBlock()
 			}
 
-			// expect funds to be removed from hard deposit
+			// expect funds to be removed from jinx deposit
 			expectedRemaining := tc.initialDeposit.Sub(tc.expectedWithdrawal...)
-			deposits := suite.hardKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
+			deposits := suite.jinxKeeper.GetDepositsByUser(suite.Ctx, suite.MaccAddress)
 			if expectedRemaining.IsZero() {
 				suite.Len(deposits, 0, "expected all deposits to be withdrawn")
 			} else {
@@ -356,39 +356,39 @@ func (suite *proposalTestSuite) TestCommunityCDPRepayDebtProposal() {
 	}{
 		{
 			name:        "valid - paid in full",
-			initialDebt: &debt{c("ufury", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ufury", 1e10), c("musd", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"repaying my debts in full",
 				"title says it all",
 				collateralType,
-				c("usdx", 1e9),
+				c("musd", 1e9),
 			),
 			expectedErr:    "",
-			expectedRepaid: c("usdx", 1e9),
+			expectedRepaid: c("musd", 1e9),
 		},
 		{
 			name:        "valid - partial payment",
-			initialDebt: &debt{c("ufury", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ufury", 1e10), c("musd", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"title goes here",
 				"description goes here",
 				collateralType,
-				c("usdx", 1e8),
+				c("musd", 1e8),
 			),
 			expectedErr:    "",
-			expectedRepaid: c("usdx", 1e8),
+			expectedRepaid: c("musd", 1e8),
 		},
 		{
 			name:        "invalid - insufficient funds",
-			initialDebt: &debt{c("ufury", 1e10), c("usdx", 1e9)},
+			initialDebt: &debt{c("ufury", 1e10), c("musd", 1e9)},
 			proposal: types.NewCommunityCDPRepayDebtProposal(
 				"title goes here",
 				"description goes here",
 				collateralType,
-				c("usdx", 1e10), // <-- more usdx than we have
+				c("musd", 1e10), // <-- more musd than we have
 			),
 			expectedErr:    "insufficient balance",
-			expectedRepaid: c("usdx", 0),
+			expectedRepaid: c("musd", 0),
 		},
 	}
 
@@ -461,7 +461,7 @@ func (suite *proposalTestSuite) TestCommunityCDPWithdrawCollateralProposal() {
 			name: "valid - withdrawing max collateral",
 			initialDebt: &debt{
 				c("ufury", 1e10),
-				c("usdx", 1e9),
+				c("musd", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"withdrawing max collateral",
@@ -476,7 +476,7 @@ func (suite *proposalTestSuite) TestCommunityCDPWithdrawCollateralProposal() {
 			name: "valid - withdrawing partial collateral",
 			initialDebt: &debt{
 				c("ufury", 1e10),
-				c("usdx", 1e9),
+				c("musd", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"title goes here",
@@ -491,7 +491,7 @@ func (suite *proposalTestSuite) TestCommunityCDPWithdrawCollateralProposal() {
 			name: "invalid - withdrawing too much collateral",
 			initialDebt: &debt{
 				c("ufury", 1e10),
-				c("usdx", 1e9),
+				c("musd", 1e9),
 			},
 			proposal: types.NewCommunityCDPWithdrawCollateralProposal(
 				"title goes here",

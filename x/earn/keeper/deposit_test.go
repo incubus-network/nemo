@@ -34,15 +34,15 @@ func TestDepositTestSuite(t *testing.T) {
 }
 
 func (suite *depositTestSuite) TestDeposit_Balances() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
 	suite.AccountBalanceEqual(
@@ -57,15 +57,15 @@ func (suite *depositTestSuite) TestDeposit_Balances() {
 }
 
 func (suite *depositTestSuite) TestDeposit_Exceed() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 1001)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, sdkerrors.ErrInsufficientFunds)
 
@@ -82,15 +82,15 @@ func (suite *depositTestSuite) TestDeposit_Exceed() {
 }
 
 func (suite *depositTestSuite) TestDeposit_Zero() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 0)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrInsufficientAmount)
 
@@ -107,7 +107,7 @@ func (suite *depositTestSuite) TestDeposit_Zero() {
 }
 
 func (suite *depositTestSuite) TestDeposit_InvalidVault() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 1001)
 
@@ -115,7 +115,7 @@ func (suite *depositTestSuite) TestDeposit_InvalidVault() {
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrInvalidVaultDenom)
 
@@ -132,11 +132,11 @@ func (suite *depositTestSuite) TestDeposit_InvalidVault() {
 }
 
 func (suite *depositTestSuite) TestDeposit_InvalidStrategy() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 1001)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
@@ -146,7 +146,7 @@ func (suite *depositTestSuite) TestDeposit_InvalidStrategy() {
 }
 
 func (suite *depositTestSuite) TestDeposit_PrivateVault() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
@@ -155,16 +155,16 @@ func (suite *depositTestSuite) TestDeposit_PrivateVault() {
 
 	suite.CreateVault(
 		vaultDenom,
-		types.StrategyTypes{types.STRATEGY_TYPE_HARD},
+		types.StrategyTypes{types.STRATEGY_TYPE_JINX},
 		true,
 		[]sdk.AccAddress{acc1.GetAddress()},
 	)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc2.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc2.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().Error(err)
 	suite.Require().ErrorIs(err, types.ErrAccountDepositNotAllowed, "private vault should not allow deposits from non-allowed addresses")
 
-	err = suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err = suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err, "private vault should allow deposits from allowed addresses")
 }
 

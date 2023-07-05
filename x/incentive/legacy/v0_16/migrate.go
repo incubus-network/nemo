@@ -54,9 +54,9 @@ func migrateMultipliersPerDenom(oldMpds v015incentive.MultipliersPerDenom) []v01
 
 func migrateParams(params v015incentive.Params) v016incentive.Params {
 	return v016incentive.Params{
-		USDXMintingRewardPeriods: migrateRewardPeriods(params.USDXMintingRewardPeriods),
-		HardSupplyRewardPeriods:  migrateMultiRewardPerids(params.HardSupplyRewardPeriods),
-		HardBorrowRewardPeriods:  migrateMultiRewardPerids(params.HardBorrowRewardPeriods),
+		MUSDMintingRewardPeriods: migrateRewardPeriods(params.MUSDMintingRewardPeriods),
+		JinxSupplyRewardPeriods:  migrateMultiRewardPerids(params.JinxSupplyRewardPeriods),
+		JinxBorrowRewardPeriods:  migrateMultiRewardPerids(params.JinxBorrowRewardPeriods),
 		DelegatorRewardPeriods:   migrateMultiRewardPerids(params.DelegatorRewardPeriods),
 		SwapRewardPeriods:        migrateMultiRewardPerids(params.SwapRewardPeriods),
 		ClaimMultipliers:         migrateMultipliersPerDenom(params.ClaimMultipliers),
@@ -100,10 +100,10 @@ func migrateRewadIndexes(oldRewardIndexes v015incentive.RewardIndexes) v016incen
 	return rewardIndexes
 }
 
-func migrateUSDXMintingClaims(oldClaims v015incentive.USDXMintingClaims) v016incentive.USDXMintingClaims {
-	claims := make(v016incentive.USDXMintingClaims, len(oldClaims))
+func migrateMUSDMintingClaims(oldClaims v015incentive.MUSDMintingClaims) v016incentive.MUSDMintingClaims {
+	claims := make(v016incentive.MUSDMintingClaims, len(oldClaims))
 	for i, oldClaim := range oldClaims {
-		claims[i] = v016incentive.USDXMintingClaim{
+		claims[i] = v016incentive.MUSDMintingClaim{
 			BaseClaim: v016incentive.BaseClaim{
 				Owner:  oldClaim.BaseClaim.Owner,
 				Reward: oldClaim.BaseClaim.Reward,
@@ -114,10 +114,10 @@ func migrateUSDXMintingClaims(oldClaims v015incentive.USDXMintingClaims) v016inc
 	return claims
 }
 
-func migrateHardLiquidityProviderClaims(oldClaims v015incentive.HardLiquidityProviderClaims) v016incentive.HardLiquidityProviderClaims {
-	claims := make(v016incentive.HardLiquidityProviderClaims, len(oldClaims))
+func migrateJinxLiquidityProviderClaims(oldClaims v015incentive.JinxLiquidityProviderClaims) v016incentive.JinxLiquidityProviderClaims {
+	claims := make(v016incentive.JinxLiquidityProviderClaims, len(oldClaims))
 	for i, oldClaim := range oldClaims {
-		claims[i] = v016incentive.HardLiquidityProviderClaim{
+		claims[i] = v016incentive.JinxLiquidityProviderClaim{
 			BaseMultiClaim: v016incentive.BaseMultiClaim{
 				Owner:  oldClaim.BaseMultiClaim.Owner,
 				Reward: oldClaim.BaseMultiClaim.Reward,
@@ -161,13 +161,13 @@ func migrateSwapClaims(oldClaims v015incentive.SwapClaims) v016incentive.SwapCla
 func Migrate(oldState v015incentive.GenesisState) *v016incentive.GenesisState {
 	return &v016incentive.GenesisState{
 		Params:                      migrateParams(oldState.Params),
-		USDXRewardState:             migrateRewardState(oldState.USDXRewardState),
-		HardSupplyRewardState:       migrateRewardState(oldState.HardSupplyRewardState),
-		HardBorrowRewardState:       migrateRewardState(oldState.HardBorrowRewardState),
+		MUSDRewardState:             migrateRewardState(oldState.MUSDRewardState),
+		JinxSupplyRewardState:       migrateRewardState(oldState.JinxSupplyRewardState),
+		JinxBorrowRewardState:       migrateRewardState(oldState.JinxBorrowRewardState),
 		DelegatorRewardState:        migrateRewardState(oldState.DelegatorRewardState),
 		SwapRewardState:             migrateRewardState(oldState.SwapRewardState),
-		USDXMintingClaims:           migrateUSDXMintingClaims(oldState.USDXMintingClaims),
-		HardLiquidityProviderClaims: migrateHardLiquidityProviderClaims(oldState.HardLiquidityProviderClaims),
+		MUSDMintingClaims:           migrateMUSDMintingClaims(oldState.MUSDMintingClaims),
+		JinxLiquidityProviderClaims: migrateJinxLiquidityProviderClaims(oldState.JinxLiquidityProviderClaims),
 		DelegatorClaims:             migrateDelegatorClaims(oldState.DelegatorClaims),
 		SwapClaims:                  migrateSwapClaims(oldState.SwapClaims),
 	}

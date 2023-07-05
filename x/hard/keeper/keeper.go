@@ -9,10 +9,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
-// Keeper keeper for the hard module
+// Keeper keeper for the jinx module
 type Keeper struct {
 	key             storetypes.StoreKey
 	cdc             codec.Codec
@@ -21,7 +21,7 @@ type Keeper struct {
 	bankKeeper      types.BankKeeper
 	pricefeedKeeper types.PricefeedKeeper
 	auctionKeeper   types.AuctionKeeper
-	hooks           types.HARDHooks
+	hooks           types.JINXHooks
 }
 
 // NewKeeper creates a new keeper
@@ -46,9 +46,9 @@ func NewKeeper(cdc codec.Codec, key storetypes.StoreKey, paramstore paramtypes.S
 }
 
 // SetHooks adds hooks to the keeper.
-func (k *Keeper) SetHooks(hooks types.HARDHooks) *Keeper {
+func (k *Keeper) SetHooks(hooks types.JINXHooks) *Keeper {
 	if k.hooks != nil {
-		panic("cannot set hard hooks twice")
+		panic("cannot set jinx hooks twice")
 	}
 	k.hooks = hooks
 	return k

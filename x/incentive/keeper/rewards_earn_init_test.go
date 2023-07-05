@@ -29,7 +29,7 @@ func (suite *InitializeEarnRewardTests) TestClaimAddedWhenClaimDoesNotExistAndNo
 	// When a claim doesn't exist, and a user deposits to a non-rewarded pool;
 	// then a claim is added with no rewards and no indexes
 
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	// no global indexes stored as this pool is not rewarded
 
@@ -53,7 +53,7 @@ func (suite *InitializeEarnRewardTests) TestClaimAddedWhenClaimDoesNotExistAndRe
 	// When a claim doesn't exist, and a user deposits to a rewarded pool;
 	// then a claim is added with no rewards and indexes matching the global indexes
 
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	globalIndexes := types.MultiRewardIndexes{
 		{
@@ -92,7 +92,7 @@ func (suite *InitializeEarnRewardTests) TestClaimUpdatedWhenClaimExistsAndNoRewa
 		},
 	}
 
-	newVaultDenom := "btcb:usdx"
+	newVaultDenom := "btcb:musd"
 
 	claim := types.EarnClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
@@ -141,7 +141,7 @@ func (suite *InitializeEarnRewardTests) TestClaimUpdatedWhenClaimExistsAndReward
 		},
 	}
 
-	newVaultDenom := "btcb:usdx"
+	newVaultDenom := "btcb:musd"
 	newIndexes := types.RewardIndexes{
 		{
 			CollateralType: "otherrewarddenom",

@@ -33,7 +33,7 @@ func (s *migrateTestSuite) SetupTest() {
 		CDPs:                      v015cdp.CDPs{},
 		Deposits:                  v015cdp.Deposits{},
 		StartingCdpID:             1,
-		DebtDenom:                 "usdx",
+		DebtDenom:                 "musd",
 		GovDenom:                  "ufury",
 		PreviousAccumulationTimes: v015cdp.GenesisAccumulationTimes{},
 		TotalPrincipals:           v015cdp.GenesisTotalPrincipals{},
@@ -67,7 +67,7 @@ func (s *migrateTestSuite) TestMigrate_JSON() {
 func (s *migrateTestSuite) TestMigrate_GenState() {
 	s.v15genstate = v015cdp.GenesisState{
 		StartingCdpID: 2,
-		DebtDenom:     "usdx",
+		DebtDenom:     "musd",
 		GovDenom:      "ufury",
 		Params: v015cdp.Params{
 			CollateralParams: v015cdp.CollateralParams{
@@ -75,7 +75,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					Denom:                            "xrp",
 					Type:                             "xrp-a",
 					LiquidationRatio:                 sdk.MustNewDecFromStr("2.0"),
-					DebtLimit:                        sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:                        sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:                     sdk.MustNewDecFromStr("1.012"),
 					LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 					AuctionSize:                      sdkmath.NewInt(70),
@@ -87,12 +87,12 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 			DebtParam: v015cdp.DebtParam{
-				Denom:            "usdx",
+				Denom:            "musd",
 				ReferenceAsset:   "usd",
 				ConversionFactor: sdkmath.NewInt(6),
 				DebtFloor:        sdkmath.NewInt(100),
 			},
-			GlobalDebtLimit:         sdk.NewInt64Coin("usdx", 1000000000000),
+			GlobalDebtLimit:         sdk.NewInt64Coin("musd", 1000000000000),
 			SurplusAuctionThreshold: sdkmath.NewInt(6),
 			SurplusAuctionLot:       sdkmath.NewInt(7),
 			DebtAuctionThreshold:    sdkmath.NewInt(8),
@@ -104,8 +104,8 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				Owner:           s.addresses[0],
 				Type:            "xrp-a",
 				Collateral:      sdk.NewCoin("xrp", sdkmath.NewInt(2123)),
-				Principal:       sdk.NewCoin("usdx", sdkmath.NewInt(100)),
-				AccumulatedFees: sdk.NewCoin("usdx", sdk.ZeroInt()),
+				Principal:       sdk.NewCoin("musd", sdkmath.NewInt(100)),
+				AccumulatedFees: sdk.NewCoin("musd", sdk.ZeroInt()),
 				FeesUpdated:     time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				InterestFactor:  sdk.NewDec(1),
 			},
@@ -114,7 +114,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 			{
 				CdpID:     1,
 				Depositor: s.addresses[0],
-				Amount:    sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+				Amount:    sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			},
 			{
 				CdpID:     2,
@@ -124,21 +124,21 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 		},
 		PreviousAccumulationTimes: v015cdp.GenesisAccumulationTimes{
 			{
-				CollateralType:           "usdx",
+				CollateralType:           "musd",
 				PreviousAccumulationTime: time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				InterestFactor:           sdk.MustNewDecFromStr("0.02"),
 			},
 		},
 		TotalPrincipals: v015cdp.GenesisTotalPrincipals{
 			{
-				CollateralType: "usdx",
+				CollateralType: "musd",
 				TotalPrincipal: sdkmath.NewInt(1200),
 			},
 		},
 	}
 	expected := v016cdp.GenesisState{
 		StartingCdpID: 2,
-		DebtDenom:     "usdx",
+		DebtDenom:     "musd",
 		GovDenom:      "ufury",
 		Params: v016cdp.Params{
 			CollateralParams: v016cdp.CollateralParams{
@@ -146,7 +146,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 					Denom:                            "xrp",
 					Type:                             "xrp-a",
 					LiquidationRatio:                 sdk.MustNewDecFromStr("2.0"),
-					DebtLimit:                        sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:                        sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:                     sdk.MustNewDecFromStr("1.012"),
 					LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 					AuctionSize:                      sdkmath.NewInt(70),
@@ -158,12 +158,12 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 			DebtParam: v016cdp.DebtParam{
-				Denom:            "usdx",
+				Denom:            "musd",
 				ReferenceAsset:   "usd",
 				ConversionFactor: sdkmath.NewInt(6),
 				DebtFloor:        sdkmath.NewInt(100),
 			},
-			GlobalDebtLimit:         sdk.NewInt64Coin("usdx", 1000000000000),
+			GlobalDebtLimit:         sdk.NewInt64Coin("musd", 1000000000000),
 			SurplusAuctionThreshold: sdkmath.NewInt(6),
 			SurplusAuctionLot:       sdkmath.NewInt(7),
 			DebtAuctionThreshold:    sdkmath.NewInt(8),
@@ -175,8 +175,8 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				Owner:           s.addresses[0],
 				Type:            "xrp-a",
 				Collateral:      sdk.NewCoin("xrp", sdkmath.NewInt(2123)),
-				Principal:       sdk.NewCoin("usdx", sdkmath.NewInt(100)),
-				AccumulatedFees: sdk.NewCoin("usdx", sdk.ZeroInt()),
+				Principal:       sdk.NewCoin("musd", sdkmath.NewInt(100)),
+				AccumulatedFees: sdk.NewCoin("musd", sdk.ZeroInt()),
 				FeesUpdated:     time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				InterestFactor:  sdk.NewDec(1),
 			},
@@ -185,7 +185,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 			{
 				CdpID:     1,
 				Depositor: s.addresses[0],
-				Amount:    sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+				Amount:    sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			},
 			{
 				CdpID:     2,
@@ -195,14 +195,14 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 		},
 		PreviousAccumulationTimes: v016cdp.GenesisAccumulationTimes{
 			{
-				CollateralType:           "usdx",
+				CollateralType:           "musd",
 				PreviousAccumulationTime: time.Date(2020, time.January, 1, 0, 0, 0, 0, time.UTC),
 				InterestFactor:           sdk.MustNewDecFromStr("0.02"),
 			},
 		},
 		TotalPrincipals: v016cdp.GenesisTotalPrincipals{
 			{
-				CollateralType: "usdx",
+				CollateralType: "musd",
 				TotalPrincipal: sdkmath.NewInt(1200),
 			},
 		},

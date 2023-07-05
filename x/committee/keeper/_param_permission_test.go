@@ -35,7 +35,7 @@ func (suite *PermissionTestSuite) TestSubParamChangePermission_Allows() {
 			Denom:               "bnb",
 			Type:                "bnb-a",
 			LiquidationRatio:    d("2.0"),
-			DebtLimit:           c("usdx", 1000000000000),
+			DebtLimit:           c("musd", 1000000000000),
 			StabilityFee:        d("1.000000001547125958"),
 			LiquidationPenalty:  d("0.05"),
 			AuctionSize:         i(100),
@@ -48,7 +48,7 @@ func (suite *PermissionTestSuite) TestSubParamChangePermission_Allows() {
 			Denom:               "btc",
 			Type:                "btc-a",
 			LiquidationRatio:    d("1.5"),
-			DebtLimit:           c("usdx", 1000000000),
+			DebtLimit:           c("musd", 1000000000),
 			StabilityFee:        d("1.000000001547125958"),
 			LiquidationPenalty:  d("0.10"),
 			AuctionSize:         i(1000),
@@ -60,11 +60,11 @@ func (suite *PermissionTestSuite) TestSubParamChangePermission_Allows() {
 	}
 	testCPUpdatedDebtLimit := make(cdptypes.CollateralParams, len(testCPs))
 	copy(testCPUpdatedDebtLimit, testCPs)
-	testCPUpdatedDebtLimit[0].DebtLimit = c("usdx", 5000000)
+	testCPUpdatedDebtLimit[0].DebtLimit = c("musd", 5000000)
 
 	// cdp DebtParam
 	testDP := cdptypes.DebtParam{
-		Denom:            "usdx",
+		Denom:            "musd",
 		ReferenceAsset:   "usd",
 		ConversionFactor: i(6),
 		DebtFloor:        i(10000000),

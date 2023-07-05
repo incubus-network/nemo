@@ -37,7 +37,7 @@ func (suite *ParamsChangeTestSuite) SetupTest() {
 	suite.pk = tApp.GetParamsKeeper()
 
 	suite.cdpDebtParam = cdptypes.DebtParam{
-		Denom:            "usdx",
+		Denom:            "musd",
 		ReferenceAsset:   "usd",
 		ConversionFactor: sdkmath.NewInt(6),
 		DebtFloor:        sdkmath.NewInt(1000),
@@ -48,7 +48,7 @@ func (suite *ParamsChangeTestSuite) SetupTest() {
 			Denom:                            "bnb",
 			Type:                             "bnb-a",
 			LiquidationRatio:                 sdk.MustNewDecFromStr("2.0"),
-			DebtLimit:                        sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+			DebtLimit:                        sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			StabilityFee:                     sdk.MustNewDecFromStr("1.02"),
 			LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 			AuctionSize:                      sdkmath.NewInt(100),
@@ -61,7 +61,7 @@ func (suite *ParamsChangeTestSuite) SetupTest() {
 			Denom:                            "btc",
 			Type:                             "btc-a",
 			LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-			DebtLimit:                        sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+			DebtLimit:                        sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			StabilityFee:                     sdk.MustNewDecFromStr("1.01"),
 			LiquidationPenalty:               sdk.MustNewDecFromStr("0.10"),
 			AuctionSize:                      sdkmath.NewInt(1000),
@@ -143,7 +143,7 @@ func (s *ParamsChangeTestSuite) TestSingleSubparams_CdpDeptParams() {
 				Subspace: "cdp",
 				Key:      "DebtParam",
 				Value: `{
-					"denom": "usdx",
+					"denom": "musd",
 					"reference_asset": "usd",
 					"conversion_factor": "7",
 					"debt_floor": "1000"
@@ -162,7 +162,7 @@ func (s *ParamsChangeTestSuite) TestSingleSubparams_CdpDeptParams() {
 				Subspace: "cdp",
 				Key:      "DebtParam",
 				Value: `{
-					"denom": "usdx",
+					"denom": "musd",
 					"reference_asset": "usd",
 					"conversion_factor": "6",
 					"debt_floor": "1000",
@@ -183,7 +183,7 @@ func (s *ParamsChangeTestSuite) TestSingleSubparams_CdpDeptParams() {
 				Key:      "DebtParam",
 				// debt_floor is missing
 				Value: `{
-					"denom": "usdx",
+					"denom": "musd",
 					"reference_asset": "usd",
 					"conversion_factor": "11.000000000000000000",
 				}`,
@@ -201,7 +201,7 @@ func (s *ParamsChangeTestSuite) TestSingleSubparams_CdpDeptParams() {
 				Subspace: "auction",
 				Key:      "DebtParam",
 				Value: `{
-					"denom": "usdx",
+					"denom": "musd",
 					"reference_asset": "usd",
 					"conversion_factor": "6",
 					"debt_floor": "1000"
@@ -239,7 +239,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 		"denom": "bnb",
 		"type": "bnb-a",
 		"liquidation_ratio": "2.000000000000000000",
-		"debt_limit": { "denom": "usdx", "amount": "100" },
+		"debt_limit": { "denom": "musd", "amount": "100" },
 		"stability_fee": "1.020000000000000000",
 		"auction_size": "100",
 		"liquidation_penalty": "0.050000000000000000",
@@ -253,7 +253,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 		"denom": "btc",
 		"type": "btc-a",
 		"liquidation_ratio": "1.500000000000000000",
-		"debt_limit": { "denom": "usdx", "amount": "100" },
+		"debt_limit": { "denom": "musd", "amount": "100" },
 		"stability_fee": "1.010000000000000000",
 		"auction_size": "1000",
 		"liquidation_penalty": "0.100000000000000000",
@@ -285,7 +285,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "bnb",
 					"type": "bnb-a",
 					"liquidation_ratio": "2.010000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.020000000000000000",
 					"auction_size": "100",
 					"liquidation_penalty": "0.050000000000000000",
@@ -299,7 +299,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.500000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "200" },
+					"debt_limit": { "denom": "musd", "amount": "200" },
 					"stability_fee": "2.010000000000000000",
 					"auction_size": "1200",
 					"liquidation_penalty": "0.100000000000000000",
@@ -370,7 +370,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.2",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.01",
 					"auction_size": "1000",
 					"liquidation_penalty": "0.1",
@@ -412,7 +412,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.500000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.010000000000000000",
 					"auction_size": "1000",
 					"liquidation_penalty": "0.100000000000000000",
@@ -439,7 +439,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denoms": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.500000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.010000000000000000",
 					"auction_size": "1000",
 					"liquidation_penalty": "0.100000000000000000",
@@ -467,7 +467,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.510000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.010000000000000000",
 					"auction_size": "1000",
 					"liquidation_penalty": "0.100000000000000000",
@@ -496,7 +496,7 @@ func (s *ParamsChangeTestSuite) TestMultiSubparams_CdpCollateralParams() {
 					"denom": "btc",
 					"type": "btc-a",
 					"liquidation_ratio": "1.500000000000000000",
-					"debt_limit": { "denom": "usdx", "amount": "100" },
+					"debt_limit": { "denom": "musd", "amount": "100" },
 					"stability_fee": "1.020000000000000000",
 					"auction_size": "1000",
 					"liquidation_penalty": "0.100000000000000000",
@@ -657,7 +657,7 @@ func (s *ParamsChangeTestSuite) TestParamsChangePermission_PassWhenOneAllowed() 
 				Key:      string(cdptypes.KeyDebtParam),
 				Subspace: cdptypes.ModuleName,
 				Value: `{
-					"denom": "usdx",
+					"denom": "musd",
 					"reference_asset": "usd2",
 					"conversion_factor": "6",
 					"debt_floor": "1000"
@@ -701,7 +701,7 @@ func (s *ParamsChangeTestSuite) TestParamsChangePermission_SliceSubparamComparis
 			value: fmt.Sprintf(`[{
 				"market_id": "xrp:usd",
 				"base_asset": "xrp",
-				"quote_asset": "usdx",
+				"quote_asset": "musd",
 				"oracles": [],
 				"active": true
 			},
@@ -719,7 +719,7 @@ func (s *ParamsChangeTestSuite) TestParamsChangePermission_SliceSubparamComparis
 			value: fmt.Sprintf(`[{
 				"market_id": "xrp:usd",
 				"base_asset": "xrp",
-				"quote_asset": "usdx",
+				"quote_asset": "musd",
 				"oracles": ["%s"],
 				"active": true
 			},

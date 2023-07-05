@@ -9,7 +9,7 @@ import (
 // State methods
 
 func (suite *vaultTestSuite) TestGetVaultRecord() {
-	record := types.NewVaultRecord("usdx", sdk.ZeroDec())
+	record := types.NewVaultRecord("musd", sdk.ZeroDec())
 
 	_, found := suite.Keeper.GetVaultRecord(suite.Ctx, record.TotalShares.Denom)
 	suite.Require().False(found)
@@ -22,9 +22,9 @@ func (suite *vaultTestSuite) TestGetVaultRecord() {
 }
 
 func (suite *vaultTestSuite) TestUpdateVaultRecord() {
-	record := types.NewVaultRecord("usdx", sdk.ZeroDec())
+	record := types.NewVaultRecord("musd", sdk.ZeroDec())
 
-	record.TotalShares = types.NewVaultShare("usdx", sdk.NewDec(100))
+	record.TotalShares = types.NewVaultShare("musd", sdk.NewDec(100))
 
 	// Update vault
 	suite.Keeper.UpdateVaultRecord(suite.Ctx, record)
@@ -34,7 +34,7 @@ func (suite *vaultTestSuite) TestUpdateVaultRecord() {
 	suite.Require().Equal(record, stateRecord)
 
 	// Remove supply
-	record.TotalShares = types.NewVaultShare("usdx", sdk.NewDec(0))
+	record.TotalShares = types.NewVaultShare("musd", sdk.NewDec(0))
 	suite.Keeper.UpdateVaultRecord(suite.Ctx, record)
 
 	_, found = suite.Keeper.GetVaultRecord(suite.Ctx, record.TotalShares.Denom)
@@ -42,7 +42,7 @@ func (suite *vaultTestSuite) TestUpdateVaultRecord() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultShareRecord() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
@@ -66,7 +66,7 @@ func (suite *vaultTestSuite) TestGetVaultShareRecord() {
 }
 
 func (suite *vaultTestSuite) TestUpdateVaultShareRecord() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 

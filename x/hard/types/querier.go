@@ -6,7 +6,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
-// Querier routes for the hard module
+// Querier routes for the jinx module
 const (
 	QueryGetParams           = "params"
 	QueryGetModuleAccounts   = "accounts"

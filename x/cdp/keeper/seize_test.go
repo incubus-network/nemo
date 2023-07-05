@@ -99,7 +99,7 @@ func (suite *SeizeTestSuite) createCdps() {
 				tracker.debt += int64(debt)
 			}
 		}
-		err := suite.keeper.AddCdp(suite.ctx, addrs[j], c(collateral, int64(amount)), c("usdx", int64(debt)), collateral+"-a")
+		err := suite.keeper.AddCdp(suite.ctx, addrs[j], c(collateral, int64(amount)), c("musd", int64(debt)), collateral+"-a")
 		suite.NoError(err)
 		c, f := suite.keeper.GetCDP(suite.ctx, collateral+"-a", uint64(j+1))
 		suite.True(f)
@@ -134,11 +134,11 @@ func (suite *SeizeTestSuite) TestSeizeCollateral() {
 	p := cdp.Principal.Amount
 	cl := cdp.Collateral.Amount
 
-	tpb := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "usdx")
+	tpb := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "musd")
 	err := suite.keeper.SeizeCollateral(suite.ctx, cdp)
 	suite.NoError(err)
 
-	tpa := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "usdx")
+	tpa := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "musd")
 	suite.Equal(tpb.Sub(tpa), p)
 
 	auctionKeeper := suite.app.GetAuctionKeeper()
@@ -150,7 +150,7 @@ func (suite *SeizeTestSuite) TestSeizeCollateral() {
 	suite.Equal(cs(c("debt", p.Int64()), c("xrp", cl.Int64())), bk.GetAllBalances(suite.ctx, auctionMacc.GetAddress()))
 
 	acc := ak.GetAccount(suite.ctx, suite.addrs[1])
-	suite.Equal(p.Int64(), bk.GetBalance(suite.ctx, acc.GetAddress(), "usdx").Amount.Int64())
+	suite.Equal(p.Int64(), bk.GetBalance(suite.ctx, acc.GetAddress(), "musd").Amount.Int64())
 	err = suite.keeper.WithdrawCollateral(suite.ctx, suite.addrs[1], suite.addrs[1], c("xrp", 10), "xrp-a")
 	suite.Require().True(errors.Is(err, types.ErrCdpNotFound))
 }
@@ -174,18 +174,18 @@ func (suite *SeizeTestSuite) TestSeizeCollateralMultiDeposit() {
 
 	p := cdp.Principal.Amount
 	cl := cdp.Collateral.Amount
-	tpb := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "usdx")
+	tpb := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "musd")
 	err = suite.keeper.SeizeCollateral(suite.ctx, cdp)
 	suite.NoError(err)
 
-	tpa := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "usdx")
+	tpa := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "musd")
 	suite.Equal(tpb.Sub(tpa), p)
 
 	auctionMacc := ak.GetModuleAccount(suite.ctx, auctiontypes.ModuleName)
 	suite.Equal(cs(c("debt", p.Int64()), c("xrp", cl.Int64())), bk.GetAllBalances(suite.ctx, auctionMacc.GetAddress()))
 
 	acc := ak.GetAccount(suite.ctx, suite.addrs[1])
-	suite.Equal(p.Int64(), bk.GetBalance(suite.ctx, acc.GetAddress(), "usdx").Amount.Int64())
+	suite.Equal(p.Int64(), bk.GetBalance(suite.ctx, acc.GetAddress(), "musd").Amount.Int64())
 	err = suite.keeper.WithdrawCollateral(suite.ctx, suite.addrs[1], suite.addrs[1], c("xrp", 10), "xrp-a")
 	suite.Require().True(errors.Is(err, types.ErrCdpNotFound))
 }
@@ -261,7 +261,7 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 				finalPrice:          d("19000.0"),
 				finalTwapPrice:      d("19000.0"),
 				collateral:          c("btc", 10000000),
-				principal:           c("usdx", 1333330000),
+				principal:           c("musd", 1333330000),
 				expectedKeeperCoins: cs(c("btc", 100100000), c("xrp", 10000000000)),
 				expectedAuctions: []auctiontypes.Auction{
 					&auctiontypes.CollateralAuction{
@@ -270,13 +270,13 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 							Initiator:       "liquidator",
 							Lot:             c("btc", 9900000),
 							Bidder:          nil,
-							Bid:             c("usdx", 0),
+							Bid:             c("musd", 0),
 							HasReceivedBids: false,
 							EndTime:         endTime,
 							MaxEndTime:      endTime,
 						},
 						CorrespondingDebt: c("debt", 1333330000),
-						MaxBid:            c("usdx", 1366663250),
+						MaxBid:            c("musd", 1366663250),
 						LotReturns: auctiontypes.WeightedAddresses{
 							Addresses: []sdk.AccAddress{addr},
 							Weights:   []sdkmath.Int{sdkmath.NewInt(9900000)},
@@ -300,7 +300,7 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 				// twap / liquidation price does liquidate
 				finalTwapPrice:      d("19000.0"),
 				collateral:          c("btc", 10000000),
-				principal:           c("usdx", 1333330000),
+				principal:           c("musd", 1333330000),
 				expectedKeeperCoins: cs(c("btc", 100100000), c("xrp", 10000000000)),
 				expectedAuctions: []auctiontypes.Auction{
 					&auctiontypes.CollateralAuction{
@@ -309,13 +309,13 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 							Initiator:       "liquidator",
 							Lot:             c("btc", 9900000),
 							Bidder:          nil,
-							Bid:             c("usdx", 0),
+							Bid:             c("musd", 0),
 							HasReceivedBids: false,
 							EndTime:         endTime,
 							MaxEndTime:      endTime,
 						},
 						CorrespondingDebt: c("debt", 1333330000),
-						MaxBid:            c("usdx", 1366663250),
+						MaxBid:            c("musd", 1366663250),
 						LotReturns: auctiontypes.WeightedAddresses{
 							Addresses: []sdk.AccAddress{addr},
 							Weights:   []sdkmath.Int{sdkmath.NewInt(9900000)},
@@ -337,7 +337,7 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 				finalPrice:          d("21000.0"),
 				finalTwapPrice:      d("21000.0"),
 				collateral:          c("btc", 10000000),
-				principal:           c("usdx", 1333330000),
+				principal:           c("musd", 1333330000),
 				expectedKeeperCoins: cs(),
 				expectedAuctions:    []auctiontypes.Auction{},
 			},
@@ -357,7 +357,7 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 				// twap / liquidation price does not liquidate
 				finalTwapPrice:      d("21000.0"),
 				collateral:          c("btc", 10000000),
-				principal:           c("usdx", 1333330000),
+				principal:           c("musd", 1333330000),
 				expectedKeeperCoins: cs(),
 				expectedAuctions:    []auctiontypes.Auction{},
 			},
@@ -375,7 +375,7 @@ func (suite *SeizeTestSuite) TestKeeperLiquidation() {
 				finalPrice:          d("1.00"),
 				finalTwapPrice:      d("1.00"), // and it should not be able to be liquidated
 				collateral:          c("xrp", 100000000),
-				principal:           c("usdx", 50000000),
+				principal:           c("musd", 50000000),
 				expectedKeeperCoins: cs(),
 				expectedAuctions:    []auctiontypes.Auction{},
 			},
@@ -480,7 +480,7 @@ func (suite *SeizeTestSuite) TestBeginBlockerLiquidation() {
 				d("20000.00"),
 				d("10000.00"),
 				sdk.Coins{c("btc", 10000000), c("btc", 10000000)},
-				sdk.Coins{c("usdx", 1000000000), c("usdx", 500000000)},
+				sdk.Coins{c("musd", 1000000000), c("musd", 500000000)},
 				[]auctiontypes.Auction{
 					&auctiontypes.CollateralAuction{
 						BaseAuction: auctiontypes.BaseAuction{
@@ -488,13 +488,13 @@ func (suite *SeizeTestSuite) TestBeginBlockerLiquidation() {
 							Initiator:       "liquidator",
 							Lot:             c("btc", 10000000),
 							Bidder:          nil,
-							Bid:             c("usdx", 0),
+							Bid:             c("musd", 0),
 							HasReceivedBids: false,
 							EndTime:         endTime,
 							MaxEndTime:      endTime,
 						},
 						CorrespondingDebt: c("debt", 1000000000),
-						MaxBid:            c("usdx", 1025000000),
+						MaxBid:            c("musd", 1025000000),
 						LotReturns: auctiontypes.WeightedAddresses{
 							Addresses: []sdk.AccAddress{addr},
 							Weights:   []sdkmath.Int{sdkmath.NewInt(10000000)},
@@ -515,7 +515,7 @@ func (suite *SeizeTestSuite) TestBeginBlockerLiquidation() {
 				d("20000.00"),
 				d("10000.00"),
 				sdk.Coins{c("btc", 10000000), c("btc", 10000000)},
-				sdk.Coins{c("usdx", 500000000), c("usdx", 500000000)},
+				sdk.Coins{c("musd", 500000000), c("musd", 500000000)},
 				[]auctiontypes.Auction{},
 			},
 			errArgs{

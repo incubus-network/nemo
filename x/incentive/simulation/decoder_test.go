@@ -25,21 +25,21 @@ func makeTestCodec() (cdc *codec.Codec) {
 func TestDecodeDistributionStore(t *testing.T) {
 	cdc := makeTestCodec()
 	addr, _ := sdk.AccAddressFromBech32("fury15qdefkmwswysgg4qxgqpqr35k3m49pkxxvsmkx")
-	claim := types.NewUSDXMintingClaim(addr, sdk.NewCoin("ufury", sdkmath.NewInt(1000000)), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
+	claim := types.NewMUSDMintingClaim(addr, sdk.NewCoin("ufury", sdkmath.NewInt(1000000)), types.RewardIndexes{types.NewRewardIndex("bnb-a", sdk.ZeroDec())})
 	prevBlockTime := time.Now().Add(time.Hour * -1).UTC()
 	factor := sdk.ZeroDec()
 
 	kvPairs := kv.Pairs{
-		kv.Pair{Key: types.USDXMintingClaimKeyPrefix, Value: cdc.MustMarshalBinaryBare(claim)},
-		kv.Pair{Key: []byte(types.PreviousUSDXMintingRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
-		kv.Pair{Key: []byte(types.USDXMintingRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
-		// kv.Pair{Key: types.HardLiquidityClaimKeyPrefix, Value: cdc.MustMarshalBinaryBare(claim)},
-		// kv.Pair{Key: []byte(types.HardSupplyRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
-		// kv.Pair{Key: []byte(types.PreviousHardSupplyRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
-		// kv.Pair{Key: []byte(types.HardBorrowRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
-		// kv.Pair{Key: []byte(types.PreviousHardBorrowRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
-		// kv.Pair{Key: []byte(types.HardDelegatorRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
-		// kv.Pair{Key: []byte(types.PreviousHardDelegatorRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
+		kv.Pair{Key: types.MUSDMintingClaimKeyPrefix, Value: cdc.MustMarshalBinaryBare(claim)},
+		kv.Pair{Key: []byte(types.PreviousMUSDMintingRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
+		kv.Pair{Key: []byte(types.MUSDMintingRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
+		// kv.Pair{Key: types.JinxLiquidityClaimKeyPrefix, Value: cdc.MustMarshalBinaryBare(claim)},
+		// kv.Pair{Key: []byte(types.JinxSupplyRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
+		// kv.Pair{Key: []byte(types.PreviousJinxSupplyRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
+		// kv.Pair{Key: []byte(types.JinxBorrowRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
+		// kv.Pair{Key: []byte(types.PreviousJinxBorrowRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
+		// kv.Pair{Key: []byte(types.JinxDelegatorRewardFactorKeyPrefix), Value: cdc.MustMarshalBinaryBare(factor)},
+		// kv.Pair{Key: []byte(types.PreviousJinxDelegatorRewardAccrualTimeKeyPrefix), Value: cdc.MustMarshalBinaryBare(prevBlockTime)},
 		kv.Pair{Key: []byte{0x99}, Value: []byte{0x99}},
 	}
 
@@ -47,16 +47,16 @@ func TestDecodeDistributionStore(t *testing.T) {
 		name        string
 		expectedLog string
 	}{
-		{"USDXMintingClaim", fmt.Sprintf("%v\n%v", claim, claim)},
-		{"PreviousUSDXMintingRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
-		{"USDXMintingRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
-		// {"HardLiquidityClaim", fmt.Sprintf("%v\n%v", claim, claim)},
-		// {"PreviousHardSupplyRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
-		// {"HardSupplyRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
-		// {"PreviousHardBorrowRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
-		// {"HardBorrowRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
-		// {"PreviousHardDelegatorRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
-		// {"HardSupplyDelegatorFactor", fmt.Sprintf("%v\n%v", factor, factor)},
+		{"MUSDMintingClaim", fmt.Sprintf("%v\n%v", claim, claim)},
+		{"PreviousMUSDMintingRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
+		{"MUSDMintingRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
+		// {"JinxLiquidityClaim", fmt.Sprintf("%v\n%v", claim, claim)},
+		// {"PreviousJinxSupplyRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
+		// {"JinxSupplyRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
+		// {"PreviousJinxBorrowRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
+		// {"JinxBorrowRewardFactor", fmt.Sprintf("%v\n%v", factor, factor)},
+		// {"PreviousJinxDelegatorRewardAccrualTime", fmt.Sprintf("%v\n%v", prevBlockTime, prevBlockTime)},
+		// {"JinxSupplyDelegatorFactor", fmt.Sprintf("%v\n%v", factor, factor)},
 		{"other", ""},
 	}
 	for i, tt := range tests {

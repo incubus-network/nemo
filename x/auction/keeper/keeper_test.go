@@ -20,7 +20,7 @@ func SetGetDeleteAuction(t *testing.T) {
 
 	someTime := time.Date(43, time.January, 1, 0, 0, 0, 0, time.UTC) // need to specify UTC as tz info is lost on unmarshal
 	var id uint64 = 5
-	auction := types.NewSurplusAuction("some_module", c("usdx", 100), "nemo", someTime).WithID(id)
+	auction := types.NewSurplusAuction("some_module", c("musd", 100), "nemo", someTime).WithID(id)
 
 	// write and read from store
 	keeper.SetAuction(ctx, auction)

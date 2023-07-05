@@ -59,13 +59,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "valid single-collateral",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 4000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 4000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -77,7 +77,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -96,13 +96,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid single-collateral mismatched debt denoms",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 4000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 4000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -133,13 +133,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid single-collateral over debt limit",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 1000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 1000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -151,7 +151,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -170,13 +170,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "valid multi-collateral",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 4000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 4000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -190,7 +190,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 						Denom:                            "xrp",
 						Type:                             "xrp-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -202,7 +202,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -221,13 +221,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid multi-collateral over debt limit",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -241,7 +241,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 						Denom:                            "xrp",
 						Type:                             "xrp-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -253,7 +253,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -272,13 +272,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid multi-collateral multiple debt denoms",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 4000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 4000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -304,7 +304,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -323,12 +323,12 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params empty denom",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -340,7 +340,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -359,13 +359,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params empty market id",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -377,7 +377,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -396,13 +396,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params duplicate denom + type",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -416,7 +416,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -428,7 +428,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -447,13 +447,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "valid collateral params duplicate denom + different type",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -467,7 +467,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 						Denom:                            "bnb",
 						Type:                             "bnb-b",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -479,7 +479,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -498,7 +498,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params nil debt limit",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
@@ -516,7 +516,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -535,13 +535,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params liquidation ratio out of range",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("1.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -553,7 +553,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -572,13 +572,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params auction size zero",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdk.ZeroInt(),
@@ -590,7 +590,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -609,13 +609,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params stability fee out of range",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.1"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),
@@ -627,7 +627,7 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 					},
 				},
 				debtParam: types.DebtParam{
-					Denom:            "usdx",
+					Denom:            "musd",
 					ReferenceAsset:   "usd",
 					ConversionFactor: sdkmath.NewInt(6),
 					DebtFloor:        sdkmath.NewInt(10000000),
@@ -646,13 +646,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid collateral params zero liquidation ratio",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("0.0"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 1_000_000_000_000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 1_000_000_000_000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.1"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50_000_000_000),
@@ -678,13 +678,13 @@ func (suite *ParamsTestSuite) TestParamValidation() {
 		{
 			name: "invalid debt param empty denom",
 			args: args{
-				globalDebtLimit: sdk.NewInt64Coin("usdx", 2000000000000),
+				globalDebtLimit: sdk.NewInt64Coin("musd", 2000000000000),
 				collateralParams: types.CollateralParams{
 					{
 						Denom:                            "bnb",
 						Type:                             "bnb-a",
 						LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-						DebtLimit:                        sdk.NewInt64Coin("usdx", 2000000000000),
+						DebtLimit:                        sdk.NewInt64Coin("musd", 2000000000000),
 						StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"),
 						LiquidationPenalty:               sdk.MustNewDecFromStr("0.05"),
 						AuctionSize:                      sdkmath.NewInt(50000000000),

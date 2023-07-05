@@ -27,7 +27,7 @@ package keeper_test
 // 	_, addrs := app.GeneratePrivKeyAddressPairs(5)
 // 	coins := []sdk.Coins{}
 // 	for j := 0; j < 5; j++ {
-// 		coins = append(coins, cs(c("ufury", 10000000000), c("bnb", 10000000000), c("usdx", 10000000000)))
+// 		coins = append(coins, cs(c("ufury", 10000000000), c("bnb", 10000000000), c("musd", 10000000000)))
 // 	}
 // 	suite.addresses = addrs
 // 	authGS := app.NewAuthGenState(addrs, coins)
@@ -66,7 +66,7 @@ package keeper_test
 // func (suite *querierTestSuite) TestQueryPool() {
 // 	// Set up pool in store
 // 	coinA := sdk.NewCoin("ufury", sdkmath.NewInt(10))
-// 	coinB := sdk.NewCoin("usdx", sdkmath.NewInt(200))
+// 	coinB := sdk.NewCoin("musd", sdkmath.NewInt(200))
 
 // 	pool, err := types.NewDenominatedPool(sdk.NewCoins(coinA, coinB))
 // 	suite.Nil(err)
@@ -96,8 +96,8 @@ package keeper_test
 // func (suite *querierTestSuite) TestQueryPools() {
 // 	// Set up pools in store
 // 	coinA := sdk.NewCoin("ufury", sdkmath.NewInt(10))
-// 	coinB := sdk.NewCoin("usdx", sdkmath.NewInt(200))
-// 	coinC := sdk.NewCoin("usdx", sdkmath.NewInt(200))
+// 	coinB := sdk.NewCoin("musd", sdkmath.NewInt(200))
+// 	coinC := sdk.NewCoin("musd", sdkmath.NewInt(200))
 
 // 	poolAB, err := types.NewDenominatedPool(sdk.NewCoins(coinA, coinB))
 // 	suite.Nil(err)
@@ -139,7 +139,7 @@ package keeper_test
 // func (suite *querierTestSuite) TestQueryDeposit() {
 // 	// Set up pool in store
 // 	coinA := sdk.NewCoin("ufury", sdkmath.NewInt(10))
-// 	coinB := sdk.NewCoin("usdx", sdkmath.NewInt(200))
+// 	coinB := sdk.NewCoin("musd", sdkmath.NewInt(200))
 // 	pool, err := types.NewDenominatedPool(sdk.NewCoins(coinA, coinB))
 // 	suite.Nil(err)
 // 	poolRecord := types.NewPoolRecordFromPool(pool)

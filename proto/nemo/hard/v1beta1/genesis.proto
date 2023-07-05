@@ -1,15 +1,15 @@
 syntax = "proto3";
-package nemo.hard.v1beta1;
+package nemo.jinx.v1beta1;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";
-import "nemo/hard/v1beta1/hard.proto";
+import "nemo/jinx/v1beta1/jinx.proto";
 
-option go_package = "github.com/incubus-network/nemo/x/hard/types";
+option go_package = "github.com/incubus-network/nemo/x/jinx/types";
 
-// GenesisState defines the hard module's genesis state.
+// GenesisState defines the jinx module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated GenesisAccumulationTime previous_accumulation_times = 2 [

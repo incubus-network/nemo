@@ -5,14 +5,14 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 type msgServer struct {
 	keeper Keeper
 }
 
-// NewMsgServerImpl returns an implementation of the hard MsgServer interface
+// NewMsgServerImpl returns an implementation of the jinx MsgServer interface
 // for the provided Keeper.
 func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 	return &msgServer{keeper: keeper}

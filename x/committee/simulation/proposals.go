@@ -44,7 +44,7 @@ func SimulateCommitteeChangeProposalContent(k keeper.Keeper, paramChanges []simu
 			return false
 		})
 		if len(committees) < 1 { // create a committee if none exist
-			com, err := RandomCommittee(r, firstNAccounts(25, accs), allowedParams) // limit num members to avoid overflowing hardcoded gov ops gas limit
+			com, err := RandomCommittee(r, firstNAccounts(25, accs), allowedParams) // limit num members to avoid overflowing jinxcoded gov ops gas limit
 			if err != nil {
 				panic(err)
 			}
@@ -62,7 +62,7 @@ func SimulateCommitteeChangeProposalContent(k keeper.Keeper, paramChanges []simu
 
 		// create committee
 		case choice < 20:
-			com, err := RandomCommittee(r, firstNAccounts(25, accs), allowedParams) // limit num members to avoid overflowing hardcoded gov ops gas limit
+			com, err := RandomCommittee(r, firstNAccounts(25, accs), allowedParams) // limit num members to avoid overflowing jinxcoded gov ops gas limit
 			if err != nil {
 				panic(err)
 			}
@@ -83,7 +83,7 @@ func SimulateCommitteeChangeProposalContent(k keeper.Keeper, paramChanges []simu
 				}
 				var members []sdk.AccAddress
 				for len(members) < 1 {
-					members = RandomAddresses(r, firstNAccounts(25, accs)) // limit num members to avoid overflowing hardcoded gov ops gas limit
+					members = RandomAddresses(r, firstNAccounts(25, accs)) // limit num members to avoid overflowing jinxcoded gov ops gas limit
 				}
 				com.SetMembers(members)
 			}

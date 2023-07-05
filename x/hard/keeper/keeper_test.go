@@ -16,8 +16,8 @@ import (
 
 	"github.com/incubus-network/nemo/app"
 	auctionkeeper "github.com/incubus-network/nemo/x/auction/keeper"
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Test suite used for all keeper tests
@@ -39,7 +39,7 @@ func (suite *KeeperTestSuite) SetupTest() {
 	ctx := tApp.NewContext(true, tmproto.Header{Height: 1, Time: tmtime.Now()})
 	tApp.InitializeFromGenesisStates()
 	_, addrs := app.GeneratePrivKeyAddressPairs(1)
-	keeper := tApp.GetHardKeeper()
+	keeper := tApp.GetJinxKeeper()
 	suite.app = tApp
 	suite.ctx = ctx
 	suite.keeper = keeper

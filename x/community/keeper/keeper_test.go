@@ -31,7 +31,7 @@ func (suite *KeeperTestSuite) TestCommunityPool() {
 
 	funds := sdk.NewCoins(
 		sdk.NewCoin("ufury", sdkmath.NewInt(10000)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+		sdk.NewCoin("musd", sdkmath.NewInt(100)),
 	)
 	sender := suite.CreateFundedAccount(funds)
 

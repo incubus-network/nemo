@@ -54,7 +54,7 @@ func TestGenesisState_Validate(t *testing.T) {
 				time.Hour*24*21,
 				types.TALLY_OPTION_DEADLINE,
 				sdk.MustNewDecFromStr("0.4"),
-				"hard",
+				"jinx",
 			),
 		},
 		types.Proposals{

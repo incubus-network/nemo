@@ -12,12 +12,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // GetTxCmd returns the transaction commands for this module
 func GetTxCmd() *cobra.Command {
-	hardTxCmd := &cobra.Command{
+	jinxTxCmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      fmt.Sprintf("%s transactions subcommands", types.ModuleName),
 		DisableFlagParsing:         true,
@@ -37,15 +37,15 @@ func GetTxCmd() *cobra.Command {
 		flags.AddTxFlagsToCmd(cmd)
 	}
 
-	hardTxCmd.AddCommand(cmds...)
+	jinxTxCmd.AddCommand(cmds...)
 
-	return hardTxCmd
+	return jinxTxCmd
 }
 
 func getCmdDeposit() *cobra.Command {
 	return &cobra.Command{
 		Use:   "deposit [amount]",
-		Short: "deposit coins to hard",
+		Short: "deposit coins to jinx",
 		Example: fmt.Sprintf(
 			`%s tx %s deposit 10000000bnb --from <key>`, version.AppName, types.ModuleName,
 		),
@@ -71,7 +71,7 @@ func getCmdDeposit() *cobra.Command {
 func getCmdWithdraw() *cobra.Command {
 	return &cobra.Command{
 		Use:   "withdraw [amount]",
-		Short: "withdraw coins from hard",
+		Short: "withdraw coins from jinx",
 		Args:  cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
 			`%s tx %s withdraw 10000000bnb --from <key>`, version.AppName, types.ModuleName,
@@ -98,8 +98,8 @@ func getCmdWithdraw() *cobra.Command {
 func getCmdBorrow() *cobra.Command {
 	return &cobra.Command{
 		Use:   "borrow [amount]",
-		Short: "borrow tokens from the hard protocol",
-		Long:  strings.TrimSpace(`borrows tokens from the hard protocol`),
+		Short: "borrow tokens from the jinx protocol",
+		Long:  strings.TrimSpace(`borrows tokens from the jinx protocol`),
 		Args:  cobra.ExactArgs(1),
 		Example: fmt.Sprintf(
 			`%s tx %s borrow 1000000000ufury --from <key>`, version.AppName, types.ModuleName,
@@ -127,8 +127,8 @@ func getCmdBorrow() *cobra.Command {
 func getCmdRepay() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "repay [amount]",
-		Short: "repay tokens to the hard protocol",
-		Long:  strings.TrimSpace(`repay tokens to the hard protocol with optional --owner param to repay another account's loan`),
+		Short: "repay tokens to the jinx protocol",
+		Long:  strings.TrimSpace(`repay tokens to the jinx protocol with optional --owner param to repay another account's loan`),
 		Args:  cobra.ExactArgs(1),
 		Example: fmt.Sprintf(`
 %[1]s tx %[2]s repay 1000000000ufury --from <key>

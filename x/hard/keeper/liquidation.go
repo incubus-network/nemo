@@ -7,7 +7,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // LiqData holds liquidation-related data
@@ -134,7 +134,7 @@ func (k Keeper) SeizeDeposits(ctx sdk.Context, keeper sdk.AccAddress, deposit ty
 	if !liquidatedCoins.Empty() {
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
-				types.EventTypeHardLiquidation,
+				types.EventTypeJinxLiquidation,
 				sdk.NewAttribute(types.AttributeKeyLiquidatedOwner, deposit.Depositor.String()),
 				sdk.NewAttribute(types.AttributeKeyLiquidatedCoins, liquidatedCoins.String()),
 				sdk.NewAttribute(types.AttributeKeyKeeper, keeper.String()),

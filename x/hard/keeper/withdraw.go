@@ -4,7 +4,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Withdraw returns some or all of a deposit back to original depositor
@@ -81,7 +81,7 @@ func (k Keeper) Withdraw(ctx sdk.Context, depositor sdk.AccAddress, coins sdk.Co
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
-			types.EventTypeHardWithdrawal,
+			types.EventTypeJinxWithdrawal,
 			sdk.NewAttribute(sdk.AttributeKeyAmount, amount.String()),
 			sdk.NewAttribute(types.AttributeKeyDepositor, depositor.String()),
 		),

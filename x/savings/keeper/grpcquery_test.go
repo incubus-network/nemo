@@ -52,7 +52,7 @@ func (suite *grpcQueryTestSuite) SetupTest() {
 		suite.ctx,
 		types.ModuleAccountName,
 		cs(
-			c("usdx", 10000000000),
+			c("musd", 10000000000),
 			c("busd", 10000000000),
 		),
 	)

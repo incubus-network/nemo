@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/incubus-network/nemo/app"
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	"github.com/incubus-network/nemo/x/incentive/types"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
 )
@@ -57,16 +57,16 @@ func (builder IncentiveGenesisBuilder) WithGenesisTime(time time.Time) Incentive
 // WithInitializedBorrowRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
 // This can be helpful in tests. With no prev time set, the first block accrues no rewards as it just sets the prev time to the current.
 func (builder IncentiveGenesisBuilder) WithInitializedBorrowRewardPeriod(period types.MultiRewardPeriod) IncentiveGenesisBuilder {
-	builder.Params.HardBorrowRewardPeriods = append(builder.Params.HardBorrowRewardPeriods, period)
+	builder.Params.JinxBorrowRewardPeriods = append(builder.Params.JinxBorrowRewardPeriods, period)
 
 	accumulationTimeForPeriod := types.NewAccumulationTime(period.CollateralType, builder.genesisTime)
-	builder.HardBorrowRewardState.AccumulationTimes = append(
-		builder.HardBorrowRewardState.AccumulationTimes,
+	builder.JinxBorrowRewardState.AccumulationTimes = append(
+		builder.JinxBorrowRewardState.AccumulationTimes,
 		accumulationTimeForPeriod,
 	)
 
 	// TODO remove to better reflect real states
-	builder.HardBorrowRewardState.MultiRewardIndexes = builder.HardBorrowRewardState.MultiRewardIndexes.With(
+	builder.JinxBorrowRewardState.MultiRewardIndexes = builder.JinxBorrowRewardState.MultiRewardIndexes.With(
 		period.CollateralType,
 		newZeroRewardIndexesFromCoins(period.RewardsPerSecond...),
 	)
@@ -81,16 +81,16 @@ func (builder IncentiveGenesisBuilder) WithSimpleBorrowRewardPeriod(ctype string
 // WithInitializedSupplyRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
 // This can be helpful in tests. With no prev time set, the first block accrues no rewards as it just sets the prev time to the current.
 func (builder IncentiveGenesisBuilder) WithInitializedSupplyRewardPeriod(period types.MultiRewardPeriod) IncentiveGenesisBuilder {
-	builder.Params.HardSupplyRewardPeriods = append(builder.Params.HardSupplyRewardPeriods, period)
+	builder.Params.JinxSupplyRewardPeriods = append(builder.Params.JinxSupplyRewardPeriods, period)
 
 	accumulationTimeForPeriod := types.NewAccumulationTime(period.CollateralType, builder.genesisTime)
-	builder.HardSupplyRewardState.AccumulationTimes = append(
-		builder.HardSupplyRewardState.AccumulationTimes,
+	builder.JinxSupplyRewardState.AccumulationTimes = append(
+		builder.JinxSupplyRewardState.AccumulationTimes,
 		accumulationTimeForPeriod,
 	)
 
 	// TODO remove to better reflect real states
-	builder.HardSupplyRewardState.MultiRewardIndexes = builder.HardSupplyRewardState.MultiRewardIndexes.With(
+	builder.JinxSupplyRewardState.MultiRewardIndexes = builder.JinxSupplyRewardState.MultiRewardIndexes.With(
 		period.CollateralType,
 		newZeroRewardIndexesFromCoins(period.RewardsPerSecond...),
 	)
@@ -144,19 +144,19 @@ func (builder IncentiveGenesisBuilder) WithSimpleSwapRewardPeriod(poolID string,
 	return builder.WithInitializedSwapRewardPeriod(builder.simpleRewardPeriod(poolID, rewardsPerSecond))
 }
 
-// WithInitializedUSDXRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
+// WithInitializedMUSDRewardPeriod sets the genesis time as the previous accumulation time for the specified period.
 // This can be helpful in tests. With no prev time set, the first block accrues no rewards as it just sets the prev time to the current.
-func (builder IncentiveGenesisBuilder) WithInitializedUSDXRewardPeriod(period types.RewardPeriod) IncentiveGenesisBuilder {
-	builder.Params.USDXMintingRewardPeriods = append(builder.Params.USDXMintingRewardPeriods, period)
+func (builder IncentiveGenesisBuilder) WithInitializedMUSDRewardPeriod(period types.RewardPeriod) IncentiveGenesisBuilder {
+	builder.Params.MUSDMintingRewardPeriods = append(builder.Params.MUSDMintingRewardPeriods, period)
 
 	accumulationTimeForPeriod := types.NewAccumulationTime(period.CollateralType, builder.genesisTime)
-	builder.USDXRewardState.AccumulationTimes = append(
-		builder.USDXRewardState.AccumulationTimes,
+	builder.MUSDRewardState.AccumulationTimes = append(
+		builder.MUSDRewardState.AccumulationTimes,
 		accumulationTimeForPeriod,
 	)
 
 	// TODO remove to better reflect real states
-	builder.USDXRewardState.MultiRewardIndexes = builder.USDXRewardState.MultiRewardIndexes.With(
+	builder.MUSDRewardState.MultiRewardIndexes = builder.MUSDRewardState.MultiRewardIndexes.With(
 		period.CollateralType,
 		newZeroRewardIndexesFromCoins(period.RewardsPerSecond),
 	)
@@ -164,8 +164,8 @@ func (builder IncentiveGenesisBuilder) WithInitializedUSDXRewardPeriod(period ty
 	return builder
 }
 
-func (builder IncentiveGenesisBuilder) WithSimpleUSDXRewardPeriod(ctype string, rewardsPerSecond sdk.Coin) IncentiveGenesisBuilder {
-	return builder.WithInitializedUSDXRewardPeriod(types.NewRewardPeriod(
+func (builder IncentiveGenesisBuilder) WithSimpleMUSDRewardPeriod(ctype string, rewardsPerSecond sdk.Coin) IncentiveGenesisBuilder {
+	return builder.WithInitializedMUSDRewardPeriod(types.NewRewardPeriod(
 		true,
 		ctype,
 		builder.genesisTime,
@@ -216,63 +216,63 @@ func newZeroRewardIndexesFromCoins(coins ...sdk.Coin) types.RewardIndexes {
 	return ri
 }
 
-// HardGenesisBuilder is a tool for creating a hard genesis state.
+// JinxGenesisBuilder is a tool for creating a jinx genesis state.
 // Helper methods add values onto a default genesis state.
 // All methods are immutable and return updated copies of the builder.
-type HardGenesisBuilder struct {
-	hardtypes.GenesisState
+type JinxGenesisBuilder struct {
+	jinxtypes.GenesisState
 	genesisTime time.Time
 }
 
-func NewHardGenesisBuilder() HardGenesisBuilder {
-	return HardGenesisBuilder{
-		GenesisState: hardtypes.DefaultGenesisState(),
+func NewJinxGenesisBuilder() JinxGenesisBuilder {
+	return JinxGenesisBuilder{
+		GenesisState: jinxtypes.DefaultGenesisState(),
 	}
 }
 
-func (builder HardGenesisBuilder) Build() hardtypes.GenesisState {
+func (builder JinxGenesisBuilder) Build() jinxtypes.GenesisState {
 	return builder.GenesisState
 }
 
-func (builder HardGenesisBuilder) BuildMarshalled(cdc codec.JSONCodec) app.GenesisState {
+func (builder JinxGenesisBuilder) BuildMarshalled(cdc codec.JSONCodec) app.GenesisState {
 	built := builder.Build()
 
 	return app.GenesisState{
-		hardtypes.ModuleName: cdc.MustMarshalJSON(&built),
+		jinxtypes.ModuleName: cdc.MustMarshalJSON(&built),
 	}
 }
 
-func (builder HardGenesisBuilder) WithGenesisTime(genTime time.Time) HardGenesisBuilder {
+func (builder JinxGenesisBuilder) WithGenesisTime(genTime time.Time) JinxGenesisBuilder {
 	builder.genesisTime = genTime
 	return builder
 }
 
-func (builder HardGenesisBuilder) WithInitializedMoneyMarket(market hardtypes.MoneyMarket) HardGenesisBuilder {
+func (builder JinxGenesisBuilder) WithInitializedMoneyMarket(market jinxtypes.MoneyMarket) JinxGenesisBuilder {
 	builder.Params.MoneyMarkets = append(builder.Params.MoneyMarkets, market)
 
 	builder.PreviousAccumulationTimes = append(
 		builder.PreviousAccumulationTimes,
-		hardtypes.NewGenesisAccumulationTime(market.Denom, builder.genesisTime, sdk.OneDec(), sdk.OneDec()),
+		jinxtypes.NewGenesisAccumulationTime(market.Denom, builder.genesisTime, sdk.OneDec(), sdk.OneDec()),
 	)
 	return builder
 }
 
-func (builder HardGenesisBuilder) WithMinBorrow(minUSDValue sdk.Dec) HardGenesisBuilder {
+func (builder JinxGenesisBuilder) WithMinBorrow(minUSDValue sdk.Dec) JinxGenesisBuilder {
 	builder.Params.MinimumBorrowUSDValue = minUSDValue
 	return builder
 }
 
-func NewStandardMoneyMarket(denom string) hardtypes.MoneyMarket {
-	return hardtypes.NewMoneyMarket(
+func NewStandardMoneyMarket(denom string) jinxtypes.MoneyMarket {
+	return jinxtypes.NewMoneyMarket(
 		denom,
-		hardtypes.NewBorrowLimit(
+		jinxtypes.NewBorrowLimit(
 			false,
 			sdk.NewDec(1e15),
 			sdk.MustNewDecFromStr("0.6"),
 		),
 		denom+":usd",
 		sdkmath.NewInt(1e6),
-		hardtypes.NewInterestRateModel(
+		jinxtypes.NewInterestRateModel(
 			sdk.MustNewDecFromStr("0.05"),
 			sdk.MustNewDecFromStr("2"),
 			sdk.MustNewDecFromStr("0.8"),

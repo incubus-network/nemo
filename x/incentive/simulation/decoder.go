@@ -17,61 +17,61 @@ import (
 func DecodeStore(cdc *codec.Codec, kvA, kvB kv.Pair) string {
 	switch {
 
-	case bytes.Equal(kvA.Key[:1], types.USDXMintingClaimKeyPrefix):
-		var claimA, claimB types.USDXMintingClaim
+	case bytes.Equal(kvA.Key[:1], types.MUSDMintingClaimKeyPrefix):
+		var claimA, claimB types.MUSDMintingClaim
 		cdc.MustUnmarshalBinaryBare(kvA.Value, &claimA)
 		cdc.MustUnmarshalBinaryBare(kvB.Value, &claimB)
 		return fmt.Sprintf("%v\n%v", claimA, claimB)
 
-	case bytes.Equal(kvA.Key[:1], types.PreviousUSDXMintingRewardAccrualTimeKeyPrefix):
+	case bytes.Equal(kvA.Key[:1], types.PreviousMUSDMintingRewardAccrualTimeKeyPrefix):
 		var timeA, timeB time.Time
 		cdc.MustUnmarshalBinaryBare(kvA.Value, &timeA)
 		cdc.MustUnmarshalBinaryBare(kvB.Value, &timeB)
 		return fmt.Sprintf("%s\n%s", timeA, timeB)
 
-	case bytes.Equal(kvA.Key[:1], types.USDXMintingRewardFactorKeyPrefix):
+	case bytes.Equal(kvA.Key[:1], types.MUSDMintingRewardFactorKeyPrefix):
 		var factorA, factorB sdk.Dec
 		cdc.MustUnmarshalBinaryBare(kvA.Value, &factorA)
 		cdc.MustUnmarshalBinaryBare(kvB.Value, &factorB)
 		return fmt.Sprintf("%s\n%s", factorA, factorB)
 
-	// case bytes.Equal(kvA.Key[:1], types.HardLiquidityClaimKeyPrefix):
-	// 	var claimA, claimB types.HardLiquidityProviderClaim
+	// case bytes.Equal(kvA.Key[:1], types.JinxLiquidityClaimKeyPrefix):
+	// 	var claimA, claimB types.JinxLiquidityProviderClaim
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &claimA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &claimB)
 	// 	return fmt.Sprintf("%v\n%v", claimA, claimB)
 
-	// case bytes.Equal(kvA.Key[:1], types.PreviousHardSupplyRewardAccrualTimeKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.PreviousJinxSupplyRewardAccrualTimeKeyPrefix):
 	// 	var timeA, timeB time.Time
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &timeA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &timeB)
 	// 	return fmt.Sprintf("%s\n%s", timeA, timeB)
 
-	// case bytes.Equal(kvA.Key[:1], types.HardSupplyRewardFactorKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.JinxSupplyRewardFactorKeyPrefix):
 	// 	var factorA, factorB sdk.Dec
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &factorA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &factorB)
 	// 	return fmt.Sprintf("%s\n%s", factorA, factorB)
 
-	// case bytes.Equal(kvA.Key[:1], types.PreviousHardBorrowRewardAccrualTimeKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.PreviousJinxBorrowRewardAccrualTimeKeyPrefix):
 	// 	var timeA, timeB time.Time
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &timeA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &timeB)
 	// 	return fmt.Sprintf("%s\n%s", timeA, timeB)
 
-	// case bytes.Equal(kvA.Key[:1], types.HardSupplyRewardFactorKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.JinxSupplyRewardFactorKeyPrefix):
 	// 	var factorA, factorB sdk.Dec
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &factorA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &factorB)
 	// 	return fmt.Sprintf("%s\n%s", factorA, factorB)
 
-	// case bytes.Equal(kvA.Key[:1], types.PreviousHardDelegatorRewardAccrualTimeKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.PreviousJinxDelegatorRewardAccrualTimeKeyPrefix):
 	// 	var timeA, timeB time.Time
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &timeA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &timeB)
 	// 	return fmt.Sprintf("%s\n%s", timeA, timeB)
 
-	// case bytes.Equal(kvA.Key[:1], types.HardDelegatorRewardFactorKeyPrefix):
+	// case bytes.Equal(kvA.Key[:1], types.JinxDelegatorRewardFactorKeyPrefix):
 	// 	var factorA, factorB sdk.Dec
 	// 	cdc.MustUnmarshalBinaryBare(kvA.Value, &factorA)
 	// 	cdc.MustUnmarshalBinaryBare(kvB.Value, &factorB)

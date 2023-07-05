@@ -4,7 +4,7 @@ Resources and examples for running and interacting with the nemo blockchain. `co
 
 ## testnet-4000
 
-nemo-testnet-4000 introduces the cdp and auction modules, allowing users to create CDPs and mint usdx as well as participate in auctions.
+nemo-testnet-4000 introduces the cdp and auction modules, allowing users to create CDPs and mint musd as well as participate in auctions.
 
 Configuration and rest-server interaction files are available in the [testnet-4000](./testnet-4000/README.md) directory.
 

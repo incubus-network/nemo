@@ -11,8 +11,8 @@ import (
 	tmtime "github.com/tendermint/tendermint/types/time"
 
 	"github.com/incubus-network/nemo/app"
-	"github.com/incubus-network/nemo/x/hard"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx"
+	"github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -128,9 +128,9 @@ func (suite *KeeperTestSuite) TestWithdraw() {
 			)
 
 			loanToValue := sdk.MustNewDecFromStr("0.6")
-			hardGS := types.NewGenesisState(types.NewParams(
+			jinxGS := types.NewGenesisState(types.NewParams(
 				types.MoneyMarkets{
-					types.NewMoneyMarket("usdx", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "usdx:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
+					types.NewMoneyMarket("musd", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "musd:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("ufury", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "nemo:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("bnb", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "bnb:usd", sdkmath.NewInt(100000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 				},
@@ -143,14 +143,14 @@ func (suite *KeeperTestSuite) TestWithdraw() {
 			pricefeedGS := pricefeedtypes.GenesisState{
 				Params: pricefeedtypes.Params{
 					Markets: []pricefeedtypes.Market{
-						{MarketID: "usdx:usd", BaseAsset: "usdx", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
+						{MarketID: "musd:usd", BaseAsset: "musd", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "nemo:usd", BaseAsset: "nemo", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "bnb:usd", BaseAsset: "bnb", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 					},
 				},
 				PostedPrices: []pricefeedtypes.PostedPrice{
 					{
-						MarketID:      "usdx:usd",
+						MarketID:      "musd:usd",
 						OracleAddress: sdk.AccAddress{},
 						Price:         sdk.MustNewDecFromStr("1.00"),
 						Expiry:        time.Now().Add(100 * time.Hour),
@@ -172,13 +172,13 @@ func (suite *KeeperTestSuite) TestWithdraw() {
 
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
-				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)})
-			keeper := tApp.GetHardKeeper()
+				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)})
+			keeper := tApp.GetJinxKeeper()
 			suite.app = tApp
 			suite.ctx = ctx
 			suite.keeper = keeper
 
-			// Mint coins to Hard module account
+			// Mint coins to Jinx module account
 			bankKeeper := tApp.GetBankKeeper()
 			err := bankKeeper.MintCoins(ctx, types.ModuleAccountName, tc.args.initialModAccountBalance)
 			suite.Require().NoError(err)
@@ -245,7 +245,7 @@ func (suite *KeeperTestSuite) TestLtvWithdraw() {
 			args{
 				borrower:             borrower,
 				initialModuleCoins:   sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(100*NEMO_CF))),
-				initialBorrowerCoins: sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(100*NEMO_CF)), sdk.NewCoin("usdx", sdkmath.NewInt(100*NEMO_CF))),
+				initialBorrowerCoins: sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(100*NEMO_CF)), sdk.NewCoin("musd", sdkmath.NewInt(100*NEMO_CF))),
 				depositCoins:         sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(100*NEMO_CF))), // 100 * 2 = $200
 				borrowCoins:          sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(80*NEMO_CF))),  // 80 * 2 = $160
 				repayCoins:           sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(60*NEMO_CF))),  // 60 * 2 = $120
@@ -281,9 +281,9 @@ func (suite *KeeperTestSuite) TestLtvWithdraw() {
 						model,                          // Interest Rate Model
 						reserveFactor,                  // Reserve Factor
 						sdk.MustNewDecFromStr("0.05")), // Keeper Reward Percent
-					types.NewMoneyMarket("usdx",
+					types.NewMoneyMarket("musd",
 						types.NewBorrowLimit(false, sdk.NewDec(100000000*NEMO_CF), sdk.MustNewDecFromStr("0.8")), // Borrow Limit
-						"usdx:usd",                     // Market ID
+						"musd:usd",                     // Market ID
 						sdkmath.NewInt(NEMO_CF),        // Conversion Factor
 						model,                          // Interest Rate Model
 						reserveFactor,                  // Reserve Factor
@@ -298,13 +298,13 @@ func (suite *KeeperTestSuite) TestLtvWithdraw() {
 			pricefeedGS := pricefeedtypes.GenesisState{
 				Params: pricefeedtypes.Params{
 					Markets: []pricefeedtypes.Market{
-						{MarketID: "usdx:usd", BaseAsset: "usdx", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
+						{MarketID: "musd:usd", BaseAsset: "musd", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "nemo:usd", BaseAsset: "nemo", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 					},
 				},
 				PostedPrices: []pricefeedtypes.PostedPrice{
 					{
-						MarketID:      "usdx:usd",
+						MarketID:      "musd:usd",
 						OracleAddress: sdk.AccAddress{},
 						Price:         sdk.MustNewDecFromStr("1.00"),
 						Expiry:        time.Now().Add(100 * time.Hour),
@@ -330,14 +330,14 @@ func (suite *KeeperTestSuite) TestLtvWithdraw() {
 
 			auctionKeeper := tApp.GetAuctionKeeper()
 
-			keeper := tApp.GetHardKeeper()
+			keeper := tApp.GetJinxKeeper()
 			suite.app = tApp
 			suite.ctx = ctx
 			suite.keeper = keeper
 			suite.auctionKeeper = auctionKeeper
 
 			// Run begin blocker to set up state
-			hard.BeginBlocker(suite.ctx, suite.keeper)
+			jinx.BeginBlocker(suite.ctx, suite.keeper)
 
 			// Borrower deposits coins
 			err = suite.keeper.Deposit(suite.ctx, tc.args.borrower, tc.args.depositCoins)
@@ -355,7 +355,7 @@ func (suite *KeeperTestSuite) TestLtvWithdraw() {
 			// Set up future chain context and run begin blocker, increasing user's owed borrow balance
 			runAtTime := time.Unix(suite.ctx.BlockTime().Unix()+(tc.args.futureTime), 0)
 			liqCtx := suite.ctx.WithBlockTime(runAtTime)
-			hard.BeginBlocker(liqCtx, suite.keeper)
+			jinx.BeginBlocker(liqCtx, suite.keeper)
 
 			// Attempted withdraw of 1 coin still fails
 			err = suite.keeper.Withdraw(suite.ctx, tc.args.borrower, sdk.NewCoins(sdk.NewCoin("ufury", sdk.OneInt())))

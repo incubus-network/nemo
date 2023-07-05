@@ -286,9 +286,9 @@ func (suite *InterestTestSuite) TestSynchronizeInterest() {
 				ctype:                   "bnb-a",
 				initialTime:             time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral:       c("bnb", 1000000000000),
-				initialPrincipal:        c("usdx", 100000000000),
+				initialPrincipal:        c("musd", 100000000000),
 				timeElapsed:             oneYearInSeconds,
-				expectedFees:            c("usdx", 5000000000),
+				expectedFees:            c("musd", 5000000000),
 				expectedFeesUpdatedTime: time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * oneYearInSeconds)),
 			},
 		},
@@ -298,9 +298,9 @@ func (suite *InterestTestSuite) TestSynchronizeInterest() {
 				ctype:                   "bnb-a",
 				initialTime:             time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral:       c("bnb", 1000000000000),
-				initialPrincipal:        c("usdx", 100000000000),
+				initialPrincipal:        c("musd", 100000000000),
 				timeElapsed:             86400 * 30,
-				expectedFees:            c("usdx", 401820189),
+				expectedFees:            c("musd", 401820189),
 				expectedFeesUpdatedTime: time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 86400 * 30)),
 			},
 		},
@@ -310,9 +310,9 @@ func (suite *InterestTestSuite) TestSynchronizeInterest() {
 				ctype:                   "bnb-a",
 				initialTime:             time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral:       c("bnb", 1000000000000),
-				initialPrincipal:        c("usdx", 100000000000),
+				initialPrincipal:        c("musd", 100000000000),
 				timeElapsed:             7,
-				expectedFees:            c("usdx", 1083),
+				expectedFees:            c("musd", 1083),
 				expectedFeesUpdatedTime: time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 7)),
 			},
 		},
@@ -322,9 +322,9 @@ func (suite *InterestTestSuite) TestSynchronizeInterest() {
 				ctype:                   "busd-a",
 				initialTime:             time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral:       c("busd", 10000000000000),
-				initialPrincipal:        c("usdx", 10000000000),
+				initialPrincipal:        c("musd", 10000000000),
 				timeElapsed:             7,
-				expectedFees:            c("usdx", 0),
+				expectedFees:            c("musd", 0),
 				expectedFeesUpdatedTime: time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 7)),
 			},
 		},
@@ -334,9 +334,9 @@ func (suite *InterestTestSuite) TestSynchronizeInterest() {
 				ctype:                   "bnb-a",
 				initialTime:             time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral:       c("bnb", 1000000000),
-				initialPrincipal:        c("usdx", 10000000),
+				initialPrincipal:        c("musd", 10000000),
 				timeElapsed:             7,
-				expectedFees:            c("usdx", 0),
+				expectedFees:            c("musd", 0),
 				expectedFeesUpdatedTime: time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 			},
 		},
@@ -421,10 +421,10 @@ func (suite *InterestTestSuite) TestMultipleCDPInterest() {
 				blockInterval:                7,
 				numberOfBlocks:               1,
 				initialCDPCollateral:         c("bnb", 10000000000),
-				initialCDPPrincipal:          c("usdx", 500000000),
+				initialCDPPrincipal:          c("musd", 500000000),
 				numberOfCdps:                 100,
-				expectedFeesPerCDP:           c("usdx", 5),
-				expectedTotalPrincipalPerCDP: c("usdx", 500000005),
+				expectedFeesPerCDP:           c("musd", 5),
+				expectedTotalPrincipalPerCDP: c("musd", 500000005),
 				expectedFeesUpdatedTime:      time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 7)),
 				expectedTotalPrincipal:       i(50000000541),
 				expectedDebtBalance:          i(50000000541),
@@ -440,10 +440,10 @@ func (suite *InterestTestSuite) TestMultipleCDPInterest() {
 				blockInterval:                7,
 				numberOfBlocks:               100,
 				initialCDPCollateral:         c("bnb", 10000000000),
-				initialCDPPrincipal:          c("usdx", 500000000),
+				initialCDPPrincipal:          c("musd", 500000000),
 				numberOfCdps:                 100,
-				expectedFeesPerCDP:           c("usdx", 541),
-				expectedTotalPrincipalPerCDP: c("usdx", 500000541),
+				expectedFeesPerCDP:           c("musd", 541),
+				expectedTotalPrincipalPerCDP: c("musd", 500000541),
 				expectedFeesUpdatedTime:      time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 7 * 100)),
 				expectedTotalPrincipal:       i(50000054100),
 				expectedDebtBalance:          i(50000054100),
@@ -459,10 +459,10 @@ func (suite *InterestTestSuite) TestMultipleCDPInterest() {
 				blockInterval:                7,
 				numberOfBlocks:               10000,
 				initialCDPCollateral:         c("bnb", 10000000000),
-				initialCDPPrincipal:          c("usdx", 500000000),
+				initialCDPPrincipal:          c("musd", 500000000),
 				numberOfCdps:                 100,
-				expectedFeesPerCDP:           c("usdx", 54152),
-				expectedTotalPrincipalPerCDP: c("usdx", 500054152),
+				expectedFeesPerCDP:           c("musd", 54152),
+				expectedTotalPrincipalPerCDP: c("musd", 500054152),
 				expectedFeesUpdatedTime:      time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC).Add(time.Duration(int(time.Second) * 7 * 10000)),
 				expectedTotalPrincipal:       i(50005418990),
 				expectedDebtBalance:          i(50005418990),
@@ -511,11 +511,11 @@ func (suite *InterestTestSuite) TestMultipleCDPInterest() {
 
 			bk := suite.app.GetBankKeeper()
 			debtSupply := bk.GetSupply(suite.ctx, types.DefaultDebtDenom)
-			usdxSupply := bk.GetSupply(suite.ctx, types.DefaultStableDenom)
+			musdSupply := bk.GetSupply(suite.ctx, types.DefaultStableDenom)
 			totalPrincipal := suite.keeper.GetTotalPrincipal(suite.ctx, tc.args.ctype, types.DefaultStableDenom)
 
 			suite.Require().Equal(tc.args.expectedDebtBalance, debtSupply.Amount)
-			suite.Require().Equal(tc.args.expectedStableBalance, usdxSupply.Amount)
+			suite.Require().Equal(tc.args.expectedStableBalance, musdSupply.Amount)
 			suite.Require().Equal(tc.args.expectedTotalPrincipal, totalPrincipal)
 
 			sumOfCDPPrincipal := sdk.ZeroInt()
@@ -559,9 +559,9 @@ func (suite *InterestTestSuite) TestCalculateCDPInterest() {
 				ctype:             "bnb-a",
 				initialTime:       time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral: c("bnb", 1000000000000),
-				initialPrincipal:  c("usdx", 100000000000),
+				initialPrincipal:  c("musd", 100000000000),
 				timeElapsed:       oneYearInSeconds,
-				expectedFees:      c("usdx", 5000000000),
+				expectedFees:      c("musd", 5000000000),
 			},
 		},
 		{
@@ -570,9 +570,9 @@ func (suite *InterestTestSuite) TestCalculateCDPInterest() {
 				ctype:             "bnb-a",
 				initialTime:       time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral: c("bnb", 1000000000000),
-				initialPrincipal:  c("usdx", 100000000000),
+				initialPrincipal:  c("musd", 100000000000),
 				timeElapsed:       86400 * 30,
-				expectedFees:      c("usdx", 401820189),
+				expectedFees:      c("musd", 401820189),
 			},
 		},
 		{
@@ -581,9 +581,9 @@ func (suite *InterestTestSuite) TestCalculateCDPInterest() {
 				ctype:             "bnb-a",
 				initialTime:       time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral: c("bnb", 1000000000000),
-				initialPrincipal:  c("usdx", 100000000000),
+				initialPrincipal:  c("musd", 100000000000),
 				timeElapsed:       7,
-				expectedFees:      c("usdx", 1083),
+				expectedFees:      c("musd", 1083),
 			},
 		},
 		{
@@ -592,9 +592,9 @@ func (suite *InterestTestSuite) TestCalculateCDPInterest() {
 				ctype:             "bnb-a",
 				initialTime:       time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				initialCollateral: c("bnb", 1000000000),
-				initialPrincipal:  c("usdx", 10000000),
+				initialPrincipal:  c("musd", 10000000),
 				timeElapsed:       7,
-				expectedFees:      c("usdx", 0),
+				expectedFees:      c("musd", 0),
 			},
 		},
 	}
@@ -669,8 +669,8 @@ func (suite *InterestTestSuite) TestSyncInterestForRiskyCDPs() {
 				numberCdps:         20,
 				slice:              10,
 				initialCollateral:  c("bnb", 100000000000),
-				minPrincipal:       c("usdx", 100000000),
-				principalIncrement: c("usdx", 10000000),
+				minPrincipal:       c("musd", 100000000),
+				principalIncrement: c("musd", 10000000),
 				initialTime:        time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC),
 				timeElapsed:        oneYearInSeconds,
 				expectedCDPs:       10,
@@ -703,7 +703,7 @@ func (suite *InterestTestSuite) TestSyncInterestForRiskyCDPs() {
 			suite.keeper.SetPreviousAccrualTime(suite.ctx, tc.args.ctype, suite.ctx.BlockTime())
 			suite.keeper.SetInterestFactor(suite.ctx, tc.args.ctype, sdk.OneDec())
 			for j, addr := range addrs {
-				initialPrincipal := tc.args.minPrincipal.Add(c("usdx", int64(j)*tc.args.principalIncrement.Amount.Int64()))
+				initialPrincipal := tc.args.minPrincipal.Add(c("musd", int64(j)*tc.args.principalIncrement.Amount.Int64()))
 				err := suite.keeper.AddCdp(suite.ctx, addr, tc.args.initialCollateral, initialPrincipal, tc.args.ctype)
 				suite.Require().NoError(err)
 			}

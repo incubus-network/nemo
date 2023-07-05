@@ -8,57 +8,57 @@ import (
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// InitializeHardSupplyRewardTests runs unit tests for the keeper.InitializeHardSupplyReward method
-type InitializeHardSupplyRewardTests struct {
+// InitializeJinxSupplyRewardTests runs unit tests for the keeper.InitializeJinxSupplyReward method
+type InitializeJinxSupplyRewardTests struct {
 	unitTester
 }
 
-func TestInitializeHardSupplyReward(t *testing.T) {
-	suite.Run(t, new(InitializeHardSupplyRewardTests))
+func TestInitializeJinxSupplyReward(t *testing.T) {
+	suite.Run(t, new(InitializeJinxSupplyRewardTests))
 }
 
-func (suite *InitializeHardSupplyRewardTests) TestClaimIndexesAreSetWhenClaimExists() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *InitializeJinxSupplyRewardTests) TestClaimIndexesAreSetWhenClaimExists() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		// Indexes should always be empty when initialize is called.
 		// If initialize is called then the user must have repaid their deposit positions,
-		// which means UpdateHardSupplyIndexDenoms was called and should have remove indexes.
+		// which means UpdateJinxSupplyIndexDenoms was called and should have remove indexes.
 		SupplyRewardIndexes: types.MultiRewardIndexes{},
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.InitializeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.InitializeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *InitializeHardSupplyRewardTests) TestClaimIndexesAreSetWhenClaimDoesNotExist() {
+func (suite *InitializeJinxSupplyRewardTests) TestClaimIndexesAreSetWhenClaimDoesNotExist() {
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
 	owner := arbitraryAddress()
-	deposit := NewHardDepositBuilder(owner).
+	deposit := NewJinxDepositBuilder(owner).
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.InitializeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.InitializeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, found := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, owner)
+	syncedClaim, found := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, owner)
 	suite.True(found)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *InitializeHardSupplyRewardTests) TestClaimIndexesAreSetEmptyForMissingIndexes() {
+func (suite *InitializeJinxSupplyRewardTests) TestClaimIndexesAreSetEmptyForMissingIndexes() {
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
@@ -67,12 +67,12 @@ func (suite *InitializeHardSupplyRewardTests) TestClaimIndexesAreSetEmptyForMiss
 	// This happens when a deposit denom has no rewards associated with it.
 	expectedIndexes := appendUniqueEmptyMultiRewardIndex(globalIndexes)
 	depositedDenoms := extractCollateralTypes(expectedIndexes)
-	deposit := NewHardDepositBuilder(owner).
+	deposit := NewJinxDepositBuilder(owner).
 		WithArbitrarySourceShares(depositedDenoms...).
 		Build()
 
-	suite.keeper.InitializeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.InitializeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, owner)
 	suite.Equal(expectedIndexes, syncedClaim.SupplyRewardIndexes)
 }

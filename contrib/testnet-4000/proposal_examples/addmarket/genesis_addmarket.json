@@ -54,7 +54,7 @@
               "debt_limit": [
                 {
                   "amount": "1000000000000",
-                  "denom": "usdx"
+                  "denom": "musd"
                 }
               ],
               "denom": "xrp",
@@ -70,7 +70,7 @@
               "debt_limit": [
                 {
                   "amount": "1000000000000",
-                  "denom": "usdx"
+                  "denom": "musd"
                 }
               ],
               "denom": "btc",
@@ -89,17 +89,17 @@
               "debt_limit": [
                 {
                   "amount": "2000000000000",
-                  "denom": "usdx"
+                  "denom": "musd"
                 }
               ],
-              "denom": "usdx",
+              "denom": "musd",
               "reference_asset": "usd"
             }
           ],
           "global_debt_limit": [
             {
               "amount": "2000000000000",
-              "denom": "usdx"
+              "denom": "musd"
             }
           ],
           "surplus_auction_threshold": "1000000000"

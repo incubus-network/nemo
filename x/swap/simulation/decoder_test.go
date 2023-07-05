@@ -27,7 +27,7 @@ package simulation
 // 	depositor := sdk.AccAddress(crypto.AddressHash([]byte("DepositorAddress")))
 // 	reserves := sdk.NewCoins(
 // 		sdk.NewCoin("ufury", sdkmath.NewInt(100000000)),
-// 		sdk.NewCoin("usdx", sdkmath.NewInt(200000000)),
+// 		sdk.NewCoin("musd", sdkmath.NewInt(200000000)),
 // 	)
 // 	shares := sdkmath.NewInt(123456)
 

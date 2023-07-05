@@ -23,7 +23,7 @@ import (
 	earntypes "github.com/incubus-network/nemo/x/earn/types"
 	tmprototypes "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	"github.com/incubus-network/nemo/x/incentive/keeper"
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
@@ -74,7 +74,7 @@ func (suite *unitTester) TearDownTest() {
 
 func (suite *unitTester) NewKeeper(
 	paramSubspace types.ParamSubspace,
-	bk types.BankKeeper, cdpk types.CdpKeeper, hk types.HardKeeper,
+	bk types.BankKeeper, cdpk types.CdpKeeper, hk types.JinxKeeper,
 	ak types.AccountKeeper, stk types.StakingKeeper, swk types.SwapKeeper,
 	svk types.SavingsKeeper, lqk types.LiquidKeeper, ek types.EarnKeeper,
 ) keeper.Keeper {
@@ -87,18 +87,18 @@ func (suite *unitTester) NewKeeper(
 
 func (suite *unitTester) storeGlobalBorrowIndexes(indexes types.MultiRewardIndexes) {
 	for _, i := range indexes {
-		suite.keeper.SetHardBorrowRewardIndexes(suite.ctx, i.CollateralType, i.RewardIndexes)
+		suite.keeper.SetJinxBorrowRewardIndexes(suite.ctx, i.CollateralType, i.RewardIndexes)
 	}
 }
 
 func (suite *unitTester) storeGlobalSupplyIndexes(indexes types.MultiRewardIndexes) {
 	for _, i := range indexes {
-		suite.keeper.SetHardSupplyRewardIndexes(suite.ctx, i.CollateralType, i.RewardIndexes)
+		suite.keeper.SetJinxSupplyRewardIndexes(suite.ctx, i.CollateralType, i.RewardIndexes)
 	}
 }
 
 func (suite *unitTester) storeGlobalDelegatorIndexes(multiRewardIndexes types.MultiRewardIndexes) {
-	// Hardcoded to use bond denom
+	// Jinxcoded to use bond denom
 	multiRewardIndex, _ := multiRewardIndexes.GetRewardIndex(types.BondDenom)
 	suite.keeper.SetDelegatorRewardIndexes(suite.ctx, types.BondDenom, multiRewardIndex.RewardIndexes)
 }
@@ -121,8 +121,8 @@ func (suite *unitTester) storeGlobalEarnIndexes(indexes types.MultiRewardIndexes
 	}
 }
 
-func (suite *unitTester) storeHardClaim(claim types.HardLiquidityProviderClaim) {
-	suite.keeper.SetHardLiquidityProviderClaim(suite.ctx, claim)
+func (suite *unitTester) storeJinxClaim(claim types.JinxLiquidityProviderClaim) {
+	suite.keeper.SetJinxLiquidityProviderClaim(suite.ctx, claim)
 }
 
 func (suite *unitTester) storeDelegatorClaim(claim types.DelegatorClaim) {
@@ -148,7 +148,7 @@ type TestKeeperBuilder struct {
 	accountKeeper types.AccountKeeper
 	bankKeeper    types.BankKeeper
 	cdpKeeper     types.CdpKeeper
-	hardKeeper    types.HardKeeper
+	jinxKeeper    types.JinxKeeper
 	stakingKeeper types.StakingKeeper
 	swapKeeper    types.SwapKeeper
 	savingsKeeper types.SavingsKeeper
@@ -175,7 +175,7 @@ func (suite *unitTester) NewTestKeeper(
 		accountKeeper:   nil,
 		bankKeeper:      nil,
 		cdpKeeper:       nil,
-		hardKeeper:      nil,
+		jinxKeeper:      nil,
 		stakingKeeper:   nil,
 		swapKeeper:      nil,
 		savingsKeeper:   nil,
@@ -225,7 +225,7 @@ func (tk *TestKeeperBuilder) WithLiquidKeeper(k types.LiquidKeeper) *TestKeeperB
 func (tk *TestKeeperBuilder) Build() keeper.Keeper {
 	return keeper.NewKeeper(
 		tk.cdc, tk.key, tk.paramSubspace,
-		tk.bankKeeper, tk.cdpKeeper, tk.hardKeeper, tk.accountKeeper,
+		tk.bankKeeper, tk.cdpKeeper, tk.jinxKeeper, tk.accountKeeper,
 		tk.stakingKeeper, tk.swapKeeper, tk.savingsKeeper, tk.liquidKeeper,
 		tk.earnKeeper, tk.mintKeeper, tk.distrKeeper, tk.pricefeedKeeper,
 	)
@@ -293,75 +293,75 @@ func (k *fakeSwapKeeper) GetDepositorSharesAmount(_ sdk.Context, depositor sdk.A
 	return shares, found
 }
 
-// fakeHardKeeper is a stub hard keeper.
-// It can be used to return values to the incentive keeper without having to initialize a full hard keeper.
-type fakeHardKeeper struct {
-	borrows  fakeHardState
-	deposits fakeHardState
+// fakeJinxKeeper is a stub jinx keeper.
+// It can be used to return values to the incentive keeper without having to initialize a full jinx keeper.
+type fakeJinxKeeper struct {
+	borrows  fakeJinxState
+	deposits fakeJinxState
 }
 
-type fakeHardState struct {
+type fakeJinxState struct {
 	total           sdk.Coins
 	interestFactors map[string]sdk.Dec
 }
 
-func newFakeHardState() fakeHardState {
-	return fakeHardState{
+func newFakeJinxState() fakeJinxState {
+	return fakeJinxState{
 		total:           nil,
 		interestFactors: map[string]sdk.Dec{}, // initialize map to avoid panics on read
 	}
 }
 
-var _ types.HardKeeper = newFakeHardKeeper()
+var _ types.JinxKeeper = newFakeJinxKeeper()
 
-func newFakeHardKeeper() *fakeHardKeeper {
-	return &fakeHardKeeper{
-		borrows:  newFakeHardState(),
-		deposits: newFakeHardState(),
+func newFakeJinxKeeper() *fakeJinxKeeper {
+	return &fakeJinxKeeper{
+		borrows:  newFakeJinxState(),
+		deposits: newFakeJinxState(),
 	}
 }
 
-func (k *fakeHardKeeper) addTotalBorrow(coin sdk.Coin, factor sdk.Dec) *fakeHardKeeper {
+func (k *fakeJinxKeeper) addTotalBorrow(coin sdk.Coin, factor sdk.Dec) *fakeJinxKeeper {
 	k.borrows.total = k.borrows.total.Add(coin)
 	k.borrows.interestFactors[coin.Denom] = factor
 	return k
 }
 
-func (k *fakeHardKeeper) addTotalSupply(coin sdk.Coin, factor sdk.Dec) *fakeHardKeeper {
+func (k *fakeJinxKeeper) addTotalSupply(coin sdk.Coin, factor sdk.Dec) *fakeJinxKeeper {
 	k.deposits.total = k.deposits.total.Add(coin)
 	k.deposits.interestFactors[coin.Denom] = factor
 	return k
 }
 
-func (k *fakeHardKeeper) GetBorrowedCoins(_ sdk.Context) (sdk.Coins, bool) {
+func (k *fakeJinxKeeper) GetBorrowedCoins(_ sdk.Context) (sdk.Coins, bool) {
 	if k.borrows.total == nil {
 		return nil, false
 	}
 	return k.borrows.total, true
 }
 
-func (k *fakeHardKeeper) GetSuppliedCoins(_ sdk.Context) (sdk.Coins, bool) {
+func (k *fakeJinxKeeper) GetSuppliedCoins(_ sdk.Context) (sdk.Coins, bool) {
 	if k.deposits.total == nil {
 		return nil, false
 	}
 	return k.deposits.total, true
 }
 
-func (k *fakeHardKeeper) GetBorrowInterestFactor(_ sdk.Context, denom string) (sdk.Dec, bool) {
+func (k *fakeJinxKeeper) GetBorrowInterestFactor(_ sdk.Context, denom string) (sdk.Dec, bool) {
 	f, ok := k.borrows.interestFactors[denom]
 	return f, ok
 }
 
-func (k *fakeHardKeeper) GetSupplyInterestFactor(_ sdk.Context, denom string) (sdk.Dec, bool) {
+func (k *fakeJinxKeeper) GetSupplyInterestFactor(_ sdk.Context, denom string) (sdk.Dec, bool) {
 	f, ok := k.deposits.interestFactors[denom]
 	return f, ok
 }
 
-func (k *fakeHardKeeper) GetBorrow(_ sdk.Context, _ sdk.AccAddress) (hardtypes.Borrow, bool) {
+func (k *fakeJinxKeeper) GetBorrow(_ sdk.Context, _ sdk.AccAddress) (jinxtypes.Borrow, bool) {
 	panic("unimplemented")
 }
 
-func (k *fakeHardKeeper) GetDeposit(_ sdk.Context, _ sdk.AccAddress) (hardtypes.Deposit, bool) {
+func (k *fakeJinxKeeper) GetDeposit(_ sdk.Context, _ sdk.AccAddress) (jinxtypes.Deposit, bool) {
 	panic("unimplemented")
 }
 
@@ -764,7 +764,7 @@ var nonEmptyMultiRewardIndexes = types.MultiRewardIndexes{
 		CollateralType: "bnb",
 		RewardIndexes: types.RewardIndexes{
 			{
-				CollateralType: "hard",
+				CollateralType: "jinx",
 				RewardFactor:   d("0.02"),
 			},
 			{
@@ -777,7 +777,7 @@ var nonEmptyMultiRewardIndexes = types.MultiRewardIndexes{
 		CollateralType: "btcb",
 		RewardIndexes: types.RewardIndexes{
 			{
-				CollateralType: "hard",
+				CollateralType: "jinx",
 				RewardFactor:   d("0.2"),
 			},
 			{
@@ -829,7 +829,7 @@ func appendUniqueMultiRewardIndex(indexes types.MultiRewardIndexes) types.MultiR
 		uniqueDenom,
 		types.RewardIndexes{
 			{
-				CollateralType: "hard",
+				CollateralType: "jinx",
 				RewardFactor:   d("0.02"),
 			},
 			{

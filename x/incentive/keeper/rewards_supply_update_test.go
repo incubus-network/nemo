@@ -8,99 +8,99 @@ import (
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// UpdateHardSupplyIndexDenomsTests runs unit tests for the keeper.UpdateHardSupplyIndexDenoms method
-type UpdateHardSupplyIndexDenomsTests struct {
+// UpdateJinxSupplyIndexDenomsTests runs unit tests for the keeper.UpdateJinxSupplyIndexDenoms method
+type UpdateJinxSupplyIndexDenomsTests struct {
 	unitTester
 }
 
-func TestUpdateHardSupplyIndexDenoms(t *testing.T) {
-	suite.Run(t, new(UpdateHardSupplyIndexDenomsTests))
+func TestUpdateJinxSupplyIndexDenoms(t *testing.T) {
+	suite.Run(t, new(UpdateJinxSupplyIndexDenomsTests))
 }
 
-func (suite *UpdateHardSupplyIndexDenomsTests) TestClaimIndexesAreRemovedForDenomsNoLongerSupplied() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *UpdateJinxSupplyIndexDenomsTests) TestClaimIndexesAreRemovedForDenomsNoLongerSupplied() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 	suite.storeGlobalSupplyIndexes(claim.SupplyRewardIndexes)
 
 	// remove one denom from the indexes already in the deposit
 	expectedIndexes := claim.SupplyRewardIndexes[1:]
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(expectedIndexes)...).
 		Build()
 
-	suite.keeper.UpdateHardSupplyIndexDenoms(suite.ctx, deposit)
+	suite.keeper.UpdateJinxSupplyIndexDenoms(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(expectedIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *UpdateHardSupplyIndexDenomsTests) TestClaimIndexesAreAddedForNewlySuppliedDenoms() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *UpdateJinxSupplyIndexDenomsTests) TestClaimIndexesAreAddedForNewlySuppliedDenoms() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 	globalIndexes := appendUniqueMultiRewardIndex(claim.SupplyRewardIndexes)
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.UpdateHardSupplyIndexDenoms(suite.ctx, deposit)
+	suite.keeper.UpdateJinxSupplyIndexDenoms(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *UpdateHardSupplyIndexDenomsTests) TestClaimIndexesAreUnchangedWhenSuppliedDenomsUnchanged() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *UpdateJinxSupplyIndexDenomsTests) TestClaimIndexesAreUnchangedWhenSuppliedDenomsUnchanged() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 	// Set global indexes with same denoms but different values.
-	// UpdateHardSupplyIndexDenoms should ignore the new values.
+	// UpdateJinxSupplyIndexDenoms should ignore the new values.
 	suite.storeGlobalSupplyIndexes(increaseAllRewardFactors(claim.SupplyRewardIndexes))
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(claim.SupplyRewardIndexes)...).
 		Build()
 
-	suite.keeper.UpdateHardSupplyIndexDenoms(suite.ctx, deposit)
+	suite.keeper.UpdateJinxSupplyIndexDenoms(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(claim.SupplyRewardIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *UpdateHardSupplyIndexDenomsTests) TestEmptyClaimIndexesAreAddedForNewlySuppliedButNotRewardedDenoms() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *UpdateJinxSupplyIndexDenomsTests) TestEmptyClaimIndexesAreAddedForNewlySuppliedButNotRewardedDenoms() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 	suite.storeGlobalSupplyIndexes(claim.SupplyRewardIndexes)
 
 	// add a denom to the deposited amount that is not in the global or claim's indexes
 	expectedIndexes := appendUniqueEmptyMultiRewardIndex(claim.SupplyRewardIndexes)
 	depositedDenoms := extractCollateralTypes(expectedIndexes)
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(depositedDenoms...).
 		Build()
 
-	suite.keeper.UpdateHardSupplyIndexDenoms(suite.ctx, deposit)
+	suite.keeper.UpdateJinxSupplyIndexDenoms(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(expectedIndexes, syncedClaim.SupplyRewardIndexes)
 }

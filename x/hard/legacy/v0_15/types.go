@@ -9,7 +9,7 @@ import (
 
 const (
 	// ModuleName name that will be used throughout the module
-	ModuleName = "hard"
+	ModuleName = "jinx"
 )
 
 // GenesisState is the state that must be provided at genesis.
@@ -23,7 +23,7 @@ type GenesisState struct {
 	TotalReserves             sdk.Coins                `json:"total_reserves" yaml:"total_reserves"`
 }
 
-// Params governance parameters for hard module
+// Params governance parameters for jinx module
 type Params struct {
 	MoneyMarkets          MoneyMarkets `json:"money_markets" yaml:"money_markets"`
 	MinimumBorrowUSDValue sdk.Dec      `json:"minimum_borrow_usd_value" yaml:"minimum_borrow_usd_value"`
@@ -72,7 +72,7 @@ type GenesisAccumulationTime struct {
 // Deposits is a slice of Deposit
 type Deposits []Deposit
 
-// Deposit defines an amount of coins deposited into a hard module account
+// Deposit defines an amount of coins deposited into a jinx module account
 type Deposit struct {
 	Depositor sdk.AccAddress        `json:"depositor" yaml:"depositor"`
 	Amount    sdk.Coins             `json:"amount" yaml:"amount"`
@@ -91,7 +91,7 @@ type SupplyInterestFactor struct {
 // Borrows is a slice of Borrow
 type Borrows []Borrow
 
-// Borrow defines an amount of coins borrowed from a hard module account
+// Borrow defines an amount of coins borrowed from a jinx module account
 type Borrow struct {
 	Borrower sdk.AccAddress        `json:"borrower" yaml:"borrower"`
 	Amount   sdk.Coins             `json:"amount" yaml:"amount"`

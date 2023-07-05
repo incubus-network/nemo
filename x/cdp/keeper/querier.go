@@ -208,7 +208,7 @@ func queryGetCdps(ctx sdk.Context, req abci.RequestQuery, keeper Keeper, legacyQ
 	return bz, nil
 }
 
-// query total amount of principal (ie. usdx) that has been minted with a particular collateral type
+// query total amount of principal (ie. musd) that has been minted with a particular collateral type
 func queryGetTotalPrincipal(ctx sdk.Context, req abci.RequestQuery, keeper Keeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
 	var params types.QueryGetTotalPrincipalParams
 	err := legacyQuerierCdc.UnmarshalJSON(req.Data, &params)
@@ -233,7 +233,7 @@ func queryGetTotalPrincipal(ctx sdk.Context, req abci.RequestQuery, keeper Keepe
 	var collateralPrincipals types.TotalPrincipals
 
 	for _, queryType := range queryCollateralTypes {
-		// Hardcoded to default USDX
+		// Jinxcoded to default MUSD
 		principalAmount := keeper.GetTotalPrincipal(ctx, queryType, types.DefaultStableDenom)
 		// Wrap it in an sdk.Coin
 		totalAmountCoin := sdk.NewCoin(types.DefaultStableDenom, principalAmount)

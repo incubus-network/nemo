@@ -41,7 +41,7 @@ func GetCmdPlaceBid() *cobra.Command {
 		Use:     "bid [auction-id] [amount]",
 		Short:   "place a bid on an auction",
 		Long:    "Place a bid on any type of auction, updating the latest bid amount to [amount]. Collateral auctions must be bid up to their maxbid before entering reverse phase.",
-		Example: fmt.Sprintf("  $ %s tx %s bid 34 1000usdx --from myKeyName", version.AppName, types.ModuleName),
+		Example: fmt.Sprintf("  $ %s tx %s bid 34 1000musd --from myKeyName", version.AppName, types.ModuleName),
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)

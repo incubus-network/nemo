@@ -4,40 +4,40 @@ order: 3
 
 # Messages
 
-There are three messages in the hard module. Deposit allows users to deposit assets to the hard module. In version 2, depositors will be able to use their deposits as collateral to borrow from hard. Withdraw removes assets from the hard module, returning them to the user. Claim allows users to claim earned HARD tokens.
+There are three messages in the jinx module. Deposit allows users to deposit assets to the jinx module. In version 2, depositors will be able to use their deposits as collateral to borrow from jinx. Withdraw removes assets from the jinx module, returning them to the user. Claim allows users to claim earned JINX tokens.
 
 ```go
-// MsgDeposit deposit collateral to the hard module.
+// MsgDeposit deposit collateral to the jinx module.
 type MsgDeposit struct {
   Depositor sdk.AccAddress `json:"depositor" yaml:"depositor"`
   Amount    sdk.Coins      `json:"amount" yaml:"amount"`
 }
 ```
 
-This message creates a `Deposit` object if one does not exist, or updates an existing one, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. The `Amount` of coins is transferred from `Depositor` to the hard module account. The global variable for `TotalSupplied` is updated.
+This message creates a `Deposit` object if one does not exist, or updates an existing one, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. The `Amount` of coins is transferred from `Depositor` to the jinx module account. The global variable for `TotalSupplied` is updated.
 
 ```go
-// MsgWithdraw withdraw from the hard module.
+// MsgWithdraw withdraw from the jinx module.
 type MsgWithdraw struct {
   Depositor sdk.AccAddress `json:"depositor" yaml:"depositor"`
   Amount    sdk.Coins      `json:"amount" yaml:"amount"`
 }
 ```
 
-This message decrements a `Deposit` object, or deletes one if the `Amount` specified is greater than or equal to the total deposited amount, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. For example, a message which requests to withdraw 100xyz tokens, if `Depositor` has only deposited 50xyz tokens, will withdraw the full 50xyz tokens. The `Amount` of coins, or the current deposited amount, whichever is lower, is transferred from the hard module account to `Depositor`. The global variable for `TotalSupplied` is updated.
+This message decrements a `Deposit` object, or deletes one if the `Amount` specified is greater than or equal to the total deposited amount, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. For example, a message which requests to withdraw 100xyz tokens, if `Depositor` has only deposited 50xyz tokens, will withdraw the full 50xyz tokens. The `Amount` of coins, or the current deposited amount, whichever is lower, is transferred from the jinx module account to `Depositor`. The global variable for `TotalSupplied` is updated.
 
 ```go
-// MsgBorrow borrows funds from the hard module.
+// MsgBorrow borrows funds from the jinx module.
 type MsgBorrow struct {
   Borrower sdk.AccAddress `json:"borrower" yaml:"borrower"`
   Amount   sdk.Coins      `json:"amount" yaml:"amount"`
 }
 ```
 
-This message creates a `Borrow` object is one does not exist, or updates an existing one, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. The `Amount` of coins is transferred from the hard module account to `Depositor`. The global variable for `TotalBorrowed` is updated.
+This message creates a `Borrow` object is one does not exist, or updates an existing one, as well as creating/updating the necessary indexes and synchronizing any outstanding interest. The `Amount` of coins is transferred from the jinx module account to `Depositor`. The global variable for `TotalBorrowed` is updated.
 
 ```go
-// MsgRepay repays funds to the hard module.
+// MsgRepay repays funds to the jinx module.
 type MsgRepay struct {
 	Sender sdk.AccAddress `json:"sender" yaml:"sender"`
 	Owner  sdk.AccAddress `json:"owner" yaml:"owner"`

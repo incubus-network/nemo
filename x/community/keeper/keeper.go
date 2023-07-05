@@ -14,14 +14,14 @@ type Keeper struct {
 	bankKeeper    types.BankKeeper
 	cdpKeeper     types.CdpKeeper
 	distrKeeper   types.DistributionKeeper
-	hardKeeper    types.HardKeeper
+	jinxKeeper    types.JinxKeeper
 	moduleAddress sdk.AccAddress
 
 	legacyCommunityPoolAddress sdk.AccAddress
 }
 
 // NewKeeper creates a new community Keeper instance
-func NewKeeper(ak types.AccountKeeper, bk types.BankKeeper, ck types.CdpKeeper, dk types.DistributionKeeper, hk types.HardKeeper) Keeper {
+func NewKeeper(ak types.AccountKeeper, bk types.BankKeeper, ck types.CdpKeeper, dk types.DistributionKeeper, hk types.JinxKeeper) Keeper {
 	// ensure community module account is set
 	addr := ak.GetModuleAddress(types.ModuleAccountName)
 	if addr == nil {
@@ -36,7 +36,7 @@ func NewKeeper(ak types.AccountKeeper, bk types.BankKeeper, ck types.CdpKeeper, 
 		bankKeeper:    bk,
 		cdpKeeper:     ck,
 		distrKeeper:   dk,
-		hardKeeper:    hk,
+		jinxKeeper:    hk,
 		moduleAddress: addr,
 
 		legacyCommunityPoolAddress: legacyAddr,

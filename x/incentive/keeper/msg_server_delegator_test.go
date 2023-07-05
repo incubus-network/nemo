@@ -18,7 +18,7 @@ func (suite *HandlerTestSuite) TestPayoutDelegatorClaimMultiDenom() {
 		WithSimpleAccount(receiverAddr, nil)
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleDelegatorRewardPeriod(types.BondDenom, cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleDelegatorRewardPeriod(types.BondDenom, cs(c("jinx", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
@@ -40,7 +40,7 @@ func (suite *HandlerTestSuite) TestPayoutDelegatorClaimMultiDenom() {
 	msg := types.NewMsgClaimDelegatorReward(
 		userAddr.String(),
 		types.Selections{
-			types.NewSelection("hard", "small"),
+			types.NewSelection("jinx", "small"),
 			types.NewSelection("swap", "medium"),
 		},
 	)
@@ -50,12 +50,12 @@ func (suite *HandlerTestSuite) TestPayoutDelegatorClaimMultiDenom() {
 	suite.NoError(err)
 
 	// Check rewards were paid out
-	expectedRewardsHard := c("hard", int64(0.2*float64(2*7*1e6)))
+	expectedRewardsJinx := c("jinx", int64(0.2*float64(2*7*1e6)))
 	expectedRewardsSwap := c("swap", int64(0.5*float64(2*7*1e6)))
-	suite.BalanceEquals(userAddr, preClaimBal.Add(expectedRewardsHard, expectedRewardsSwap))
+	suite.BalanceEquals(userAddr, preClaimBal.Add(expectedRewardsJinx, expectedRewardsSwap))
 
 	suite.VestingPeriodsEqual(userAddr, []vestingtypes.Period{
-		{Length: (17+31)*secondsPerDay - 2*7, Amount: cs(expectedRewardsHard)},
+		{Length: (17+31)*secondsPerDay - 2*7, Amount: cs(expectedRewardsJinx)},
 		{Length: (28 + 31 + 30 + 31 + 30) * secondsPerDay, Amount: cs(expectedRewardsSwap)}, // second length is stacked on top of the first
 	})
 	// Check that claimed coins have been removed from a claim's reward
@@ -69,7 +69,7 @@ func (suite *HandlerTestSuite) TestPayoutDelegatorClaimSingleDenom() {
 		WithSimpleAccount(userAddr, cs(c("ufury", 1e12)))
 
 	incentBuilder := suite.incentiveBuilder().
-		WithSimpleDelegatorRewardPeriod(types.BondDenom, cs(c("hard", 1e6), c("swap", 1e6)))
+		WithSimpleDelegatorRewardPeriod(types.BondDenom, cs(c("jinx", 1e6), c("swap", 1e6)))
 
 	suite.SetupWithGenState(authBulder, incentBuilder)
 
@@ -108,5 +108,5 @@ func (suite *HandlerTestSuite) TestPayoutDelegatorClaimSingleDenom() {
 	})
 
 	// Check that claimed coins have been removed from a claim's reward
-	suite.DelegatorRewardEquals(userAddr, cs(c("hard", 2*7*1e6)))
+	suite.DelegatorRewardEquals(userAddr, cs(c("jinx", 2*7*1e6)))
 }

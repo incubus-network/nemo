@@ -2,10 +2,10 @@ package types
 
 const (
 	// ModuleName name that will be used throughout the module
-	ModuleName = "hard"
+	ModuleName = "jinx"
 
 	// ModuleAccountName name of module account used to hold deposits
-	ModuleAccountName = "hard"
+	ModuleAccountName = "jinx"
 
 	// StoreKey Top level store key where all module items will be stored
 	StoreKey = ModuleName

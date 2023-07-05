@@ -5,7 +5,7 @@
         "denom": "bnb",
         "type": "bnb-a",
         "liquidation_ratio": "1.500000000000000000",
-        "debt_limit": { "denom": "usdx", "amount": "20000000000000" },
+        "debt_limit": { "denom": "musd", "amount": "20000000000000" },
         "stability_fee": "1.000000000782997700",
         "auction_size": "50000000000",
         "liquidation_penalty": "0.050000000000000000",
@@ -19,7 +19,7 @@
         "denom": "hbtc",
         "type": "hbtc-a",
         "liquidation_ratio": "1.500000000000000000",
-        "debt_limit": { "denom": "usdx", "amount": "10000000000000" },
+        "debt_limit": { "denom": "musd", "amount": "10000000000000" },
         "stability_fee": "1.000000001547125958",
         "auction_size": "1000000000000",
         "liquidation_penalty": "0.075000000000000000",
@@ -31,12 +31,12 @@
       }
     ],
     "debt_param": {
-      "denom": "usdx",
+      "denom": "musd",
       "reference_asset": "usd",
       "conversion_factor": "6",
       "debt_floor": "10000000"
     },
-    "global_debt_limit": { "denom": "usdx", "amount": "43000000000000" },
+    "global_debt_limit": { "denom": "musd", "amount": "43000000000000" },
     "surplus_auction_threshold": "500000000000",
     "surplus_auction_lot": "10000000000",
     "debt_auction_threshold": "100000000000",
@@ -49,8 +49,8 @@
       "owner": "fury1u4p6a2yse66ewfndw4j7ppsa777vdcexa9gpqc",
       "type": "bnb-a",
       "collateral": { "denom": "bnb", "amount": "40911876" },
-      "principal": { "denom": "usdx", "amount": "10016831" },
-      "accumulated_fees": { "denom": "usdx", "amount": "36088" },
+      "principal": { "denom": "musd", "amount": "10016831" },
+      "accumulated_fees": { "denom": "musd", "amount": "36088" },
       "fees_updated": "2021-11-05T21:13:12.856088470Z",
       "interest_factor": "1.002881426571765716"
     },
@@ -59,8 +59,8 @@
       "owner": "fury1e8xjfylam4nvugcmkxwvuxh22uvvad5v6dp8pl",
       "type": "bnb-a",
       "collateral": { "denom": "bnb", "amount": "88268546" },
-      "principal": { "denom": "usdx", "amount": "10000000" },
-      "accumulated_fees": { "denom": "usdx", "amount": "156662" },
+      "principal": { "denom": "musd", "amount": "10000000" },
+      "accumulated_fees": { "denom": "musd", "amount": "156662" },
       "fees_updated": "2021-11-05T21:13:12.856088470Z",
       "interest_factor": "1.002881426571765716"
     }

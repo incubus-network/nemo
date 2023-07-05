@@ -1,14 +1,14 @@
 syntax = "proto3";
-package nemo.hard.v1beta1;
+package nemo.jinx.v1beta1;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/incubus-network/nemo/x/hard/types";
+option go_package = "github.com/incubus-network/nemo/x/jinx/types";
 option (gogoproto.goproto_getters_all) = false;
 
-// Params defines the parameters for the hard module.
+// Params defines the parameters for the jinx module.
 message Params {
   repeated MoneyMarket money_markets = 1 [
     (gogoproto.castrepeated) = "MoneyMarkets",
@@ -85,7 +85,7 @@ message InterestRateModel {
   ];
 }
 
-// Deposit defines an amount of coins deposited into a hard module account.
+// Deposit defines an amount of coins deposited into a jinx module account.
 message Deposit {
   string depositor = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressBytes",
@@ -101,7 +101,7 @@ message Deposit {
   ];
 }
 
-// Borrow defines an amount of coins borrowed from a hard module account.
+// Borrow defines an amount of coins borrowed from a jinx module account.
 message Borrow {
   string borrower = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressBytes",

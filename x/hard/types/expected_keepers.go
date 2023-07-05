@@ -49,8 +49,8 @@ type AuctionKeeper interface {
 	StartCollateralAuction(ctx sdk.Context, seller string, lot sdk.Coin, maxBid sdk.Coin, lotReturnAddrs []sdk.AccAddress, lotReturnWeights []sdkmath.Int, debt sdk.Coin) (uint64, error)
 }
 
-// HARDHooks event hooks for other keepers to run code in response to HARD modifications
-type HARDHooks interface {
+// JINXHooks event hooks for other keepers to run code in response to JINX modifications
+type JINXHooks interface {
 	AfterDepositCreated(ctx sdk.Context, deposit Deposit)
 	BeforeDepositModified(ctx sdk.Context, deposit Deposit)
 	AfterDepositModified(ctx sdk.Context, deposit Deposit)

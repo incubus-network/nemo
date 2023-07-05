@@ -64,7 +64,7 @@ var validRewardPeriod = types.NewRewardPeriod(
 	"bnb-a",
 	time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC),
 	time.Date(2024, 10, 15, 14, 0, 0, 0, time.UTC),
-	sdk.NewInt64Coin(types.USDXMintingRewardDenom, 1e9),
+	sdk.NewInt64Coin(types.MUSDMintingRewardDenom, 1e9),
 )
 
 func (suite *ParamTestSuite) TestParamValidation() {
@@ -89,23 +89,23 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"valid",
 			types.Params{
-				USDXMintingRewardPeriods: types.RewardPeriods{
+				MUSDMintingRewardPeriods: types.RewardPeriods{
 					types.NewRewardPeriod(
 						true,
 						"bnb-a",
 						time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC),
 						time.Date(2024, 10, 15, 14, 0, 0, 0, time.UTC),
-						sdk.NewCoin(types.USDXMintingRewardDenom, sdkmath.NewInt(122354)),
+						sdk.NewCoin(types.MUSDMintingRewardDenom, sdkmath.NewInt(122354)),
 					),
 				},
-				HardSupplyRewardPeriods: types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
+				JinxSupplyRewardPeriods: types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:  types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:       types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:    types.DefaultMultiRewardPeriods,
 				ClaimMultipliers: types.MultipliersPerDenoms{
 					{
-						Denom: "hard",
+						Denom: "jinx",
 						Multipliers: types.Multipliers{
 							types.NewMultiplier("small", 1, sdk.MustNewDecFromStr("0.25")),
 							types.NewMultiplier("large", 12, sdk.MustNewDecFromStr("1.0")),
@@ -126,11 +126,11 @@ func (suite *ParamTestSuite) TestParamValidation() {
 			},
 		},
 		{
-			"invalid usdx minting period makes params invalid",
+			"invalid musd minting period makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.RewardPeriods{rewardPeriodWithInvalidRewardsPerSecond},
-				HardSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
+				MUSDMintingRewardPeriods: types.RewardPeriods{rewardPeriodWithInvalidRewardsPerSecond},
+				JinxSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:   types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:        types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
@@ -139,15 +139,15 @@ func (suite *ParamTestSuite) TestParamValidation() {
 			},
 			errArgs{
 				expectPass: false,
-				contains:   fmt.Sprintf("reward denom must be %s", types.USDXMintingRewardDenom),
+				contains:   fmt.Sprintf("reward denom must be %s", types.MUSDMintingRewardDenom),
 			},
 		},
 		{
-			"invalid hard supply periods makes params invalid",
+			"invalid jinx supply periods makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods:  types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
-				HardBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods:  types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
+				JinxBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:   types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:        types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
@@ -160,11 +160,11 @@ func (suite *ParamTestSuite) TestParamValidation() {
 			},
 		},
 		{
-			"invalid hard borrow periods makes params invalid",
+			"invalid jinx borrow periods makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods:  types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods:  types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
 				DelegatorRewardPeriods:   types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:        types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
@@ -179,9 +179,9 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"invalid delegator periods makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:   types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
 				SwapRewardPeriods:        types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
@@ -196,9 +196,9 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"invalid swap periods makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:   types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:        types.MultiRewardPeriods{rewardMultiPeriodWithInvalidRewardsPerSecond},
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
@@ -213,15 +213,15 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"invalid multipliers makes params invalid",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods:  types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods:  types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:   types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:        types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:     types.DefaultMultiRewardPeriods,
 				ClaimMultipliers: types.MultipliersPerDenoms{
 					{
-						Denom: "hard",
+						Denom: "jinx",
 						Multipliers: types.Multipliers{
 							types.NewMultiplier("small", -9999, sdk.MustNewDecFromStr("0.25")),
 						},
@@ -237,11 +237,11 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"invalid zero amount multi rewards per second",
 			types.Params{
-				USDXMintingRewardPeriods: types.DefaultRewardPeriods,
-				HardSupplyRewardPeriods: types.MultiRewardPeriods{
+				MUSDMintingRewardPeriods: types.DefaultRewardPeriods,
+				JinxSupplyRewardPeriods: types.MultiRewardPeriods{
 					rewardMultiPeriodWithZeroRewardsPerSecond,
 				},
-				HardBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:  types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:       types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:    types.DefaultMultiRewardPeriods,
@@ -256,11 +256,11 @@ func (suite *ParamTestSuite) TestParamValidation() {
 		{
 			"invalid zero amount single rewards per second",
 			types.Params{
-				USDXMintingRewardPeriods: types.RewardPeriods{
+				MUSDMintingRewardPeriods: types.RewardPeriods{
 					rewardPeriodWithZeroRewardsPerSecond,
 				},
-				HardSupplyRewardPeriods: types.DefaultMultiRewardPeriods,
-				HardBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
+				JinxSupplyRewardPeriods: types.DefaultMultiRewardPeriods,
+				JinxBorrowRewardPeriods: types.DefaultMultiRewardPeriods,
 				DelegatorRewardPeriods:  types.DefaultMultiRewardPeriods,
 				SwapRewardPeriods:       types.DefaultMultiRewardPeriods,
 				SavingsRewardPeriods:    types.DefaultMultiRewardPeriods,
@@ -326,11 +326,11 @@ func (suite *ParamTestSuite) TestRewardPeriods() {
 						"bnb-a",
 						time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC),
 						time.Date(2024, 10, 15, 14, 0, 0, 0, time.UTC),
-						sdk.NewInt64Coin("hard", 1e9),
+						sdk.NewInt64Coin("jinx", 1e9),
 					),
 				},
 				expect: err{
-					contains: fmt.Sprintf("reward denom must be %s", types.USDXMintingRewardDenom),
+					contains: fmt.Sprintf("reward denom must be %s", types.MUSDMintingRewardDenom),
 				},
 			},
 		}

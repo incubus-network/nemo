@@ -25,15 +25,15 @@ func TestVaultTestSuite(t *testing.T) {
 }
 
 func (suite *vaultTestSuite) TestGetVaultTotalShares() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
 	vaultTotalShares, found := suite.Keeper.GetVaultTotalShares(suite.Ctx, vaultDenom)
@@ -43,16 +43,16 @@ func (suite *vaultTestSuite) TestGetVaultTotalShares() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultTotalShares_NotFound() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	_, found := suite.Keeper.GetVaultTotalShares(suite.Ctx, vaultDenom)
 	suite.Require().False(found)
 }
 
 func (suite *vaultTestSuite) TestGetVaultTotalValue() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	totalValue, err := suite.Keeper.GetVaultTotalValue(suite.Ctx, vaultDenom)
 	suite.Require().NoError(err)
@@ -60,7 +60,7 @@ func (suite *vaultTestSuite) TestGetVaultTotalValue() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultTotalValue_NotFound() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	_, err := suite.Keeper.GetVaultTotalValue(suite.Ctx, vaultDenom)
 	suite.Require().Error(err)
@@ -68,7 +68,7 @@ func (suite *vaultTestSuite) TestGetVaultTotalValue_NotFound() {
 }
 
 func (suite *vaultTestSuite) TestInvalidVaultStrategy() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 
 	suite.PanicsWithValue("value from ParamSetPair is invalid: invalid strategy 99999", func() {
 		suite.CreateVault(vaultDenom, types.StrategyTypes{99999}, false, nil) // not valid strategy type
@@ -76,12 +76,12 @@ func (suite *vaultTestSuite) TestInvalidVaultStrategy() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultAccountSupplied() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	deposit1Amount := sdk.NewInt64Coin(vaultDenom, 100)
 	deposit2Amount := sdk.NewInt64Coin(vaultDenom, 100)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	acc1 := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 	acc2 := suite.CreateAccount(sdk.NewCoins(startBalance), 1)
@@ -95,10 +95,10 @@ func (suite *vaultTestSuite) TestGetVaultAccountSupplied() {
 	suite.Require().False(found)
 
 	// Deposits from both accounts
-	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), deposit1Amount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), deposit1Amount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
-	err = suite.Keeper.Deposit(suite.Ctx, acc2.GetAddress(), deposit2Amount, types.STRATEGY_TYPE_HARD)
+	err = suite.Keeper.Deposit(suite.Ctx, acc2.GetAddress(), deposit2Amount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
 	// Check balances
@@ -115,15 +115,15 @@ func (suite *vaultTestSuite) TestGetVaultAccountSupplied() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultAccountValue() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
-	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
 	accValue, err := suite.Keeper.GetVaultAccountValue(suite.Ctx, vaultDenom, acc.GetAddress())
@@ -132,30 +132,30 @@ func (suite *vaultTestSuite) TestGetVaultAccountValue() {
 }
 
 func (suite *vaultTestSuite) TestGetVaultAccountValue_VaultNotFound() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	acc := suite.CreateAccount(sdk.NewCoins(), 0)
 
 	_, err := suite.Keeper.GetVaultAccountValue(suite.Ctx, vaultDenom, acc.GetAddress())
 	suite.Require().Error(err)
-	suite.Require().Equal("account vault share record for usdx not found", err.Error())
+	suite.Require().Equal("account vault share record for musd not found", err.Error())
 }
 
 func (suite *vaultTestSuite) TestGetVaultAccountValue_ShareNotFound() {
-	vaultDenom := "usdx"
+	vaultDenom := "musd"
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
 	acc1 := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 	acc2 := suite.CreateAccount(sdk.NewCoins(startBalance), 1)
 
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	// Deposit from acc1 so that vault record exists
-	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), depositAmount, types.STRATEGY_TYPE_HARD)
+	err := suite.Keeper.Deposit(suite.Ctx, acc1.GetAddress(), depositAmount, types.STRATEGY_TYPE_JINX)
 	suite.Require().NoError(err)
 
 	// Query from acc2 with no share record
 	_, err = suite.Keeper.GetVaultAccountValue(suite.Ctx, vaultDenom, acc2.GetAddress())
 	suite.Require().Error(err)
-	suite.Require().Equal("account vault share record for usdx not found", err.Error())
+	suite.Require().Equal("account vault share record for musd not found", err.Error())
 }

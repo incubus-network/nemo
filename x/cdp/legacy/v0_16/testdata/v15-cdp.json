@@ -3,7 +3,7 @@
     {
       "accumulated_fees": {
         "amount": "36088",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "collateral": {
         "amount": "40911876",
@@ -15,14 +15,14 @@
       "owner": "fury1u4p6a2yse66ewfndw4j7ppsa777vdcexa9gpqc",
       "principal": {
         "amount": "10016831",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "type": "bnb-a"
     },
     {
       "accumulated_fees": {
         "amount": "156662",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "collateral": {
         "amount": "88268546",
@@ -34,7 +34,7 @@
       "owner": "fury1e8xjfylam4nvugcmkxwvuxh22uvvad5v6dp8pl",
       "principal": {
         "amount": "10000000",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "type": "bnb-a"
     }
@@ -67,7 +67,7 @@
         "conversion_factor": "8",
         "debt_limit": {
           "amount": "20000000000000",
-          "denom": "usdx"
+          "denom": "musd"
         },
         "denom": "bnb",
         "liquidation_market_id": "bnb:usd:30",
@@ -85,7 +85,7 @@
         "type": "hbtc-a",
         "liquidation_ratio": "1.500000000000000000",
         "debt_limit": {
-          "denom": "usdx",
+          "denom": "musd",
           "amount": "10000000000000"
         },
         "stability_fee": "1.000000001547125958",
@@ -104,13 +104,13 @@
     "debt_param": {
       "conversion_factor": "6",
       "debt_floor": "10000000",
-      "denom": "usdx",
+      "denom": "musd",
       "reference_asset": "usd",
       "savings_rate": "0.950000000000000000"
     },
     "global_debt_limit": {
       "amount": "43000000000000",
-      "denom": "usdx"
+      "denom": "musd"
     },
     "savings_distribution_frequency": "43200000000000",
     "surplus_auction_lot": "10000000000",

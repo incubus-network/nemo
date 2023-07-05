@@ -4,11 +4,11 @@ package types
 const (
 	QueryCirculatingSupply     = "circulating-supply"
 	QueryTotalSupply           = "total-supply"
-	QueryCirculatingSupplyHARD = "circulating-supply-hard"
-	QueryCirculatingSupplyUSDX = "circulating-supply-usdx"
+	QueryCirculatingSupplyJINX = "circulating-supply-jinx"
+	QueryCirculatingSupplyMUSD = "circulating-supply-musd"
 	QueryCirculatingSupplySWP  = "circulating-supply-swp"
-	QueryTotalSupplyHARD       = "total-supply-hard"
-	QueryTotalSupplyUSDX       = "total-supply-usdx"
+	QueryTotalSupplyJINX       = "total-supply-jinx"
+	QueryTotalSupplyMUSD       = "total-supply-musd"
 )
 
 // BaseQueryParams defines the parameters necessary for querying for all Evidence.

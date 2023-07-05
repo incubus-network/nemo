@@ -27,43 +27,43 @@ func (suite *invariantTestSuite) SetupValidState() {
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 		sdkmath.NewInt(3e6),
 	))
 	suite.AddCoinsToModule(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 	)
 	suite.Keeper.SetDepositorShares(suite.Ctx, types.NewShareRecord(
 		sdk.AccAddress("depositor 1---------"), // TODO these addresses are padded to get to the required length of 20 bytes. What is a nicer setup?
-		types.PoolID("ufury", "usdx"),
+		types.PoolID("ufury", "musd"),
 		sdkmath.NewInt(2e6),
 	))
 	suite.Keeper.SetDepositorShares(suite.Ctx, types.NewShareRecord(
 		sdk.AccAddress("depositor 2---------"),
-		types.PoolID("ufury", "usdx"),
+		types.PoolID("ufury", "musd"),
 		sdkmath.NewInt(1e6),
 	))
 
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
-			sdk.NewCoin("hard", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(2e6)),
+			sdk.NewCoin("jinx", sdkmath.NewInt(1e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(2e6)),
 		),
 		sdkmath.NewInt(1e6),
 	))
 	suite.AddCoinsToModule(
 		sdk.NewCoins(
-			sdk.NewCoin("hard", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(2e6)),
+			sdk.NewCoin("jinx", sdkmath.NewInt(1e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(2e6)),
 		),
 	)
 	suite.Keeper.SetDepositorShares(suite.Ctx, types.NewShareRecord(
 		sdk.AccAddress("depositor 1---------"),
-		types.PoolID("hard", "usdx"),
+		types.PoolID("jinx", "musd"),
 		sdkmath.NewInt(1e6),
 	))
 }
@@ -118,7 +118,7 @@ func (suite *invariantTestSuite) TestPoolRecordsInvariant() {
 	suite.Keeper.SetPool_Raw(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 		sdkmath.NewInt(-1e6),
 	))
@@ -140,7 +140,7 @@ func (suite *invariantTestSuite) TestShareRecordsInvariant() {
 	// broken with invalid share record
 	suite.Keeper.SetDepositorShares_Raw(suite.Ctx, types.NewShareRecord(
 		sdk.AccAddress("depositor 1---------"),
-		types.PoolID("ufury", "usdx"),
+		types.PoolID("ufury", "musd"),
 		sdkmath.NewInt(-1e6),
 	))
 	message, broken = suite.runInvariant("share-records", keeper.ShareRecordsInvariant)
@@ -162,7 +162,7 @@ func (suite *invariantTestSuite) TestPoolReservesInvariant() {
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(2e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(10e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(10e6)),
 		),
 		sdkmath.NewInt(5e6),
 	))
@@ -174,7 +174,7 @@ func (suite *invariantTestSuite) TestPoolReservesInvariant() {
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e5)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e5)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e5)),
 		),
 		sdkmath.NewInt(3e5),
 	))
@@ -197,7 +197,7 @@ func (suite *invariantTestSuite) TestPoolSharesInvariant() {
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 		sdkmath.NewInt(5e6),
 	))
@@ -209,7 +209,7 @@ func (suite *invariantTestSuite) TestPoolSharesInvariant() {
 	suite.Keeper.SetPool(suite.Ctx, types.NewPoolRecord(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 		sdkmath.NewInt(1e5),
 	))
@@ -218,11 +218,11 @@ func (suite *invariantTestSuite) TestPoolSharesInvariant() {
 	suite.Equal(true, broken)
 
 	// broken when pool record is missing
-	suite.Keeper.DeletePool(suite.Ctx, types.PoolID("ufury", "usdx"))
+	suite.Keeper.DeletePool(suite.Ctx, types.PoolID("ufury", "musd"))
 	suite.RemoveCoinsFromModule(
 		sdk.NewCoins(
 			sdk.NewCoin("ufury", sdkmath.NewInt(1e6)),
-			sdk.NewCoin("usdx", sdkmath.NewInt(5e6)),
+			sdk.NewCoin("musd", sdkmath.NewInt(5e6)),
 		),
 	)
 	message, broken = suite.runInvariant("pool-shares", keeper.PoolSharesInvariant)

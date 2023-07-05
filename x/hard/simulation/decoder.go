@@ -8,10 +8,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
-// DecodeStore unmarshals the KVPair's Value to the corresponding hard type
+// DecodeStore unmarshals the KVPair's Value to the corresponding jinx type
 func DecodeStore(cdc *codec.Codec, kvA, kvB kv.Pair) string {
 	switch {
 	case bytes.Equal(kvA.Key[:1], types.DepositsKeyPrefix):

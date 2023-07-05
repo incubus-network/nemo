@@ -7,17 +7,17 @@ import (
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// ClaimUSDXMintingReward pays out funds from a claim to a receiver account.
+// ClaimMUSDMintingReward pays out funds from a claim to a receiver account.
 // Rewards are removed from a claim and paid out according to the multiplier, which reduces the reward amount in exchange for shorter vesting times.
-func (k Keeper) ClaimUSDXMintingReward(ctx sdk.Context, owner, receiver sdk.AccAddress, multiplierName string) error {
-	claim, found := k.GetUSDXMintingClaim(ctx, owner)
+func (k Keeper) ClaimMUSDMintingReward(ctx sdk.Context, owner, receiver sdk.AccAddress, multiplierName string) error {
+	claim, found := k.GetMUSDMintingClaim(ctx, owner)
 	if !found {
 		return errorsmod.Wrapf(types.ErrClaimNotFound, "address: %s", owner)
 	}
 
-	multiplier, found := k.GetMultiplierByDenom(ctx, types.USDXMintingRewardDenom, multiplierName)
+	multiplier, found := k.GetMultiplierByDenom(ctx, types.MUSDMintingRewardDenom, multiplierName)
 	if !found {
-		return errorsmod.Wrapf(types.ErrInvalidMultiplier, "denom '%s' has no multiplier '%s'", types.USDXMintingRewardDenom, multiplierName)
+		return errorsmod.Wrapf(types.ErrInvalidMultiplier, "denom '%s' has no multiplier '%s'", types.MUSDMintingRewardDenom, multiplierName)
 	}
 
 	claimEnd := k.GetClaimEnd(ctx)
@@ -26,7 +26,7 @@ func (k Keeper) ClaimUSDXMintingReward(ctx sdk.Context, owner, receiver sdk.AccA
 		return errorsmod.Wrapf(types.ErrClaimExpired, "block time %s > claim end time %s", ctx.BlockTime(), claimEnd)
 	}
 
-	claim, err := k.SynchronizeUSDXMintingClaim(ctx, claim)
+	claim, err := k.SynchronizeMUSDMintingClaim(ctx, claim)
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (k Keeper) ClaimUSDXMintingReward(ctx sdk.Context, owner, receiver sdk.AccA
 		return err
 	}
 
-	k.ZeroUSDXMintingClaim(ctx, claim)
+	k.ZeroMUSDMintingClaim(ctx, claim)
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
@@ -56,9 +56,9 @@ func (k Keeper) ClaimUSDXMintingReward(ctx sdk.Context, owner, receiver sdk.AccA
 	return nil
 }
 
-// ClaimHardReward pays out funds from a claim to a receiver account.
+// ClaimJinxReward pays out funds from a claim to a receiver account.
 // Rewards are removed from a claim and paid out according to the multiplier, which reduces the reward amount in exchange for shorter vesting times.
-func (k Keeper) ClaimHardReward(ctx sdk.Context, owner, receiver sdk.AccAddress, denom string, multiplierName string) error {
+func (k Keeper) ClaimJinxReward(ctx sdk.Context, owner, receiver sdk.AccAddress, denom string, multiplierName string) error {
 	multiplier, found := k.GetMultiplierByDenom(ctx, denom, multiplierName)
 	if !found {
 		return errorsmod.Wrapf(types.ErrInvalidMultiplier, "denom '%s' has no multiplier '%s'", denom, multiplierName)
@@ -70,9 +70,9 @@ func (k Keeper) ClaimHardReward(ctx sdk.Context, owner, receiver sdk.AccAddress,
 		return errorsmod.Wrapf(types.ErrClaimExpired, "block time %s > claim end time %s", ctx.BlockTime(), claimEnd)
 	}
 
-	k.SynchronizeHardLiquidityProviderClaim(ctx, owner)
+	k.SynchronizeJinxLiquidityProviderClaim(ctx, owner)
 
-	syncedClaim, found := k.GetHardLiquidityProviderClaim(ctx, owner)
+	syncedClaim, found := k.GetJinxLiquidityProviderClaim(ctx, owner)
 	if !found {
 		return errorsmod.Wrapf(types.ErrClaimNotFound, "address: %s", owner)
 	}
@@ -93,7 +93,7 @@ func (k Keeper) ClaimHardReward(ctx sdk.Context, owner, receiver sdk.AccAddress,
 
 	// remove claimed coins (NOT reward coins)
 	syncedClaim.Reward = syncedClaim.Reward.Sub(claimingCoins...)
-	k.SetHardLiquidityProviderClaim(ctx, syncedClaim)
+	k.SetJinxLiquidityProviderClaim(ctx, syncedClaim)
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(

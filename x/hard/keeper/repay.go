@@ -4,7 +4,7 @@ import (
 	errorsmod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Repay borrowed funds
@@ -34,7 +34,7 @@ func (k Keeper) Repay(ctx sdk.Context, sender, owner sdk.AccAddress, coins sdk.C
 		return err
 	}
 
-	// Sends coins from user to Hard module account
+	// Sends coins from user to Jinx module account
 	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleAccountName, payment)
 	if err != nil {
 		return err
@@ -71,7 +71,7 @@ func (k Keeper) Repay(ctx sdk.Context, sender, owner sdk.AccAddress, coins sdk.C
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
-			types.EventTypeHardRepay,
+			types.EventTypeJinxRepay,
 			sdk.NewAttribute(types.AttributeKeySender, sender.String()),
 			sdk.NewAttribute(types.AttributeKeyOwner, owner.String()),
 			sdk.NewAttribute(types.AttributeKeyRepayCoins, payment.String()),

@@ -23,7 +23,7 @@ func c(denom string, amount int64) sdk.Coin { return sdk.NewInt64Coin(denom, amo
 func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 	cdpGenesis := cdptypes.GenesisState{
 		Params: cdptypes.Params{
-			GlobalDebtLimit:         sdk.NewInt64Coin("usdx", 2000000000000),
+			GlobalDebtLimit:         sdk.NewInt64Coin("musd", 2000000000000),
 			SurplusAuctionThreshold: cdptypes.DefaultSurplusThreshold,
 			SurplusAuctionLot:       cdptypes.DefaultSurplusLot,
 			DebtAuctionThreshold:    cdptypes.DefaultDebtThreshold,
@@ -33,7 +33,7 @@ func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 					Denom:               "xrp",
 					Type:                "xrp-a",
 					LiquidationRatio:    sdk.MustNewDecFromStr("2.0"),
-					DebtLimit:           sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:           sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:        sdk.MustNewDecFromStr("1.000000001547125958"), // %5 apr
 					LiquidationPenalty:  d("0.05"),
 					AuctionSize:         i(7000000000),
@@ -45,7 +45,7 @@ func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 					Denom:               "btc",
 					Type:                "btc-a",
 					LiquidationRatio:    sdk.MustNewDecFromStr("1.5"),
-					DebtLimit:           sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:           sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:        sdk.MustNewDecFromStr("1.000000000782997609"), // %2.5 apr
 					LiquidationPenalty:  d("0.025"),
 					AuctionSize:         i(10000000),
@@ -57,7 +57,7 @@ func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 					Denom:               "bnb",
 					Type:                "bnb-a",
 					LiquidationRatio:    sdk.MustNewDecFromStr("1.5"),
-					DebtLimit:           sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:           sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:        sdk.MustNewDecFromStr("1.000000001547125958"), // %5 apr
 					LiquidationPenalty:  d("0.05"),
 					AuctionSize:         i(50000000000),
@@ -69,7 +69,7 @@ func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 					Denom:               "busd",
 					Type:                "busd-a",
 					LiquidationRatio:    d("1.01"),
-					DebtLimit:           sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:           sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:        sdk.OneDec(), // %0 apr
 					LiquidationPenalty:  d("0.05"),
 					AuctionSize:         i(10000000000),
@@ -79,7 +79,7 @@ func NewCDPGenStateMulti(cdc codec.JSONCodec) app.GenesisState {
 				},
 			},
 			DebtParam: cdptypes.DebtParam{
-				Denom:            "usdx",
+				Denom:            "musd",
 				ReferenceAsset:   "usd",
 				ConversionFactor: i(6),
 				DebtFloor:        i(10000000),
@@ -159,14 +159,14 @@ func NewPricefeedGenStateMultiFromTime(cdc codec.JSONCodec, t time.Time) app.Gen
 	return app.GenesisState{pricefeedtypes.ModuleName: cdc.MustMarshalJSON(&pfGenesis)}
 }
 
-func NewHardGenStateMulti(genTime time.Time) testutil.HardGenesisBuilder {
+func NewJinxGenStateMulti(genTime time.Time) testutil.JinxGenesisBuilder {
 	nemoMM := testutil.NewStandardMoneyMarket("ufury")
 	nemoMM.SpotMarketID = "nemo:usd"
 	btcMM := testutil.NewStandardMoneyMarket("btcb")
 	btcMM.SpotMarketID = "btc:usd"
 
-	builder := testutil.NewHardGenesisBuilder().WithGenesisTime(genTime).
-		WithInitializedMoneyMarket(testutil.NewStandardMoneyMarket("usdx")).
+	builder := testutil.NewJinxGenesisBuilder().WithGenesisTime(genTime).
+		WithInitializedMoneyMarket(testutil.NewStandardMoneyMarket("musd")).
 		WithInitializedMoneyMarket(nemoMM).
 		WithInitializedMoneyMarket(testutil.NewStandardMoneyMarket("bnb")).
 		WithInitializedMoneyMarket(btcMM).

@@ -5,13 +5,13 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
-// lendGenesisBuilder builds the Hard and Pricefeed genesis states for setting up Nemo Lend
+// lendGenesisBuilder builds the Jinx and Pricefeed genesis states for setting up Nemo Lend
 type lendGenesisBuilder struct {
-	hardMarkets []hardtypes.MoneyMarket
+	jinxMarkets []jinxtypes.MoneyMarket
 	pfMarkets   []pricefeedtypes.Market
 	prices      []pricefeedtypes.PostedPrice
 }
@@ -20,25 +20,25 @@ func NewLendGenesisBuilder() lendGenesisBuilder {
 	return lendGenesisBuilder{}
 }
 
-func (b lendGenesisBuilder) Build() (hardtypes.GenesisState, pricefeedtypes.GenesisState) {
-	hardGS := hardtypes.DefaultGenesisState()
-	hardGS.Params.MoneyMarkets = b.hardMarkets
+func (b lendGenesisBuilder) Build() (jinxtypes.GenesisState, pricefeedtypes.GenesisState) {
+	jinxGS := jinxtypes.DefaultGenesisState()
+	jinxGS.Params.MoneyMarkets = b.jinxMarkets
 
 	pricefeedGS := pricefeedtypes.DefaultGenesisState()
 	pricefeedGS.Params.Markets = b.pfMarkets
 	pricefeedGS.PostedPrices = b.prices
-	return hardGS, pricefeedGS
+	return jinxGS, pricefeedGS
 }
 
 func (b lendGenesisBuilder) WithMarket(denom, spotMarketId string, price sdk.Dec) lendGenesisBuilder {
-	// add hard money market
-	b.hardMarkets = append(b.hardMarkets,
-		hardtypes.NewMoneyMarket(
+	// add jinx money market
+	b.jinxMarkets = append(b.jinxMarkets,
+		jinxtypes.NewMoneyMarket(
 			denom,
-			hardtypes.NewBorrowLimit(false, sdk.NewDec(1e15), sdk.MustNewDecFromStr("0.6")),
+			jinxtypes.NewBorrowLimit(false, sdk.NewDec(1e15), sdk.MustNewDecFromStr("0.6")),
 			spotMarketId,
 			sdkmath.NewInt(1e6),
-			hardtypes.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")),
+			jinxtypes.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")),
 			sdk.MustNewDecFromStr("0.05"),
 			sdk.ZeroDec(),
 		),

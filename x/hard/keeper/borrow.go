@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // Borrow funds
@@ -43,7 +43,7 @@ func (k Keeper) Borrow(ctx sdk.Context, borrower sdk.AccAddress, coins sdk.Coins
 		return err
 	}
 
-	// Sends coins from Hard module account to user
+	// Sends coins from Jinx module account to user
 	err = k.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleAccountName, borrower, coins)
 	if err != nil {
 		if errors.Is(err, sdkerrors.ErrInsufficientFunds) {
@@ -102,7 +102,7 @@ func (k Keeper) Borrow(ctx sdk.Context, borrower sdk.AccAddress, coins sdk.Coins
 
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
-			types.EventTypeHardBorrow,
+			types.EventTypeJinxBorrow,
 			sdk.NewAttribute(types.AttributeKeyBorrower, borrower.String()),
 			sdk.NewAttribute(types.AttributeKeyBorrowCoins, coins.String()),
 		),
@@ -119,14 +119,14 @@ func (k Keeper) ValidateBorrow(ctx sdk.Context, borrower sdk.AccAddress, amount 
 
 	// The reserve coins aren't available for users to borrow
 	macc := k.accountKeeper.GetModuleAccount(ctx, types.ModuleName)
-	hardMaccCoins := k.bankKeeper.GetAllBalances(ctx, macc.GetAddress())
+	jinxMaccCoins := k.bankKeeper.GetAllBalances(ctx, macc.GetAddress())
 	reserveCoins, foundReserveCoins := k.GetTotalReserves(ctx)
 	if !foundReserveCoins {
 		reserveCoins = sdk.NewCoins()
 	}
-	fundsAvailableToBorrow, isNegative := hardMaccCoins.SafeSub(reserveCoins...)
+	fundsAvailableToBorrow, isNegative := jinxMaccCoins.SafeSub(reserveCoins...)
 	if isNegative {
-		return errorsmod.Wrapf(types.ErrReservesExceedCash, "reserves %s > cash %s", reserveCoins, hardMaccCoins)
+		return errorsmod.Wrapf(types.ErrReservesExceedCash, "reserves %s > cash %s", reserveCoins, jinxMaccCoins)
 	}
 	if amount.IsAnyGT(fundsAvailableToBorrow) {
 		return errorsmod.Wrapf(types.ErrExceedsProtocolBorrowableBalance, "requested borrow %s > available to borrow %s", amount, fundsAvailableToBorrow)

@@ -43,7 +43,7 @@ package keeper_test
 // 						Subspace: "cdp",
 // 						Key:      "DebtThreshold",
 
-// 						Value: `{"denom": "usdx", "amount": "1000000"}`,
+// 						Value: `{"denom": "musd", "amount": "1000000"}`,
 // 					},
 // 				},
 // 			),
@@ -134,7 +134,7 @@ package keeper_test
 // 						Subspace: "cdp",
 // 						Key:      "DebtThreshold",
 
-// 						Value: `{"denom": "usdx", "amount": "1000000"}`,
+// 						Value: `{"denom": "musd", "amount": "1000000"}`,
 // 					},
 // 					{
 // 						Subspace: "cdp",

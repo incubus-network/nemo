@@ -10,11 +10,11 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 const (
-	USDX_CF = 1000000
+	MUSD_CF = 1000000
 	NEMO_CF = 1000000
 	BTCB_CF = 100000000
 	BNB_CF  = 100000000
@@ -60,12 +60,12 @@ func (suite *GenesisTestSuite) TestGenesisValidation() {
 			args: args{
 				params: types.NewParams(
 					types.MoneyMarkets{
-						types.NewMoneyMarket("usdx", types.NewBorrowLimit(true, sdk.MustNewDecFromStr("100000000000"), sdk.MustNewDecFromStr("1")), "usdx:usd", sdkmath.NewInt(USDX_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
+						types.NewMoneyMarket("musd", types.NewBorrowLimit(true, sdk.MustNewDecFromStr("100000000000"), sdk.MustNewDecFromStr("1")), "musd:usd", sdkmath.NewInt(MUSD_CF), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					},
 					sdk.MustNewDecFromStr("10"),
 				),
 				gats: types.GenesisAccumulationTimes{
-					types.NewGenesisAccumulationTime("usdx", time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC), sdk.OneDec(), sdk.OneDec()),
+					types.NewGenesisAccumulationTime("musd", time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC), sdk.OneDec(), sdk.OneDec()),
 				},
 				deps: types.DefaultDeposits,
 				brws: types.DefaultBorrows,

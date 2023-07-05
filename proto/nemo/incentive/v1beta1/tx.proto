@@ -7,11 +7,11 @@ option go_package = "github.com/incubus-network/nemo/x/incentive/types";
 
 // Msg defines the incentive Msg service.
 service Msg {
-  // ClaimUSDXMintingReward is a message type used to claim USDX minting rewards
-  rpc ClaimUSDXMintingReward(MsgClaimUSDXMintingReward) returns (MsgClaimUSDXMintingRewardResponse);
+  // ClaimMUSDMintingReward is a message type used to claim MUSD minting rewards
+  rpc ClaimMUSDMintingReward(MsgClaimMUSDMintingReward) returns (MsgClaimMUSDMintingRewardResponse);
 
-  // ClaimHardReward is a message type used to claim Hard liquidity provider rewards
-  rpc ClaimHardReward(MsgClaimHardReward) returns (MsgClaimHardRewardResponse);
+  // ClaimJinxReward is a message type used to claim Jinx liquidity provider rewards
+  rpc ClaimJinxReward(MsgClaimJinxReward) returns (MsgClaimJinxRewardResponse);
 
   // ClaimDelegatorReward is a message type used to claim delegator rewards
   rpc ClaimDelegatorReward(MsgClaimDelegatorReward) returns (MsgClaimDelegatorRewardResponse);
@@ -36,8 +36,8 @@ message Selection {
   string multiplier_name = 2;
 }
 
-// MsgClaimUSDXMintingReward message type used to claim USDX minting rewards
-message MsgClaimUSDXMintingReward {
+// MsgClaimMUSDMintingReward message type used to claim MUSD minting rewards
+message MsgClaimMUSDMintingReward {
   option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
 
@@ -45,11 +45,11 @@ message MsgClaimUSDXMintingReward {
   string multiplier_name = 2;
 }
 
-// MsgClaimUSDXMintingRewardResponse defines the Msg/ClaimUSDXMintingReward response type.
-message MsgClaimUSDXMintingRewardResponse {}
+// MsgClaimMUSDMintingRewardResponse defines the Msg/ClaimMUSDMintingReward response type.
+message MsgClaimMUSDMintingRewardResponse {}
 
-// MsgClaimHardReward message type used to claim Hard liquidity provider rewards
-message MsgClaimHardReward {
+// MsgClaimJinxReward message type used to claim Jinx liquidity provider rewards
+message MsgClaimJinxReward {
   option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
 
@@ -60,8 +60,8 @@ message MsgClaimHardReward {
   ];
 }
 
-// MsgClaimHardRewardResponse defines the Msg/ClaimHardReward response type.
-message MsgClaimHardRewardResponse {}
+// MsgClaimJinxRewardResponse defines the Msg/ClaimJinxReward response type.
+message MsgClaimJinxRewardResponse {}
 
 // MsgClaimDelegatorReward message type used to claim delegator rewards
 message MsgClaimDelegatorReward {

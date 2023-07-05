@@ -12,7 +12,7 @@
             "debt_limit": [
               {
                 "amount": "1000000000",
-                "denom": "usdx"
+                "denom": "musd"
               }
             ],
             "denom": "xrp",
@@ -28,7 +28,7 @@
             "debt_limit": [
               {
                 "amount": "1000000000000",
-                "denom": "usdx"
+                "denom": "musd"
               }
             ],
             "denom": "btc",
@@ -47,7 +47,7 @@
           {
               "conversion_factor": "6",
               "debt_floor": "10000000",
-              "denom": "usdx",
+              "denom": "musd",
               "reference_asset": "usd"
           }
       ]
@@ -58,7 +58,7 @@
       "value": [
         {
           "amount": "3000000000000",
-          "denom": "usdx"
+          "denom": "musd"
         }
       ]
     }

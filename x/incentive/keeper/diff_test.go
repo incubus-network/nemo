@@ -14,11 +14,11 @@ func TestSetDiff(t *testing.T) {
 		expected []string
 	}{
 		{"empty", []string{}, []string{}, []string(nil)},
-		{"diff equal sets", []string{"busd", "usdx"}, []string{"busd", "usdx"}, []string(nil)},
-		{"diff set empty", []string{"bnb", "ufury", "usdx"}, []string{}, []string{"bnb", "ufury", "usdx"}},
-		{"input set empty", []string{}, []string{"bnb", "ufury", "usdx"}, []string(nil)},
-		{"diff set with common elements", []string{"bnb", "btcb", "usdx", "xrpb"}, []string{"bnb", "usdx"}, []string{"btcb", "xrpb"}},
-		{"diff set with all common elements", []string{"bnb", "usdx"}, []string{"bnb", "btcb", "usdx", "xrpb"}, []string(nil)},
+		{"diff equal sets", []string{"busd", "musd"}, []string{"busd", "musd"}, []string(nil)},
+		{"diff set empty", []string{"bnb", "ufury", "musd"}, []string{}, []string{"bnb", "ufury", "musd"}},
+		{"input set empty", []string{}, []string{"bnb", "ufury", "musd"}, []string(nil)},
+		{"diff set with common elements", []string{"bnb", "btcb", "musd", "xrpb"}, []string{"bnb", "musd"}, []string{"btcb", "xrpb"}},
+		{"diff set with all common elements", []string{"bnb", "musd"}, []string{"bnb", "btcb", "musd", "xrpb"}, []string(nil)},
 	}
 
 	for _, tt := range tests {

@@ -8,26 +8,26 @@ import (
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// InitializeHardBorrowRewardTests runs unit tests for the keeper.InitializeHardBorrowReward method
-type InitializeHardBorrowRewardTests struct {
+// InitializeJinxBorrowRewardTests runs unit tests for the keeper.InitializeJinxBorrowReward method
+type InitializeJinxBorrowRewardTests struct {
 	unitTester
 }
 
-func TestInitializeHardBorrowReward(t *testing.T) {
-	suite.Run(t, new(InitializeHardBorrowRewardTests))
+func TestInitializeJinxBorrowReward(t *testing.T) {
+	suite.Run(t, new(InitializeJinxBorrowRewardTests))
 }
 
-func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetWhenClaimExists() {
-	claim := types.HardLiquidityProviderClaim{
+func (suite *InitializeJinxBorrowRewardTests) TestClaimIndexesAreSetWhenClaimExists() {
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		// Indexes should always be empty when initialize is called.
 		// If initialize is called then the user must have repaid their borrow positions,
-		// which means UpdateHardBorrowIndexDenoms was called and should have remove indexes.
+		// which means UpdateJinxBorrowIndexDenoms was called and should have remove indexes.
 		BorrowRewardIndexes: types.MultiRewardIndexes{},
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalBorrowIndexes(globalIndexes)
@@ -36,13 +36,13 @@ func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetWhenClaimExi
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.InitializeHardBorrowReward(suite.ctx, borrow)
+	suite.keeper.InitializeJinxBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetWhenClaimDoesNotExist() {
+func (suite *InitializeJinxBorrowRewardTests) TestClaimIndexesAreSetWhenClaimDoesNotExist() {
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalBorrowIndexes(globalIndexes)
 
@@ -51,14 +51,14 @@ func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetWhenClaimDoe
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.InitializeHardBorrowReward(suite.ctx, borrow)
+	suite.keeper.InitializeJinxBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, found := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, owner)
+	syncedClaim, found := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, owner)
 	suite.True(found)
 	suite.Equal(globalIndexes, syncedClaim.BorrowRewardIndexes)
 }
 
-func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetEmptyForMissingIndexes() {
+func (suite *InitializeJinxBorrowRewardTests) TestClaimIndexesAreSetEmptyForMissingIndexes() {
 	globalIndexes := nonEmptyMultiRewardIndexes
 	suite.storeGlobalBorrowIndexes(globalIndexes)
 
@@ -71,8 +71,8 @@ func (suite *InitializeHardBorrowRewardTests) TestClaimIndexesAreSetEmptyForMiss
 		WithArbitrarySourceShares(borrowedDenoms...).
 		Build()
 
-	suite.keeper.InitializeHardBorrowReward(suite.ctx, borrow)
+	suite.keeper.InitializeJinxBorrowReward(suite.ctx, borrow)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, owner)
 	suite.Equal(expectedIndexes, syncedClaim.BorrowRewardIndexes)
 }

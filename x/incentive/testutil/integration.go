@@ -26,8 +26,8 @@ import (
 	committeetypes "github.com/incubus-network/nemo/x/committee/types"
 	earnkeeper "github.com/incubus-network/nemo/x/earn/keeper"
 	earntypes "github.com/incubus-network/nemo/x/earn/types"
-	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	incentivekeeper "github.com/incubus-network/nemo/x/incentive/keeper"
 	"github.com/incubus-network/nemo/x/incentive/types"
 	liquidkeeper "github.com/incubus-network/nemo/x/liquid/keeper"
@@ -144,12 +144,12 @@ func (suite *IntegrationTester) DeliverIncentiveMsg(msg sdk.Msg) error {
 	var err error
 
 	switch msg := msg.(type) {
-	case *types.MsgClaimHardReward:
-		_, err = msgServer.ClaimHardReward(sdk.WrapSDKContext(suite.Ctx), msg)
+	case *types.MsgClaimJinxReward:
+		_, err = msgServer.ClaimJinxReward(sdk.WrapSDKContext(suite.Ctx), msg)
 	case *types.MsgClaimSwapReward:
 		_, err = msgServer.ClaimSwapReward(sdk.WrapSDKContext(suite.Ctx), msg)
-	case *types.MsgClaimUSDXMintingReward:
-		_, err = msgServer.ClaimUSDXMintingReward(sdk.WrapSDKContext(suite.Ctx), msg)
+	case *types.MsgClaimMUSDMintingReward:
+		_, err = msgServer.ClaimMUSDMintingReward(sdk.WrapSDKContext(suite.Ctx), msg)
 	case *types.MsgClaimDelegatorReward:
 		_, err = msgServer.ClaimDelegatorReward(sdk.WrapSDKContext(suite.Ctx), msg)
 	case *types.MsgClaimEarnReward:
@@ -245,33 +245,33 @@ func (suite *IntegrationTester) DeliverSwapMsgDeposit(depositor sdk.AccAddress, 
 	return err
 }
 
-func (suite *IntegrationTester) DeliverHardMsgDeposit(owner sdk.AccAddress, deposit sdk.Coins) error {
-	msg := hardtypes.NewMsgDeposit(owner, deposit)
-	msgServer := hardkeeper.NewMsgServerImpl(suite.App.GetHardKeeper())
+func (suite *IntegrationTester) DeliverJinxMsgDeposit(owner sdk.AccAddress, deposit sdk.Coins) error {
+	msg := jinxtypes.NewMsgDeposit(owner, deposit)
+	msgServer := jinxkeeper.NewMsgServerImpl(suite.App.GetJinxKeeper())
 
 	_, err := msgServer.Deposit(sdk.WrapSDKContext(suite.Ctx), &msg)
 	return err
 }
 
-func (suite *IntegrationTester) DeliverHardMsgBorrow(owner sdk.AccAddress, borrow sdk.Coins) error {
-	msg := hardtypes.NewMsgBorrow(owner, borrow)
-	msgServer := hardkeeper.NewMsgServerImpl(suite.App.GetHardKeeper())
+func (suite *IntegrationTester) DeliverJinxMsgBorrow(owner sdk.AccAddress, borrow sdk.Coins) error {
+	msg := jinxtypes.NewMsgBorrow(owner, borrow)
+	msgServer := jinxkeeper.NewMsgServerImpl(suite.App.GetJinxKeeper())
 
 	_, err := msgServer.Borrow(sdk.WrapSDKContext(suite.Ctx), &msg)
 	return err
 }
 
-func (suite *IntegrationTester) DeliverHardMsgRepay(owner sdk.AccAddress, repay sdk.Coins) error {
-	msg := hardtypes.NewMsgRepay(owner, owner, repay)
-	msgServer := hardkeeper.NewMsgServerImpl(suite.App.GetHardKeeper())
+func (suite *IntegrationTester) DeliverJinxMsgRepay(owner sdk.AccAddress, repay sdk.Coins) error {
+	msg := jinxtypes.NewMsgRepay(owner, owner, repay)
+	msgServer := jinxkeeper.NewMsgServerImpl(suite.App.GetJinxKeeper())
 
 	_, err := msgServer.Repay(sdk.WrapSDKContext(suite.Ctx), &msg)
 	return err
 }
 
-func (suite *IntegrationTester) DeliverHardMsgWithdraw(owner sdk.AccAddress, withdraw sdk.Coins) error {
-	msg := hardtypes.NewMsgWithdraw(owner, withdraw)
-	msgServer := hardkeeper.NewMsgServerImpl(suite.App.GetHardKeeper())
+func (suite *IntegrationTester) DeliverJinxMsgWithdraw(owner sdk.AccAddress, withdraw sdk.Coins) error {
+	msg := jinxtypes.NewMsgWithdraw(owner, withdraw)
+	msgServer := jinxkeeper.NewMsgServerImpl(suite.App.GetJinxKeeper())
 
 	_, err := msgServer.Withdraw(sdk.WrapSDKContext(suite.Ctx), &msg)
 	return err
@@ -420,14 +420,14 @@ func (suite *IntegrationTester) DelegatorRewardEquals(owner sdk.AccAddress, expe
 	suite.Equalf(expected, claim.Reward, "expected delegator claim reward to be %s, but got %s", expected, claim.Reward)
 }
 
-func (suite *IntegrationTester) HardRewardEquals(owner sdk.AccAddress, expected sdk.Coins) {
-	claim, found := suite.App.GetIncentiveKeeper().GetHardLiquidityProviderClaim(suite.Ctx, owner)
+func (suite *IntegrationTester) JinxRewardEquals(owner sdk.AccAddress, expected sdk.Coins) {
+	claim, found := suite.App.GetIncentiveKeeper().GetJinxLiquidityProviderClaim(suite.Ctx, owner)
 	suite.Require().Truef(found, "expected delegator claim to be found for %s", owner)
 	suite.Equalf(expected, claim.Reward, "expected delegator claim reward to be %s, but got %s", expected, claim.Reward)
 }
 
-func (suite *IntegrationTester) USDXRewardEquals(owner sdk.AccAddress, expected sdk.Coin) {
-	claim, found := suite.App.GetIncentiveKeeper().GetUSDXMintingClaim(suite.Ctx, owner)
+func (suite *IntegrationTester) MUSDRewardEquals(owner sdk.AccAddress, expected sdk.Coin) {
+	claim, found := suite.App.GetIncentiveKeeper().GetMUSDMintingClaim(suite.Ctx, owner)
 	suite.Require().Truef(found, "expected delegator claim to be found for %s", owner)
 	suite.Equalf(expected, claim.Reward, "expected delegator claim reward to be %s, but got %s", expected, claim.Reward)
 }

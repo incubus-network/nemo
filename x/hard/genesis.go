@@ -1,12 +1,12 @@
-package hard
+package jinx
 
 import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // InitGenesis initializes the store state from a genesis state.
@@ -46,7 +46,7 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, accountKeeper types.AccountKe
 	}
 }
 
-// ExportGenesis export genesis state for hard module
+// ExportGenesis export genesis state for jinx module
 func ExportGenesis(ctx sdk.Context, k keeper.Keeper) types.GenesisState {
 	params := k.GetParams(ctx)
 

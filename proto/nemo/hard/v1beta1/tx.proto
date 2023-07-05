@@ -1,21 +1,21 @@
 syntax = "proto3";
-package nemo.hard.v1beta1;
+package nemo.jinx.v1beta1;
 
 import "cosmos/base/v1beta1/coin.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/incubus-network/nemo/x/hard/types";
+option go_package = "github.com/incubus-network/nemo/x/jinx/types";
 
-// Msg defines the hard Msg service.
+// Msg defines the jinx Msg service.
 service Msg {
-  // Deposit defines a method for depositing funds to hard liquidity pool.
+  // Deposit defines a method for depositing funds to jinx liquidity pool.
   rpc Deposit(MsgDeposit) returns (MsgDepositResponse);
-  // Withdraw defines a method for withdrawing funds from hard liquidity pool.
+  // Withdraw defines a method for withdrawing funds from jinx liquidity pool.
   rpc Withdraw(MsgWithdraw) returns (MsgWithdrawResponse);
-  // Borrow defines a method for borrowing funds from hard liquidity pool.
+  // Borrow defines a method for borrowing funds from jinx liquidity pool.
   rpc Borrow(MsgBorrow) returns (MsgBorrowResponse);
-  // Repay defines a method for repaying funds borrowed from hard liquidity pool.
+  // Repay defines a method for repaying funds borrowed from jinx liquidity pool.
   rpc Repay(MsgRepay) returns (MsgRepayResponse);
   // Liquidate defines a method for attempting to liquidate a borrower that is over their loan-to-value.
   rpc Liquidate(MsgLiquidate) returns (MsgLiquidateResponse);

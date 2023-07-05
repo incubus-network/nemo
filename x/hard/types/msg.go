@@ -27,7 +27,7 @@ func NewMsgDeposit(depositor sdk.AccAddress, amount sdk.Coins) MsgDeposit {
 func (msg MsgDeposit) Route() string { return RouterKey }
 
 // Type returns a human-readable string for the message, intended for utilization within tags.
-func (msg MsgDeposit) Type() string { return "hard_deposit" }
+func (msg MsgDeposit) Type() string { return "jinx_deposit" }
 
 // ValidateBasic does a simple validation check that doesn't require access to any other information.
 func (msg MsgDeposit) ValidateBasic() error {
@@ -69,7 +69,7 @@ func NewMsgWithdraw(depositor sdk.AccAddress, amount sdk.Coins) MsgWithdraw {
 func (msg MsgWithdraw) Route() string { return RouterKey }
 
 // Type returns a human-readable string for the message, intended for utilization within tags.
-func (msg MsgWithdraw) Type() string { return "hard_withdraw" }
+func (msg MsgWithdraw) Type() string { return "jinx_withdraw" }
 
 // ValidateBasic does a simple validation check that doesn't require access to any other information.
 func (msg MsgWithdraw) ValidateBasic() error {
@@ -110,7 +110,7 @@ func NewMsgBorrow(borrower sdk.AccAddress, amount sdk.Coins) MsgBorrow {
 func (msg MsgBorrow) Route() string { return RouterKey }
 
 // Type returns a human-readable string for the message, intended for utilization within tags.
-func (msg MsgBorrow) Type() string { return "hard_borrow" }
+func (msg MsgBorrow) Type() string { return "jinx_borrow" }
 
 // ValidateBasic does a simple validation check that doesn't require access to any other information.
 func (msg MsgBorrow) ValidateBasic() error {
@@ -152,7 +152,7 @@ func NewMsgRepay(sender, owner sdk.AccAddress, amount sdk.Coins) MsgRepay {
 func (msg MsgRepay) Route() string { return RouterKey }
 
 // Type returns a human-readable string for the message, intended for utilization within tags.
-func (msg MsgRepay) Type() string { return "hard_repay" }
+func (msg MsgRepay) Type() string { return "jinx_repay" }
 
 // ValidateBasic does a simple validation check that doesn't require access to any other information.
 func (msg MsgRepay) ValidateBasic() error {

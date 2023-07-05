@@ -26,13 +26,13 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 		types.NewSurplusAuction(
 			"sellerMod",
 			c("swp", 12345678),
-			"usdx",
+			"musd",
 			time.Date(1998, time.January, 1, 0, 0, 0, 0, time.UTC),
 		).WithID(0),
 		types.NewDebtAuction(
 			"buyerMod",
-			c("hard", 12345678),
-			c("usdx", 12345678),
+			c("jinx", 12345678),
+			c("musd", 12345678),
 			time.Date(1998, time.January, 1, 0, 0, 0, 0, time.UTC),
 			c("debt", 12345678),
 		).WithID(1),
@@ -40,7 +40,7 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 			"sellerMod",
 			c("ufury", 12345678),
 			time.Date(1998, time.January, 1, 0, 0, 0, 0, time.UTC),
-			c("usdx", 12345678),
+			c("musd", 12345678),
 			types.WeightedAddresses{
 				Addresses: addrs,
 				Weights:   []sdkmath.Int{sdkmath.NewInt(100)},
@@ -49,9 +49,9 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 		).WithID(2),
 		types.NewCollateralAuction(
 			"sellerMod",
-			c("hard", 12345678),
+			c("jinx", 12345678),
 			time.Date(1998, time.January, 1, 0, 0, 0, 0, time.UTC),
-			c("usdx", 12345678),
+			c("musd", 12345678),
 			types.WeightedAddresses{
 				Addresses: addrs,
 				Weights:   []sdkmath.Int{sdkmath.NewInt(100)},
@@ -83,9 +83,9 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 			auctions[0:1],
 		},
 		{
-			"denom query usdx all",
+			"denom query musd all",
 			types.QueryAuctionsRequest{
-				Denom: "usdx",
+				Denom: "musd",
 			},
 			auctions,
 		},
@@ -100,7 +100,7 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 			"owner and denom",
 			types.QueryAuctionsRequest{
 				Owner: addrs[0].String(),
-				Denom: "hard",
+				Denom: "jinx",
 			},
 			auctions[3:4],
 		},
@@ -108,7 +108,7 @@ func TestGrpcAuctionsFilter(t *testing.T) {
 			"owner, denom, type, phase",
 			types.QueryAuctionsRequest{
 				Owner: addrs[0].String(),
-				Denom: "hard",
+				Denom: "jinx",
 				Type:  types.CollateralAuctionType,
 				Phase: types.ForwardAuctionPhase,
 			},

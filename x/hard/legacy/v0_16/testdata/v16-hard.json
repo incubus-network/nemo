@@ -2,13 +2,13 @@
   "params": {
     "money_markets": [
       {
-        "denom": "usdx",
+        "denom": "musd",
         "borrow_limit": {
           "has_max_limit": false,
           "maximum_limit": "20000000.000000000000000000",
           "loan_to_value": "0.800000000000000000"
         },
-        "spot_market_id": "usdx:usd",
+        "spot_market_id": "musd:usd",
         "conversion_factor": "1000000",
         "interest_rate_model": {
           "base_rate_apy": "0.050000000000000000",
@@ -80,11 +80,11 @@
     {
       "borrower": "fury1qq9ustlc0nv4aew275w93g4qy5zahqgx92xufd",
       "amount": [
-        { "denom": "usdx", "amount": "146724966" },
+        { "denom": "musd", "amount": "146724966" },
         { "denom": "xrpb", "amount": "541061835659" }
       ],
       "index": [
-        { "denom": "usdx", "value": "1.000156840239586720" },
+        { "denom": "musd", "value": "1.000156840239586720" },
         { "denom": "xrpb", "value": "1.002063063678030789" }
       ]
     }

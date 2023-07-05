@@ -16,11 +16,11 @@ import (
 func registerQueryRoutes(cliCtx client.Context, r *mux.Router) {
 	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupply", types.QueryPath), getCirculatingSupplyHandlerFn(cliCtx)).Methods("GET")
 	r.HandleFunc(fmt.Sprintf("/%s/totalsupply", types.QueryPath), getTotalSupplyHandlerFn(cliCtx)).Methods("GET")
-	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupplyhard", types.QueryPath), getCirculatingSupplyHARDHandlerFn(cliCtx)).Methods("GET")
-	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupplyusdx", types.QueryPath), getCirculatingSupplyUSDXHandlerFn(cliCtx)).Methods("GET")
+	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupplyjinx", types.QueryPath), getCirculatingSupplyJINXHandlerFn(cliCtx)).Methods("GET")
+	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupplymusd", types.QueryPath), getCirculatingSupplyMUSDHandlerFn(cliCtx)).Methods("GET")
 	r.HandleFunc(fmt.Sprintf("/%s/circulatingsupplyswp", types.QueryPath), getCirculatingSupplySWPHandlerFn(cliCtx)).Methods("GET")
-	r.HandleFunc(fmt.Sprintf("/%s/totalsupplyhard", types.QueryPath), getTotalSupplyHARDHandlerFn(cliCtx)).Methods("GET")
-	r.HandleFunc(fmt.Sprintf("/%s/totalsupplyusdx", types.QueryPath), getTotalSupplyUSDXHandlerFn(cliCtx)).Methods("GET")
+	r.HandleFunc(fmt.Sprintf("/%s/totalsupplyjinx", types.QueryPath), getTotalSupplyJINXHandlerFn(cliCtx)).Methods("GET")
+	r.HandleFunc(fmt.Sprintf("/%s/totalsupplymusd", types.QueryPath), getTotalSupplyMUSDHandlerFn(cliCtx)).Methods("GET")
 }
 
 func getTotalSupplyHandlerFn(cliCtx client.Context) http.HandlerFunc {
@@ -106,7 +106,7 @@ func getCirculatingSupplyHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	}
 }
 
-func getCirculatingSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
+func getCirculatingSupplyJINXHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, page, limit, err := rest.ParseHTTPArgsWithLimit(r, 0)
 		if err != nil {
@@ -126,7 +126,7 @@ func getCirculatingSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyHARD)
+		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyJINX)
 		res, _, err := cliCtx.QueryWithData(route, bz)
 		if err != nil {
 			rest.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
@@ -148,7 +148,7 @@ func getCirculatingSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	}
 }
 
-func getCirculatingSupplyUSDXHandlerFn(cliCtx client.Context) http.HandlerFunc {
+func getCirculatingSupplyMUSDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, page, limit, err := rest.ParseHTTPArgsWithLimit(r, 0)
 		if err != nil {
@@ -168,7 +168,7 @@ func getCirculatingSupplyUSDXHandlerFn(cliCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyUSDX)
+		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryCirculatingSupplyMUSD)
 		res, _, err := cliCtx.QueryWithData(route, bz)
 		if err != nil {
 			rest.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
@@ -232,7 +232,7 @@ func getCirculatingSupplySWPHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	}
 }
 
-func getTotalSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
+func getTotalSupplyJINXHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, page, limit, err := rest.ParseHTTPArgsWithLimit(r, 0)
 		if err != nil {
@@ -252,7 +252,7 @@ func getTotalSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyHARD)
+		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyJINX)
 		res, _, err := cliCtx.QueryWithData(route, bz)
 		if err != nil {
 			rest.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())
@@ -273,7 +273,7 @@ func getTotalSupplyHARDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	}
 }
 
-func getTotalSupplyUSDXHandlerFn(cliCtx client.Context) http.HandlerFunc {
+func getTotalSupplyMUSDHandlerFn(cliCtx client.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		_, page, limit, err := rest.ParseHTTPArgsWithLimit(r, 0)
 		if err != nil {
@@ -293,7 +293,7 @@ func getTotalSupplyUSDXHandlerFn(cliCtx client.Context) http.HandlerFunc {
 			return
 		}
 
-		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyUSDX)
+		route := fmt.Sprintf("custom/%s/%s", types.QuerierRoute, types.QueryTotalSupplyMUSD)
 		res, _, err := cliCtx.QueryWithData(route, bz)
 		if err != nil {
 			rest.WriteErrorResponse(w, http.StatusInternalServerError, err.Error())

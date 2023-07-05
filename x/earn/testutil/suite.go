@@ -10,10 +10,10 @@ import (
 	"github.com/incubus-network/nemo/app"
 	"github.com/incubus-network/nemo/x/earn/keeper"
 	"github.com/incubus-network/nemo/x/earn/types"
-	"github.com/incubus-network/nemo/x/hard"
+	"github.com/incubus-network/nemo/x/jinx"
 
-	hardkeeper "github.com/incubus-network/nemo/x/hard/keeper"
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxkeeper "github.com/incubus-network/nemo/x/jinx/keeper"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 	savingskeeper "github.com/incubus-network/nemo/x/savings/keeper"
 	savingstypes "github.com/incubus-network/nemo/x/savings/types"
@@ -48,24 +48,24 @@ type Suite struct {
 	AccountKeeper authkeeper.AccountKeeper
 
 	// Strategy Keepers
-	HardKeeper    hardkeeper.Keeper
+	JinxKeeper    jinxkeeper.Keeper
 	SavingsKeeper savingskeeper.Keeper
 }
 
 // SetupTest instantiates a new app, keepers, and sets suite state
 func (suite *Suite) SetupTest() {
-	// Pricefeed required for withdrawing from hard
+	// Pricefeed required for withdrawing from jinx
 	pricefeedGS := pricefeedtypes.GenesisState{
 		Params: pricefeedtypes.Params{
 			Markets: []pricefeedtypes.Market{
-				{MarketID: "usdx:usd", BaseAsset: "usdx", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
+				{MarketID: "musd:usd", BaseAsset: "musd", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 				{MarketID: "nemo:usd", BaseAsset: "nemo", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 				{MarketID: "bnb:usd", BaseAsset: "bnb", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 			},
 		},
 		PostedPrices: []pricefeedtypes.PostedPrice{
 			{
-				MarketID:      "usdx:usd",
+				MarketID:      "musd:usd",
 				OracleAddress: sdk.AccAddress{},
 				Price:         sdk.MustNewDecFromStr("1.00"),
 				Expiry:        time.Now().Add(100 * time.Hour),
@@ -85,18 +85,18 @@ func (suite *Suite) SetupTest() {
 		},
 	}
 
-	hardGS := hardtypes.NewGenesisState(hardtypes.NewParams(
-		hardtypes.MoneyMarkets{
-			hardtypes.NewMoneyMarket(
-				"usdx",
-				hardtypes.NewBorrowLimit(
+	jinxGS := jinxtypes.NewGenesisState(jinxtypes.NewParams(
+		jinxtypes.MoneyMarkets{
+			jinxtypes.NewMoneyMarket(
+				"musd",
+				jinxtypes.NewBorrowLimit(
 					true,
 					sdk.MustNewDecFromStr("20000000"),
 					sdk.MustNewDecFromStr("1"),
 				),
-				"usdx:usd",
+				"musd:usd",
 				sdkmath.NewInt(1000000),
-				hardtypes.NewInterestRateModel(
+				jinxtypes.NewInterestRateModel(
 					sdk.MustNewDecFromStr("0.05"),
 					sdk.MustNewDecFromStr("2"),
 					sdk.MustNewDecFromStr("0.8"),
@@ -105,16 +105,16 @@ func (suite *Suite) SetupTest() {
 				sdk.MustNewDecFromStr("0.05"),
 				sdk.ZeroDec(),
 			),
-			hardtypes.NewMoneyMarket(
+			jinxtypes.NewMoneyMarket(
 				"busd",
-				hardtypes.NewBorrowLimit(
+				jinxtypes.NewBorrowLimit(
 					true,
 					sdk.MustNewDecFromStr("20000000"),
 					sdk.MustNewDecFromStr("1"),
 				),
 				"busd:usd",
 				sdkmath.NewInt(1000000),
-				hardtypes.NewInterestRateModel(
+				jinxtypes.NewInterestRateModel(
 					sdk.MustNewDecFromStr("0.05"),
 					sdk.MustNewDecFromStr("2"),
 					sdk.MustNewDecFromStr("0.8"),
@@ -123,16 +123,16 @@ func (suite *Suite) SetupTest() {
 				sdk.MustNewDecFromStr("0.05"),
 				sdk.ZeroDec(),
 			),
-			hardtypes.NewMoneyMarket(
+			jinxtypes.NewMoneyMarket(
 				"nemo",
-				hardtypes.NewBorrowLimit(
+				jinxtypes.NewBorrowLimit(
 					true,
 					sdk.MustNewDecFromStr("20000000"),
 					sdk.MustNewDecFromStr("1"),
 				),
 				"nemo:usd",
 				sdkmath.NewInt(1000000),
-				hardtypes.NewInterestRateModel(
+				jinxtypes.NewInterestRateModel(
 					sdk.MustNewDecFromStr("0.05"),
 					sdk.MustNewDecFromStr("2"),
 					sdk.MustNewDecFromStr("0.8"),
@@ -144,12 +144,12 @@ func (suite *Suite) SetupTest() {
 		},
 		sdk.NewDec(10),
 	),
-		hardtypes.DefaultAccumulationTimes,
-		hardtypes.DefaultDeposits,
-		hardtypes.DefaultBorrows,
-		hardtypes.DefaultTotalSupplied,
-		hardtypes.DefaultTotalBorrowed,
-		hardtypes.DefaultTotalReserves,
+		jinxtypes.DefaultAccumulationTimes,
+		jinxtypes.DefaultDeposits,
+		jinxtypes.DefaultBorrows,
+		jinxtypes.DefaultTotalSupplied,
+		jinxtypes.DefaultTotalBorrowed,
+		jinxtypes.DefaultTotalReserves,
 	)
 
 	savingsGS := savingstypes.NewGenesisState(
@@ -157,7 +157,7 @@ func (suite *Suite) SetupTest() {
 			[]string{
 				"ufury",
 				"busd",
-				"usdx",
+				"musd",
 				TestBnemoDenoms[0],
 				TestBnemoDenoms[1],
 				TestBnemoDenoms[2],
@@ -178,7 +178,7 @@ func (suite *Suite) SetupTest() {
 	tApp.InitializeFromGenesisStates(
 		app.GenesisState{
 			pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS),
-			hardtypes.ModuleName:      tApp.AppCodec().MustMarshalJSON(&hardGS),
+			jinxtypes.ModuleName:      tApp.AppCodec().MustMarshalJSON(&jinxGS),
 			savingstypes.ModuleName:   tApp.AppCodec().MustMarshalJSON(&savingsGS),
 			stakingtypes.ModuleName:   tApp.AppCodec().MustMarshalJSON(&stakingGs),
 		},
@@ -192,10 +192,10 @@ func (suite *Suite) SetupTest() {
 	suite.BankKeeper = tApp.GetBankKeeper()
 	suite.AccountKeeper = tApp.GetAccountKeeper()
 
-	suite.HardKeeper = tApp.GetHardKeeper()
+	suite.JinxKeeper = tApp.GetJinxKeeper()
 	suite.SavingsKeeper = tApp.GetSavingsKeeper()
 
-	hard.BeginBlocker(suite.Ctx, suite.HardKeeper)
+	jinx.BeginBlocker(suite.Ctx, suite.JinxKeeper)
 }
 
 // GetEvents returns emitted events on the sdk context
@@ -326,24 +326,24 @@ func (suite *Suite) VaultAccountSharesEqual(accs []sdk.AccAddress, supplies []sd
 }
 
 // ----------------------------------------------------------------------------
-// Hard
+// Jinx
 
-// HardDepositAmountEqual asserts that the hard deposit amount matches the provided
+// JinxDepositAmountEqual asserts that the jinx deposit amount matches the provided
 // values.
-func (suite *Suite) HardDepositAmountEqual(expected sdk.Coins) {
+func (suite *Suite) JinxDepositAmountEqual(expected sdk.Coins) {
 	macc := suite.AccountKeeper.GetModuleAccount(suite.Ctx, types.ModuleName)
 
-	hardDeposit, found := suite.HardKeeper.GetSyncedDeposit(suite.Ctx, macc.GetAddress())
+	jinxDeposit, found := suite.JinxKeeper.GetSyncedDeposit(suite.Ctx, macc.GetAddress())
 	if expected.IsZero() {
 		suite.Require().False(found)
 		return
 	}
 
-	suite.Require().True(found, "hard should have a deposit")
+	suite.Require().True(found, "jinx should have a deposit")
 	suite.Require().Equalf(
 		expected,
-		hardDeposit.Amount,
-		"hard should have a deposit with the amount %v",
+		jinxDeposit.Amount,
+		"jinx should have a deposit with the amount %v",
 		expected,
 	)
 }

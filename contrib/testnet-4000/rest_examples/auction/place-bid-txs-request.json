@@ -7,7 +7,7 @@
                     "auction_id": "1",
                     "bidder": "fury1xy7hrjy9r0algz9w3gzm8u6mrpq97kwt3qgvd6",
                     "amount": {
-                        "denom": "usdx",
+                        "denom": "musd",
                         "amount": "100000000"
                     }
                 }

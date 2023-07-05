@@ -59,7 +59,7 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					time.Date(2025, 10, 15, 14, 0, 0, 0, time.UTC),
 				),
-				USDXRewardState: GenesisRewardState{
+				MUSDRewardState: GenesisRewardState{
 					AccumulationTimes: AccumulationTimes{{
 						CollateralType:           "bnb-a",
 						PreviousAccumulationTime: time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC),
@@ -69,7 +69,7 @@ func TestGenesisState_Validate(t *testing.T) {
 						RewardIndexes:  normalRewardIndexes,
 					}},
 				},
-				USDXMintingClaims: USDXMintingClaims{
+				MUSDMintingClaims: MUSDMintingClaims{
 					{
 						BaseClaim: BaseClaim{
 							Owner:  sdk.AccAddress(crypto.AddressHash([]byte("NemoTestUser1"))),
@@ -92,7 +92,7 @@ func TestGenesisState_Validate(t *testing.T) {
 			name: "invalid genesis accumulation time",
 			genesis: GenesisState{
 				Params: DefaultParams(),
-				USDXRewardState: GenesisRewardState{
+				MUSDRewardState: GenesisRewardState{
 					AccumulationTimes: AccumulationTimes{{
 						CollateralType:           "",
 						PreviousAccumulationTime: time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC),
@@ -102,7 +102,7 @@ func TestGenesisState_Validate(t *testing.T) {
 						RewardIndexes:  normalRewardIndexes,
 					}},
 				},
-				USDXMintingClaims: DefaultUSDXClaims,
+				MUSDMintingClaims: DefaultMUSDClaims,
 			},
 			errArgs: errArgs{
 				expectPass: false,
@@ -113,8 +113,8 @@ func TestGenesisState_Validate(t *testing.T) {
 			name: "invalid claim",
 			genesis: GenesisState{
 				Params:          DefaultParams(),
-				USDXRewardState: DefaultGenesisRewardState,
-				USDXMintingClaims: USDXMintingClaims{
+				MUSDRewardState: DefaultGenesisRewardState,
+				MUSDMintingClaims: MUSDMintingClaims{
 					{
 						BaseClaim: BaseClaim{
 							Owner:  nil, // invalid address

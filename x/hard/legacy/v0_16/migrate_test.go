@@ -12,8 +12,8 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	app "github.com/incubus-network/nemo/app"
-	v015hard "github.com/incubus-network/nemo/x/hard/legacy/v0_15"
-	v016hard "github.com/incubus-network/nemo/x/hard/types"
+	v015jinx "github.com/incubus-network/nemo/x/jinx/legacy/v0_15"
+	v016jinx "github.com/incubus-network/nemo/x/jinx/types"
 )
 
 type migrateTestSuite struct {
@@ -37,35 +37,35 @@ func (s *migrateTestSuite) SetupTest() {
 }
 
 func (s *migrateTestSuite) TestMigrate_JSON() {
-	file := filepath.Join("testdata", "v15-hard.json")
+	file := filepath.Join("testdata", "v15-jinx.json")
 	data, err := ioutil.ReadFile(file)
 	s.Require().NoError(err)
-	var v15genstate v015hard.GenesisState
+	var v15genstate v015jinx.GenesisState
 	err = s.legacyCdc.UnmarshalJSON(data, &v15genstate)
 	s.Require().NoError(err)
 	genstate := Migrate(v15genstate)
 	actual := s.cdc.MustMarshalJSON(genstate)
 
-	file = filepath.Join("testdata", "v16-hard.json")
+	file = filepath.Join("testdata", "v16-jinx.json")
 	expected, err := ioutil.ReadFile(file)
 	s.Require().NoError(err)
 	s.Require().JSONEq(string(expected), string(actual))
 }
 
 func (s *migrateTestSuite) TestMigrate_GenState() {
-	v15genstate := v015hard.GenesisState{
-		Params: v015hard.Params{
-			MoneyMarkets: v015hard.MoneyMarkets{
+	v15genstate := v015jinx.GenesisState{
+		Params: v015jinx.Params{
+			MoneyMarkets: v015jinx.MoneyMarkets{
 				{
 					Denom: "nemo",
-					BorrowLimit: v015hard.BorrowLimit{
+					BorrowLimit: v015jinx.BorrowLimit{
 						HasMaxLimit:  true,
 						MaximumLimit: sdk.MustNewDecFromStr("0.1"),
 						LoanToValue:  sdk.MustNewDecFromStr("0.2"),
 					},
 					SpotMarketID:     "spot-market-id",
 					ConversionFactor: sdkmath.NewInt(110),
-					InterestRateModel: v015hard.InterestRateModel{
+					InterestRateModel: v015jinx.InterestRateModel{
 						BaseRateAPY:    sdk.MustNewDecFromStr("0.1"),
 						BaseMultiplier: sdk.MustNewDecFromStr("0.2"),
 						Kink:           sdk.MustNewDecFromStr("0.3"),
@@ -76,7 +76,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		PreviousAccumulationTimes: v015hard.GenesisAccumulationTimes{
+		PreviousAccumulationTimes: v015jinx.GenesisAccumulationTimes{
 			{
 				CollateralType:           "nemo",
 				PreviousAccumulationTime: time.Date(1998, time.January, 1, 12, 0, 0, 1, time.UTC),
@@ -84,11 +84,11 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				BorrowInterestFactor:     sdk.MustNewDecFromStr("0.2"),
 			},
 		},
-		Deposits: v015hard.Deposits{
+		Deposits: v015jinx.Deposits{
 			{
 				Depositor: s.addresses[0],
 				Amount:    sdk.NewCoins(sdk.NewCoin("nemo", sdkmath.NewInt(100))),
-				Index: v015hard.SupplyInterestFactors{
+				Index: v015jinx.SupplyInterestFactors{
 					{
 						Denom: "nemo",
 						Value: sdk.MustNewDecFromStr("1.12"),
@@ -96,11 +96,11 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		Borrows: v015hard.Borrows{
+		Borrows: v015jinx.Borrows{
 			{
 				Borrower: s.addresses[1],
 				Amount:   sdk.NewCoins(sdk.NewCoin("nemo", sdkmath.NewInt(100))),
-				Index: v015hard.BorrowInterestFactors{
+				Index: v015jinx.BorrowInterestFactors{
 					{
 						Denom: "nemo",
 						Value: sdk.MustNewDecFromStr("1.12"),
@@ -112,19 +112,19 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 		TotalBorrowed: sdk.NewCoins(sdk.NewCoin("bnb", sdkmath.NewInt(200))),
 		TotalReserves: sdk.NewCoins(sdk.NewCoin("xrp", sdkmath.NewInt(300))),
 	}
-	expected := v016hard.GenesisState{
-		Params: v016hard.Params{
-			MoneyMarkets: v016hard.MoneyMarkets{
+	expected := v016jinx.GenesisState{
+		Params: v016jinx.Params{
+			MoneyMarkets: v016jinx.MoneyMarkets{
 				{
 					Denom: "nemo",
-					BorrowLimit: v016hard.BorrowLimit{
+					BorrowLimit: v016jinx.BorrowLimit{
 						HasMaxLimit:  true,
 						MaximumLimit: sdk.MustNewDecFromStr("0.1"),
 						LoanToValue:  sdk.MustNewDecFromStr("0.2"),
 					},
 					SpotMarketID:     "spot-market-id",
 					ConversionFactor: sdkmath.NewInt(110),
-					InterestRateModel: v016hard.InterestRateModel{
+					InterestRateModel: v016jinx.InterestRateModel{
 						BaseRateAPY:    sdk.MustNewDecFromStr("0.1"),
 						BaseMultiplier: sdk.MustNewDecFromStr("0.2"),
 						Kink:           sdk.MustNewDecFromStr("0.3"),
@@ -135,14 +135,14 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 				{
 					Denom: UATOM_IBC_DENOM,
-					BorrowLimit: v016hard.BorrowLimit{
+					BorrowLimit: v016jinx.BorrowLimit{
 						HasMaxLimit:  true,
 						MaximumLimit: sdk.NewDec(25000000000),
 						LoanToValue:  sdk.MustNewDecFromStr("0.5"),
 					},
 					SpotMarketID:     "atom:usd:30",
 					ConversionFactor: sdkmath.NewInt(1000000),
-					InterestRateModel: v016hard.InterestRateModel{
+					InterestRateModel: v016jinx.InterestRateModel{
 						BaseRateAPY:    sdk.ZeroDec(),
 						BaseMultiplier: sdk.MustNewDecFromStr("0.05"),
 						Kink:           sdk.MustNewDecFromStr("0.8"),
@@ -153,7 +153,7 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		PreviousAccumulationTimes: v016hard.GenesisAccumulationTimes{
+		PreviousAccumulationTimes: v016jinx.GenesisAccumulationTimes{
 			{
 				CollateralType:           "nemo",
 				PreviousAccumulationTime: time.Date(1998, time.January, 1, 12, 0, 0, 1, time.UTC),
@@ -161,11 +161,11 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				BorrowInterestFactor:     sdk.MustNewDecFromStr("0.2"),
 			},
 		},
-		Deposits: v016hard.Deposits{
+		Deposits: v016jinx.Deposits{
 			{
 				Depositor: s.addresses[0],
 				Amount:    sdk.NewCoins(sdk.NewCoin("nemo", sdkmath.NewInt(100))),
-				Index: v016hard.SupplyInterestFactors{
+				Index: v016jinx.SupplyInterestFactors{
 					{
 						Denom: "nemo",
 						Value: sdk.MustNewDecFromStr("1.12"),
@@ -173,11 +173,11 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 				},
 			},
 		},
-		Borrows: v016hard.Borrows{
+		Borrows: v016jinx.Borrows{
 			{
 				Borrower: s.addresses[1],
 				Amount:   sdk.NewCoins(sdk.NewCoin("nemo", sdkmath.NewInt(100))),
-				Index: v016hard.BorrowInterestFactors{
+				Index: v016jinx.BorrowInterestFactors{
 					{
 						Denom: "nemo",
 						Value: sdk.MustNewDecFromStr("1.12"),
@@ -193,6 +193,6 @@ func (s *migrateTestSuite) TestMigrate_GenState() {
 	s.Require().Equal(expected, *genState)
 }
 
-func TestHardMigrateTestSuite(t *testing.T) {
+func TestJinxMigrateTestSuite(t *testing.T) {
 	suite.Run(t, new(migrateTestSuite))
 }

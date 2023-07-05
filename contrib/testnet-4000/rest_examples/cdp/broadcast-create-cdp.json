@@ -14,7 +14,7 @@
           ],
           "principal": [
             {
-              "denom": "usdx",
+              "denom": "musd",
               "amount": "10000000"
             }
           ]

@@ -7,7 +7,7 @@ import (
 
 // IsValid returns true if the StrategyType status is valid and false otherwise.
 func (s StrategyType) IsValid() bool {
-	return s == STRATEGY_TYPE_HARD || s == STRATEGY_TYPE_SAVINGS
+	return s == STRATEGY_TYPE_JINX || s == STRATEGY_TYPE_SAVINGS
 }
 
 // Validate returns an error if the StrategyType is invalid.
@@ -22,8 +22,8 @@ func (s StrategyType) Validate() error {
 // NewStrategyTypeFromString converts string to StrategyType type
 func NewStrategyTypeFromString(str string) StrategyType {
 	switch strings.ToLower(str) {
-	case "hard":
-		return STRATEGY_TYPE_HARD
+	case "jinx":
+		return STRATEGY_TYPE_JINX
 	case "savings":
 		return STRATEGY_TYPE_SAVINGS
 	default:

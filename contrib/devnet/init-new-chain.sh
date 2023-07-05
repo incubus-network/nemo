@@ -62,7 +62,7 @@ $BINARY add-genesis-account $evmFaucetKeyName 1000000000ufury
 
 userKeyName="user"
 printf "$userMnemonic\n" | $BINARY keys add $userKeyName --eth --recover
-$BINARY add-genesis-account $userKeyName 1000000000ufury,1000000000usdx
+$BINARY add-genesis-account $userKeyName 1000000000ufury,1000000000musd
 
 relayerKeyName="relayer"
 printf "$relayerMnemonic\n" | $BINARY keys add $relayerKeyName --eth --recover
@@ -95,8 +95,8 @@ jq '.app_state.evm.params.chain_config.cancun_block = null' $DATA/config/genesis
 # Add earn vault
 jq '.app_state.earn.params.allowed_vaults =  [
     {
-        denom: "usdx",
-        strategies: ["STRATEGY_TYPE_HARD"],
+        denom: "musd",
+        strategies: ["STRATEGY_TYPE_JINX"],
     },
     {
         denom: "bfury",

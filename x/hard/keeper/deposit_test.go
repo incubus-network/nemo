@@ -11,8 +11,8 @@ import (
 	tmtime "github.com/tendermint/tendermint/types/time"
 
 	"github.com/incubus-network/nemo/app"
-	"github.com/incubus-network/nemo/x/hard"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx"
+	"github.com/incubus-network/nemo/x/jinx/types"
 	pricefeedtypes "github.com/incubus-network/nemo/x/pricefeed/types"
 )
 
@@ -114,9 +114,9 @@ func (suite *KeeperTestSuite) TestDeposit() {
 				[]sdk.AccAddress{tc.args.depositor},
 			)
 			loanToValue, _ := sdk.NewDecFromStr("0.6")
-			hardGS := types.NewGenesisState(types.NewParams(
+			jinxGS := types.NewGenesisState(types.NewParams(
 				types.MoneyMarkets{
-					types.NewMoneyMarket("usdx", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "usdx:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
+					types.NewMoneyMarket("musd", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "musd:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("ufury", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "nemo:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("bnb", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "bnb:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("btcb", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "btcb:usd", sdkmath.NewInt(1000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
@@ -130,7 +130,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 			pricefeedGS := pricefeedtypes.GenesisState{
 				Params: pricefeedtypes.Params{
 					Markets: []pricefeedtypes.Market{
-						{MarketID: "usdx:usd", BaseAsset: "usdx", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
+						{MarketID: "musd:usd", BaseAsset: "musd", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "nemo:usd", BaseAsset: "nemo", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "btcb:usd", BaseAsset: "btcb", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
 						{MarketID: "bnb:usd", BaseAsset: "bnb", QuoteAsset: "usd", Oracles: []sdk.AccAddress{}, Active: true},
@@ -138,7 +138,7 @@ func (suite *KeeperTestSuite) TestDeposit() {
 				},
 				PostedPrices: []pricefeedtypes.PostedPrice{
 					{
-						MarketID:      "usdx:usd",
+						MarketID:      "musd:usd",
 						OracleAddress: sdk.AccAddress{},
 						Price:         sdk.MustNewDecFromStr("1.00"),
 						Expiry:        time.Now().Add(1 * time.Hour),
@@ -166,15 +166,15 @@ func (suite *KeeperTestSuite) TestDeposit() {
 
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
-				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)},
+				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)},
 			)
-			keeper := tApp.GetHardKeeper()
+			keeper := tApp.GetJinxKeeper()
 			suite.app = tApp
 			suite.ctx = ctx
 			suite.keeper = keeper
 
 			// Run BeginBlocker once to transition MoneyMarkets
-			hard.BeginBlocker(suite.ctx, suite.keeper)
+			jinx.BeginBlocker(suite.ctx, suite.keeper)
 
 			// run the test
 			var err error
@@ -277,7 +277,7 @@ func (suite *KeeperTestSuite) TestDecrementSuppliedCoins() {
 				[]sdk.Coins{tc.args.suppliedInitial},
 				[]sdk.AccAddress{depositor},
 			)
-			hardGS := types.NewGenesisState(types.NewParams(
+			jinxGS := types.NewGenesisState(types.NewParams(
 				types.MoneyMarkets{
 					types.NewMoneyMarket("bnb", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "bnb:usd", sdkmath.NewInt(100000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
 					types.NewMoneyMarket("busd", types.NewBorrowLimit(false, sdk.NewDec(1000000000000000), loanToValue), "busd:usd", sdkmath.NewInt(100000000), types.NewInterestRateModel(sdk.MustNewDecFromStr("0.05"), sdk.MustNewDecFromStr("2"), sdk.MustNewDecFromStr("0.8"), sdk.MustNewDecFromStr("10")), sdk.MustNewDecFromStr("0.05"), sdk.ZeroDec()),
@@ -319,15 +319,15 @@ func (suite *KeeperTestSuite) TestDecrementSuppliedCoins() {
 			}
 			tApp.InitializeFromGenesisStates(authGS,
 				app.GenesisState{pricefeedtypes.ModuleName: tApp.AppCodec().MustMarshalJSON(&pricefeedGS)},
-				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&hardGS)},
+				app.GenesisState{types.ModuleName: tApp.AppCodec().MustMarshalJSON(&jinxGS)},
 			)
-			keeper := tApp.GetHardKeeper()
+			keeper := tApp.GetJinxKeeper()
 			suite.app = tApp
 			suite.ctx = ctx
 			suite.keeper = keeper
 
 			// Run BeginBlocker once to transition MoneyMarkets
-			hard.BeginBlocker(suite.ctx, suite.keeper)
+			jinx.BeginBlocker(suite.ctx, suite.keeper)
 
 			err := suite.keeper.Deposit(suite.ctx, depositor, tc.args.suppliedInitial)
 			suite.Require().NoError(err)

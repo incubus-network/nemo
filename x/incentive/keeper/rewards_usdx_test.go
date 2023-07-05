@@ -18,49 +18,49 @@ import (
 	nemodisttypes "github.com/incubus-network/nemo/x/nemodist/types"
 )
 
-type USDXIntegrationTests struct {
+type MUSDIntegrationTests struct {
 	testutil.IntegrationTester
 
 	genesisTime time.Time
 	addrs       []sdk.AccAddress
 }
 
-func TestUSDXIntegration(t *testing.T) {
-	suite.Run(t, new(USDXIntegrationTests))
+func TestMUSDIntegration(t *testing.T) {
+	suite.Run(t, new(MUSDIntegrationTests))
 }
 
 // SetupTest is run automatically before each suite test
-func (suite *USDXIntegrationTests) SetupTest() {
+func (suite *MUSDIntegrationTests) SetupTest() {
 	_, suite.addrs = app.GeneratePrivKeyAddressPairs(5)
 
 	suite.genesisTime = time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC)
 }
 
-func (suite *USDXIntegrationTests) ProposeAndVoteOnNewRewardPeriods(committeeID uint64, voter sdk.AccAddress, newPeriods types.RewardPeriods) {
+func (suite *MUSDIntegrationTests) ProposeAndVoteOnNewRewardPeriods(committeeID uint64, voter sdk.AccAddress, newPeriods types.RewardPeriods) {
 	suite.ProposeAndVoteOnNewParams(
 		voter,
 		committeeID,
 		[]proposaltypes.ParamChange{{
 			Subspace: types.ModuleName,
-			Key:      string(types.KeyUSDXMintingRewardPeriods),
+			Key:      string(types.KeyMUSDMintingRewardPeriods),
 			Value:    string(types.ModuleCdc.LegacyAmino.MustMarshalJSON(newPeriods)),
 		}})
 }
 
-func (suite *USDXIntegrationTests) TestSingleUserAccumulatesRewardsAfterSyncing() {
+func (suite *MUSDIntegrationTests) TestSingleUserAccumulatesRewardsAfterSyncing() {
 	userA := suite.addrs[0]
 
 	authBulder := app.NewAuthBankGenesisBuilder().
-		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.USDXMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
+		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.MUSDMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
 		WithSimpleAccount(userA, cs(c("bnb", 1e12)))                                                  // give the user some coins
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
 		WithGenesisTime(suite.genesisTime).
 		WithMultipliers(types.MultipliersPerDenoms{{
-			Denom:       types.USDXMintingRewardDenom,
+			Denom:       types.MUSDMintingRewardDenom,
 			Multipliers: types.Multipliers{types.NewMultiplier("large", 12, d("1.0"))}, // keep payout at 1.0 to make maths easier
 		}}).
-		WithSimpleUSDXRewardPeriod("bnb-a", c(types.USDXMintingRewardDenom, 1e6))
+		WithSimpleMUSDRewardPeriod("bnb-a", c(types.MUSDMintingRewardDenom, 1e6))
 
 	suite.SetApp()
 	suite.WithGenesisTime(suite.genesisTime)
@@ -93,21 +93,21 @@ func (suite *USDXIntegrationTests) TestSingleUserAccumulatesRewardsAfterSyncing(
 	suite.NextBlockAfter(1e6 * time.Second) // about 12 days
 
 	// User claims all their rewards
-	msg := types.NewMsgClaimUSDXMintingReward(userA.String(), "large")
+	msg := types.NewMsgClaimMUSDMintingReward(userA.String(), "large")
 	suite.NoError(suite.DeliverIncentiveMsg(&msg))
 
 	// The users has always had 100% of cdp debt, so they should receive all rewards for the previous two blocks.
 	// Total rewards for each block is block duration * rewards per second
 	accuracy := 1e-18 // using a very high accuracy to flag future small calculation changes
-	suite.BalanceInEpsilon(userA, cs(c("bnb", 1e12-1e10), c(cdptypes.DefaultStableDenom, 1e9), c(types.USDXMintingRewardDenom, 2*1e6*1e6)), accuracy)
+	suite.BalanceInEpsilon(userA, cs(c("bnb", 1e12-1e10), c(cdptypes.DefaultStableDenom, 1e9), c(types.MUSDMintingRewardDenom, 2*1e6*1e6)), accuracy)
 }
 
-func (suite *USDXIntegrationTests) TestSingleUserAccumulatesRewardsWithoutSyncing() {
+func (suite *MUSDIntegrationTests) TestSingleUserAccumulatesRewardsWithoutSyncing() {
 	user := suite.addrs[0]
 	initialCollateral := c("bnb", 1e9)
 
 	authBuilder := app.NewAuthBankGenesisBuilder().
-		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.USDXMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
+		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.MUSDMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
 		WithSimpleAccount(user, cs(initialCollateral))
 
 	collateralType := "bnb-a"
@@ -115,10 +115,10 @@ func (suite *USDXIntegrationTests) TestSingleUserAccumulatesRewardsWithoutSyncin
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
 		WithGenesisTime(suite.genesisTime).
 		WithMultipliers(types.MultipliersPerDenoms{{
-			Denom:       types.USDXMintingRewardDenom,
+			Denom:       types.MUSDMintingRewardDenom,
 			Multipliers: types.Multipliers{types.NewMultiplier("large", 12, d("1.0"))}, // keep payout at 1.0 to make maths easier
 		}}).
-		WithSimpleUSDXRewardPeriod(collateralType, c(types.USDXMintingRewardDenom, 1e6))
+		WithSimpleMUSDRewardPeriod(collateralType, c(types.MUSDMintingRewardDenom, 1e6))
 
 	suite.SetApp()
 	suite.WithGenesisTime(suite.genesisTime)
@@ -131,40 +131,40 @@ func (suite *USDXIntegrationTests) TestSingleUserAccumulatesRewardsWithoutSyncin
 
 	// Setup cdp state containing one CDP
 	suite.NoError(
-		suite.DeliverMsgCreateCDP(user, initialCollateral, c("usdx", 1e8), collateralType),
+		suite.DeliverMsgCreateCDP(user, initialCollateral, c("musd", 1e8), collateralType),
 	)
 
-	// Skip ahead a few blocks blocks to accumulate both interest and usdx reward for the cdp
+	// Skip ahead a few blocks blocks to accumulate both interest and musd reward for the cdp
 	// Don't sync the CDP between the blocks
 	suite.NextBlockAfter(1e6 * time.Second) // about 12 days
 	suite.NextBlockAfter(1e6 * time.Second)
 	suite.NextBlockAfter(1e6 * time.Second)
 
-	msg := types.NewMsgClaimUSDXMintingReward(user.String(), "large")
+	msg := types.NewMsgClaimMUSDMintingReward(user.String(), "large")
 	suite.NoError(suite.DeliverIncentiveMsg(&msg))
 
 	// The users has always had 100% of cdp debt, so they should receive all rewards for the previous two blocks.
 	// Total rewards for each block is block duration * rewards per second
 	accuracy := 1e-18 // using a very high accuracy to flag future small calculation changes
-	suite.BalanceInEpsilon(user, cs(c(cdptypes.DefaultStableDenom, 1e8), c(types.USDXMintingRewardDenom, 3*1e6*1e6)), accuracy)
+	suite.BalanceInEpsilon(user, cs(c(cdptypes.DefaultStableDenom, 1e8), c(types.MUSDMintingRewardDenom, 3*1e6*1e6)), accuracy)
 }
 
-func (suite *USDXIntegrationTests) TestReinstatingRewardParamsDoesNotTriggerOverPayments() {
+func (suite *MUSDIntegrationTests) TestReinstatingRewardParamsDoesNotTriggerOverPayments() {
 	userA := suite.addrs[0]
 	userB := suite.addrs[1]
 
 	authBuilder := app.NewAuthBankGenesisBuilder().
-		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.USDXMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
+		WithSimpleModuleAccount(nemodisttypes.ModuleName, cs(c(types.MUSDMintingRewardDenom, 1e18))). // Fill nemodist with enough coins to pay out any reward
 		WithSimpleAccount(userA, cs(c("bnb", 1e10))).
 		WithSimpleAccount(userB, cs(c("bnb", 1e10)))
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
 		WithGenesisTime(suite.genesisTime).
 		WithMultipliers(types.MultipliersPerDenoms{{
-			Denom:       types.USDXMintingRewardDenom,
+			Denom:       types.MUSDMintingRewardDenom,
 			Multipliers: types.Multipliers{types.NewMultiplier("large", 12, d("1.0"))}, // keep payout at 1.0 to make maths easier
 		}}).
-		WithSimpleUSDXRewardPeriod("bnb-a", c(types.USDXMintingRewardDenom, 1e6))
+		WithSimpleMUSDRewardPeriod("bnb-a", c(types.MUSDMintingRewardDenom, 1e6))
 
 	suite.SetApp()
 	suite.WithGenesisTime(suite.genesisTime)
@@ -178,17 +178,17 @@ func (suite *USDXIntegrationTests) TestReinstatingRewardParamsDoesNotTriggerOver
 
 	// Accumulate some CDP rewards, requires creating a cdp so the total borrowed isn't 0.
 	suite.NoError(
-		suite.DeliverMsgCreateCDP(userA, c("bnb", 1e10), c("usdx", 1e9), "bnb-a"),
+		suite.DeliverMsgCreateCDP(userA, c("bnb", 1e10), c("musd", 1e9), "bnb-a"),
 	)
 	suite.NextBlockAfter(1e6 * time.Second)
 
-	// Remove the USDX reward period
+	// Remove the MUSD reward period
 	suite.ProposeAndVoteOnNewRewardPeriods(0, userA, types.RewardPeriods{})
 	// next block so proposal is enacted
 	suite.NextBlockAfter(1 * time.Second)
 
 	// Create a CDP when there is no reward periods. In a previous version the claim object would not be created, leading to the bug.
-	// Withdraw the same amount of usdx as the first cdp currently has. This make the reward maths easier, as rewards will be split 50:50 between each cdp.
+	// Withdraw the same amount of musd as the first cdp currently has. This make the reward maths easier, as rewards will be split 50:50 between each cdp.
 	firstCDP, f := suite.App.GetCDPKeeper().GetCdpByOwnerAndCollateralType(suite.Ctx, userA, "bnb-a")
 	suite.True(f)
 	firstCDPTotalPrincipal := firstCDP.GetTotalPrincipal()
@@ -203,7 +203,7 @@ func (suite *USDXIntegrationTests) TestReinstatingRewardParamsDoesNotTriggerOver
 			"bnb-a",
 			suite.Ctx.BlockTime(), // start accumulating again from this block
 			suite.genesisTime.Add(365*24*time.Hour),
-			c(types.USDXMintingRewardDenom, 1e6),
+			c(types.MUSDMintingRewardDenom, 1e6),
 		)},
 	)
 	// next block so proposal is enacted
@@ -216,19 +216,19 @@ func (suite *USDXIntegrationTests) TestReinstatingRewardParamsDoesNotTriggerOver
 	)
 
 	// Claim rewards
-	msg := types.NewMsgClaimUSDXMintingReward(userB.String(), "large")
+	msg := types.NewMsgClaimMUSDMintingReward(userB.String(), "large")
 	suite.NoError(suite.DeliverIncentiveMsg(&msg))
 
 	// The cdp had half the total borrows for a 1s block. So should earn half the rewards for that block
 	suite.BalanceInEpsilon(
 		userB,
-		cs(firstCDPTotalPrincipal.Add(c(cdptypes.DefaultStableDenom, 1)), c(types.USDXMintingRewardDenom, 0.5*1e6)),
+		cs(firstCDPTotalPrincipal.Add(c(cdptypes.DefaultStableDenom, 1)), c(types.MUSDMintingRewardDenom, 0.5*1e6)),
 		1e-18, // using very high accuracy to catch small changes to the calculations
 	)
 }
 
 // Test suite used for all keeper tests
-type USDXRewardsTestSuite struct {
+type MUSDRewardsTestSuite struct {
 	suite.Suite
 
 	keeper    keeper.Keeper
@@ -242,7 +242,7 @@ type USDXRewardsTestSuite struct {
 }
 
 // SetupTest is run automatically before each suite test
-func (suite *USDXRewardsTestSuite) SetupTest() {
+func (suite *MUSDRewardsTestSuite) SetupTest() {
 	config := sdk.GetConfig()
 	app.SetBech32AddressPrefixes(config)
 
@@ -251,7 +251,7 @@ func (suite *USDXRewardsTestSuite) SetupTest() {
 	suite.genesisTime = time.Date(2020, 12, 15, 14, 0, 0, 0, time.UTC)
 }
 
-func (suite *USDXRewardsTestSuite) SetupApp() {
+func (suite *MUSDRewardsTestSuite) SetupApp() {
 	suite.app = app.NewTestApp()
 
 	suite.keeper = suite.app.GetIncentiveKeeper()
@@ -260,7 +260,7 @@ func (suite *USDXRewardsTestSuite) SetupApp() {
 	suite.ctx = suite.app.NewContext(true, tmproto.Header{Height: 1, Time: suite.genesisTime})
 }
 
-func (suite *USDXRewardsTestSuite) SetupWithGenState(authBuilder *app.AuthBankGenesisBuilder, incentBuilder testutil.IncentiveGenesisBuilder) {
+func (suite *MUSDRewardsTestSuite) SetupWithGenState(authBuilder *app.AuthBankGenesisBuilder, incentBuilder testutil.IncentiveGenesisBuilder) {
 	suite.SetupApp()
 
 	suite.app.InitializeFromGenesisStatesWithTime(
@@ -272,7 +272,7 @@ func (suite *USDXRewardsTestSuite) SetupWithGenState(authBuilder *app.AuthBankGe
 	)
 }
 
-func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
+func (suite *MUSDRewardsTestSuite) TestAccumulateMUSDMintingRewards() {
 	type args struct {
 		ctype                 string
 		rewardsPerSecond      sdk.Coin
@@ -290,7 +290,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			args{
 				ctype:                 "bnb-a",
 				rewardsPerSecond:      c("ufury", 122354),
-				initialTotalPrincipal: c("usdx", 1000000000000),
+				initialTotalPrincipal: c("musd", 1000000000000),
 				timeElapsed:           7,
 				expectedRewardFactor:  d("0.000000856478000000"),
 			},
@@ -300,7 +300,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			args{
 				ctype:                 "bnb-a",
 				rewardsPerSecond:      c("ufury", 122354),
-				initialTotalPrincipal: c("usdx", 1000000000000),
+				initialTotalPrincipal: c("musd", 1000000000000),
 				timeElapsed:           86400,
 				expectedRewardFactor:  d("0.0105713856"),
 			},
@@ -310,7 +310,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 			args{
 				ctype:                 "bnb-a",
 				rewardsPerSecond:      c("ufury", 122354),
-				initialTotalPrincipal: c("usdx", 1000000000000),
+				initialTotalPrincipal: c("musd", 1000000000000),
 				timeElapsed:           0,
 				expectedRewardFactor:  d("0.0"),
 			},
@@ -318,7 +318,7 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 	}
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
-			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleUSDXRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
+			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleMUSDRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
 
 			suite.SetupWithGenState(app.NewAuthBankGenesisBuilder(), incentBuilder)
 
@@ -327,17 +327,17 @@ func (suite *USDXRewardsTestSuite) TestAccumulateUSDXMintingRewards() {
 
 			updatedBlockTime := suite.ctx.BlockTime().Add(time.Duration(int(time.Second) * tc.args.timeElapsed))
 			suite.ctx = suite.ctx.WithBlockTime(updatedBlockTime)
-			rewardPeriod, found := suite.keeper.GetUSDXMintingRewardPeriod(suite.ctx, tc.args.ctype)
+			rewardPeriod, found := suite.keeper.GetMUSDMintingRewardPeriod(suite.ctx, tc.args.ctype)
 			suite.Require().True(found)
-			suite.keeper.AccumulateUSDXMintingRewards(suite.ctx, rewardPeriod)
+			suite.keeper.AccumulateMUSDMintingRewards(suite.ctx, rewardPeriod)
 
-			rewardFactor, _ := suite.keeper.GetUSDXMintingRewardFactor(suite.ctx, tc.args.ctype)
+			rewardFactor, _ := suite.keeper.GetMUSDMintingRewardFactor(suite.ctx, tc.args.ctype)
 			suite.Require().Equal(tc.args.expectedRewardFactor, rewardFactor)
 		})
 	}
 }
 
-func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
+func (suite *MUSDRewardsTestSuite) TestSynchronizeMUSDMintingReward() {
 	type args struct {
 		ctype                string
 		rewardsPerSecond     sdk.Coin
@@ -359,7 +359,7 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 				ctype:                "bnb-a",
 				rewardsPerSecond:     c("ufury", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
-				initialPrincipal:     c("usdx", 10000000000),
+				initialPrincipal:     c("musd", 10000000000),
 				blockTimes:           []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardFactor: d("0.001223540000000000"),
 				expectedRewards:      c("ufury", 12235400),
@@ -371,7 +371,7 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 				ctype:                "bnb-a",
 				rewardsPerSecond:     c("ufury", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
-				initialPrincipal:     c("usdx", 10000000000),
+				initialPrincipal:     c("musd", 10000000000),
 				blockTimes:           []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardFactor: d("10.57138560000000000"),
 				expectedRewards:      c("ufury", 105713856000),
@@ -381,7 +381,7 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(suite.addrs[0], cs(tc.args.initialCollateral))
-			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleUSDXRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
+			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleMUSDRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
 
 			suite.SetupWithGenState(authBuilder, incentBuilder)
 
@@ -389,7 +389,7 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 			err := suite.cdpKeeper.AddCdp(suite.ctx, suite.addrs[0], tc.args.initialCollateral, tc.args.initialPrincipal, tc.args.ctype)
 			suite.Require().NoError(err)
 
-			claim, found := suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
+			claim, found := suite.keeper.GetMUSDMintingClaim(suite.ctx, suite.addrs[0])
 			suite.Require().True(found)
 			suite.Require().Equal(sdk.ZeroDec(), claim.RewardIndexes[0].RewardFactor)
 
@@ -400,22 +400,22 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 				updatedBlockTime := previousBlockTime.Add(time.Duration(int(time.Second) * t))
 				previousBlockTime = updatedBlockTime
 				blockCtx := suite.ctx.WithBlockTime(updatedBlockTime)
-				rewardPeriod, found := suite.keeper.GetUSDXMintingRewardPeriod(blockCtx, tc.args.ctype)
+				rewardPeriod, found := suite.keeper.GetMUSDMintingRewardPeriod(blockCtx, tc.args.ctype)
 				suite.Require().True(found)
-				suite.keeper.AccumulateUSDXMintingRewards(blockCtx, rewardPeriod)
+				suite.keeper.AccumulateMUSDMintingRewards(blockCtx, rewardPeriod)
 			}
 			updatedBlockTime := suite.ctx.BlockTime().Add(time.Duration(int(time.Second) * timeElapsed))
 			suite.ctx = suite.ctx.WithBlockTime(updatedBlockTime)
 			cdp, found := suite.cdpKeeper.GetCdpByOwnerAndCollateralType(suite.ctx, suite.addrs[0], tc.args.ctype)
 			suite.Require().True(found)
 			suite.Require().NotPanics(func() {
-				suite.keeper.SynchronizeUSDXMintingReward(suite.ctx, cdp)
+				suite.keeper.SynchronizeMUSDMintingReward(suite.ctx, cdp)
 			})
 
-			rewardFactor, _ := suite.keeper.GetUSDXMintingRewardFactor(suite.ctx, tc.args.ctype)
+			rewardFactor, _ := suite.keeper.GetMUSDMintingRewardFactor(suite.ctx, tc.args.ctype)
 			suite.Require().Equal(tc.args.expectedRewardFactor, rewardFactor)
 
-			claim, found = suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
+			claim, found = suite.keeper.GetMUSDMintingClaim(suite.ctx, suite.addrs[0])
 			suite.Require().True(found)
 			suite.Require().Equal(tc.args.expectedRewardFactor, claim.RewardIndexes[0].RewardFactor)
 			suite.Require().Equal(tc.args.expectedRewards, claim.Reward)
@@ -423,7 +423,7 @@ func (suite *USDXRewardsTestSuite) TestSynchronizeUSDXMintingReward() {
 	}
 }
 
-func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization() {
+func (suite *MUSDRewardsTestSuite) TestSimulateMUSDMintingRewardSynchronization() {
 	type args struct {
 		ctype                string
 		rewardsPerSecond     sdk.Coin
@@ -445,7 +445,7 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 				ctype:                "bnb-a",
 				rewardsPerSecond:     c("ufury", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
-				initialPrincipal:     c("usdx", 10000000000),
+				initialPrincipal:     c("musd", 10000000000),
 				blockTimes:           []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardFactor: d("0.001223540000000000"),
 				expectedRewards:      c("ufury", 12235400),
@@ -457,7 +457,7 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 				ctype:                "bnb-a",
 				rewardsPerSecond:     c("ufury", 122354),
 				initialCollateral:    c("bnb", 1000000000000),
-				initialPrincipal:     c("usdx", 10000000000),
+				initialPrincipal:     c("musd", 10000000000),
 				blockTimes:           []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardFactor: d("10.57138560000000000"),
 				expectedRewards:      c("ufury", 105713856000),
@@ -467,7 +467,7 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			authBuilder := app.NewAuthBankGenesisBuilder().WithSimpleAccount(suite.addrs[0], cs(tc.args.initialCollateral))
-			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleUSDXRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
+			incentBuilder := testutil.NewIncentiveGenesisBuilder().WithGenesisTime(suite.genesisTime).WithSimpleMUSDRewardPeriod(tc.args.ctype, tc.args.rewardsPerSecond)
 
 			suite.SetupWithGenState(authBuilder, incentBuilder)
 
@@ -475,7 +475,7 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 			err := suite.cdpKeeper.AddCdp(suite.ctx, suite.addrs[0], tc.args.initialCollateral, tc.args.initialPrincipal, tc.args.ctype)
 			suite.Require().NoError(err)
 
-			claim, found := suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
+			claim, found := suite.keeper.GetMUSDMintingClaim(suite.ctx, suite.addrs[0])
 			suite.Require().True(found)
 			suite.Require().Equal(sdk.ZeroDec(), claim.RewardIndexes[0].RewardFactor)
 
@@ -486,25 +486,25 @@ func (suite *USDXRewardsTestSuite) TestSimulateUSDXMintingRewardSynchronization(
 				updatedBlockTime := previousBlockTime.Add(time.Duration(int(time.Second) * t))
 				previousBlockTime = updatedBlockTime
 				blockCtx := suite.ctx.WithBlockTime(updatedBlockTime)
-				rewardPeriod, found := suite.keeper.GetUSDXMintingRewardPeriod(blockCtx, tc.args.ctype)
+				rewardPeriod, found := suite.keeper.GetMUSDMintingRewardPeriod(blockCtx, tc.args.ctype)
 				suite.Require().True(found)
-				suite.keeper.AccumulateUSDXMintingRewards(blockCtx, rewardPeriod)
+				suite.keeper.AccumulateMUSDMintingRewards(blockCtx, rewardPeriod)
 			}
 			updatedBlockTime := suite.ctx.BlockTime().Add(time.Duration(int(time.Second) * timeElapsed))
 			suite.ctx = suite.ctx.WithBlockTime(updatedBlockTime)
 
-			claim, found = suite.keeper.GetUSDXMintingClaim(suite.ctx, suite.addrs[0])
+			claim, found = suite.keeper.GetMUSDMintingClaim(suite.ctx, suite.addrs[0])
 			suite.Require().True(found)
 			suite.Require().Equal(claim.RewardIndexes[0].RewardFactor, sdk.ZeroDec())
 			suite.Require().Equal(claim.Reward, sdk.NewCoin("ufury", sdk.ZeroInt()))
 
-			updatedClaim := suite.keeper.SimulateUSDXMintingSynchronization(suite.ctx, claim)
+			updatedClaim := suite.keeper.SimulateMUSDMintingSynchronization(suite.ctx, claim)
 			suite.Require().Equal(tc.args.expectedRewardFactor, updatedClaim.RewardIndexes[0].RewardFactor)
 			suite.Require().Equal(tc.args.expectedRewards, updatedClaim.Reward)
 		})
 	}
 }
 
-func TestUSDXRewardsTestSuite(t *testing.T) {
-	suite.Run(t, new(USDXRewardsTestSuite))
+func TestMUSDRewardsTestSuite(t *testing.T) {
+	suite.Run(t, new(MUSDRewardsTestSuite))
 }

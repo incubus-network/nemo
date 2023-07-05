@@ -7,118 +7,118 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/suite"
 
-	hardtypes "github.com/incubus-network/nemo/x/hard/types"
+	jinxtypes "github.com/incubus-network/nemo/x/jinx/types"
 	"github.com/incubus-network/nemo/x/incentive/types"
 )
 
-// SynchronizeHardSupplyRewardTests runs unit tests for the keeper.SynchronizeHardSupplyReward method
-type SynchronizeHardSupplyRewardTests struct {
+// SynchronizeJinxSupplyRewardTests runs unit tests for the keeper.SynchronizeJinxSupplyReward method
+type SynchronizeJinxSupplyRewardTests struct {
 	unitTester
 }
 
-func TestSynchronizeHardSupplyReward(t *testing.T) {
-	suite.Run(t, new(SynchronizeHardSupplyRewardTests))
+func TestSynchronizeJinxSupplyReward(t *testing.T) {
+	suite.Run(t, new(SynchronizeJinxSupplyRewardTests))
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestClaimIndexesAreUpdatedWhenGlobalIndexesHaveIncreased() {
+func (suite *SynchronizeJinxSupplyRewardTests) TestClaimIndexesAreUpdatedWhenGlobalIndexesHaveIncreased() {
 	// This is the normal case
 
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := increaseAllRewardFactors(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalSupplyIndexes(globalIndexes)
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(claim.SupplyRewardIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestClaimIndexesAreUnchangedWhenGlobalIndexesUnchanged() {
-	// It should be safe to call SynchronizeHardSupplyReward multiple times
+func (suite *SynchronizeJinxSupplyRewardTests) TestClaimIndexesAreUnchangedWhenGlobalIndexesUnchanged() {
+	// It should be safe to call SynchronizeJinxSupplyReward multiple times
 
 	unchangingIndexes := nonEmptyMultiRewardIndexes
 
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: unchangingIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	suite.storeGlobalSupplyIndexes(unchangingIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(unchangingIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(unchangingIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardAdded() {
-	// When a new reward is added (via gov) for a hard deposit denom the user has already deposited, and the claim is synced;
+func (suite *SynchronizeJinxSupplyRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardAdded() {
+	// When a new reward is added (via gov) for a jinx deposit denom the user has already deposited, and the claim is synced;
 	// Then the new reward's index should be added to the claim.
 
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := appendUniqueMultiRewardIndex(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardDenomAdded() {
+func (suite *SynchronizeJinxSupplyRewardTests) TestClaimIndexesAreUpdatedWhenNewRewardDenomAdded() {
 	// When a new reward coin is added (via gov) to an already rewarded deposit denom (that the user has already deposited), and the claim is synced;
 	// Then the new reward coin's index should be added to the claim.
 
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner: arbitraryAddress(),
 		},
 		SupplyRewardIndexes: nonEmptyMultiRewardIndexes,
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := appendUniqueRewardIndexToFirstItem(nonEmptyMultiRewardIndexes)
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithArbitrarySourceShares(extractCollateralTypes(globalIndexes)...).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(globalIndexes, syncedClaim.SupplyRewardIndexes)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenGlobalIndexesHaveIncreased() {
+func (suite *SynchronizeJinxSupplyRewardTests) TestRewardIsIncrementedWhenGlobalIndexesHaveIncreased() {
 	// This is the normal case
 	// Given some time has passed (meaning the global indexes have increased)
 	// When the claim is synced
@@ -126,7 +126,7 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenGlobal
 
 	originalReward := arbitraryCoins()
 
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -143,7 +143,7 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenGlobal
 			},
 		},
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	suite.storeGlobalSupplyIndexes(types.MultiRewardIndexes{
 		{
@@ -157,26 +157,26 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenGlobal
 		},
 	})
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithSourceShares("depositdenom", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
 	// new reward is (new index - old index) * deposit amount
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("rewarddenom", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRewardAdded() {
-	// When a new reward is added (via gov) for a hard deposit denom the user has already deposited, and the claim is synced
+func (suite *SynchronizeJinxSupplyRewardTests) TestRewardIsIncrementedWhenNewRewardAdded() {
+	// When a new reward is added (via gov) for a jinx deposit denom the user has already deposited, and the claim is synced
 	// Then the user earns rewards for the time since the reward was added
 
 	originalReward := arbitraryCoins()
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -193,7 +193,7 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRew
 			},
 		},
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := types.MultiRewardIndexes{
 		{
@@ -219,28 +219,28 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRew
 	}
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithSourceShares("rewarded", 1e9).
 		WithSourceShares("newlyrewarded", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
 	// new reward is (new index - old index) * deposit amount for each deposited denom
 	// The old index for `newlyrewarded` isn't in the claim, so it's added starting at 0 for calculating the reward.
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("otherreward", 1_000_001_000_000), c("reward", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRewardDenomAdded() {
+func (suite *SynchronizeJinxSupplyRewardTests) TestRewardIsIncrementedWhenNewRewardDenomAdded() {
 	// When a new reward coin is added (via gov) to an already rewarded deposit denom (that the user has already deposited), and the claim is synced;
 	// Then the user earns rewards for the time since the reward was added
 
 	originalReward := arbitraryCoins()
-	claim := types.HardLiquidityProviderClaim{
+	claim := types.JinxLiquidityProviderClaim{
 		BaseMultiClaim: types.BaseMultiClaim{
 			Owner:  arbitraryAddress(),
 			Reward: originalReward,
@@ -257,7 +257,7 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRew
 			},
 		},
 	}
-	suite.storeHardClaim(claim)
+	suite.storeJinxClaim(claim)
 
 	globalIndexes := types.MultiRewardIndexes{
 		{
@@ -278,42 +278,42 @@ func (suite *SynchronizeHardSupplyRewardTests) TestRewardIsIncrementedWhenNewRew
 	}
 	suite.storeGlobalSupplyIndexes(globalIndexes)
 
-	deposit := NewHardDepositBuilder(claim.Owner).
+	deposit := NewJinxDepositBuilder(claim.Owner).
 		WithSourceShares("deposited", 1e9).
 		Build()
 
-	suite.keeper.SynchronizeHardSupplyReward(suite.ctx, deposit)
+	suite.keeper.SynchronizeJinxSupplyReward(suite.ctx, deposit)
 
 	// new reward is (new index - old index) * deposit amount for each deposited denom
 	// The old index for `otherreward` isn't in the claim, so it's added starting at 0 for calculating the reward.
-	syncedClaim, _ := suite.keeper.GetHardLiquidityProviderClaim(suite.ctx, claim.Owner)
+	syncedClaim, _ := suite.keeper.GetJinxLiquidityProviderClaim(suite.ctx, claim.Owner)
 	suite.Equal(
 		cs(c("reward", 1_000_001_000_000), c("otherreward", 1_000_001_000_000)).Add(originalReward...),
 		syncedClaim.Reward,
 	)
 }
 
-// HardDepositBuilder is a tool for creating a hard deposit in tests.
-// The builder inherits from hard.Deposit, so fields can be accessed directly if a helper method doesn't exist.
-type HardDepositBuilder struct {
-	hardtypes.Deposit
+// JinxDepositBuilder is a tool for creating a jinx deposit in tests.
+// The builder inherits from jinx.Deposit, so fields can be accessed directly if a helper method doesn't exist.
+type JinxDepositBuilder struct {
+	jinxtypes.Deposit
 }
 
-// NewHardDepositBuilder creates a HardDepositBuilder containing an empty deposit.
-func NewHardDepositBuilder(depositor sdk.AccAddress) HardDepositBuilder {
-	return HardDepositBuilder{
-		Deposit: hardtypes.Deposit{
+// NewJinxDepositBuilder creates a JinxDepositBuilder containing an empty deposit.
+func NewJinxDepositBuilder(depositor sdk.AccAddress) JinxDepositBuilder {
+	return JinxDepositBuilder{
+		Deposit: jinxtypes.Deposit{
 			Depositor: depositor,
 		},
 	}
 }
 
 // Build assembles and returns the final deposit.
-func (builder HardDepositBuilder) Build() hardtypes.Deposit { return builder.Deposit }
+func (builder JinxDepositBuilder) Build() jinxtypes.Deposit { return builder.Deposit }
 
 // WithSourceShares adds a deposit amount and factor such that the source shares for this deposit is equal to specified.
 // With a factor of 1, the deposit amount is the source shares. This picks an arbitrary factor to ensure factors are accounted for in production code.
-func (builder HardDepositBuilder) WithSourceShares(denom string, shares int64) HardDepositBuilder {
+func (builder JinxDepositBuilder) WithSourceShares(denom string, shares int64) JinxDepositBuilder {
 	if !builder.Amount.AmountOf(denom).Equal(sdk.ZeroInt()) {
 		panic("adding to amount with existing denom not implemented")
 	}
@@ -333,7 +333,7 @@ func (builder HardDepositBuilder) WithSourceShares(denom string, shares int64) H
 }
 
 // WithArbitrarySourceShares adds arbitrary deposit amounts and indexes for each specified denom.
-func (builder HardDepositBuilder) WithArbitrarySourceShares(denoms ...string) HardDepositBuilder {
+func (builder JinxDepositBuilder) WithArbitrarySourceShares(denoms ...string) JinxDepositBuilder {
 	const arbitraryShares = 1e9
 	for _, denom := range denoms {
 		builder = builder.WithSourceShares(denom, arbitraryShares)

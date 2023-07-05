@@ -6,8 +6,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/incubus-network/nemo/app"
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 	"github.com/stretchr/testify/suite"
 	tmprototypes "github.com/tendermint/tendermint/proto/tendermint/types"
 )
@@ -30,14 +30,14 @@ func (suite *grpcQueryTestSuite) SetupTest() {
 
 	suite.ctx = suite.tApp.NewContext(true, tmprototypes.Header{}).
 		WithBlockTime(time.Now().UTC())
-	suite.keeper = suite.tApp.GetHardKeeper()
+	suite.keeper = suite.tApp.GetJinxKeeper()
 	suite.queryServer = keeper.NewQueryServerImpl(suite.keeper, suite.tApp.GetAccountKeeper(), suite.tApp.GetBankKeeper())
 
 	err := suite.tApp.FundModuleAccount(
 		suite.ctx,
 		types.ModuleAccountName,
 		cs(
-			c("usdx", 10000000000),
+			c("musd", 10000000000),
 			c("busd", 10000000000),
 		),
 	)
@@ -45,7 +45,7 @@ func (suite *grpcQueryTestSuite) SetupTest() {
 
 	suite.tApp.InitializeFromGenesisStates(
 		NewPricefeedGenStateMulti(suite.tApp.AppCodec()),
-		NewHARDGenState(suite.tApp.AppCodec()),
+		NewJINXGenState(suite.tApp.AppCodec()),
 		app.NewFundedGenStateWithSameCoins(
 			suite.tApp.AppCodec(),
 			cs(
@@ -62,8 +62,8 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryParams() {
 	suite.Require().NoError(err)
 
 	var expected types.GenesisState
-	defaultHARDState := NewHARDGenState(suite.tApp.AppCodec())
-	suite.tApp.AppCodec().MustUnmarshalJSON(defaultHARDState[types.ModuleName], &expected)
+	defaultJINXState := NewJINXGenState(suite.tApp.AppCodec())
+	suite.tApp.AppCodec().MustUnmarshalJSON(defaultJINXState[types.ModuleName], &expected)
 
 	suite.Equal(expected.Params, res.Params, "params should equal test genesis state")
 }
@@ -123,15 +123,15 @@ func (suite *grpcQueryTestSuite) addBorrows() {
 	}{
 		{
 			suite.addrs[0],
-			cs(c("usdx", 10000000)),
+			cs(c("musd", 10000000)),
 		},
 		{
 			suite.addrs[1],
-			cs(c("usdx", 20000000)),
+			cs(c("musd", 20000000)),
 		},
 		{
 			suite.addrs[0],
-			cs(c("usdx", 40000000)),
+			cs(c("musd", 40000000)),
 		},
 		{
 			suite.addrs[0],
@@ -290,7 +290,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryBorrows() {
 			"owner and denom",
 			&types.QueryBorrowsRequest{
 				Owner: suite.addrs[0].String(),
-				Denom: "usdx",
+				Denom: "musd",
 			},
 			// Only the first one
 			1,
@@ -310,7 +310,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryBorrows() {
 		{
 			"denom",
 			&types.QueryBorrowsRequest{
-				Denom: "usdx",
+				Denom: "musd",
 			},
 			2,
 			false,
@@ -408,7 +408,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBorrowed() {
 
 	suite.Equal(&types.QueryTotalBorrowedResponse{
 		BorrowedCoins: cs(
-			c("usdx", 10000000+20000000+40000000),
+			c("musd", 10000000+20000000+40000000),
 			c("busd", 80000000),
 		),
 	}, totalDeposited)
@@ -419,13 +419,13 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalBorrowed_denom() {
 	suite.addBorrows()
 
 	totalDeposited, err := suite.queryServer.TotalBorrowed(sdk.WrapSDKContext(suite.ctx), &types.QueryTotalBorrowedRequest{
-		Denom: "usdx",
+		Denom: "musd",
 	})
 	suite.Require().NoError(err)
 
 	suite.Equal(&types.QueryTotalBorrowedResponse{
 		BorrowedCoins: cs(
-			c("usdx", 10000000+20000000+40000000),
+			c("musd", 10000000+20000000+40000000),
 		),
 	}, totalDeposited)
 }
@@ -442,7 +442,7 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryInterestRate() {
 			"",
 			types.MoneyMarketInterestRates{
 				{
-					Denom:              "usdx",
+					Denom:              "musd",
 					SupplyInterestRate: "0.000000000000000000",
 					BorrowInterestRate: "0.050000000000000000",
 				},
@@ -461,10 +461,10 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryInterestRate() {
 		},
 		{
 			"denom",
-			"usdx",
+			"musd",
 			types.MoneyMarketInterestRates{
 				{
-					Denom:              "usdx",
+					Denom:              "musd",
 					SupplyInterestRate: "0.000000000000000000",
 					BorrowInterestRate: "0.050000000000000000",
 				},
@@ -498,14 +498,14 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryInterestRate() {
 
 func (suite *grpcQueryTestSuite) TestGrpcQueryInterestFactors() {
 	res, err := suite.queryServer.InterestFactors(sdk.WrapSDKContext(suite.ctx), &types.QueryInterestFactorsRequest{
-		Denom: "usdx",
+		Denom: "musd",
 	})
 	suite.Require().NoError(err)
 
 	suite.Equal(&types.QueryInterestFactorsResponse{
 		InterestFactors: types.InterestFactors{
 			{
-				Denom:                "usdx",
+				Denom:                "musd",
 				BorrowInterestFactor: "1.000000000000000000",
 				SupplyInterestFactor: "1.000000000000000000",
 			},

@@ -4,7 +4,7 @@ order: 5
 
 # Parameters
 
-Example parameters for the Hard module:
+Example parameters for the Jinx module:
 
 | Key                   | Type                | Example       | Description                                  |
 | --------------------- | ------------------- | ------------- | -------------------------------------------- |

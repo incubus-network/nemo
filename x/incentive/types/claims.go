@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	USDXMintingClaimType           = "usdx_minting"
-	HardLiquidityProviderClaimType = "hard_liquidity_provider"
+	MUSDMintingClaimType           = "musd_minting"
+	JinxLiquidityProviderClaimType = "jinx_liquidity_provider"
 	DelegatorClaimType             = "delegator_claim"
 	SwapClaimType                  = "swap"
 	SavingsClaimType               = "savings"
@@ -57,9 +57,9 @@ func (c BaseMultiClaim) Validate() error {
 	return nil
 }
 
-// NewUSDXMintingClaim returns a new USDXMintingClaim
-func NewUSDXMintingClaim(owner sdk.AccAddress, reward sdk.Coin, rewardIndexes RewardIndexes) USDXMintingClaim {
-	return USDXMintingClaim{
+// NewMUSDMintingClaim returns a new MUSDMintingClaim
+func NewMUSDMintingClaim(owner sdk.AccAddress, reward sdk.Coin, rewardIndexes RewardIndexes) MUSDMintingClaim {
+	return MUSDMintingClaim{
 		BaseClaim: BaseClaim{
 			Owner:  owner,
 			Reward: reward,
@@ -69,16 +69,16 @@ func NewUSDXMintingClaim(owner sdk.AccAddress, reward sdk.Coin, rewardIndexes Re
 }
 
 // GetType returns the claim's type
-func (c USDXMintingClaim) GetType() string { return USDXMintingClaimType }
+func (c MUSDMintingClaim) GetType() string { return MUSDMintingClaimType }
 
 // GetReward returns the claim's reward coin
-func (c USDXMintingClaim) GetReward() sdk.Coin { return c.Reward }
+func (c MUSDMintingClaim) GetReward() sdk.Coin { return c.Reward }
 
 // GetOwner returns the claim's owner
-func (c USDXMintingClaim) GetOwner() sdk.AccAddress { return c.Owner }
+func (c MUSDMintingClaim) GetOwner() sdk.AccAddress { return c.Owner }
 
 // Validate performs a basic check of a Claim fields
-func (c USDXMintingClaim) Validate() error {
+func (c MUSDMintingClaim) Validate() error {
 	if err := c.RewardIndexes.Validate(); err != nil {
 		return err
 	}
@@ -87,7 +87,7 @@ func (c USDXMintingClaim) Validate() error {
 }
 
 // HasRewardIndex check if a claim has a reward index for the input collateral type
-func (c USDXMintingClaim) HasRewardIndex(collateralType string) (int64, bool) {
+func (c MUSDMintingClaim) HasRewardIndex(collateralType string) (int64, bool) {
 	for index, ri := range c.RewardIndexes {
 		if ri.CollateralType == collateralType {
 			return int64(index), true
@@ -96,12 +96,12 @@ func (c USDXMintingClaim) HasRewardIndex(collateralType string) (int64, bool) {
 	return 0, false
 }
 
-// USDXMintingClaims slice of USDXMintingClaim
-type USDXMintingClaims []USDXMintingClaim
+// MUSDMintingClaims slice of MUSDMintingClaim
+type MUSDMintingClaims []MUSDMintingClaim
 
 // Validate checks if all the claims are valid and there are no duplicated
 // entries.
-func (cs USDXMintingClaims) Validate() error {
+func (cs MUSDMintingClaims) Validate() error {
 	for _, c := range cs {
 		if err := c.Validate(); err != nil {
 			return err
@@ -111,11 +111,11 @@ func (cs USDXMintingClaims) Validate() error {
 	return nil
 }
 
-// NewHardLiquidityProviderClaim returns a new HardLiquidityProviderClaim
-func NewHardLiquidityProviderClaim(owner sdk.AccAddress, rewards sdk.Coins,
+// NewJinxLiquidityProviderClaim returns a new JinxLiquidityProviderClaim
+func NewJinxLiquidityProviderClaim(owner sdk.AccAddress, rewards sdk.Coins,
 	supplyRewardIndexes, borrowRewardIndexes MultiRewardIndexes,
-) HardLiquidityProviderClaim {
-	return HardLiquidityProviderClaim{
+) JinxLiquidityProviderClaim {
+	return JinxLiquidityProviderClaim{
 		BaseMultiClaim: BaseMultiClaim{
 			Owner:  owner,
 			Reward: rewards,
@@ -126,16 +126,16 @@ func NewHardLiquidityProviderClaim(owner sdk.AccAddress, rewards sdk.Coins,
 }
 
 // GetType returns the claim's type
-func (c HardLiquidityProviderClaim) GetType() string { return HardLiquidityProviderClaimType }
+func (c JinxLiquidityProviderClaim) GetType() string { return JinxLiquidityProviderClaimType }
 
 // GetReward returns the claim's reward coin
-func (c HardLiquidityProviderClaim) GetReward() sdk.Coins { return c.Reward }
+func (c JinxLiquidityProviderClaim) GetReward() sdk.Coins { return c.Reward }
 
 // GetOwner returns the claim's owner
-func (c HardLiquidityProviderClaim) GetOwner() sdk.AccAddress { return c.Owner }
+func (c JinxLiquidityProviderClaim) GetOwner() sdk.AccAddress { return c.Owner }
 
-// Validate performs a basic check of a HardLiquidityProviderClaim fields
-func (c HardLiquidityProviderClaim) Validate() error {
+// Validate performs a basic check of a JinxLiquidityProviderClaim fields
+func (c JinxLiquidityProviderClaim) Validate() error {
 	if err := c.SupplyRewardIndexes.Validate(); err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func (c HardLiquidityProviderClaim) Validate() error {
 }
 
 // HasSupplyRewardIndex check if a claim has a supply reward index for the input collateral type
-func (c HardLiquidityProviderClaim) HasSupplyRewardIndex(denom string) (int64, bool) {
+func (c JinxLiquidityProviderClaim) HasSupplyRewardIndex(denom string) (int64, bool) {
 	for index, ri := range c.SupplyRewardIndexes {
 		if ri.CollateralType == denom {
 			return int64(index), true
@@ -158,7 +158,7 @@ func (c HardLiquidityProviderClaim) HasSupplyRewardIndex(denom string) (int64, b
 }
 
 // HasBorrowRewardIndex check if a claim has a borrow reward index for the input collateral type
-func (c HardLiquidityProviderClaim) HasBorrowRewardIndex(denom string) (int64, bool) {
+func (c JinxLiquidityProviderClaim) HasBorrowRewardIndex(denom string) (int64, bool) {
 	for index, ri := range c.BorrowRewardIndexes {
 		if ri.CollateralType == denom {
 			return int64(index), true
@@ -167,12 +167,12 @@ func (c HardLiquidityProviderClaim) HasBorrowRewardIndex(denom string) (int64, b
 	return 0, false
 }
 
-// HardLiquidityProviderClaims slice of HardLiquidityProviderClaim
-type HardLiquidityProviderClaims []HardLiquidityProviderClaim
+// JinxLiquidityProviderClaims slice of JinxLiquidityProviderClaim
+type JinxLiquidityProviderClaims []JinxLiquidityProviderClaim
 
 // Validate checks if all the claims are valid and there are no duplicated
 // entries.
-func (cs HardLiquidityProviderClaims) Validate() error {
+func (cs JinxLiquidityProviderClaims) Validate() error {
 	for _, c := range cs {
 		if err := c.Validate(); err != nil {
 			return err

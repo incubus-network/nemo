@@ -30,8 +30,8 @@ type Strategy interface {
 // GetStrategy returns the strategy for the given strategy type.
 func (k *Keeper) GetStrategy(strategyType types.StrategyType) (Strategy, error) {
 	switch strategyType {
-	case types.STRATEGY_TYPE_HARD:
-		return (*HardStrategy)(k), nil
+	case types.STRATEGY_TYPE_JINX:
+		return (*JinxStrategy)(k), nil
 	case types.STRATEGY_TYPE_SAVINGS:
 		return (*SavingsStrategy)(k), nil
 	default:

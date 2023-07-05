@@ -1,4 +1,4 @@
-package hard_test
+package jinx_test
 
 import (
 	"fmt"
@@ -13,9 +13,9 @@ import (
 	tmtime "github.com/tendermint/tendermint/types/time"
 
 	"github.com/incubus-network/nemo/app"
-	"github.com/incubus-network/nemo/x/hard"
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 type GenesisTestSuite struct {
@@ -32,7 +32,7 @@ func (suite *GenesisTestSuite) SetupTest() {
 	tApp := app.NewTestApp()
 	suite.genTime = tmtime.Canonical(time.Date(2021, 1, 1, 1, 1, 1, 1, time.UTC))
 	suite.ctx = tApp.NewContext(true, tmproto.Header{Height: 1, Time: suite.genTime})
-	suite.keeper = tApp.GetHardKeeper()
+	suite.keeper = tApp.GetJinxKeeper()
 	suite.app = tApp
 
 	_, addrs := app.GeneratePrivKeyAddressPairs(3)
@@ -107,7 +107,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 		types.NewGenesisAccumulationTime("ufury", suite.genTime, supplyInterestFactor, borrowInterestFactor),
 	}
 
-	hardGenesis := types.NewGenesisState(
+	jinxGenesis := types.NewGenesisState(
 		params,
 		accuralTimes,
 		deposits,
@@ -121,7 +121,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 		func() {
 			suite.app.InitializeFromGenesisStatesWithTime(
 				suite.genTime,
-				app.GenesisState{types.ModuleName: suite.app.AppCodec().MustMarshalJSON(&hardGenesis)},
+				app.GenesisState{types.ModuleName: suite.app.AppCodec().MustMarshalJSON(&jinxGenesis)},
 			)
 		},
 	)
@@ -181,10 +181,10 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 		expectedBorrows = append(expectedBorrows, borrow)
 	}
 
-	expectedGenesis := hardGenesis
+	expectedGenesis := jinxGenesis
 	expectedGenesis.Deposits = expectedDeposits
 	expectedGenesis.Borrows = expectedBorrows
-	exportedGenesis := hard.ExportGenesis(suite.ctx, suite.keeper)
+	exportedGenesis := jinx.ExportGenesis(suite.ctx, suite.keeper)
 	suite.Equal(expectedGenesis, exportedGenesis)
 }
 

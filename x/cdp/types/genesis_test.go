@@ -26,10 +26,10 @@ func TestGenesisTotalPrincipal(t *testing.T) {
 		wantIsError        bool
 		wantError          string
 	}{
-		{"valid", "usdx", sdkmath.NewInt(10), false, ""},
-		{"zero principal", "usdx", sdkmath.NewInt(0), false, ""},
+		{"valid", "musd", sdkmath.NewInt(10), false, ""},
+		{"zero principal", "musd", sdkmath.NewInt(0), false, ""},
 		{"invalid empty collateral type", "", sdkmath.NewInt(10), true, "collateral type cannot be empty"},
-		{"invalid negative principal", "usdx", sdkmath.NewInt(-10), true, "total principal should be positive"},
+		{"invalid negative principal", "musd", sdkmath.NewInt(-10), true, "total principal should be positive"},
 		{"both invalid", "", sdkmath.NewInt(-10), true, "collateral type cannot be empty"},
 	}
 

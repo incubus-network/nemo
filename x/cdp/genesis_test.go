@@ -175,8 +175,8 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 			Owner:           suite.addrs[0],
 			Type:            "xrp-a",
 			Collateral:      c("xrp", 200000000),
-			Principal:       c("usdx", 10000000),
-			AccumulatedFees: c("usdx", 0),
+			Principal:       c("musd", 10000000),
+			AccumulatedFees: c("musd", 0),
 			FeesUpdated:     suite.genTime,
 			InterestFactor:  sdk.NewDec(1),
 		},
@@ -205,7 +205,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 
 	cdpGenesis := types.GenesisState{
 		Params: types.Params{
-			GlobalDebtLimit:         sdk.NewInt64Coin("usdx", 1000000000000),
+			GlobalDebtLimit:         sdk.NewInt64Coin("musd", 1000000000000),
 			SurplusAuctionThreshold: types.DefaultSurplusThreshold,
 			SurplusAuctionLot:       types.DefaultSurplusLot,
 			DebtAuctionThreshold:    types.DefaultDebtThreshold,
@@ -215,7 +215,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 					Denom:                            "xrp",
 					Type:                             "xrp-a",
 					LiquidationRatio:                 sdk.MustNewDecFromStr("2.0"),
-					DebtLimit:                        sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:                        sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:                     sdk.MustNewDecFromStr("1.000000001547125958"), // 5% apr
 					LiquidationPenalty:               d("0.05"),
 					AuctionSize:                      i(7000000000),
@@ -229,7 +229,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 					Denom:                            "btc",
 					Type:                             "btc-a",
 					LiquidationRatio:                 sdk.MustNewDecFromStr("1.5"),
-					DebtLimit:                        sdk.NewInt64Coin("usdx", 500000000000),
+					DebtLimit:                        sdk.NewInt64Coin("musd", 500000000000),
 					StabilityFee:                     sdk.MustNewDecFromStr("1.000000000782997609"), // 2.5% apr
 					LiquidationPenalty:               d("0.025"),
 					AuctionSize:                      i(10000000),
@@ -241,7 +241,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 				},
 			},
 			DebtParam: types.DebtParam{
-				Denom:            "usdx",
+				Denom:            "musd",
 				ReferenceAsset:   "usd",
 				ConversionFactor: i(6),
 				DebtFloor:        i(10000000),
@@ -295,7 +295,7 @@ func (suite *GenesisTestSuite) Test_InitExportGenesis() {
 	// Update total principals
 	var totalPrincipals types.GenesisTotalPrincipals
 	for _, p := range expectedGenesis.TotalPrincipals {
-		totalPrincipal := suite.keeper.GetTotalPrincipal(suite.ctx, p.CollateralType, "usdx")
+		totalPrincipal := suite.keeper.GetTotalPrincipal(suite.ctx, p.CollateralType, "musd")
 		p.TotalPrincipal = totalPrincipal
 		totalPrincipals = append(totalPrincipals, p)
 	}

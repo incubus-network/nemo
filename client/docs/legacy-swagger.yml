@@ -56,17 +56,17 @@ paths:
                 example: "120000000"
         500:
           description: Server internal error
-  /vesting/circulatingsupplyhard:
+  /vesting/circulatingsupplyjinx:
     get:
       deprecated: true
-      summary: Get the current circulating supply of HARD
+      summary: Get the current circulating supply of JINX
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: HARD circulating supply
+          description: JINX circulating supply
           schema:
             properties:
               height:
@@ -77,17 +77,17 @@ paths:
                 example: "63750000"
         500:
           description: Server internal error
-  /vesting/totalsupplyhard:
+  /vesting/totalsupplyjinx:
     get:
       deprecated: true
-      summary: Get the total supply of HARD
+      summary: Get the total supply of JINX
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: HARD total supply
+          description: JINX total supply
           schema:
             properties:
               height:
@@ -119,17 +119,17 @@ paths:
                 example: "63750000"
         500:
           description: Server internal error
-  /vesting/circulatingsupplyusdx:
+  /vesting/circulatingsupplymusd:
     get:
       deprecated: true
-      summary: Get the current circulating supply of USDX
+      summary: Get the current circulating supply of MUSD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: USDX circulating supply
+          description: MUSD circulating supply
           schema:
             properties:
               height:
@@ -140,17 +140,17 @@ paths:
                 example: "63750000"
         500:
           description: Server internal error
-  /vesting/totalsupplyusdx:
+  /vesting/totalsupplymusd:
     get:
       deprecated: true
-      summary: Get the total supply of USDX
+      summary: Get the total supply of MUSD
       tags:
         - Vesting
       produces:
         - application/json
       responses:
         200:
-          description: USDX total supply
+          description: MUSD total supply
           schema:
             properties:
               height:

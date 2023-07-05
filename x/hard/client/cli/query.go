@@ -11,7 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
 
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 // flags for cli queries
@@ -23,9 +23,9 @@ const (
 
 // GetQueryCmd returns the cli query commands for the  module
 func GetQueryCmd() *cobra.Command {
-	hardQueryCmd := &cobra.Command{
+	jinxQueryCmd := &cobra.Command{
 		Use:                        types.ModuleName,
-		Short:                      "Querying commands for the hard module",
+		Short:                      "Querying commands for the jinx module",
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
 		RunE:                       client.ValidateCmd,
@@ -49,16 +49,16 @@ func GetQueryCmd() *cobra.Command {
 		flags.AddQueryFlagsToCmd(cmd)
 	}
 
-	hardQueryCmd.AddCommand(cmds...)
+	jinxQueryCmd.AddCommand(cmds...)
 
-	return hardQueryCmd
+	return jinxQueryCmd
 }
 
 func queryParamsCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:   "params",
-		Short: "get the hard module parameters",
-		Long:  "Get the current global hard module parameters.",
+		Short: "get the jinx module parameters",
+		Long:  "Get the current global jinx module parameters.",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
@@ -81,8 +81,8 @@ func queryParamsCmd() *cobra.Command {
 func queryAccountsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "accounts",
-		Short: "query hard module accounts",
-		Long:  "Query for all hard module accounts",
+		Short: "query jinx module accounts",
+		Long:  "Query for all jinx module accounts",
 		Example: fmt.Sprintf(`%[1]s q %[2]s accounts
 %[1]s q %[2]s accounts`, version.AppName, types.ModuleName),
 		Args: cobra.NoArgs,
@@ -111,8 +111,8 @@ func queryAccountsCmd() *cobra.Command {
 func queryUnsyncedDepositsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "unsynced-deposits",
-		Short: "query hard module unsynced deposits with optional filters",
-		Long:  "query for all hard module unsynced deposits or a specific unsynced deposit using flags",
+		Short: "query jinx module unsynced deposits with optional filters",
+		Long:  "query for all jinx module unsynced deposits or a specific unsynced deposit using flags",
 		Example: fmt.Sprintf(`%[1]s q %[2]s unsynced-deposits
 %[1]s q %[2]s unsynced-deposits --owner fury1l0xsq2z7gqd7yly0g40y5836g0appuma0grvkv --denom bnb
 %[1]s q %[2]s unsynced-deposits --denom ufury
@@ -173,8 +173,8 @@ func queryUnsyncedDepositsCmd() *cobra.Command {
 func queryDepositsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deposits",
-		Short: "query hard module deposits with optional filters",
-		Long:  "query for all hard module deposits or a specific deposit using flags",
+		Short: "query jinx module deposits with optional filters",
+		Long:  "query for all jinx module deposits or a specific deposit using flags",
 		Example: fmt.Sprintf(`%[1]s q %[2]s deposits
 %[1]s q %[2]s deposits --owner fury1l0xsq2z7gqd7yly0g40y5836g0appuma0grvkv --denom bnb
 %[1]s q %[2]s deposits --denom ufury
@@ -235,8 +235,8 @@ func queryDepositsCmd() *cobra.Command {
 func queryUnsyncedBorrowsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "unsynced-borrows",
-		Short: "query hard module unsynced borrows with optional filters",
-		Long:  "query for all hard module unsynced borrows or a specific unsynced borrow using flags",
+		Short: "query jinx module unsynced borrows with optional filters",
+		Long:  "query for all jinx module unsynced borrows or a specific unsynced borrow using flags",
 		Example: fmt.Sprintf(`%[1]s q %[2]s unsynced-borrows
 %[1]s q %[2]s unsynced-borrows --owner fury1l0xsq2z7gqd7yly0g40y5836g0appuma0grvkv
 %[1]s q %[2]s unsynced-borrows --denom bnb`, version.AppName, types.ModuleName),
@@ -296,8 +296,8 @@ func queryUnsyncedBorrowsCmd() *cobra.Command {
 func queryBorrowsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "borrows",
-		Short: "query hard module borrows with optional filters",
-		Long:  "query for all hard module borrows or a specific borrow using flags",
+		Short: "query jinx module borrows with optional filters",
+		Long:  "query for all jinx module borrows or a specific borrow using flags",
 		Example: fmt.Sprintf(`%[1]s q %[2]s borrows
 %[1]s q %[2]s borrows --owner fury1l0xsq2z7gqd7yly0g40y5836g0appuma0grvkv
 %[1]s q %[2]s borrows --denom bnb`, version.AppName, types.ModuleName),
@@ -464,8 +464,8 @@ func queryInterestRateCmd() *cobra.Command {
 func queryReserves() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "reserves",
-		Short: "get total current Hard module reserves",
-		Long:  "get the total amount of coins currently held as reserve by the Hard module",
+		Short: "get total current Jinx module reserves",
+		Long:  "get the total amount of coins currently held as reserve by the Jinx module",
 		Example: fmt.Sprintf(`%[1]s q %[2]s reserves
 %[1]s q %[2]s reserves --denom bnb`, version.AppName, types.ModuleName),
 		Args: cobra.NoArgs,

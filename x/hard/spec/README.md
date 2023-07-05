@@ -1,11 +1,11 @@
 <!--
 order: 0
-title: "Hard Overview"
+title: "Jinx Overview"
 parent:
-  title: "hard"
+  title: "jinx"
 -->
 
-# `hard`
+# `jinx`
 
 <!-- TOC -->
 
@@ -18,4 +18,4 @@ parent:
 
 ## Abstract
 
-`x/hard` is an implementation of a Cosmos SDK Module that provides for functionality and governance of a two-sided, cross-chain, money market protocol.
+`x/jinx` is an implementation of a Cosmos SDK Module that provides for functionality and governance of a two-sided, cross-chain, money market protocol.

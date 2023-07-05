@@ -33,7 +33,7 @@ func (suite *AuctionTestSuite) SetupTest() {
 	tApp := app.NewTestApp()
 	taddr := sdk.AccAddress(crypto.AddressHash([]byte("NemoTestUser1")))
 	ctx := tApp.NewContext(true, tmproto.Header{Height: 1, Time: tmtime.Now()})
-	authGS := app.NewFundedGenStateWithSameCoins(tApp.AppCodec(), cs(c("usdx", 21000000000)), []sdk.AccAddress{taddr})
+	authGS := app.NewFundedGenStateWithSameCoins(tApp.AppCodec(), cs(c("musd", 21000000000)), []sdk.AccAddress{taddr})
 	tApp.InitializeFromGenesisStates(
 		authGS,
 		NewPricefeedGenStateMulti(tApp.AppCodec()),
@@ -52,7 +52,7 @@ func (suite *AuctionTestSuite) TestNetDebtSurplus() {
 
 	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("debt", 100)))
 	suite.NoError(err)
-	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 10)))
+	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 10)))
 	suite.NoError(err)
 	suite.NotPanics(func() {
 		err := suite.keeper.NetSurplusAndDebt(suite.ctx)
@@ -67,7 +67,7 @@ func (suite *AuctionTestSuite) TestCollateralAuction() {
 	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("debt", 21000000000), c("bnb", 190000000000)))
 	suite.Require().NoError(err)
 	testDeposit := types.NewDeposit(1, suite.addrs[0], c("bnb", 190000000000))
-	err = suite.keeper.AuctionCollateral(suite.ctx, types.Deposits{testDeposit}, "bnb-a", i(21000000000), "usdx")
+	err = suite.keeper.AuctionCollateral(suite.ctx, types.Deposits{testDeposit}, "bnb-a", i(21000000000), "musd")
 	suite.Require().NoError(err)
 }
 
@@ -75,23 +75,23 @@ func (suite *AuctionTestSuite) TestSurplusAuction() {
 	bk := suite.app.GetBankKeeper()
 	ak := suite.app.GetAccountKeeper()
 
-	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 600000000000)))
+	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 600000000000)))
 	suite.NoError(err)
 	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("debt", 100000000000)))
 	suite.NoError(err)
 	err = suite.keeper.RunSurplusAndDebtAuctions(suite.ctx)
 	suite.NoError(err)
 	acc := ak.GetModuleAccount(suite.ctx, auctiontypes.ModuleName)
-	suite.Equal(cs(c("usdx", 10000000000)), bk.GetAllBalances(suite.ctx, acc.GetAddress()))
+	suite.Equal(cs(c("musd", 10000000000)), bk.GetAllBalances(suite.ctx, acc.GetAddress()))
 	acc = ak.GetModuleAccount(suite.ctx, types.LiquidatorMacc)
-	suite.Equal(cs(c("usdx", 490000000000)), bk.GetAllBalances(suite.ctx, acc.GetAddress()))
+	suite.Equal(cs(c("musd", 490000000000)), bk.GetAllBalances(suite.ctx, acc.GetAddress()))
 }
 
 func (suite *AuctionTestSuite) TestDebtAuction() {
 	bk := suite.app.GetBankKeeper()
 	ak := suite.app.GetAccountKeeper()
 
-	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 100000000000)))
+	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 100000000000)))
 	suite.NoError(err)
 	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("debt", 200000000000)))
 	suite.NoError(err)
@@ -110,26 +110,26 @@ func (suite *AuctionTestSuite) TestGetTotalSurplus() {
 	suite.Require().Equal(sdkmath.NewInt(0), suite.keeper.GetTotalSurplus(suite.ctx, types.LiquidatorMacc))
 
 	// mint some coins
-	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 100e6)))
+	err := bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 100e6)))
 	suite.Require().NoError(err)
-	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 200e6)))
+	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 200e6)))
 	suite.Require().NoError(err)
 
-	// liquidator account has 300e6 total usdx
+	// liquidator account has 300e6 total musd
 	suite.Require().Equal(sdkmath.NewInt(300e6), suite.keeper.GetTotalSurplus(suite.ctx, types.LiquidatorMacc))
 
 	// mint some debt
 	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("debt", 500e6)))
 	suite.Require().NoError(err)
 
-	// liquidator account still has 300e6 total usdx -- debt balance is ignored
+	// liquidator account still has 300e6 total musd -- debt balance is ignored
 	suite.Require().Equal(sdkmath.NewInt(300e6), suite.keeper.GetTotalSurplus(suite.ctx, types.LiquidatorMacc))
 
-	// burn some usdx
-	err = bk.BurnCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 50e6)))
+	// burn some musd
+	err = bk.BurnCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 50e6)))
 	suite.Require().NoError(err)
 
-	// liquidator usdx decreases
+	// liquidator musd decreases
 	suite.Require().Equal(sdkmath.NewInt(250e6), suite.keeper.GetTotalSurplus(suite.ctx, types.LiquidatorMacc))
 }
 
@@ -148,11 +148,11 @@ func (suite *AuctionTestSuite) TestGetTotalDebt() {
 	// liquidator account has 300e6 total debt
 	suite.Require().Equal(sdkmath.NewInt(300e6), suite.keeper.GetTotalDebt(suite.ctx, types.LiquidatorMacc))
 
-	// mint some usdx
-	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("usdx", 500e6)))
+	// mint some musd
+	err = bk.MintCoins(suite.ctx, types.LiquidatorMacc, cs(c("musd", 500e6)))
 	suite.Require().NoError(err)
 
-	// liquidator account still has 300e6 total debt -- usdx balance is ignored
+	// liquidator account still has 300e6 total debt -- musd balance is ignored
 	suite.Require().Equal(sdkmath.NewInt(300e6), suite.keeper.GetTotalDebt(suite.ctx, types.LiquidatorMacc))
 
 	// burn some debt

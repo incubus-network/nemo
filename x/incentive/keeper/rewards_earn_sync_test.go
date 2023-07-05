@@ -319,11 +319,11 @@ func (suite *SynchronizeEarnRewardTests) TestClaimUpdatedWhenGlobalIndexesIncrea
 }
 
 func (suite *SynchronizeEarnRewardTests) TestGetSyncedClaim_ClaimUnchangedWhenNoGlobalIndexes() {
-	vaultDenom_1 := "usdx"
+	vaultDenom_1 := "musd"
 	owner := arbitraryAddress()
 
 	earnKeeper := newFakeEarnKeeper().
-		addDeposit(owner, earntypes.NewVaultShare("usdx", d("1000000000")))
+		addDeposit(owner, earntypes.NewVaultShare("musd", d("1000000000")))
 	suite.keeper = suite.NewKeeper(&fakeParamSubspace{}, nil, nil, nil, nil, nil, nil, nil, nil, earnKeeper)
 
 	claim := types.EarnClaim{
@@ -352,7 +352,7 @@ func (suite *SynchronizeEarnRewardTests) TestGetSyncedClaim_ClaimUnchangedWhenNo
 }
 
 func (suite *SynchronizeEarnRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexAndHasNoSourceShares() {
-	vaultDenom_1 := "usdx"
+	vaultDenom_1 := "musd"
 	vaultDenom_2 := "ufury"
 	owner := arbitraryAddress()
 
@@ -410,7 +410,7 @@ func (suite *SynchronizeEarnRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMiss
 }
 
 func (suite *SynchronizeEarnRewardTests) TestGetSyncedClaim_ClaimUpdatedWhenMissingIndexButHasSourceShares() {
-	VaultDenom_1 := "usdx"
+	VaultDenom_1 := "musd"
 	VaultDenom_2 := "ufury"
 	owner := arbitraryAddress()
 

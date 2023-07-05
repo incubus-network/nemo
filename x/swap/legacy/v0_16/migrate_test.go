@@ -84,13 +84,13 @@ func (s *migrateTestSuite) TestMigrate_PoolRecords() {
 	s.v15genstate.PoolRecords = v015swap.PoolRecords{
 		{
 			PoolID:      "pool-1",
-			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+			ReservesA:   sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			ReservesB:   sdk.NewCoin("xrpb", sdkmath.NewInt(200)),
 			TotalShares: sdkmath.NewInt(300),
 		},
 		{
 			PoolID:      "pool-2",
-			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(500)),
+			ReservesA:   sdk.NewCoin("musd", sdkmath.NewInt(500)),
 			ReservesB:   sdk.NewCoin("ufury", sdkmath.NewInt(500)),
 			TotalShares: sdkmath.NewInt(1000),
 		},
@@ -98,13 +98,13 @@ func (s *migrateTestSuite) TestMigrate_PoolRecords() {
 	expected := v016swap.PoolRecords{
 		{
 			PoolID:      "pool-1",
-			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(100)),
+			ReservesA:   sdk.NewCoin("musd", sdkmath.NewInt(100)),
 			ReservesB:   sdk.NewCoin("xrpb", sdkmath.NewInt(200)),
 			TotalShares: sdkmath.NewInt(300),
 		},
 		{
 			PoolID:      "pool-2",
-			ReservesA:   sdk.NewCoin("usdx", sdkmath.NewInt(500)),
+			ReservesA:   sdk.NewCoin("musd", sdkmath.NewInt(500)),
 			ReservesB:   sdk.NewCoin("ufury", sdkmath.NewInt(500)),
 			TotalShares: sdkmath.NewInt(1000),
 		},

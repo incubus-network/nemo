@@ -99,7 +99,7 @@
             "debt_limit": [
               {
                 "amount": "2000000000000",
-                "denom": "usdx"
+                "denom": "musd"
               }
             ],
             "denom": "bnb",
@@ -118,10 +118,10 @@
             "debt_limit": [
               {
                 "amount": "2000000000000",
-                "denom": "usdx"
+                "denom": "musd"
               }
             ],
-            "denom": "usdx",
+            "denom": "musd",
             "reference_asset": "usd",
             "savings_rate": "0.95"
           }
@@ -129,7 +129,7 @@
         "global_debt_limit": [
           {
             "amount": "2000000000000",
-            "denom": "usdx"
+            "denom": "musd"
           }
         ],
         "savings_distribution_frequency": "120000000000",

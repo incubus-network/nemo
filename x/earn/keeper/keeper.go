@@ -19,7 +19,7 @@ type Keeper struct {
 	liquidKeeper  types.LiquidKeeper
 
 	// Keepers used for strategies
-	hardKeeper    types.HardKeeper
+	jinxKeeper    types.JinxKeeper
 	savingsKeeper types.SavingsKeeper
 
 	// Keeper for community pool transfers
@@ -34,7 +34,7 @@ func NewKeeper(
 	accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper,
 	liquidKeeper types.LiquidKeeper,
-	hardKeeper types.HardKeeper,
+	jinxKeeper types.JinxKeeper,
 	savingsKeeper types.SavingsKeeper,
 	distKeeper types.DistributionKeeper,
 ) Keeper {
@@ -49,7 +49,7 @@ func NewKeeper(
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		liquidKeeper:  liquidKeeper,
-		hardKeeper:    hardKeeper,
+		jinxKeeper:    jinxKeeper,
 		savingsKeeper: savingsKeeper,
 		distKeeper:    distKeeper,
 	}

@@ -8,24 +8,24 @@ import (
 
 // HandleCommunityPoolLendDepositProposal is a handler for executing a passed community pool lend deposit proposal.
 func HandleCommunityPoolLendDepositProposal(ctx sdk.Context, k Keeper, p *types.CommunityPoolLendDepositProposal) error {
-	// move funds from community pool to x/community so hard position is held by this module.
+	// move funds from community pool to x/community so jinx position is held by this module.
 	err := k.distrKeeper.DistributeFromFeePool(ctx, p.Amount, k.moduleAddress)
 	if err != nil {
 		return err
 	}
-	// deposit funds into hard
-	return k.hardKeeper.Deposit(ctx, k.moduleAddress, p.Amount)
+	// deposit funds into jinx
+	return k.jinxKeeper.Deposit(ctx, k.moduleAddress, p.Amount)
 }
 
 // HandleCommunityPoolLendWithdrawProposal is a handler for executing a passed community pool lend withdraw proposal.
 func HandleCommunityPoolLendWithdrawProposal(ctx sdk.Context, k Keeper, p *types.CommunityPoolLendWithdrawProposal) error {
-	// hard allows attempting to withdraw more funds than there is a deposit for.
+	// jinx allows attempting to withdraw more funds than there is a deposit for.
 	// this means the amount that gets withdrawn will not necessarily match the amount set in the proposal.
 	// to calculate how much is withdrawn, compare this module's balance before & after withdraw.
 	balanceBefore := k.bankKeeper.GetAllBalances(ctx, k.moduleAddress)
 
-	// withdraw funds from x/hard to this module account
-	err := k.hardKeeper.Withdraw(ctx, k.moduleAddress, p.Amount)
+	// withdraw funds from x/jinx to this module account
+	err := k.jinxKeeper.Withdraw(ctx, k.moduleAddress, p.Amount)
 	if err != nil {
 		return err
 	}

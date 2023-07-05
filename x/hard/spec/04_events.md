@@ -4,7 +4,7 @@ order: 4
 
 # Events
 
-The hard module emits the following events:
+The jinx module emits the following events:
 
 ## Handlers
 
@@ -12,35 +12,35 @@ The hard module emits the following events:
 
 | Type         | Attribute Key | Attribute Value       |
 | ------------ | ------------- | --------------------- |
-| message      | module        | hard                  |
+| message      | module        | jinx                  |
 | message      | sender        | `{sender address}`    |
-| hard_deposit | amount        | `{amount}`            |
-| hard_deposit | depositor     | `{depositor address}` |
+| jinx_deposit | amount        | `{amount}`            |
+| jinx_deposit | depositor     | `{depositor address}` |
 
 ### MsgWithdraw
 
 | Type            | Attribute Key | Attribute Value       |
 | --------------- | ------------- | --------------------- |
-| message         | module        | hard                  |
+| message         | module        | jinx                  |
 | message         | sender        | `{sender address}`    |
-| hard_withdrawal | amount        | `{amount}`            |
-| hard_withdrawal | depositor     | `{depositor address}` |
+| jinx_withdrawal | amount        | `{amount}`            |
+| jinx_withdrawal | depositor     | `{depositor address}` |
 
 ### MsgBorrow
 
 | Type            | Attribute Key | Attribute Value      |
 | --------------- | ------------- | -------------------- |
-| message         | module        | hard                 |
+| message         | module        | jinx                 |
 | message         | sender        | `{sender address}`   |
-| hard_borrow     | borrow_coins  | `{amount}`           |
-| hard_withdrawal | borrower      | `{borrower address}` |
+| jinx_borrow     | borrow_coins  | `{amount}`           |
+| jinx_withdrawal | borrower      | `{borrower address}` |
 
 ### MsgRepay
 
 | Type       | Attribute Key | Attribute Value      |
 | ---------- | ------------- | -------------------- |
-| message    | module        | hard                 |
+| message    | module        | jinx                 |
 | message    | sender        | `{sender address}`   |
 | message    | owner         | `{owner address}`    |
-| hard_repay | repay_coins   | `{amount}`           |
-| hard_repay | sender        | `{borrower address}` |
+| jinx_repay | repay_coins   | `{amount}`           |
+| jinx_repay | sender        | `{borrower address}` |

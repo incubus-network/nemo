@@ -204,7 +204,7 @@ func TestConvertCosmosCoinToERC20_ValidateBasic(t *testing.T) {
 	validNemoAddr := app.RandomAddress()
 	validHexAddr, _ := testutil.RandomEvmAccount()
 	invalidAddr := "not-an-address"
-	validAmount := sdk.NewInt64Coin("hard", 5e3)
+	validAmount := sdk.NewInt64Coin("jinx", 5e3)
 
 	testCases := []struct {
 		name        string
@@ -315,7 +315,7 @@ func TestConvertCosmosCoinFromERC20_ValidateBasic(t *testing.T) {
 	validHexAddr := testutil.RandomEvmAddress()
 	validNemoAddr := app.RandomAddress()
 	invalidAddr := "not-an-address"
-	validAmount := sdk.NewInt64Coin("hard", 5e3)
+	validAmount := sdk.NewInt64Coin("jinx", 5e3)
 
 	testCases := []struct {
 		name        string

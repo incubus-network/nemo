@@ -42,7 +42,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 	}{
 		{
 			name: "valid cdp",
-			cdp:  types.NewCDP(1, suite.addrs[0], sdk.NewInt64Coin("bnb", 100000), "bnb-a", sdk.NewInt64Coin("usdx", 100000), tmtime.Now(), sdk.OneDec()),
+			cdp:  types.NewCDP(1, suite.addrs[0], sdk.NewInt64Coin("bnb", 100000), "bnb-a", sdk.NewInt64Coin("musd", 100000), tmtime.Now(), sdk.OneDec()),
 			errArgs: errArgs{
 				expectPass: true,
 				msg:        "",
@@ -50,7 +50,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid cdp id",
-			cdp:  types.NewCDP(0, suite.addrs[0], sdk.NewInt64Coin("bnb", 100000), "bnb-a", sdk.NewInt64Coin("usdx", 100000), tmtime.Now(), sdk.OneDec()),
+			cdp:  types.NewCDP(0, suite.addrs[0], sdk.NewInt64Coin("bnb", 100000), "bnb-a", sdk.NewInt64Coin("musd", 100000), tmtime.Now(), sdk.OneDec()),
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "cdp id cannot be 0",
@@ -58,7 +58,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid collateral",
-			cdp:  types.CDP{1, suite.addrs[0], "bnb-a", sdk.Coin{"", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
+			cdp:  types.CDP{1, suite.addrs[0], "bnb-a", sdk.Coin{"", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "collateral 100: invalid coins",
@@ -66,7 +66,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid principal",
-			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
+			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "principal 100: invalid coins",
@@ -74,7 +74,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid fees",
-			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(100)}, sdk.Coin{"", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
+			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(100)}, sdk.Coin{"", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "accumulated fees 0: invalid coins",
@@ -82,7 +82,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid fees updated",
-			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(0)}, time.Time{}, sdk.OneDec()},
+			cdp:  types.CDP{1, suite.addrs[0], "xrp-a", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(0)}, time.Time{}, sdk.OneDec()},
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "cdp updated fee time cannot be zero",
@@ -90,7 +90,7 @@ func (suite *CdpValidationSuite) TestCdpValidation() {
 		},
 		{
 			name: "invalid type",
-			cdp:  types.CDP{1, suite.addrs[0], "", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(100)}, sdk.Coin{"usdx", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
+			cdp:  types.CDP{1, suite.addrs[0], "", sdk.Coin{"xrp", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(100)}, sdk.Coin{"musd", sdkmath.NewInt(0)}, tmtime.Now(), sdk.OneDec()},
 			errArgs: errArgs{
 				expectPass: false,
 				msg:        "cdp type cannot be empty",
@@ -168,8 +168,8 @@ func (suite *CdpValidationSuite) TestDepositValidation() {
 }
 
 func (suite *CdpValidationSuite) TestCdpGetTotalPrinciple() {
-	principal := sdk.Coin{"usdx", sdkmath.NewInt(100500)}
-	accumulatedFees := sdk.Coin{"usdx", sdkmath.NewInt(25000)}
+	principal := sdk.Coin{"musd", sdkmath.NewInt(100500)}
+	accumulatedFees := sdk.Coin{"musd", sdkmath.NewInt(25000)}
 
 	cdp := types.CDP{Principal: principal, AccumulatedFees: accumulatedFees}
 
@@ -190,8 +190,8 @@ func (suite *CdpValidationSuite) TestCDPGetNormalizedPrincipal() {
 		{
 			name: "principal + fees is divided by factor correctly",
 			cdp: types.CDP{
-				Principal:       sdk.NewInt64Coin("usdx", 1e9),
-				AccumulatedFees: sdk.NewInt64Coin("usdx", 1e6),
+				Principal:       sdk.NewInt64Coin("musd", 1e9),
+				AccumulatedFees: sdk.NewInt64Coin("musd", 1e6),
 				InterestFactor:  sdk.MustNewDecFromStr("2"),
 			},
 			expected: sdk.MustNewDecFromStr("500500000"),
@@ -202,8 +202,8 @@ func (suite *CdpValidationSuite) TestCDPGetNormalizedPrincipal() {
 		{
 			name: "factor < 1 returns error",
 			cdp: types.CDP{
-				Principal:       sdk.NewInt64Coin("usdx", 1e9),
-				AccumulatedFees: sdk.NewInt64Coin("usdx", 1e6),
+				Principal:       sdk.NewInt64Coin("musd", 1e9),
+				AccumulatedFees: sdk.NewInt64Coin("musd", 1e6),
 				InterestFactor:  sdk.MustNewDecFromStr("0.999999999999999999"),
 			},
 			expectedErr: expectedErr{
@@ -213,8 +213,8 @@ func (suite *CdpValidationSuite) TestCDPGetNormalizedPrincipal() {
 		{
 			name: "0 factor returns error rather than div by 0 panic",
 			cdp: types.CDP{
-				Principal:       sdk.NewInt64Coin("usdx", 1e9),
-				AccumulatedFees: sdk.NewInt64Coin("usdx", 1e6),
+				Principal:       sdk.NewInt64Coin("musd", 1e9),
+				AccumulatedFees: sdk.NewInt64Coin("musd", 1e6),
 				InterestFactor:  sdk.MustNewDecFromStr("0"),
 			},
 			expectedErr: expectedErr{

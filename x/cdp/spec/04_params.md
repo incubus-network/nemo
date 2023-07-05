@@ -10,9 +10,9 @@ The cdp module contains the following parameters:
 |------------------------------|-------------------------|------------------------------------|------------------------------------------------------------------|
 | CollateralParams             | array (CollateralParam) | [{see below}]                      | array of params for each enabled collateral type                 |
 | DebtParams                   | DebtParam               | `{see below}`                      | array of params for each enabled pegged asset                    |
-| GlobalDebtLimit              | coin                    | `{"denom":"usdx","amount":"1000"}` | maximum pegged assets that can be minted across the whole system |
+| GlobalDebtLimit              | coin                    | `{"denom":"musd","amount":"1000"}` | maximum pegged assets that can be minted across the whole system |
 | SavingsDistributionFrequency | string (int)            | "84600"                            | number of seconds between distribution of the savings rate       |
-| GlobalDebtLimit              | coin                    | `{"denom":"usdx","amount":"1000"}` | maximum pegged assets that can be minted across the whole system |
+| GlobalDebtLimit              | coin                    | `{"denom":"musd","amount":"1000"}` | maximum pegged assets that can be minted across the whole system |
 | DebtAuctionThreshold         | string (int)            | "100000000000"                     | amount of system debt before a debt auction is triggered         |
 | SurplusAuctionThreshold      | string (int)            | "100000000000"                     | amount of system surplus before a surplus auction is triggered   |
 | DebtAuctionLot               | string (int)            | "10000000000"                      | amount of debt that each debt auction will attempt to recoup     |
@@ -35,7 +35,7 @@ DebtParam has the following parameters:
 
 | Key              | Type         | Example    | Description                                                                                                |
 |------------------|--------------|------------|------------------------------------------------------------------------------------------------------------|
-| Denom            | string       | "usdx"     | pegged asset coin denom                                                                                    |
+| Denom            | string       | "musd"     | pegged asset coin denom                                                                                    |
 | ReferenceAsset   | string       | "USD"      | asset this asset is pegged to, informational purposes only                                                 |
 | ConversionFactor | string (int) | "6"        | 10^_ multiplier to go from external amount (say $1.50) to internal representation of that amount (1500000) |
 | DebtFloor        | string (int) | "10000000" | minimum amount of debt that a CDP can contain                                                              |

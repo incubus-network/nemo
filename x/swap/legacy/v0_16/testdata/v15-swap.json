@@ -3,30 +3,30 @@
     "allowed_pools": [
       {
         "token_a": "bnb",
-        "token_b": "usdx"
+        "token_b": "musd"
       },
       {
         "token_a": "btcb",
-        "token_b": "usdx"
+        "token_b": "musd"
       },
       {
         "token_a": "busd",
-        "token_b": "usdx"
+        "token_b": "musd"
       },
       {
-        "token_a": "hard",
-        "token_b": "usdx"
+        "token_a": "jinx",
+        "token_b": "musd"
       },
       {
         "token_a": "swp",
-        "token_b": "usdx"
+        "token_b": "musd"
       },
       {
         "token_a": "ufury",
-        "token_b": "usdx"
+        "token_b": "musd"
       },
       {
-        "token_a": "usdx",
+        "token_a": "musd",
         "token_b": "xrpb"
       }
     ],
@@ -34,22 +34,22 @@
   },
   "pool_records": [
     {
-      "pool_id": "ufury:usdx",
+      "pool_id": "ufury:musd",
       "reserves_a": {
         "amount": "583616549439",
         "denom": "ufury"
       },
       "reserves_b": {
         "amount": "3431399443511",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "total_shares": "1398497336200"
     },
     {
-      "pool_id": "usdx:xrpb",
+      "pool_id": "musd:xrpb",
       "reserves_a": {
         "amount": "843639517257",
-        "denom": "usdx"
+        "denom": "musd"
       },
       "reserves_b": {
         "amount": "72251274276145",
@@ -61,22 +61,22 @@
   "share_records": [
     {
       "depositor": "fury1l77xymdt2ya0rl2mludkny5aqmr67u88g94lh3",
-      "pool_id": "usdx:xrpb",
+      "pool_id": "musd:xrpb",
       "shares_owned": "29034728969"
     },
     {
       "depositor": "fury1llqkrdr69wc76cuxpx6j06x9pt63f52fj9z2p3",
-      "pool_id": "busd:usdx",
+      "pool_id": "busd:musd",
       "shares_owned": "24905307583"
     },
     {
       "depositor": "fury1ll3ndyv333aet6mzqltu5wdepqhyme8uhjv8uc",
-      "pool_id": "hard:usdx",
+      "pool_id": "jinx:musd",
       "shares_owned": "708138421"
     },
     {
       "depositor": "fury1ll3ndyv333aet6mzqltu5wdepqhyme8uhjv8uc",
-      "pool_id": "ufury:usdx",
+      "pool_id": "ufury:musd",
       "shares_owned": "3427014047"
     }
   ]

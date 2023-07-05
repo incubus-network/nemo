@@ -33,15 +33,15 @@ func TestMsgServerTestSuite(t *testing.T) {
 }
 
 func (suite *msgServerTestSuite) TestDeposit() {
-	vaultDenom := "usdx"
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	vaultDenom := "musd"
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	msg := types.NewMsgDeposit(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_HARD)
+	msg := types.NewMsgDeposit(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_JINX)
 	_, err := suite.msgServer.Deposit(sdk.WrapSDKContext(suite.Ctx), msg)
 	suite.Require().NoError(err)
 
@@ -86,20 +86,20 @@ func (suite *msgServerTestSuite) TestDeposit() {
 }
 
 func (suite *msgServerTestSuite) TestWithdraw() {
-	vaultDenom := "usdx"
-	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_HARD}, false, nil)
+	vaultDenom := "musd"
+	suite.CreateVault(vaultDenom, types.StrategyTypes{types.STRATEGY_TYPE_JINX}, false, nil)
 
 	startBalance := sdk.NewInt64Coin(vaultDenom, 1000)
 	depositAmount := sdk.NewInt64Coin(vaultDenom, 100)
 
 	acc := suite.CreateAccount(sdk.NewCoins(startBalance), 0)
 
-	msgDeposit := types.NewMsgDeposit(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_HARD)
+	msgDeposit := types.NewMsgDeposit(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_JINX)
 	_, err := suite.msgServer.Deposit(sdk.WrapSDKContext(suite.Ctx), msgDeposit)
 	suite.Require().NoError(err)
 
 	// Withdraw all
-	msgWithdraw := types.NewMsgWithdraw(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_HARD)
+	msgWithdraw := types.NewMsgWithdraw(acc.GetAddress().String(), depositAmount, types.STRATEGY_TYPE_JINX)
 	_, err = suite.msgServer.Withdraw(sdk.WrapSDKContext(suite.Ctx), msgWithdraw)
 	suite.Require().NoError(err)
 

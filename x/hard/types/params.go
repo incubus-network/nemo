@@ -202,7 +202,7 @@ func NewParams(moneyMarkets MoneyMarkets, minimumBorrowUSDValue sdk.Dec) Params 
 	}
 }
 
-// DefaultParams returns default params for hard module
+// DefaultParams returns default params for jinx module
 func DefaultParams() Params {
 	return NewParams(DefaultMoneyMarkets, DefaultMinimumBorrowUSDValue)
 }

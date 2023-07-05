@@ -115,7 +115,7 @@ func (m *QueryParamsResponse) GetParams() Params {
 type QueryRewardsRequest struct {
 	// owner is the address of the user to query rewards for.
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	// reward_type is the type of reward to query rewards for, e.g. hard, earn,
+	// reward_type is the type of reward to query rewards for, e.g. jinx, earn,
 	// swap.
 	RewardType string `protobuf:"bytes,2,opt,name=reward_type,json=rewardType,proto3" json:"reward_type,omitempty"`
 	// unsynchronized is a flag to query rewards that are not simulated for reward
@@ -179,8 +179,8 @@ func (m *QueryRewardsRequest) GetUnsynchronized() bool {
 
 // QueryRewardsResponse is the response type for the Query/Rewards RPC method.
 type QueryRewardsResponse struct {
-	USDXMintingClaims           USDXMintingClaims           `protobuf:"bytes,1,rep,name=usdx_minting_claims,json=usdxMintingClaims,proto3,castrepeated=USDXMintingClaims" json:"usdx_minting_claims"`
-	HardLiquidityProviderClaims HardLiquidityProviderClaims `protobuf:"bytes,2,rep,name=hard_liquidity_provider_claims,json=hardLiquidityProviderClaims,proto3,castrepeated=HardLiquidityProviderClaims" json:"hard_liquidity_provider_claims"`
+	MUSDMintingClaims           MUSDMintingClaims           `protobuf:"bytes,1,rep,name=musd_minting_claims,json=musdMintingClaims,proto3,castrepeated=MUSDMintingClaims" json:"musd_minting_claims"`
+	JinxLiquidityProviderClaims JinxLiquidityProviderClaims `protobuf:"bytes,2,rep,name=jinx_liquidity_provider_claims,json=jinxLiquidityProviderClaims,proto3,castrepeated=JinxLiquidityProviderClaims" json:"jinx_liquidity_provider_claims"`
 	DelegatorClaims             DelegatorClaims             `protobuf:"bytes,3,rep,name=delegator_claims,json=delegatorClaims,proto3,castrepeated=DelegatorClaims" json:"delegator_claims"`
 	SwapClaims                  SwapClaims                  `protobuf:"bytes,4,rep,name=swap_claims,json=swapClaims,proto3,castrepeated=SwapClaims" json:"swap_claims"`
 	SavingsClaims               SavingsClaims               `protobuf:"bytes,5,rep,name=savings_claims,json=savingsClaims,proto3,castrepeated=SavingsClaims" json:"savings_claims"`
@@ -220,16 +220,16 @@ func (m *QueryRewardsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryRewardsResponse proto.InternalMessageInfo
 
-func (m *QueryRewardsResponse) GetUSDXMintingClaims() USDXMintingClaims {
+func (m *QueryRewardsResponse) GetMUSDMintingClaims() MUSDMintingClaims {
 	if m != nil {
-		return m.USDXMintingClaims
+		return m.MUSDMintingClaims
 	}
 	return nil
 }
 
-func (m *QueryRewardsResponse) GetHardLiquidityProviderClaims() HardLiquidityProviderClaims {
+func (m *QueryRewardsResponse) GetJinxLiquidityProviderClaims() JinxLiquidityProviderClaims {
 	if m != nil {
-		return m.HardLiquidityProviderClaims
+		return m.JinxLiquidityProviderClaims
 	}
 	return nil
 }
@@ -301,9 +301,9 @@ var xxx_messageInfo_QueryRewardFactorsRequest proto.InternalMessageInfo
 
 // QueryRewardFactorsResponse is the response type for the Query/RewardFactors RPC method.
 type QueryRewardFactorsResponse struct {
-	UsdxMintingRewardFactors RewardIndexes      `protobuf:"bytes,1,rep,name=usdx_minting_reward_factors,json=usdxMintingRewardFactors,proto3,castrepeated=RewardIndexes" json:"usdx_minting_reward_factors"`
-	HardSupplyRewardFactors  MultiRewardIndexes `protobuf:"bytes,2,rep,name=hard_supply_reward_factors,json=hardSupplyRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"hard_supply_reward_factors"`
-	HardBorrowRewardFactors  MultiRewardIndexes `protobuf:"bytes,3,rep,name=hard_borrow_reward_factors,json=hardBorrowRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"hard_borrow_reward_factors"`
+	MusdMintingRewardFactors RewardIndexes      `protobuf:"bytes,1,rep,name=musd_minting_reward_factors,json=musdMintingRewardFactors,proto3,castrepeated=RewardIndexes" json:"musd_minting_reward_factors"`
+	JinxSupplyRewardFactors  MultiRewardIndexes `protobuf:"bytes,2,rep,name=jinx_supply_reward_factors,json=jinxSupplyRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"jinx_supply_reward_factors"`
+	JinxBorrowRewardFactors  MultiRewardIndexes `protobuf:"bytes,3,rep,name=jinx_borrow_reward_factors,json=jinxBorrowRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"jinx_borrow_reward_factors"`
 	DelegatorRewardFactors   MultiRewardIndexes `protobuf:"bytes,4,rep,name=delegator_reward_factors,json=delegatorRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"delegator_reward_factors"`
 	SwapRewardFactors        MultiRewardIndexes `protobuf:"bytes,5,rep,name=swap_reward_factors,json=swapRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"swap_reward_factors"`
 	SavingsRewardFactors     MultiRewardIndexes `protobuf:"bytes,6,rep,name=savings_reward_factors,json=savingsRewardFactors,proto3,castrepeated=MultiRewardIndexes" json:"savings_reward_factors"`
@@ -343,23 +343,23 @@ func (m *QueryRewardFactorsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryRewardFactorsResponse proto.InternalMessageInfo
 
-func (m *QueryRewardFactorsResponse) GetUsdxMintingRewardFactors() RewardIndexes {
+func (m *QueryRewardFactorsResponse) GetMusdMintingRewardFactors() RewardIndexes {
 	if m != nil {
-		return m.UsdxMintingRewardFactors
+		return m.MusdMintingRewardFactors
 	}
 	return nil
 }
 
-func (m *QueryRewardFactorsResponse) GetHardSupplyRewardFactors() MultiRewardIndexes {
+func (m *QueryRewardFactorsResponse) GetJinxSupplyRewardFactors() MultiRewardIndexes {
 	if m != nil {
-		return m.HardSupplyRewardFactors
+		return m.JinxSupplyRewardFactors
 	}
 	return nil
 }
 
-func (m *QueryRewardFactorsResponse) GetHardBorrowRewardFactors() MultiRewardIndexes {
+func (m *QueryRewardFactorsResponse) GetJinxBorrowRewardFactors() MultiRewardIndexes {
 	if m != nil {
-		return m.HardBorrowRewardFactors
+		return m.JinxBorrowRewardFactors
 	}
 	return nil
 }
@@ -925,10 +925,10 @@ func (m *QueryRewardsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.HardLiquidityProviderClaims) > 0 {
-		for iNdEx := len(m.HardLiquidityProviderClaims) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.JinxLiquidityProviderClaims) > 0 {
+		for iNdEx := len(m.JinxLiquidityProviderClaims) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.HardLiquidityProviderClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.JinxLiquidityProviderClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -939,10 +939,10 @@ func (m *QueryRewardsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x12
 		}
 	}
-	if len(m.USDXMintingClaims) > 0 {
-		for iNdEx := len(m.USDXMintingClaims) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.MUSDMintingClaims) > 0 {
+		for iNdEx := len(m.MUSDMintingClaims) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.USDXMintingClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.MUSDMintingClaims[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1055,10 +1055,10 @@ func (m *QueryRewardFactorsResponse) MarshalToSizedBuffer(dAtA []byte) (int, err
 			dAtA[i] = 0x22
 		}
 	}
-	if len(m.HardBorrowRewardFactors) > 0 {
-		for iNdEx := len(m.HardBorrowRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.JinxBorrowRewardFactors) > 0 {
+		for iNdEx := len(m.JinxBorrowRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.HardBorrowRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.JinxBorrowRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1069,10 +1069,10 @@ func (m *QueryRewardFactorsResponse) MarshalToSizedBuffer(dAtA []byte) (int, err
 			dAtA[i] = 0x1a
 		}
 	}
-	if len(m.HardSupplyRewardFactors) > 0 {
-		for iNdEx := len(m.HardSupplyRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.JinxSupplyRewardFactors) > 0 {
+		for iNdEx := len(m.JinxSupplyRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.HardSupplyRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.JinxSupplyRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1083,10 +1083,10 @@ func (m *QueryRewardFactorsResponse) MarshalToSizedBuffer(dAtA []byte) (int, err
 			dAtA[i] = 0x12
 		}
 	}
-	if len(m.UsdxMintingRewardFactors) > 0 {
-		for iNdEx := len(m.UsdxMintingRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.MusdMintingRewardFactors) > 0 {
+		for iNdEx := len(m.MusdMintingRewardFactors) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.UsdxMintingRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.MusdMintingRewardFactors[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -1217,14 +1217,14 @@ func (m *QueryRewardsResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if len(m.USDXMintingClaims) > 0 {
-		for _, e := range m.USDXMintingClaims {
+	if len(m.MUSDMintingClaims) > 0 {
+		for _, e := range m.MUSDMintingClaims {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
 	}
-	if len(m.HardLiquidityProviderClaims) > 0 {
-		for _, e := range m.HardLiquidityProviderClaims {
+	if len(m.JinxLiquidityProviderClaims) > 0 {
+		for _, e := range m.JinxLiquidityProviderClaims {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -1271,20 +1271,20 @@ func (m *QueryRewardFactorsResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if len(m.UsdxMintingRewardFactors) > 0 {
-		for _, e := range m.UsdxMintingRewardFactors {
+	if len(m.MusdMintingRewardFactors) > 0 {
+		for _, e := range m.MusdMintingRewardFactors {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
 	}
-	if len(m.HardSupplyRewardFactors) > 0 {
-		for _, e := range m.HardSupplyRewardFactors {
+	if len(m.JinxSupplyRewardFactors) > 0 {
+		for _, e := range m.JinxSupplyRewardFactors {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
 	}
-	if len(m.HardBorrowRewardFactors) > 0 {
-		for _, e := range m.HardBorrowRewardFactors {
+	if len(m.JinxBorrowRewardFactors) > 0 {
+		for _, e := range m.JinxBorrowRewardFactors {
 			l = e.Size()
 			n += 1 + l + sovQuery(uint64(l))
 		}
@@ -1644,7 +1644,7 @@ func (m *QueryRewardsResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field USDXMintingClaims", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field MUSDMintingClaims", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1671,14 +1671,14 @@ func (m *QueryRewardsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.USDXMintingClaims = append(m.USDXMintingClaims, USDXMintingClaim{})
-			if err := m.USDXMintingClaims[len(m.USDXMintingClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.MUSDMintingClaims = append(m.MUSDMintingClaims, MUSDMintingClaim{})
+			if err := m.MUSDMintingClaims[len(m.MUSDMintingClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HardLiquidityProviderClaims", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field JinxLiquidityProviderClaims", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1705,8 +1705,8 @@ func (m *QueryRewardsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HardLiquidityProviderClaims = append(m.HardLiquidityProviderClaims, HardLiquidityProviderClaim{})
-			if err := m.HardLiquidityProviderClaims[len(m.HardLiquidityProviderClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.JinxLiquidityProviderClaims = append(m.JinxLiquidityProviderClaims, JinxLiquidityProviderClaim{})
+			if err := m.JinxLiquidityProviderClaims[len(m.JinxLiquidityProviderClaims)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1948,7 +1948,7 @@ func (m *QueryRewardFactorsResponse) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field UsdxMintingRewardFactors", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field MusdMintingRewardFactors", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1975,14 +1975,14 @@ func (m *QueryRewardFactorsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.UsdxMintingRewardFactors = append(m.UsdxMintingRewardFactors, RewardIndex{})
-			if err := m.UsdxMintingRewardFactors[len(m.UsdxMintingRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.MusdMintingRewardFactors = append(m.MusdMintingRewardFactors, RewardIndex{})
+			if err := m.MusdMintingRewardFactors[len(m.MusdMintingRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HardSupplyRewardFactors", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field JinxSupplyRewardFactors", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2009,14 +2009,14 @@ func (m *QueryRewardFactorsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HardSupplyRewardFactors = append(m.HardSupplyRewardFactors, MultiRewardIndex{})
-			if err := m.HardSupplyRewardFactors[len(m.HardSupplyRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.JinxSupplyRewardFactors = append(m.JinxSupplyRewardFactors, MultiRewardIndex{})
+			if err := m.JinxSupplyRewardFactors[len(m.JinxSupplyRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HardBorrowRewardFactors", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field JinxBorrowRewardFactors", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -2043,8 +2043,8 @@ func (m *QueryRewardFactorsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HardBorrowRewardFactors = append(m.HardBorrowRewardFactors, MultiRewardIndex{})
-			if err := m.HardBorrowRewardFactors[len(m.HardBorrowRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.JinxBorrowRewardFactors = append(m.JinxBorrowRewardFactors, MultiRewardIndex{})
+			if err := m.JinxBorrowRewardFactors[len(m.JinxBorrowRewardFactors)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

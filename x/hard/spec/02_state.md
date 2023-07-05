@@ -15,7 +15,7 @@ order: 2
 Without financial incentives, borrowers and suppliers will withdraw their funds from the money market over time. Once the balances have reached an acceptable level the money market can be deprecated and removed from params, with any additional lingering user funds reimbursed/reallocated as appropriate via a chain upgrade.
 
 ```go
-// Params governance parameters for hard module
+// Params governance parameters for jinx module
 type Params struct {
 	MoneyMarkets          MoneyMarkets `json:"money_markets" yaml:"money_markets"`
 	MinimumBorrowUSDValue sdk.Dec      `json:"minimum_borrow_usd_value" yaml:"minimum_borrow_usd_value"`
@@ -51,7 +51,7 @@ type BorrowLimit struct {
 }
 ```
 
-`GenesisState` defines the state that must be persisted when the blockchain stops/restarts in order for normal function of the hard module to resume and all outstanding funds + interest to be accounted for.
+`GenesisState` defines the state that must be persisted when the blockchain stops/restarts in order for normal function of the jinx module to resume and all outstanding funds + interest to be accounted for.
 
 ```go
 // GenesisState is the state that must be provided at genesis.

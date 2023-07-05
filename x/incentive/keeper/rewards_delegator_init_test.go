@@ -26,7 +26,7 @@ func TestInitializeDelegatorReward(t *testing.T) {
 	suite.Run(t, new(InitializeDelegatorRewardTests))
 }
 
-// Hardcoded to use bond denom
+// Jinxcoded to use bond denom
 func (suite *InitializeDelegatorRewardTests) storeGlobalDelegatorFactor(multiRewardIndexes types.MultiRewardIndexes) {
 	multiRewardIndex, _ := multiRewardIndexes.GetRewardIndex(types.BondDenom)
 	suite.keeper.SetDelegatorRewardIndexes(suite.ctx, types.BondDenom, multiRewardIndex.RewardIndexes)
@@ -90,7 +90,7 @@ var arbitraryDelegatorRewardIndexes = types.MultiRewardIndexes{
 	types.NewMultiRewardIndex(
 		types.BondDenom,
 		types.RewardIndexes{
-			types.NewRewardIndex("hard", d("0.2")),
+			types.NewRewardIndex("jinx", d("0.2")),
 			types.NewRewardIndex("swp", d("0.2")),
 		},
 	),

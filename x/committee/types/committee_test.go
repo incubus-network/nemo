@@ -273,7 +273,7 @@ func TestTokenCommittee(t *testing.T) {
 					time.Hour*24*7,
 					types.TALLY_OPTION_FIRST_PAST_THE_POST,
 					testutil.D("0.4"),
-					"hard",
+					"jinx",
 				)
 			},
 			expectPass: true,
@@ -290,7 +290,7 @@ func TestTokenCommittee(t *testing.T) {
 					time.Hour*24*7,
 					types.TALLY_OPTION_FIRST_PAST_THE_POST,
 					sdk.Dec{},
-					"hard",
+					"jinx",
 				)
 			},
 			expectPass: false,
@@ -307,7 +307,7 @@ func TestTokenCommittee(t *testing.T) {
 					time.Hour*24*7,
 					types.TALLY_OPTION_FIRST_PAST_THE_POST,
 					testutil.D("-0.1"),
-					"hard",
+					"jinx",
 				)
 			},
 			expectPass: false,
@@ -324,7 +324,7 @@ func TestTokenCommittee(t *testing.T) {
 					time.Hour*24*7,
 					types.TALLY_OPTION_FIRST_PAST_THE_POST,
 					testutil.D("1.001"),
-					"hard",
+					"jinx",
 				)
 			},
 			expectPass: false,

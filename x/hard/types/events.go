@@ -1,12 +1,12 @@
 package types
 
-// Event types for hard module
+// Event types for jinx module
 const (
-	EventTypeHardDeposit          = "hard_deposit"
-	EventTypeHardWithdrawal       = "hard_withdrawal"
-	EventTypeHardBorrow           = "hard_borrow"
-	EventTypeHardLiquidation      = "hard_liquidation"
-	EventTypeHardRepay            = "hard_repay"
+	EventTypeJinxDeposit          = "jinx_deposit"
+	EventTypeJinxWithdrawal       = "jinx_withdrawal"
+	EventTypeJinxBorrow           = "jinx_borrow"
+	EventTypeJinxLiquidation      = "jinx_liquidation"
+	EventTypeJinxRepay            = "jinx_repay"
 	AttributeValueCategory        = ModuleName
 	AttributeKeyDeposit           = "deposit"
 	AttributeKeyDepositDenom      = "deposit_denom"

@@ -35,7 +35,7 @@ func (suite *msgServerTestSuite) TestMsgFundCommunityPool() {
 	singleCoin := sdk.NewCoins(sdk.NewCoin("ufury", sdkmath.NewInt(2e6)))
 	multipleCoins := sdk.NewCoins(
 		sdk.NewCoin("ufury", sdkmath.NewInt(3e6)),
-		sdk.NewCoin("usdx", sdkmath.NewInt(1e7)),
+		sdk.NewCoin("musd", sdkmath.NewInt(1e7)),
 	)
 	testCases := []struct {
 		name            string

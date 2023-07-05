@@ -24,16 +24,16 @@ func NewQuerier(bk types.BankKeeper, legacyQuerierCdc *codec.LegacyAmino) sdk.Qu
 			return queryGetCirculatingSupply(ctx, req, bk, legacyQuerierCdc)
 		case types.QueryTotalSupply:
 			return queryGetTotalSupply(ctx, req, bk, legacyQuerierCdc)
-		case types.QueryCirculatingSupplyHARD:
-			return getCirculatingSupplyHARD(ctx, req, legacyQuerierCdc)
-		case types.QueryCirculatingSupplyUSDX:
-			return getCirculatingSupplyUSDX(ctx, req, bk, legacyQuerierCdc)
+		case types.QueryCirculatingSupplyJINX:
+			return getCirculatingSupplyJINX(ctx, req, legacyQuerierCdc)
+		case types.QueryCirculatingSupplyMUSD:
+			return getCirculatingSupplyMUSD(ctx, req, bk, legacyQuerierCdc)
 		case types.QueryCirculatingSupplySWP:
 			return getCirculatingSupplySWP(ctx, req, legacyQuerierCdc)
-		case types.QueryTotalSupplyHARD:
-			return getTotalSupplyHARD(ctx, req, bk, legacyQuerierCdc)
-		case types.QueryTotalSupplyUSDX:
-			return getCirculatingSupplyUSDX(ctx, req, bk, legacyQuerierCdc) // Intentional - USDX total supply is the circulating supply
+		case types.QueryTotalSupplyJINX:
+			return getTotalSupplyJINX(ctx, req, bk, legacyQuerierCdc)
+		case types.QueryTotalSupplyMUSD:
+			return getCirculatingSupplyMUSD(ctx, req, bk, legacyQuerierCdc) // Intentional - MUSD total supply is the circulating supply
 		default:
 			return nil, errorsmod.Wrapf(sdkerrors.ErrUnknownRequest, "unknown %s query endpoint: %s", types.ModuleName, path[0])
 		}
@@ -82,7 +82,7 @@ func getCirculatingSupply(blockTime time.Time, totalSupply sdkmath.Int) sdkmath.
 	}
 }
 
-func getCirculatingSupplyHARD(ctx sdk.Context, req abci.RequestQuery, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+func getCirculatingSupplyJINX(ctx sdk.Context, req abci.RequestQuery, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
 	supplyIncreaseDates := []time.Time{
 		time.Date(2020, 10, 15, 14, 0, 0, 0, time.UTC), // + 30,000,000 *** Year ONE ***
 		time.Date(2020, 11, 15, 14, 0, 0, 0, time.UTC), // + 5,000,000
@@ -246,8 +246,8 @@ func getCirculatingSupplyHARD(ctx sdk.Context, req abci.RequestQuery, legacyQuer
 	return bz, nil
 }
 
-func getCirculatingSupplyUSDX(ctx sdk.Context, req abci.RequestQuery, bk types.BankKeeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
-	totalSupply := bk.GetSupply(ctx, "usdx").Amount
+func getCirculatingSupplyMUSD(ctx sdk.Context, req abci.RequestQuery, bk types.BankKeeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+	totalSupply := bk.GetSupply(ctx, "musd").Amount
 	supplyInt := sdk.NewDecFromInt(totalSupply).Mul(sdk.MustNewDecFromStr("0.000001")).TruncateInt64()
 	bz, err := legacyQuerierCdc.MarshalJSON(supplyInt)
 	if err != nil {
@@ -347,8 +347,8 @@ func getCirculatingSupplySWP(ctx sdk.Context, req abci.RequestQuery, legacyQueri
 	return bz, nil
 }
 
-func getTotalSupplyHARD(ctx sdk.Context, req abci.RequestQuery, bk types.BankKeeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
-	totalSupply := bk.GetSupply(ctx, "hard").Amount
+func getTotalSupplyJINX(ctx sdk.Context, req abci.RequestQuery, bk types.BankKeeper, legacyQuerierCdc *codec.LegacyAmino) ([]byte, error) {
+	totalSupply := bk.GetSupply(ctx, "jinx").Amount
 	supplyInt := sdk.NewDecFromInt(totalSupply).Mul(sdk.MustNewDecFromStr("0.000001")).TruncateInt64()
 	bz, err := legacyQuerierCdc.MarshalJSON(supplyInt)
 	if err != nil {

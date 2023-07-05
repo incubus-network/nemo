@@ -1,4 +1,4 @@
-package hard
+package jinx
 
 import (
 	"context"
@@ -15,9 +15,9 @@ import (
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/incubus-network/nemo/x/hard/client/cli"
-	"github.com/incubus-network/nemo/x/hard/keeper"
-	"github.com/incubus-network/nemo/x/hard/types"
+	"github.com/incubus-network/nemo/x/jinx/client/cli"
+	"github.com/incubus-network/nemo/x/jinx/keeper"
+	"github.com/incubus-network/nemo/x/jinx/types"
 )
 
 var (
@@ -39,14 +39,14 @@ func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	types.RegisterLegacyAminoCodec(cdc)
 }
 
-// DefaultGenesis returns default genesis state as raw bytes for the hard
+// DefaultGenesis returns default genesis state as raw bytes for the jinx
 // module.
 func (AppModuleBasic) DefaultGenesis(cdc codec.JSONCodec) json.RawMessage {
 	gs := types.DefaultGenesisState()
 	return cdc.MustMarshalJSON(&gs)
 }
 
-// ValidateGenesis performs genesis state validation for the hard module.
+// ValidateGenesis performs genesis state validation for the jinx module.
 func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncodingConfig, bz json.RawMessage) error {
 	var gs types.GenesisState
 	err := cdc.UnmarshalJSON(bz, &gs)
@@ -78,12 +78,12 @@ func (AppModule) ConsensusVersion() uint64 {
 	return 1
 }
 
-// GetTxCmd returns the root tx command for the hard module.
+// GetTxCmd returns the root tx command for the jinx module.
 func (AppModuleBasic) GetTxCmd() *cobra.Command {
 	return cli.GetTxCmd()
 }
 
-// GetQueryCmd returns no root query command for the hard module.
+// GetQueryCmd returns no root query command for the jinx module.
 func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 	return cli.GetQueryCmd()
 }
@@ -119,12 +119,12 @@ func (AppModule) Name() string {
 // RegisterInvariants register module invariants
 func (AppModule) RegisterInvariants(_ sdk.InvariantRegistry) {}
 
-// Route returns the message routing key for the hard module.
+// Route returns the message routing key for the jinx module.
 func (am AppModule) Route() sdk.Route {
 	return sdk.Route{}
 }
 
-// QuerierRoute returns the hard module's querier route name.
+// QuerierRoute returns the jinx module's querier route name.
 func (AppModule) QuerierRoute() string {
 	return types.QuerierRoute
 }
@@ -135,7 +135,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterQueryServer(cfg.QueryServer(), keeper.NewQueryServerImpl(am.keeper, am.accountKeeper, am.bankKeeper))
 }
 
-// InitGenesis performs genesis initialization for the hard module. It returns
+// InitGenesis performs genesis initialization for the jinx module. It returns
 // no validator updates.
 func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, gs json.RawMessage) []abci.ValidatorUpdate {
 	var genState types.GenesisState
@@ -146,7 +146,7 @@ func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, gs json.Ra
 	return []abci.ValidatorUpdate{}
 }
 
-// ExportGenesis returns the exported genesis state as raw bytes for the hard
+// ExportGenesis returns the exported genesis state as raw bytes for the jinx
 // module.
 func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
 	gs := ExportGenesis(ctx, am.keeper)
@@ -165,7 +165,7 @@ func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.Valid
 
 //____________________________________________________________________________
 
-// // GenerateGenesisState creates a randomized GenState of the hard module
+// // GenerateGenesisState creates a randomized GenState of the jinx module
 // func (AppModuleBasic) GenerateGenesisState(simState *module.SimulationState) {
 // 	simulation.RandomizedGenState(simState)
 // }
@@ -175,17 +175,17 @@ func (am AppModule) EndBlock(_ sdk.Context, _ abci.RequestEndBlock) []abci.Valid
 // 	return nil
 // }
 
-// // RandomizedParams returns nil because hard has no params.
+// // RandomizedParams returns nil because jinx has no params.
 // func (AppModuleBasic) RandomizedParams(r *rand.Rand) []sim.ParamChange {
 // 	return simulation.ParamChanges(r)
 // }
 
-// // RegisterStoreDecoder registers a decoder for hard module's types
+// // RegisterStoreDecoder registers a decoder for jinx module's types
 // func (AppModuleBasic) RegisterStoreDecoder(sdr sdk.StoreDecoderRegistry) {
 // 	sdr[types.StoreKey] = simulation.DecodeStore
 // }
 
-// // WeightedOperations returns the all the hard module operations with their respective weights.
+// // WeightedOperations returns the all the jinx module operations with their respective weights.
 // func (am AppModule) WeightedOperations(simState module.SimulationState) []sim.WeightedOperation {
 // 	return nil
 // }

@@ -58,13 +58,13 @@ func (suite *grpcQueryTestSuite) addCdp() {
 	ok := suite.keeper.UpdatePricefeedStatus(suite.ctx, "xrp:usd")
 	suite.True(ok)
 
-	err = suite.keeper.AddCdp(suite.ctx, suite.addrs[0], c("xrp", 100000000), c("usdx", 10000000), "xrp-a")
+	err = suite.keeper.AddCdp(suite.ctx, suite.addrs[0], c("xrp", 100000000), c("musd", 10000000), "xrp-a")
 	suite.NoError(err)
 
 	id := suite.keeper.GetNextCdpID(suite.ctx)
 	suite.Equal(uint64(2), id)
 
-	tp := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "usdx")
+	tp := suite.keeper.GetTotalPrincipal(suite.ctx, "xrp-a", "musd")
 	suite.Equal(i(10000000), tp)
 }
 
@@ -110,11 +110,11 @@ func (suite *grpcQueryTestSuite) TestGrpcQueryTotalPrincipal() {
 
 	suite.Contains(res.TotalPrincipal, types.TotalPrincipal{
 		CollateralType: "xrp-a",
-		Amount:         sdk.NewCoin("usdx", sdkmath.NewInt(10000000)),
+		Amount:         sdk.NewCoin("musd", sdkmath.NewInt(10000000)),
 	}, "total principals should include added cdp")
 	suite.Contains(res.TotalPrincipal, types.TotalPrincipal{
 		CollateralType: "busd-a",
-		Amount:         sdk.NewCoin("usdx", sdkmath.NewInt(0)),
+		Amount:         sdk.NewCoin("musd", sdkmath.NewInt(0)),
 	}, "total busd principal should be 0")
 }
 

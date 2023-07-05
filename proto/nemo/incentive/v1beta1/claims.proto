@@ -75,8 +75,8 @@ message MultiRewardIndexesProto {
 
 // -------------- Custom Claim Types --------------
 
-// USDXMintingClaim is for USDX minting rewards
-message USDXMintingClaim {
+// MUSDMintingClaim is for MUSD minting rewards
+message MUSDMintingClaim {
   option (cosmos_proto.implements_interface) = "Claim";
 
   BaseClaim base_claim = 1 [
@@ -90,8 +90,8 @@ message USDXMintingClaim {
   ];
 }
 
-// HardLiquidityProviderClaim stores the hard liquidity provider rewards that can be claimed by owner
-message HardLiquidityProviderClaim {
+// JinxLiquidityProviderClaim stores the jinx liquidity provider rewards that can be claimed by owner
+message JinxLiquidityProviderClaim {
   option (cosmos_proto.implements_interface) = "Claim";
 
   BaseMultiClaim base_claim = 1 [

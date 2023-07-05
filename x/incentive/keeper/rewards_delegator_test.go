@@ -84,10 +84,10 @@ func (suite *DelegatorRewardsTestSuite) TestAccumulateDelegatorRewards() {
 			"7 seconds",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354)),
+				rewardsPerSecond: cs(c("jinx", 122354)),
 				timeElapsed:      7,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("0.428239000000000000")),
+					types.NewRewardIndex("jinx", d("0.428239000000000000")),
 				},
 			},
 		},
@@ -95,10 +95,10 @@ func (suite *DelegatorRewardsTestSuite) TestAccumulateDelegatorRewards() {
 			"1 day",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354)),
+				rewardsPerSecond: cs(c("jinx", 122354)),
 				timeElapsed:      86400,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("5285.692800000000000000")),
+					types.NewRewardIndex("jinx", d("5285.692800000000000000")),
 				},
 			},
 		},
@@ -106,10 +106,10 @@ func (suite *DelegatorRewardsTestSuite) TestAccumulateDelegatorRewards() {
 			"0 seconds",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354)),
+				rewardsPerSecond: cs(c("jinx", 122354)),
 				timeElapsed:      0,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("0.0")),
+					types.NewRewardIndex("jinx", d("0.0")),
 				},
 			},
 		},
@@ -117,10 +117,10 @@ func (suite *DelegatorRewardsTestSuite) TestAccumulateDelegatorRewards() {
 			"multiple reward coins",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354), c("swp", 567889)),
+				rewardsPerSecond: cs(c("jinx", 122354), c("swp", 567889)),
 				timeElapsed:      7,
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("0.428239000000000000")),
+					types.NewRewardIndex("jinx", d("0.428239000000000000")),
 					types.NewRewardIndex("swp", d("1.987611500000000000")),
 				},
 			},
@@ -180,34 +180,34 @@ func (suite *DelegatorRewardsTestSuite) TestSynchronizeDelegatorReward() {
 			"10 blocks",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354)),
+				rewardsPerSecond: cs(c("jinx", 122354)),
 				blockTimes:       []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("6.117700000000000000")),
+					types.NewRewardIndex("jinx", d("6.117700000000000000")),
 				},
-				expectedRewards: cs(c("hard", 6117700)),
+				expectedRewards: cs(c("jinx", 6117700)),
 			},
 		},
 		{
 			"10 blocks - long block time",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354)),
+				rewardsPerSecond: cs(c("jinx", 122354)),
 				blockTimes:       []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("52856.928000000000000000")),
+					types.NewRewardIndex("jinx", d("52856.928000000000000000")),
 				},
-				expectedRewards: cs(c("hard", 52856928000)),
+				expectedRewards: cs(c("jinx", 52856928000)),
 			},
 		},
 		{
 			"delegator reward index updated when reward is zero",
 			args{
 				delegation:       c("ufury", 1),
-				rewardsPerSecond: cs(c("hard", 1)),
+				rewardsPerSecond: cs(c("jinx", 1)),
 				blockTimes:       []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("0.000099999900000100")),
+					types.NewRewardIndex("jinx", d("0.000099999900000100")),
 				},
 				expectedRewards: nil,
 			},
@@ -216,13 +216,13 @@ func (suite *DelegatorRewardsTestSuite) TestSynchronizeDelegatorReward() {
 			"multiple reward coins",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354), c("swp", 56789)),
+				rewardsPerSecond: cs(c("jinx", 122354), c("swp", 56789)),
 				blockTimes:       []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("6.117700000000000000")),
+					types.NewRewardIndex("jinx", d("6.117700000000000000")),
 					types.NewRewardIndex("swp", d("2.839450000000000000")),
 				},
-				expectedRewards: cs(c("hard", 6117700), c("swp", 2839450)),
+				expectedRewards: cs(c("jinx", 6117700), c("swp", 2839450)),
 			},
 		},
 	}
@@ -322,33 +322,33 @@ func (suite *DelegatorRewardsTestSuite) TestSimulateDelegatorRewardSynchronizati
 			"10 blocks",
 			args{
 				delegation:            c("ufury", 1_000_000),
-				rewardsPerSecond:      cs(c("hard", 122354)),
+				rewardsPerSecond:      cs(c("jinx", 122354)),
 				blockTimes:            []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
-				expectedRewardIndexes: types.RewardIndexes{types.NewRewardIndex("hard", d("6.117700000000000000"))},
-				expectedRewards:       cs(c("hard", 6117700)),
+				expectedRewardIndexes: types.RewardIndexes{types.NewRewardIndex("jinx", d("6.117700000000000000"))},
+				expectedRewards:       cs(c("jinx", 6117700)),
 			},
 		},
 		{
 			"10 blocks - long block time",
 			args{
 				delegation:            c("ufury", 1_000_000),
-				rewardsPerSecond:      cs(c("hard", 122354)),
+				rewardsPerSecond:      cs(c("jinx", 122354)),
 				blockTimes:            []int{86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400, 86400},
-				expectedRewardIndexes: types.RewardIndexes{types.NewRewardIndex("hard", d("52856.928000000000000000"))},
-				expectedRewards:       cs(c("hard", 52856928000)),
+				expectedRewardIndexes: types.RewardIndexes{types.NewRewardIndex("jinx", d("52856.928000000000000000"))},
+				expectedRewards:       cs(c("jinx", 52856928000)),
 			},
 		},
 		{
 			"multiple rewards coins",
 			args{
 				delegation:       c("ufury", 1_000_000),
-				rewardsPerSecond: cs(c("hard", 122354), c("swp", 56789)),
+				rewardsPerSecond: cs(c("jinx", 122354), c("swp", 56789)),
 				blockTimes:       []int{10, 10, 10, 10, 10, 10, 10, 10, 10, 10},
 				expectedRewardIndexes: types.RewardIndexes{
-					types.NewRewardIndex("hard", d("6.117700000000000000")),
+					types.NewRewardIndex("jinx", d("6.117700000000000000")),
 					types.NewRewardIndex("swp", d("2.839450000000000000")),
 				},
-				expectedRewards: cs(c("hard", 6117700), c("swp", 2839450)),
+				expectedRewards: cs(c("jinx", 6117700), c("swp", 2839450)),
 			},
 		},
 	}
@@ -471,7 +471,7 @@ func (suite *DelegatorRewardsTestSuite) TestUnbondingValidatorSyncsClaim() {
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[1]), cs(c("ufury", 1e9))).
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[2]), cs(c("ufury", 1e9)))
 
-	rewardsPerSecond := cs(c("hard", 122354))
+	rewardsPerSecond := cs(c("jinx", 122354))
 	bondDenom := "ufury"
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
@@ -565,7 +565,7 @@ func (suite *DelegatorRewardsTestSuite) TestBondingValidatorSyncsClaim() {
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[1]), cs(c("ufury", 1e9))).
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[2]), cs(c("ufury", 1e9)))
 
-	rewardsPerSecond := cs(c("hard", 122354))
+	rewardsPerSecond := cs(c("jinx", 122354))
 	bondDenom := "ufury"
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
@@ -657,7 +657,7 @@ func (suite *DelegatorRewardsTestSuite) TestSlashingValidatorSyncsClaim() {
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[0]), cs(c("ufury", 1e9))).
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[1]), cs(c("ufury", 1e9)))
 
-	rewardsPerSecond := cs(c("hard", 122354))
+	rewardsPerSecond := cs(c("jinx", 122354))
 	bondDenom := "ufury"
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().
@@ -742,7 +742,7 @@ func (suite *DelegatorRewardsTestSuite) TestRedelegationSyncsClaim() {
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[0]), cs(c("ufury", 1e9))).
 		WithSimpleAccount(sdk.AccAddress(suite.validatorAddrs[1]), cs(c("ufury", 1e9)))
 
-	rewardsPerSecond := cs(c("hard", 122354))
+	rewardsPerSecond := cs(c("jinx", 122354))
 	bondDenom := "ufury"
 
 	incentBuilder := testutil.NewIncentiveGenesisBuilder().

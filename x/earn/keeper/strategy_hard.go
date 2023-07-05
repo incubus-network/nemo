@@ -5,21 +5,21 @@ import (
 	"github.com/incubus-network/nemo/x/earn/types"
 )
 
-// HardStrategy defines the strategy that deposits assets to Hard
-type HardStrategy Keeper
+// JinxStrategy defines the strategy that deposits assets to Jinx
+type JinxStrategy Keeper
 
-var _ Strategy = (*HardStrategy)(nil)
+var _ Strategy = (*JinxStrategy)(nil)
 
 // GetStrategyType returns the strategy type
-func (s *HardStrategy) GetStrategyType() types.StrategyType {
-	return types.STRATEGY_TYPE_HARD
+func (s *JinxStrategy) GetStrategyType() types.StrategyType {
+	return types.STRATEGY_TYPE_JINX
 }
 
 // GetEstimatedTotalAssets returns the current value of all assets deposited
-// in hard.
-func (s *HardStrategy) GetEstimatedTotalAssets(ctx sdk.Context, denom string) (sdk.Coin, error) {
+// in jinx.
+func (s *JinxStrategy) GetEstimatedTotalAssets(ctx sdk.Context, denom string) (sdk.Coin, error) {
 	macc := s.accountKeeper.GetModuleAccount(ctx, types.ModuleName)
-	deposit, found := s.hardKeeper.GetSyncedDeposit(ctx, macc.GetAddress())
+	deposit, found := s.jinxKeeper.GetSyncedDeposit(ctx, macc.GetAddress())
 	if !found {
 		// Return 0 if no deposit exists for module account
 		return sdk.NewCoin(denom, sdk.ZeroInt()), nil
@@ -36,14 +36,14 @@ func (s *HardStrategy) GetEstimatedTotalAssets(ctx sdk.Context, denom string) (s
 	return sdk.NewCoin(denom, sdk.ZeroInt()), nil
 }
 
-// Deposit deposits the specified amount of coins into hard.
-func (s *HardStrategy) Deposit(ctx sdk.Context, amount sdk.Coin) error {
+// Deposit deposits the specified amount of coins into jinx.
+func (s *JinxStrategy) Deposit(ctx sdk.Context, amount sdk.Coin) error {
 	macc := s.accountKeeper.GetModuleAccount(ctx, types.ModuleName)
-	return s.hardKeeper.Deposit(ctx, macc.GetAddress(), sdk.NewCoins(amount))
+	return s.jinxKeeper.Deposit(ctx, macc.GetAddress(), sdk.NewCoins(amount))
 }
 
-// Withdraw withdraws the specified amount of coins from hard.
-func (s *HardStrategy) Withdraw(ctx sdk.Context, amount sdk.Coin) error {
+// Withdraw withdraws the specified amount of coins from jinx.
+func (s *JinxStrategy) Withdraw(ctx sdk.Context, amount sdk.Coin) error {
 	macc := s.accountKeeper.GetModuleAccount(ctx, types.ModuleName)
-	return s.hardKeeper.Withdraw(ctx, macc.GetAddress(), sdk.NewCoins(amount))
+	return s.jinxKeeper.Withdraw(ctx, macc.GetAddress(), sdk.NewCoins(amount))
 }
